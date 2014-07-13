@@ -1,0 +1,30 @@
+name: SpawnStar
+main: com.winterhaven_mc.spawnstar.SpawnStarMain
+author: Tim Savage
+version: 1.0-beta
+
+commands:
+  spawnstar:
+    description: This is the SpawnStar command.
+    usage: /spawnstar reload
+    permission: spawnstar.admin
+    permission-message: You don't have permission for that command.
+
+permissions:
+  spawnstar.use:
+    description: Allows the use of a spawnstar.
+    default: false
+
+  spawnstar.reload:
+    description: Allows reloading the config file.
+    default: op
+  spawnstar.give:
+    description: Give a SpawnStar to a player.
+    default: op
+
+  spawnstar.admin:
+    description: Allows all admin commands
+    default: op
+    children:
+      spawnstar.reload: true
+      spawnstar.give: true

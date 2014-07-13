@@ -1,0 +1,39 @@
+# This is the config file for SpawnStar plugin
+
+# localized language support
+# Server restart required for language changes to take affect
+language: en-US
+
+# enabled worlds list
+enabled-worlds:
+  - world
+  - world_nether
+  - world_the_end
+
+# item attributes
+# Durability can be set to differentiate SpawnStars from normal items.
+# This may be useful/necessary in various shop plugins.
+itemmaterial: NETHER_STAR
+itemdurability: 1
+itemname: '&aSpawnStar'
+itemlore:
+  - '&eUse to Return'
+  - '&eto World Spawn'
+
+# minimum distance from spawn
+mindistance: 10
+
+# cooldown time in seconds
+cooldown: 60
+
+# write log entry on use
+log-use: true
+
+# if player is in netherworld, try to respawn in matching overworld
+from-nether: true
+
+# if player is in end world, try to respawn in matching overworld
+from-end: true
+
+# lightning strike at spawn location on use
+lightning: true

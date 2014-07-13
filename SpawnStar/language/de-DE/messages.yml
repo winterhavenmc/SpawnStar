@@ -1,0 +1,29 @@
+# Custom Messages
+#
+# Variable substitutions:
+# %itemname%            Item name as defined in config.yml
+# %playername%          Player's name
+# %playernickname%      Player's nickname
+# %playerdisplayname%   Player's display name, including prefix/suffix
+# %worldname%           World name that player is in
+# %timeremaining% to show seconds remaining in cooldown (valid in cooldown message only)
+
+messages:
+  respawn:
+    enabled: true
+    string: '&3Rückkehr zu laichen &4%worldname%&3.'
+  cooldown:
+    enabled: true
+    string: '&3Sie müssen bis %timeremaining% Sekunden warten, um einen anderen %itemname% verwenden.'
+  deniedpermission:
+    enabled: true
+    string: '&3Sie haben nicht die Erlaubnis, eine &4%itemname%&3 in %worldname% verwenden.'
+  player-not-found:
+    enabled: true
+    string: '&3Dieser Spieler konnte nicht gefunden werden.'
+  player-not-online:
+    enabled: true
+    string: '&3Dieser Spieler ist nicht online.'
+  min-distance:
+    enabled: true
+    string: '&3Sie sind zu nahe für die Verwendung einer %itemname% laichen.'
