@@ -1,6 +1,7 @@
 package com.winterhaven_mc.spawnstar;
 
 import java.io.File;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -28,20 +29,20 @@ public class MessageManager {
 		this.plugin = plugin;
 
 		// install localization files
-		String[] localization_files = new String[]{"en-US", "es-ES", "de-DE"};
+		String[] localization_files = {"en-US", "es-ES", "de-DE"};
         this.installLocalizationFiles(localization_files);
 		
 		// get configured language
 		String language = plugin.getConfig().getString("language","en-US");
 
 		// check if localization file for configured language exists, if not then fallback to en-US
-		if (!new File(plugin.getDataFolder() + "/language/" + language + "/messages.yml").exists()) {
+		if (!new File(plugin.getDataFolder() + "/language/" + language + ".yml").exists()) {
             plugin.getLogger().info("Language file for " + language + " not found. Defaulting to en-US.");
             language = "en-US";
         }
 		
 		// instantiate custom configuration manager
-		messages = new ConfigAccessor(plugin, "language/" + language + "/messages.yml");
+		messages = new ConfigAccessor(plugin, "language/" + language + ".yml");
 
     }
 
@@ -57,13 +58,13 @@ public class MessageManager {
 			// get message from file
 			String message = messages.getConfig().getString("messages." + messageID + ".string");
 	
-			// strip color codes
-	        String itemname = this.plugin.getConfig().getString("itemname", "Spawn Star").replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
+			// get variable values and strip color codes
+	        String itemname = messages.getConfig().getString("itemname", "Spawn Star").replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
 	        String playername = player.getName().replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
 	        String playernickname = player.getPlayerListName().replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
 	        String playerdisplayname = player.getDisplayName();
 	        String worldname = player.getWorld().getName();
-	        Long remainingtime = this.plugin.cooldown.getTimeRemaining(player);
+	        Long remainingtime = plugin.cooldown.getTimeRemaining(player);
 	        
 			// do variable substitutions
 	        message = message.replaceAll("%itemname%", itemname);
@@ -85,8 +86,8 @@ public class MessageManager {
 	private void installLocalizationFiles(String[] filelist) {
 
 		for (String filename : filelist) {
-			if (!new File(plugin.getDataFolder() + "/language/" + filename + "/messages.yml").exists()) {
-				this.plugin.saveResource("language/" + filename + "/messages.yml",false);
+			if (!new File(plugin.getDataFolder() + "/language/" + filename + ".yml").exists()) {
+				this.plugin.saveResource("language/" + filename + ".yml",false);
 				plugin.getLogger().info("Installed localization files for " + filename + ".");
 			}
 		}
@@ -96,5 +97,16 @@ public class MessageManager {
     public void reloadMessages() {
         messages.reloadConfig();
     }
+    
+    public String getItemName() {
+    	String itemname = messages.getConfig().getString("itemname","SpawnStar");
+    	return itemname;
+    }
+    
+    public List<String> getItemLore() {
+    	List<String> itemlore = messages.getConfig().getStringList("itemlore");
+    	return itemlore;
+    }
+    
 }
 

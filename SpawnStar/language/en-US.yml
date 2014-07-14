@@ -1,3 +1,11 @@
+# Item Name
+itemname: '&aSpawnStar'
+
+# Item Lore
+itemlore:
+  - '&eUse to Return'
+  - '&eto World Spawn'
+
 # Custom Messages
 #
 # Variable substitutions:
@@ -6,7 +14,7 @@
 # %playernickname%      Player's nickname
 # %playerdisplayname%   Player's display name, including prefix/suffix
 # %worldname%           World name that player is in
-# %timeremaining% to show seconds remaining in cooldown (valid in cooldown message only)
+# %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
 
 messages:
   respawn:

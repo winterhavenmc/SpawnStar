@@ -1,3 +1,11 @@
+# Item Name
+itemname: '&aLaichen Sterne'
+
+# Item Lore
+itemlore:
+  - '&eVerwenden Sie zum Ursprung'
+  - '&eder Welt zurück'
+
 # Custom Messages
 #
 # Variable substitutions:
@@ -11,19 +19,19 @@
 messages:
   respawn:
     enabled: true
-    string: '&3Volviendo a desovar de %worldname%.'
+    string: '&3Rückkehr zu laichen &4%worldname%&3.'
   cooldown:
     enabled: true
-    string: '&3Tienes que esperar &4%timeremaining%&3 segundos para utilizar otro %itemname%.'
+    string: '&3Sie müssen bis &4%timeremaining%&3 Sekunden warten, um einen anderen %itemname% verwenden.'
   deniedpermission:
     enabled: true
-    string: '&3Usted no tiene permiso para usar %itemname% en %worldname%.'
+    string: '&3Sie haben nicht die Erlaubnis, eine &4%itemname%&3 in %worldname% verwenden.'
   player-not-found:
     enabled: true
-    string: '&3Ese jugador no pudo ser encontrado.'
+    string: '&3Dieser Spieler konnte nicht gefunden werden.'
   player-not-online:
     enabled: true
-    string: '&3Ese jugador no está conectado.'
+    string: '&3Dieser Spieler ist nicht online.'
   min-distance:
     enabled: true
-    string: '&3Usted está demasiado cerca para desovar utilizar %itemname%.'
+    string: '&3Sie sind zu nahe für die Verwendung einer %itemname% laichen.'

@@ -15,10 +15,6 @@ enabled-worlds:
 # This may be useful/necessary in various shop plugins.
 itemmaterial: NETHER_STAR
 itemdurability: 1
-itemname: '&aSpawnStar'
-itemlore:
-  - '&eUse to Return'
-  - '&eto World Spawn'
 
 # minimum distance from spawn
 mindistance: 10

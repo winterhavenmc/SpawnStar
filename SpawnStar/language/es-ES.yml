@@ -1,3 +1,12 @@
+# Item Name
+itemname: '&aEstrella de Origen'
+
+# Item Lore
+itemlore:
+  - '&eSe utiliza para volver'
+  - '&eal origen del mundo'
+
+
 # Custom Messages
 #
 # Variable substitutions:
@@ -11,19 +20,19 @@
 messages:
   respawn:
     enabled: true
-    string: '&3Rückkehr zu laichen &4%worldname%&3.'
+    string: '&3Volviendo a desovar de %worldname%.'
   cooldown:
     enabled: true
-    string: '&3Sie müssen bis %timeremaining% Sekunden warten, um einen anderen %itemname% verwenden.'
+    string: '&3Tienes que esperar &4%timeremaining%&3 segundos para utilizar otro %itemname%.'
   deniedpermission:
     enabled: true
-    string: '&3Sie haben nicht die Erlaubnis, eine &4%itemname%&3 in %worldname% verwenden.'
+    string: '&3Usted no tiene permiso para usar %itemname% en %worldname%.'
   player-not-found:
     enabled: true
-    string: '&3Dieser Spieler konnte nicht gefunden werden.'
+    string: '&3Ese jugador no pudo ser encontrado.'
   player-not-online:
     enabled: true
-    string: '&3Dieser Spieler ist nicht online.'
+    string: '&3Ese jugador no está conectado.'
   min-distance:
     enabled: true
-    string: '&3Sie sind zu nahe für die Verwendung einer %itemname% laichen.'
+    string: '&3Usted está demasiado cerca para desovar utilizar %itemname%.'

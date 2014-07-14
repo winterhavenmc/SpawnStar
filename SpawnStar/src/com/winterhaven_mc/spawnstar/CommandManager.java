@@ -29,7 +29,7 @@ public class CommandManager implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
-	
+
 	/** command executor method for SpawnStar
 	 * 
 	 */	
@@ -41,55 +41,88 @@ public class CommandManager implements CommandExecutor {
 		}
 		if (args.length < 1) {
 			String versionString = this.plugin.getDescription().getVersion();
-			sender.sendMessage((Object)ChatColor.AQUA + "[SpawnStar] Version: " + (Object)ChatColor.RESET + versionString);
-			sender.sendMessage((Object)ChatColor.GREEN + "Item: " + (Object)ChatColor.RESET + this.plugin.getConfig().getString("itemmaterial"));
-			sender.sendMessage((Object)ChatColor.GREEN + "Item Data: " + (Object)ChatColor.RESET + this.plugin.getConfig().getString("itemdata"));
-			sender.sendMessage((Object)ChatColor.GREEN + "Item Durability: " + (Object)ChatColor.RESET + this.plugin.getConfig().getString("itemdurability"));
-			sender.sendMessage((Object)ChatColor.GREEN + "Minimum Distance: " + (Object)ChatColor.RESET + this.plugin.getConfig().getInt("mindistance"));
-			sender.sendMessage((Object)ChatColor.GREEN + "Cooldown: " + (Object)ChatColor.RESET + this.plugin.getConfig().getInt("cooldown"));
-			sender.sendMessage((Object)ChatColor.GREEN + "Lightning: " + (Object)ChatColor.RESET + this.plugin.getConfig().getBoolean("lightning"));
+			sender.sendMessage(ChatColor.AQUA + "[SpawnStar] Version: " + ChatColor.RESET + versionString);
+			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + this.plugin.getConfig().getString("itemmaterial"));
+			sender.sendMessage(ChatColor.GREEN + "Item Durability: " + ChatColor.RESET + this.plugin.getConfig().getString("itemdurability"));
+			sender.sendMessage(ChatColor.GREEN + "Minimum Distance: " + ChatColor.RESET + this.plugin.getConfig().getInt("mindistance"));
+			sender.sendMessage(ChatColor.GREEN + "Cooldown: " + ChatColor.RESET + this.plugin.getConfig().getInt("cooldown"));
+			sender.sendMessage(ChatColor.GREEN + "Lightning: " + ChatColor.RESET + this.plugin.getConfig().getBoolean("lightning"));
 			return true;
 		}
 		String subcmd = args[0];
-		if (cmd.getName().equalsIgnoreCase("spawnstar") && subcmd.equalsIgnoreCase("reload")) {
+
+		// reload command
+		if (cmd.getName().equalsIgnoreCase("spawnstar") &&
+				subcmd.equalsIgnoreCase("reload")) {
+
+			// get current language setting
 			String original_language = this.plugin.getConfig().getString("language", "en-US");
-			this.plugin.reloadConfig();
+
+			// relod config.yml
+			plugin.reloadConfig();
+
+			// if language setting has changed, instantiate new message manager with new language file
 			if (!original_language.equals(this.plugin.getConfig().getString("language", "en-US"))) {
-				this.plugin.messages = new MessageManager(this.plugin);
-			} else {
-				this.plugin.messages.reloadMessages();
+				plugin.messages = new MessageManager(this.plugin);
 			}
+			else {
+				plugin.messages.reloadMessages();
+			}
+
+			// send reloaded message to command sender
 			sender.sendMessage((Object)ChatColor.AQUA + "[SpawnStar] config reloaded.");
 			return true;
 		}
-		if (!cmd.getName().equalsIgnoreCase("spawnstar") || !subcmd.equalsIgnoreCase("give")) return false;
-		String playerstring = "";
-		Player player = null;
-		int quantity = 1;
-		if (args.length > 1) {
-			playerstring = args[1];
-		}
-		if (args.length > 2) {
-			quantity = Integer.parseInt(args[2]);
-		}
-		if ((player = Bukkit.getPlayer((String)playerstring)) == null) {
-			if (!(sender instanceof Player)) return true;
-			this.plugin.messages.sendPlayerMessage((Player)sender, "player-not-found");
+
+		// give command
+		if (cmd.getName().equalsIgnoreCase("spawnstar") && subcmd.equalsIgnoreCase("give")) {
+
+			Player player;
+			String playerstring = "";
+			int quantity = 1;
+
+			if (args.length > 1) {
+				playerstring = args[1];
+			}
+			if (args.length > 2) {
+				quantity = Integer.parseInt(args[2]);
+			}
+
+			// try to get named player
+			player = Bukkit.getPlayer(playerstring);		
+
+			// if player is null, send player-not-found message if sender is a player
+			if (player == null) {
+				if (!(sender instanceof Player)) {
+					return true;
+				}
+				plugin.messages.sendPlayerMessage((Player)sender, "player-not-found");
+				return true;
+			}
+
+			// if player is not online and sender is a player, send player-not-online message
+			if (!player.isOnline() && sender instanceof Player) {
+				plugin.messages.sendPlayerMessage((Player)sender, "player-not-online");
+				return true;
+			}
+
+			// add specified quantity of spawnstar(s) to player inventory
+			player.getInventory().addItem(new ItemStack[]{this.plugin.inventory_manager.createSpawnStarItem(quantity)});
+			String plural = "";
+			if (quantity > 1) {
+				plural = "s";
+			}
+
+			// strip color codes from item name
+			String itemname = plugin.getConfig().getString("itemname","SpawnStar").replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
+
+			// construct message
+			String message = "You gave " + quantity + " " + itemname + plural + " to " + player.getName() + ".";
+
+			// send message
+			sender.sendMessage(ChatColor.translateAlternateColorCodes((char)'&', message));
 			return true;
 		}
-		if (!player.isOnline()) {
-			if (!(sender instanceof Player)) return true;
-			this.plugin.messages.sendPlayerMessage((Player)sender, "player-not-online");
-			return true;
-		}
-		player.getInventory().addItem(new ItemStack[]{this.plugin.inventory_manager.createSpawnStarItem(quantity)});
-		String plural = "";
-		if (quantity > 1) {
-			plural = "s";
-		}
-		String message = "You gave " + quantity + " " + this.plugin.getConfig().getString("itemname", "SpawnStar") + plural + (Object)ChatColor.RESET + " to " + player.getName() + ".";
-		sender.sendMessage(ChatColor.translateAlternateColorCodes((char)'&', (String)message));
-		return true;
+		return false;
 	}
 }
-

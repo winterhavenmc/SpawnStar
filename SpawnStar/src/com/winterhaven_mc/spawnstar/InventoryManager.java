@@ -37,8 +37,8 @@ public class InventoryManager {
 	public ItemStack createSpawnStarItem(int quantity) {
 
 		// retrieve item name and lore, material and durability from config file
-		String config_itemname = plugin.getConfig().getString("itemname", "SpawnStar");
-		List<String> config_itemlore = plugin.getConfig().getStringList("itemlore");
+		String config_itemname = plugin.messages.getItemName();
+		List<String> config_itemlore = plugin.messages.getItemLore();
 		Material config_itemmaterial = Material.matchMaterial(plugin.getConfig().getString("itemmaterial", "NETHER_STAR"));
 		Short item_durability = (short)plugin.getConfig().getInt("itemdurability", 0);
 

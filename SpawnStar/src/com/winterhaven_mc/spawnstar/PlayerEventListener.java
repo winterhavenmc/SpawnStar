@@ -51,7 +51,7 @@ implements Listener {
 		World world = player.getWorld();
 		Location spawnLoc = world.getSpawnLocation();
 		ItemStack player_item = player.getItemInHand();
-		String config_itemname = plugin.getConfig().getString("itemname", "SpawnStar");
+		String config_itemname = plugin.messages.getItemName();
 		ItemStack config_item = plugin.inventory_manager.createSpawnStarItem(1);
 
 		// if item used is not a spawnstar item config, do nothing and return
