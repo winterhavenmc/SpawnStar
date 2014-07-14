@@ -54,13 +54,15 @@ implements Listener {
 		String config_itemname = plugin.messages.getItemName();
 		ItemStack config_item = plugin.inventory_manager.createSpawnStarItem(1);
 
-		// if item used is not a spawnstar item config, do nothing and return
+		// if item used is not spawnstar configured material, do nothing and return
 		if (!player_item.getType().equals(config_item.getType())) {
 			return;
 		}
 		
-		//if item used does not have spawnstar metadata, do nothing and return
-		if (!player_item.getItemMeta().equals(config_item.getItemMeta())) {
+		//if item used does not have spawnstar configured metadata, and
+		// metadata matching is enabled in config, do nothing and return
+		if (!player_item.getItemMeta().equals(config_item.getItemMeta()) &&
+				plugin.getConfig().getBoolean("match-metadata",true)) {
 			return;
 		}
 		

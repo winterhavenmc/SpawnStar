@@ -16,6 +16,11 @@ enabled-worlds:
 itemmaterial: NETHER_STAR
 itemdurability: 1
 
+# Match item metadata (displayName and Lore) to detect if item used
+# is a spawnstar. Can be set to false for compatibility with shop 
+# plugins that do not support item metadata.
+match-metadata: true
+
 # minimum distance from spawn
 mindistance: 10
 
