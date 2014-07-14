@@ -18,6 +18,7 @@ permissions:
   spawnstar.reload:
     description: Allows reloading the config file.
     default: op
+
   spawnstar.give:
     description: Give a SpawnStar to a player.
     default: op

@@ -1,7 +1,6 @@
 # This is the config file for SpawnStar plugin
 
 # localized language support
-# Server restart required for language changes to take affect
 language: en-US
 
 # enabled worlds list
