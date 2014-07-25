@@ -14,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Implements player event listener for <code>SpawnStar</code> events.
@@ -155,6 +156,9 @@ implements Listener {
 		
 		// set player cooldown
 		plugin.cooldown.setPlayerCooldown(player);
+		
+		// try to prevent player spawning inside block and suffocating
+		preventSuffocation(player,spawnLoc);
 	}
 
 	
@@ -174,5 +178,22 @@ implements Listener {
 		}
 		// otherwise return false
 		return false;
+	}
+	
+
+	private void preventSuffocation(final Player player, final Location spawnLoc) {
+		
+		final int spawnAir = player.getRemainingAir();
+		
+		new BukkitRunnable(){
+
+			public void run() {
+				if (player.getRemainingAir() < spawnAir) {
+					player.teleport(spawnLoc.add(0,1,0));
+					player.setRemainingAir(spawnAir);
+				}
+			}
+		}.runTaskLater(plugin, 20);
+		
 	}
 }
