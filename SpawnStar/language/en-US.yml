@@ -15,17 +15,21 @@ itemlore:
 # %playerdisplayname%   Player's display name, including prefix/suffix
 # %worldname%           World name that player is in
 # %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
+# %warmuptime%			seconds until teleport (valid in warmup message only)
 
 messages:
   respawn:
     enabled: true
-    string: '&3Returning to &4%worldname% &3spawn.'
+    string: '&3Returned to &b%worldname% &3spawn.'
   cooldown:
     enabled: true
-    string: '&3You need to wait &4%timeremaining%&3 seconds to use another %itemname%.'
+    string: '&3You need to wait &b%timeremaining%&3 seconds to use another %itemname%.'
+  warmup:
+    enabled: true
+    string: '&3Teleporting to spawn in &b%warmuptime%&3 seconds...'
   deniedpermission:
     enabled: true
-    string: '&3You do not have permission to use &4%itemname%&3 in %worldname%.'
+    string: '&3You do not have permission to use &b%itemname%&3 in %worldname%.'
   player-not-found:
     enabled: true
     string: '&3That player could not be found.'

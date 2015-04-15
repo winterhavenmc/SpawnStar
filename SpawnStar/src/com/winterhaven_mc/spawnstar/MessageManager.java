@@ -46,6 +46,7 @@ public class MessageManager {
 
     }
 
+    
 	/** Send message to player
 	 * 
 	 * @param player		Player to message
@@ -64,7 +65,26 @@ public class MessageManager {
 	        String playernickname = player.getPlayerListName().replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
 	        String playerdisplayname = player.getDisplayName();
 	        String worldname = player.getWorld().getName();
-	        Long remainingtime = plugin.cooldown.getTimeRemaining(player);
+	        Long remainingtime = plugin.cooldownManager.getTimeRemaining(player);
+	        Integer warmuptime = plugin.getConfig().getInt("warmup");
+	        
+			String overworldname = worldname.replaceFirst("_nether$", "");
+			
+			// if from-nether is enabled in config and player is in nether, get overworld name
+			if (plugin.getConfig().getBoolean("from-nether", false) &&
+					worldname.endsWith("_nether") &&
+					plugin.getServer().getWorld(overworldname) != null) {
+				worldname = overworldname;
+			}
+			
+			overworldname = worldname.replaceFirst("_the_end$", "");
+
+			// if from-end is enabled in config, and player is in end, get overworld name 
+			if (plugin.getConfig().getBoolean("from-end", false) &&
+					worldname.endsWith("_the_end") &&
+					plugin.getServer().getWorld(overworldname) != null) {
+				worldname = overworldname;
+			}
 	        
 			// do variable substitutions
 	        message = message.replaceAll("%itemname%", itemname);
@@ -73,6 +93,7 @@ public class MessageManager {
 	        message = message.replaceAll("%playernickname%", playernickname);
 	        message = message.replaceAll("%worldname%", worldname);
 	        message = message.replaceAll("%timeremaining%", remainingtime.toString());
+	        message = message.replaceAll("%warmuptime%", warmuptime.toString());
 	        
 			// send message to player
 			player.sendMessage(ChatColor.translateAlternateColorCodes('&',message));

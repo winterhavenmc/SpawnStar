@@ -1,6 +1,9 @@
 package com.winterhaven_mc.spawnstar;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,6 +18,7 @@ public class CooldownManager {
 	
 	private final SpawnStarMain plugin;		// reference to main class
 	private HashMap<String, Long> cooldown;	// private hashmap to store player uuids and cooldown expire times
+	private HashSet<UUID> warmup;
 
 	
 	/**
@@ -25,6 +29,7 @@ public class CooldownManager {
 public CooldownManager(SpawnStarMain plugin) {
 		this.plugin = plugin;
 		cooldown = new HashMap<String, Long>();
+		warmup = new HashSet<UUID>();
 	}
 
 	
@@ -46,7 +51,39 @@ public CooldownManager(SpawnStarMain plugin) {
 			}
 		}.runTaskLater(plugin, (cooldown_seconds * 20));
 	}
-
+	
+	
+	/**
+	 * Insert player uuid into warmup hashset.
+	 * @param player
+	 */
+	public void putPlayerWarmup(final Player player) {
+		warmup.add(player.getUniqueId());		
+	}
+	
+	
+	/**
+	 * Remove player uuid from warmup hashset.
+	 * @param player
+	 */
+	public void removePlayerWarmup(final Player player) {		
+		warmup.remove(player.getUniqueId());
+	}
+	
+	
+	/**
+	 * Test if player uuid is in warmup hashset.
+	 * @param player
+	 * @return
+	 */
+	public boolean isWarmingUp(final Player player) {
+		
+		if (warmup.contains(player.getUniqueId())) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Get time remaining for player cooldown

@@ -9,22 +9,26 @@ enabled-worlds:
   - world_nether
   - world_the_end
 
-# item attributes
-# Durability can be set to differentiate SpawnStars from normal items.
-# This may be useful/necessary in various shop plugins.
+# material to be used as spawnstar item
 itemmaterial: NETHER_STAR
-itemdurability: 1
-
-# Match item metadata (displayName and Lore) to detect if item used
-# is a spawnstar. Can be set to false for compatibility with shop 
-# plugins that do not support item metadata.
-match-metadata: true
 
 # minimum distance from spawn
 mindistance: 10
 
+# require shift-click to use spawnstar item
+shift-click: true
+
+# allow spawnstar items to be used in crafting recipes
+allow-crafting: false
+
 # cooldown time in seconds
 cooldown: 60
+
+# warmup time in seconds
+warmup: 5
+
+# particle effects during warmup
+particle-effects: true
 
 # write log entry on use
 log-use: true

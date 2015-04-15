@@ -1,20 +1,18 @@
 package com.winterhaven_mc.spawnstar;
 
-import com.winterhaven_mc.spawnstar.SpawnStarMain;
-
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Implements player event listener for <code>SpawnStar</code> events.
@@ -23,11 +21,12 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @version		1.0
  *  
  */
-public class PlayerEventListener
-implements Listener {
+public class PlayerEventListener implements Listener {
 
-	private final SpawnStarMain plugin; // reference to main class
-
+	// reference to main class
+	private final SpawnStarMain plugin;
+	ItemStack spawnStar;
+	
 	
 	/**
 	 * constructor method for <code>PlayerEventListener</code> class
@@ -36,7 +35,7 @@ implements Listener {
 	 */
 	public PlayerEventListener(SpawnStarMain plugin) {
 		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	
@@ -46,29 +45,12 @@ implements Listener {
 	@EventHandler
 	public void onPlayerUse(PlayerInteractEvent event) {
 
-		String overworldname;
-		World overworld;
-		Player player = event.getPlayer();
-		World world = player.getWorld();
-		Location spawnLoc = world.getSpawnLocation();
-		ItemStack player_item = player.getItemInHand();
-		String config_itemname = plugin.messages.getItemName();
-		ItemStack config_item = plugin.inventory_manager.createSpawnStarItem(1);
+		final Player player = event.getPlayer();
+		ItemStack playerItem = player.getItemInHand();
+//		ItemStack spawnStar = new SpawnStarStack(1);
 
-		// if item used is not spawnstar configured material, do nothing and return
-		if (!player_item.getType().equals(config_item.getType())) {
-			return;
-		}
-		
-		//if item used does not have spawnstar configured metadata, and
-		// metadata matching is enabled in config, do nothing and return
-		if (!player_item.getItemMeta().equals(config_item.getItemMeta()) &&
-				plugin.getConfig().getBoolean("match-metadata",true)) {
-			return;
-		}
-		
-		// if item used does not spawnstar durability from config, do nothing and return
-		if (player_item.getDurability() != config_item.getDurability()) {
+		// if item used is not a spawnstar, do nothing and return
+		if (!plugin.referenceItem.isSimilar(playerItem)) {
 			return;
 		}
 		
@@ -77,14 +59,19 @@ implements Listener {
 			return;
 		}
 		
-		// if player current workd is not enabled in config, do nothing and return
+		// if shift-click is configured true and player is not sneaking, do nothing and return
+		if (plugin.getConfig().getBoolean("shift-click",false) && !event.getPlayer().isSneaking()) {
+			return;
+		}
+		
+		// if players current world is not enabled in config, do nothing and return
 		if (!this.playerWorldEnabled(player)) {
 			return;
 		}
 		
 		// if player does not have spawnstar.use permission, do nothing and return
 		if (!player.hasPermission("spawnstar.use")) {
-			this.plugin.messages.sendPlayerMessage(player, "deniedpermission");
+			plugin.messageManager.sendPlayerMessage(player, "deniedpermission");
 			return;
 		}
 		
@@ -92,47 +79,67 @@ implements Listener {
 		event.setCancelled(true);
 		
 		// if player cooldown has not expired, send player cooldown message and return
-		if (this.plugin.cooldown.getTimeRemaining(player) > 0) {
-			this.plugin.messages.sendPlayerMessage(player, "cooldown");
+		if (plugin.cooldownManager.getTimeRemaining(player) > 0) {
+			plugin.messageManager.sendPlayerMessage(player, "cooldown");
 			return;
 		}
 		
-		overworldname = world.getName().replaceFirst("_nether$", "");
-		overworld = Bukkit.getWorld(overworldname);
+		// if player is warming up, do nothing and return
+		if (plugin.cooldownManager.isWarmingUp(player)) {
+			return;
+		}
+		
+		World playerWorld = player.getWorld();
+		String overworldName = playerWorld.getName().replaceFirst("(_nether|_the_end)$", "");
+		World overworld = plugin.getServer().getWorld(overworldName);
+		Location spawnLocation = playerWorld.getSpawnLocation();
 		
 		// if from-nether is enabled in config and player is in nether, try to get overworld spawn location
 		if (plugin.getConfig().getBoolean("from-nether", false) &&
-				world.getName().endsWith("_nether") &&
+				playerWorld.getName().endsWith("_nether") &&
 				overworld != null) {
-			world = overworld;
-			spawnLoc = world.getSpawnLocation();
+			playerWorld = overworld;
+			spawnLocation = playerWorld.getSpawnLocation();
+			if (plugin.debug) {
+				plugin.getLogger().info("Player in nether world, trying to respawn in " + playerWorld.getName());
+			}
 		}
 		
-		overworldname = world.getName().replaceFirst("_the_end$", "");
-		overworld = Bukkit.getWorld(overworldname);
-
 		// if from-end is enabled in config, and player is in end, try to get overworld spawn location 
 		if (plugin.getConfig().getBoolean("from-end", false) &&
-				world.getName().endsWith("_the_end") &&
+				playerWorld.getName().endsWith("_the_end") &&
 				overworld != null) {
-			world = overworld;
-			spawnLoc = world.getSpawnLocation();
+			playerWorld = overworld;
+			spawnLocation = playerWorld.getSpawnLocation();
+			if (plugin.debug) {
+				plugin.getLogger().info("Player in end world, trying to respawn in " + playerWorld.getName());
+			}
 		}
 		
 		// if player is less than config min-distance from spawn, send player min-distance message and return
-		if (player.getWorld() == world && spawnLoc.distance(player.getLocation()) < plugin.getConfig().getInt("mindistance", 10)) {
-			plugin.messages.sendPlayerMessage(player, "min-distance");
+		if (player.getWorld() == playerWorld && spawnLocation.distance(player.getLocation()) < plugin.getConfig().getInt("mindistance", 10)) {
+			plugin.messageManager.sendPlayerMessage(player, "min-distance");
 			return;
 		}
 		
-		// send player respawn message
-		plugin.messages.sendPlayerMessage(player, "respawn");
+		// remove one SpawnStar item from player inventory
+		ItemStack remove_item = playerItem;
+		remove_item.setAmount(playerItem.getAmount() - 1);
+		player.setItemInHand(remove_item);
+		
+		if (plugin.getConfig().getInt("warmup",0) > 0) {
+			plugin.messageManager.sendPlayerMessage(player, "warmup");
+		}
+		
+		// initiate delayed teleport for player to spawn location
+		new DelayedTeleport(plugin, player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("warmup",0) * 20);
 		
 		// if log-use is enabled in config, write log entry
 		if (plugin.getConfig().getBoolean("log-use", true)) {
 			
 			// construct log message
-			String log_message = player.getName() + " just used a " + config_itemname + " in " + player.getWorld().getName() + ".";
+			String configItemName = plugin.messageManager.getItemName();
+			String log_message = player.getName() + " just used a " + configItemName + " in " + player.getWorld().getName() + ".";
 			
 			// strip color codes from log message
 			log_message = log_message.replaceAll("&[0-9a-fA-Fk-oK-OrR]", "");
@@ -141,26 +148,46 @@ implements Listener {
 			plugin.getLogger().info(log_message);
 		}
 		
-		// teleport player to spawn location
-		player.teleport(spawnLoc);
+	}
+	
+	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event) {
 		
-		// remove one SpawnStar item from player inventory
-		ItemStack remove_item = player_item;
-		remove_item.setAmount(player_item.getAmount() - 1);
-		player.setItemInHand(remove_item);
+		Player player = (Player)event.getEntity();
+		plugin.cooldownManager.removePlayerWarmup(player);
 		
-		// if lightning is enabled in config, strike lightning at spawn location
-		if (plugin.getConfig().getBoolean("lightning", true)) {
-			world.strikeLightningEffect(spawnLoc);
-		}
-		
-		// set player cooldown
-		plugin.cooldown.setPlayerCooldown(player);
-		
-		// try to prevent player spawning inside block and suffocating
-		preventSuffocation(player,spawnLoc);
 	}
 
+	
+	@EventHandler
+	public void onPlayerLogout(PlayerQuitEvent event) {
+		
+		Player player = event.getPlayer();
+		plugin.cooldownManager.removePlayerWarmup(player);
+		
+	}
+	
+	
+	/**
+	 * Prevent spawnstar items from being used in crafting recipes if configured
+	 * @param event
+	 */
+	@EventHandler
+	public void onCraftPrepare(PrepareItemCraftEvent event) {
+
+		// if allow-crafting is true in configuration, do nothing and return
+		if (plugin.getConfig().getBoolean("allow-crafting",false)) {
+			return;
+		}
+
+		// if crafting inventory contains spawnstar item, set result item to null
+		if (event.getInventory().containsAtLeast(plugin.referenceItem, 1)) {
+			event.getInventory().setResult(null);
+		}
+		
+	}
+	
 	
 	/**
 	 * Test if player world is enabled in config
@@ -179,21 +206,5 @@ implements Listener {
 		// otherwise return false
 		return false;
 	}
-	
 
-	private void preventSuffocation(final Player player, final Location spawnLoc) {
-		
-		final int spawnAir = player.getRemainingAir();
-		
-		new BukkitRunnable(){
-
-			public void run() {
-				if (player.getRemainingAir() < spawnAir) {
-					player.teleport(spawnLoc.add(0,1,0));
-					player.setRemainingAir(spawnAir);
-				}
-			}
-		}.runTaskLater(plugin, 20);
-		
-	}
 }

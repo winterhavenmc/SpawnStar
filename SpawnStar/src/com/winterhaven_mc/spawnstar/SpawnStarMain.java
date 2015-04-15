@@ -1,5 +1,6 @@
 package com.winterhaven_mc.spawnstar;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -11,18 +12,24 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @version		1.0
  */
 public final class SpawnStarMain extends JavaPlugin {
+	
+	// static reference to main class
+	static SpawnStarMain instance;
 
 	final Boolean debug = getConfig().getBoolean("debug");
-	public CooldownManager cooldown;
-	public MessageManager messages;
-	public InventoryManager inventory_manager;
+	public CooldownManager cooldownManager;
+	public MessageManager messageManager;
+	public ItemStack referenceItem;
 
 	@Override
 	public void onEnable() {
 
+		// set static reference to main class
+		instance = this;
+		
 		// save default config.yml
 		saveDefaultConfig();
-
+		
 		// register command executor
 		getCommand("spawnstar").setExecutor(new CommandManager(this));
 
@@ -30,13 +37,14 @@ public final class SpawnStarMain extends JavaPlugin {
 		new PlayerEventListener(this);
 
 		// instantiate message manager
-		messages = new MessageManager(this);
-
-		// instantiate inventory manager
-		inventory_manager = new InventoryManager(this);
+		messageManager = new MessageManager(this);
 
 		// instantiate cooldown manager
-		cooldown = new CooldownManager(this);
+		cooldownManager = new CooldownManager(this);
+		
+		// create reference item for comparisons
+		referenceItem = new SpawnStarStack(1);
+		
 	}
 
 }

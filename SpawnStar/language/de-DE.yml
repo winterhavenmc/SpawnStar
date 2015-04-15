@@ -14,18 +14,22 @@ itemlore:
 # %playernickname%      Player's nickname
 # %playerdisplayname%   Player's display name, including prefix/suffix
 # %worldname%           World name that player is in
-# %timeremaining% to show seconds remaining in cooldown (valid in cooldown message only)
+# %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
+# %warmuptime%			seconds until teleport (valid in warmup message only)
 
 messages:
   respawn:
     enabled: true
-    string: '&3Rückkehr zu laichen &4%worldname%&3.'
+    string: '&3Rückkehr zu laichen &b%worldname%&3.'
   cooldown:
     enabled: true
-    string: '&3Sie müssen bis &4%timeremaining%&3 Sekunden warten, um einen anderen %itemname% verwenden.'
+    string: '&3Sie müssen bis &b%timeremaining%&3 Sekunden warten, um einen anderen %itemname% verwenden.'
+  warmup:
+    enabled: true
+    string: '&3Teleportieren, um in &b%warmuptime%&3 Sekunden laichen...'
   deniedpermission:
     enabled: true
-    string: '&3Sie haben nicht die Erlaubnis, eine &4%itemname%&3 in %worldname% verwenden.'
+    string: '&3Sie haben nicht die Erlaubnis, eine &b%itemname%&3 in %worldname% verwenden.'
   player-not-found:
     enabled: true
     string: '&3Dieser Spieler konnte nicht gefunden werden.'

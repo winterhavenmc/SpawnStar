@@ -1,12 +1,12 @@
 package com.winterhaven_mc.spawnstar;
 
-import org.bukkit.Bukkit;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Implements command executor for <code>CreativeNoNo</code> commands.
@@ -43,9 +43,11 @@ public class CommandManager implements CommandExecutor {
 			String versionString = this.plugin.getDescription().getVersion();
 			sender.sendMessage(ChatColor.AQUA + "[SpawnStar] Version: " + ChatColor.RESET + versionString);
 			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + this.plugin.getConfig().getString("itemmaterial"));
-			sender.sendMessage(ChatColor.GREEN + "Item Durability: " + ChatColor.RESET + this.plugin.getConfig().getString("itemdurability"));
 			sender.sendMessage(ChatColor.GREEN + "Minimum Distance: " + ChatColor.RESET + this.plugin.getConfig().getInt("mindistance"));
-			sender.sendMessage(ChatColor.GREEN + "Cooldown: " + ChatColor.RESET + this.plugin.getConfig().getInt("cooldown"));
+			sender.sendMessage(ChatColor.GREEN + "Shift-click required: " + ChatColor.RESET + this.plugin.getConfig().getString("shift-click","false"));
+			sender.sendMessage(ChatColor.GREEN + "Allow crafting: " + ChatColor.RESET + this.plugin.getConfig().getString("allow-crafting","false"));
+			sender.sendMessage(ChatColor.GREEN + "Warmup: " + ChatColor.RESET + this.plugin.getConfig().getInt("warmup") + " seconds");
+			sender.sendMessage(ChatColor.GREEN + "Cooldown: " + ChatColor.RESET + this.plugin.getConfig().getInt("cooldown") + " seconds");
 			sender.sendMessage(ChatColor.GREEN + "Lightning: " + ChatColor.RESET + this.plugin.getConfig().getBoolean("lightning"));
 			return true;
 		}
@@ -63,12 +65,15 @@ public class CommandManager implements CommandExecutor {
 
 			// if language setting has changed, instantiate new message manager with new language file
 			if (!original_language.equals(this.plugin.getConfig().getString("language", "en-US"))) {
-				plugin.messages = new MessageManager(this.plugin);
+				plugin.messageManager = new MessageManager(this.plugin);
 			}
 			else {
-				plugin.messages.reloadMessages();
+				plugin.messageManager.reloadMessages();
 			}
-
+			
+			// refresh reference item in case changes were made
+			plugin.referenceItem = new SpawnStarStack(1);
+			
 			// send reloaded message to command sender
 			sender.sendMessage((Object)ChatColor.AQUA + "[SpawnStar] config reloaded.");
 			return true;
@@ -87,27 +92,28 @@ public class CommandManager implements CommandExecutor {
 			if (args.length > 2) {
 				quantity = Integer.parseInt(args[2]);
 			}
-
-			// try to get named player
-			player = Bukkit.getPlayer(playerstring);		
-
-			// if player is null, send player-not-found message if sender is a player
-			if (player == null) {
-				if (!(sender instanceof Player)) {
-					return true;
-				}
-				plugin.messages.sendPlayerMessage((Player)sender, "player-not-found");
+			
+			// try to match a player from given string
+			List<Player> playerList = plugin.getServer().matchPlayer(playerstring);
+			
+			// if only one matching player, use it, otherwise send error message (no match or more than 1 match)
+			if (playerList.size() == 1) {
+				player = playerList.get(0);
+			}
+			else {
+				// if unique matching player is not found, send player-not-found message to sender
+				plugin.messageManager.sendPlayerMessage((Player)sender, "player-not-found");
 				return true;
 			}
 
-			// if player is not online and sender is a player, send player-not-online message
-			if (!player.isOnline() && sender instanceof Player) {
-				plugin.messages.sendPlayerMessage((Player)sender, "player-not-online");
+			// if player is not online, send player-not-online message to sender
+			if (!player.isOnline()) {
+				plugin.messageManager.sendPlayerMessage((Player)sender, "player-not-online");
 				return true;
 			}
 
 			// add specified quantity of spawnstar(s) to player inventory
-			player.getInventory().addItem(new ItemStack[]{this.plugin.inventory_manager.createSpawnStarItem(quantity)});
+			player.getInventory().addItem(new SpawnStarStack(quantity));
 			String plural = "";
 			if (quantity > 1) {
 				plural = "s";

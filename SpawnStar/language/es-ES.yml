@@ -15,15 +15,20 @@ itemlore:
 # %playernickname%      Player's nickname
 # %playerdisplayname%   Player's display name, including prefix/suffix
 # %worldname%           World name that player is in
-# %timeremaining% to show seconds remaining in cooldown (valid in cooldown message only)
+# %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
+# %warmuptime%			seconds until teleport (valid in warmup message only)
+
 
 messages:
   respawn:
     enabled: true
-    string: '&3Volviendo a desovar de %worldname%.'
+    string: '&3Volviendo a desovar de &b%worldname%.'
   cooldown:
     enabled: true
-    string: '&3Tienes que esperar &4%timeremaining%&3 segundos para utilizar otro %itemname%.'
+    string: '&3Tienes que esperar &b%timeremaining%&3 segundos para utilizar otro %itemname%.'
+  warmup:
+    enabled: true
+    string: '&3Teletransportarse a desovar en &b%warmuptime%&3 segundos...'
   deniedpermission:
     enabled: true
     string: '&3Usted no tiene permiso para usar %itemname% en %worldname%.'
