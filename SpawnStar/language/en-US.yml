@@ -39,3 +39,15 @@ messages:
   min-distance:
     enabled: true
     string: '&3You are too close to spawn to use a %itemname%.'
+  shift-click-usage:
+    enabled: true
+    string: '&3You must shift-click to use a %itemname%.'
+  damage-cancelled:
+    enabled: true
+    string: '&3Teleport cancelled by damage!'
+  movement-cancelled:
+    enabled: true
+    string: '&3Teleport cancelled by movement!'
+  interact-cancelled:
+    enabled: true
+    string: '&3Teleport cancelled by interaction!'

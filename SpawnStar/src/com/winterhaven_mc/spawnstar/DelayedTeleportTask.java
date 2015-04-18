@@ -1,12 +1,12 @@
 package com.winterhaven_mc.spawnstar;
 
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class DelayedTeleport extends BukkitRunnable {
+public class DelayedTeleportTask extends BukkitRunnable {
 
 	SpawnStarMain plugin;
 	Player player;
@@ -16,27 +16,20 @@ public class DelayedTeleport extends BukkitRunnable {
 	/**
 	 * Class constructor method
 	 */
-	public DelayedTeleport(final SpawnStarMain plugin, final Player player, final Location spawnLocation) {
+	public DelayedTeleportTask(final Player player, final Location spawnLocation) {
 		
-		this.plugin = plugin;
+		this.plugin = SpawnStarMain.instance;
 		this.player = player;
 		
 		this.spawnLocation = spawnLocation;
 		
-		plugin.cooldownManager.putPlayerWarmup(player);
-		
-		this.particleTask = new BukkitRunnable() {
-			
-			public void run() {
-				
-				// do particle effects if configured
-				if (plugin.getConfig().getBoolean("particle-effects",true)) {
-					player.getWorld().playEffect(player.getLocation().add(0.0D, 1.0D, 0.0D), Effect.ENDER_SIGNAL, 0, 10);
-				}
-			}
-		}.runTaskTimer(plugin, 0L, 10);
+		// start repeating task for generating particles at player location
+		if (plugin.getConfig().getBoolean("particle-effects",true)) {
 
+			// start particle task, with 2 tick delay so it doesn't self cancel on first run
+			particleTask = new ParticleTask(player).runTaskTimer(plugin, 2L, 10);
 		
+		}
 	}
 
 	@Override
@@ -45,10 +38,11 @@ public class DelayedTeleport extends BukkitRunnable {
 		// cancel particles task
 		particleTask.cancel();
 		
-		if (plugin.cooldownManager.isWarmingUp(player)) {
+		// if player is in warmup hashmap
+		if (plugin.warmupManager.isWarmingUp(player)) {
 
-			// remove player from warmup hashset
-			plugin.cooldownManager.removePlayerWarmup(player);
+			// remove player from warmup hashmap
+			plugin.warmupManager.removePlayer(player);
 		
 			// teleport player to spawn location
 			player.teleport(spawnLocation);
@@ -60,13 +54,21 @@ public class DelayedTeleport extends BukkitRunnable {
 			if (plugin.getConfig().getBoolean("lightning", true)) {
 				player.getWorld().strikeLightningEffect(spawnLocation);
 			}
+			
+			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
+			if (plugin.getConfig().getString("remove-from-inventory","on-use").equalsIgnoreCase("on-success")) {
+				ItemStack playerItem = player.getItemInHand();
+				ItemStack removeItem = playerItem;
+				removeItem.setAmount(playerItem.getAmount() - 1);
+				player.setItemInHand(removeItem);
+			}
+			
 
 			// set player cooldown
 			plugin.cooldownManager.setPlayerCooldown(player);
 
 			// try to prevent player spawning inside block and suffocating
 			preventSuffocation(player, spawnLocation);
-
 		}
 	}
 
@@ -83,8 +85,7 @@ public class DelayedTeleport extends BukkitRunnable {
 					player.setRemainingAir(spawnAir);
 				}
 			}
-		}.runTaskLater(plugin, 20);
-		
+		}.runTaskLater(plugin, 20);		
 	}
 
 }

@@ -39,3 +39,17 @@ messages:
   min-distance:
     enabled: true
     string: '&3Sie sind zu nahe für die Verwendung einer %itemname% laichen.'
+  shift-click-usage:
+    enabled: true
+    string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %itemname% verwenden.'
+  damage-cancelled:
+    enabled: true
+    string: '&3Teleportation durch Beschädigung aufgehoben!'
+  movement-cancelled:
+    enabled: true
+    string: '&3Teleportation durch Bewegung abgebrochen!'
+  interact-cancelled:
+    enabled: true
+    string: '&3Teleportation unterbrochen durch Interaktion!'
+
+    

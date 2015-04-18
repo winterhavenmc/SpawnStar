@@ -3,6 +3,7 @@ package com.winterhaven_mc.spawnstar;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,12 +44,38 @@ public class CommandManager implements CommandExecutor {
 			String versionString = this.plugin.getDescription().getVersion();
 			sender.sendMessage(ChatColor.AQUA + "[SpawnStar] Version: " + ChatColor.RESET + versionString);
 			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + this.plugin.getConfig().getString("itemmaterial"));
-			sender.sendMessage(ChatColor.GREEN + "Minimum Distance: " + ChatColor.RESET + this.plugin.getConfig().getInt("mindistance"));
-			sender.sendMessage(ChatColor.GREEN + "Shift-click required: " + ChatColor.RESET + this.plugin.getConfig().getString("shift-click","false"));
-			sender.sendMessage(ChatColor.GREEN + "Allow crafting: " + ChatColor.RESET + this.plugin.getConfig().getString("allow-crafting","false"));
+			sender.sendMessage(ChatColor.GREEN + "Minimum spawn distance: " + ChatColor.RESET + this.plugin.getConfig().getInt("mindistance"));
 			sender.sendMessage(ChatColor.GREEN + "Warmup: " + ChatColor.RESET + this.plugin.getConfig().getInt("warmup") + " seconds");
 			sender.sendMessage(ChatColor.GREEN + "Cooldown: " + ChatColor.RESET + this.plugin.getConfig().getInt("cooldown") + " seconds");
+			sender.sendMessage(ChatColor.GREEN + "Shift-click required: " + ChatColor.RESET + this.plugin.getConfig().getString("shift-click","false"));
+			sender.sendMessage(ChatColor.GREEN + "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "
+					+ plugin.getConfig().getString("cancel-on-damage","false") + "/"
+					+ plugin.getConfig().getString("cancel-on-movement","false") + "/"
+					+ plugin.getConfig().getString("cancel-on-interact","false") + " ]");
+			sender.sendMessage(ChatColor.GREEN + "Remove from inventory: " + ChatColor.RESET + this.plugin.getConfig().getString("remove-from-inventory","on-use"));
+			sender.sendMessage(ChatColor.GREEN + "Allow in crafting: " + ChatColor.RESET + this.plugin.getConfig().getString("allow-crafting","false"));
+			sender.sendMessage(ChatColor.GREEN + "From nether: " + ChatColor.RESET + this.plugin.getConfig().getString("from-nether","false"));
+			sender.sendMessage(ChatColor.GREEN + "From end: " + ChatColor.RESET + this.plugin.getConfig().getString("from-end","false"));
 			sender.sendMessage(ChatColor.GREEN + "Lightning: " + ChatColor.RESET + this.plugin.getConfig().getBoolean("lightning"));
+			
+			// get string list of enabled worlds from config
+			List<String> enabledWorlds = plugin.getConfig().getStringList("enabled-worlds");
+			
+			// if enabledWorlds list is empty, populate with all worlds
+			if (enabledWorlds.isEmpty()) {
+				for (World world : plugin.getServer().getWorlds()) {					
+					enabledWorlds.add(world.getName());
+				}
+			}
+			
+			// remove disabled worlds from list of enabled worlds
+			for (String disabledWorldName : plugin.getConfig().getStringList("disabled-worlds")) {
+				enabledWorlds.remove(disabledWorldName);
+			}
+
+			// output list of enabled worlds
+			sender.sendMessage(ChatColor.GREEN + "Enabled worlds: " + ChatColor.RESET + enabledWorlds.toString());
+			
 			return true;
 		}
 		String subcmd = args[0];
@@ -72,7 +99,7 @@ public class CommandManager implements CommandExecutor {
 			}
 			
 			// refresh reference item in case changes were made
-			plugin.referenceItem = new SpawnStarStack(1);
+			plugin.playerListener.spawnStar = new SpawnStarStack(1);
 			
 			// send reloaded message to command sender
 			sender.sendMessage((Object)ChatColor.AQUA + "[SpawnStar] config reloaded.");

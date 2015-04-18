@@ -1,6 +1,6 @@
 package com.winterhaven_mc.spawnstar;
 
-import org.bukkit.inventory.ItemStack;
+//import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -18,8 +18,9 @@ public final class SpawnStarMain extends JavaPlugin {
 
 	final Boolean debug = getConfig().getBoolean("debug");
 	public CooldownManager cooldownManager;
+	public WarmupManager warmupManager;
 	public MessageManager messageManager;
-	public ItemStack referenceItem;
+	PlayerEventListener playerListener;
 
 	@Override
 	public void onEnable() {
@@ -27,14 +28,14 @@ public final class SpawnStarMain extends JavaPlugin {
 		// set static reference to main class
 		instance = this;
 		
-		// save default config.yml
+		// install default config.yml if not present  
 		saveDefaultConfig();
+		
+		// load config.yml
+		reloadConfig();
 		
 		// register command executor
 		getCommand("spawnstar").setExecutor(new CommandManager(this));
-
-		// instantiate player listener
-		new PlayerEventListener(this);
 
 		// instantiate message manager
 		messageManager = new MessageManager(this);
@@ -42,9 +43,12 @@ public final class SpawnStarMain extends JavaPlugin {
 		// instantiate cooldown manager
 		cooldownManager = new CooldownManager(this);
 		
-		// create reference item for comparisons
-		referenceItem = new SpawnStarStack(1);
+		// instantiate warmup manager
+		warmupManager = new WarmupManager(this);
 		
+		// instantiate player listener
+		playerListener = new PlayerEventListener(this);
+
 	}
 
 }

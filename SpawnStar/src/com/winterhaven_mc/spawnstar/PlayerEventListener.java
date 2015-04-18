@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
+
 
 /**
  * Implements player event listener for <code>SpawnStar</code> events.
@@ -36,6 +41,7 @@ public class PlayerEventListener implements Listener {
 	public PlayerEventListener(SpawnStarMain plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		this.spawnStar = new SpawnStarStack(1);
 	}
 
 	
@@ -45,12 +51,29 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerUse(PlayerInteractEvent event) {
 
+		// get player
 		final Player player = event.getPlayer();
+		
+		// if cancel-on-interact is configured true, check if player is in warmup hashmap
+		if (plugin.getConfig().getBoolean("cancel-on-interact",false)) {
+			
+			// if player is in warmup hashmap, check if they are interacting with a block (not air)
+			if (plugin.warmupManager.isWarmingUp(player)) {
+
+				// if player is interacting with a block, cancel teleport, output message and return
+				if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {			
+					plugin.warmupManager.cancelTeleport(player);
+					plugin.messageManager.sendPlayerMessage(player, "interact-cancelled");
+					return;
+				}
+			}
+		}
+		
+		// get players item in hand
 		ItemStack playerItem = player.getItemInHand();
-//		ItemStack spawnStar = new SpawnStarStack(1);
 
 		// if item used is not a spawnstar, do nothing and return
-		if (!plugin.referenceItem.isSimilar(playerItem)) {
+		if (!this.spawnStar.isSimilar(playerItem)) {
 			return;
 		}
 		
@@ -59,19 +82,20 @@ public class PlayerEventListener implements Listener {
 			return;
 		}
 		
-		// if shift-click is configured true and player is not sneaking, do nothing and return
-		if (plugin.getConfig().getBoolean("shift-click",false) && !event.getPlayer().isSneaking()) {
-			return;
-		}
-		
 		// if players current world is not enabled in config, do nothing and return
 		if (!this.playerWorldEnabled(player)) {
 			return;
 		}
 		
-		// if player does not have spawnstar.use permission, do nothing and return
+		// if player does not have spawnstar.use permission, send message and return
 		if (!player.hasPermission("spawnstar.use")) {
 			plugin.messageManager.sendPlayerMessage(player, "deniedpermission");
+			return;
+		}
+		
+		// if shift-click is configured true and player is not sneaking, send message and return
+		if (plugin.getConfig().getBoolean("shift-click",false) && !event.getPlayer().isSneaking()) {
+			plugin.messageManager.sendPlayerMessage(player, "shift-click-usage");
 			return;
 		}
 		
@@ -85,7 +109,7 @@ public class PlayerEventListener implements Listener {
 		}
 		
 		// if player is warming up, do nothing and return
-		if (plugin.cooldownManager.isWarmingUp(player)) {
+		if (plugin.warmupManager.isWarmingUp(player)) {
 			return;
 		}
 		
@@ -122,17 +146,23 @@ public class PlayerEventListener implements Listener {
 			return;
 		}
 		
-		// remove one SpawnStar item from player inventory
-		ItemStack remove_item = playerItem;
-		remove_item.setAmount(playerItem.getAmount() - 1);
-		player.setItemInHand(remove_item);
+		// if remove-from-inventory is configured on-use, take one spawn star item from inventory now
+		if (plugin.getConfig().getString("remove-from-inventory","on-use").equalsIgnoreCase("on-use")) {
+			ItemStack removeItem = playerItem;
+			removeItem.setAmount(playerItem.getAmount() - 1);
+			player.setItemInHand(removeItem);
+		}
 		
+		// if warmup setting is greater than zero, send warmup message
 		if (plugin.getConfig().getInt("warmup",0) > 0) {
 			plugin.messageManager.sendPlayerMessage(player, "warmup");
 		}
 		
 		// initiate delayed teleport for player to spawn location
-		new DelayedTeleport(plugin, player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("warmup",0) * 20);
+		BukkitTask teleportTask = new DelayedTeleportTask(player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("warmup",0) * 20);
+		
+		// insert player and taskId into warmup hashmap
+		plugin.warmupManager.putPlayer(player, teleportTask.getTaskId());
 		
 		// if log-use is enabled in config, write log entry
 		if (plugin.getConfig().getBoolean("log-use", true)) {
@@ -155,7 +185,7 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		
 		Player player = (Player)event.getEntity();
-		plugin.cooldownManager.removePlayerWarmup(player);
+		plugin.warmupManager.removePlayer(player);
 		
 	}
 
@@ -164,7 +194,7 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerLogout(PlayerQuitEvent event) {
 		
 		Player player = event.getPlayer();
-		plugin.cooldownManager.removePlayerWarmup(player);
+		plugin.warmupManager.removePlayer(player);
 		
 	}
 	
@@ -182,12 +212,66 @@ public class PlayerEventListener implements Listener {
 		}
 
 		// if crafting inventory contains spawnstar item, set result item to null
-		if (event.getInventory().containsAtLeast(plugin.referenceItem, 1)) {
+		if (event.getInventory().containsAtLeast(this.spawnStar, 1)) {
 			event.getInventory().setResult(null);
 		}
 		
 	}
 	
+	
+	/**
+	 * Event listener for EntityDamageByEntity event<br>
+	 * Cancels pending teleport if player takes damage
+	 * @param event
+	 */
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent event) {
+		
+		// if event is already cancelled, do nothing and return
+		if (event.isCancelled()) {
+			return;
+		}
+		
+		// if cancel-on-damage configuration is true, check if damaged entity is player
+		if (plugin.getConfig().getBoolean("cancel-on-damage", false)) {
+			
+			Entity entity = event.getEntity();
+
+			// if damaged entity is player, check for pending teleport
+			if (entity instanceof Player) {
+				
+				// if player is in warmup hashmap, cancel teleport and send player message
+				if (plugin.warmupManager.isWarmingUp((Player) entity)) {
+					plugin.warmupManager.cancelTeleport((Player) entity);
+					plugin.messageManager.sendPlayerMessage((Player) entity, "damage-cancelled");
+				}				
+			}
+		}
+	}
+	
+	
+	@EventHandler
+	public void onPlayerMovement(PlayerMoveEvent event) {
+				
+		// if cancel-on-movement configuration is false, do nothing and return
+		if (!plugin.getConfig().getBoolean("cancel-on-movement", false)) {
+			return;
+		}
+			
+		Player player = event.getPlayer();
+
+		// if player is in warmup hashmap, cancel teleport and send player message
+		if (plugin.warmupManager.isWarmingUp(player)) {
+
+			// check for player movement other than head turning
+			if (event.getFrom().distance(event.getTo()) > 0) {
+				plugin.warmupManager.cancelTeleport(player);
+				plugin.messageManager.sendPlayerMessage(player,
+						"movement-cancelled");
+			}
+		}
+	}
+
 	
 	/**
 	 * Test if player world is enabled in config
@@ -197,12 +281,26 @@ public class PlayerEventListener implements Listener {
 	private boolean playerWorldEnabled(Player player) {
 		
 		// get string list of enabled worlds from config
-		List<String> enabledworlds = plugin.getConfig().getStringList("enabled-worlds");
+		List<String> enabledWorlds = plugin.getConfig().getStringList("enabled-worlds");
 		
 		// if player current world is in list of enabled worlds, return true
-		if (enabledworlds.contains(player.getWorld().getName())) {
+		if (enabledWorlds.contains(player.getWorld().getName())) {
 			return true;
 		}
+		
+		// get string list of disabled worlds from config
+		List<String> disabledworlds = plugin.getConfig().getStringList("disabled-worlds");
+		
+		// if player current world is in list of disabled worlds, return false
+		if (disabledworlds.contains(player.getWorld().getName())) {
+			return false;
+		}
+		
+		// if enabled worlds list is empty, return true
+		if (enabledWorlds.isEmpty()) {
+			return true;
+		}
+
 		// otherwise return false
 		return false;
 	}

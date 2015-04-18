@@ -41,3 +41,15 @@ messages:
   min-distance:
     enabled: true
     string: '&3Usted está demasiado cerca para desovar utilizar %itemname%.'
+  shift-click-usage:
+    enabled: true
+    string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %itemname%.'
+  damage-cancelled:
+    enabled: true
+    string: '&3¡teletransporte cancelado por daños!'
+  movement-cancelled:
+    enabled: true
+    string: '&3¡teletransporte cancelado por el movimiento!'
+  interact-cancelled:
+    enabled: true
+    string: '&3¡teletransporte cancelado por la interacción!'

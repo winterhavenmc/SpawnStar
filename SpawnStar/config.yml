@@ -1,13 +1,18 @@
-# This is the config file for SpawnStar plugin
+# This is the config file for SpawnStar plugin v1.3
 
 # localized language support
 language: en-US
 
-# enabled worlds list
-enabled-worlds:
-  - world
-  - world_nether
-  - world_the_end
+# Note: use only one enabled/disabled list, and comment out or remove the other
+# enabled worlds list (use this list for a default-deny world policy)
+#enabled-worlds:
+#  - enabled_world1
+#  - enabled_world2
+
+# disabled worlds list (use this list for a default-allow world policy)
+disabled-worlds:
+  - disabled_world1
+  - disabled_world2
 
 # material to be used as spawnstar item
 itemmaterial: NETHER_STAR
@@ -18,8 +23,20 @@ mindistance: 10
 # require shift-click to use spawnstar item
 shift-click: true
 
+# remove item from inventory ( on-use | on-success | never )
+remove-from-inventory: on-use
+
 # allow spawnstar items to be used in crafting recipes
 allow-crafting: false
+
+# cancel teleport if player takes damage
+cancel-on-damage: false
+
+# cancel teleport if player moves
+cancel-on-movement: false
+
+# cancel teleport if player interacts with another block
+cancel-on-interact: false
 
 # cooldown time in seconds
 cooldown: 60

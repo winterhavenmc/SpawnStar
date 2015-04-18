@@ -1,8 +1,7 @@
 package com.winterhaven_mc.spawnstar;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,8 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class CooldownManager {
 	
 	private final SpawnStarMain plugin;		// reference to main class
-	private HashMap<String, Long> cooldown;	// private hashmap to store player uuids and cooldown expire times
-	private HashSet<UUID> warmup;
+	private ConcurrentHashMap<UUID, Long> cooldown;	// private hashmap to store player uuids and cooldown expire times
 
 	
 	/**
@@ -28,8 +26,7 @@ public class CooldownManager {
 	 */
 public CooldownManager(SpawnStarMain plugin) {
 		this.plugin = plugin;
-		cooldown = new HashMap<String, Long>();
-		warmup = new HashSet<UUID>();
+		cooldown = new ConcurrentHashMap<UUID, Long>();
 	}
 
 	
@@ -43,45 +40,13 @@ public CooldownManager(SpawnStarMain plugin) {
 		int cooldown_seconds = plugin.getConfig().getInt("cooldown");
 
 		Long expiretime = System.currentTimeMillis() + (cooldown_seconds * 1000);
-		cooldown.put(player.getUniqueId().toString(), expiretime);
+		cooldown.put(player.getUniqueId(), expiretime);
 		new BukkitRunnable(){
 
 			public void run() {
-				cooldown.remove(player.getUniqueId().toString());
+				cooldown.remove(player.getUniqueId());
 			}
 		}.runTaskLater(plugin, (cooldown_seconds * 20));
-	}
-	
-	
-	/**
-	 * Insert player uuid into warmup hashset.
-	 * @param player
-	 */
-	public void putPlayerWarmup(final Player player) {
-		warmup.add(player.getUniqueId());		
-	}
-	
-	
-	/**
-	 * Remove player uuid from warmup hashset.
-	 * @param player
-	 */
-	public void removePlayerWarmup(final Player player) {		
-		warmup.remove(player.getUniqueId());
-	}
-	
-	
-	/**
-	 * Test if player uuid is in warmup hashset.
-	 * @param player
-	 * @return
-	 */
-	public boolean isWarmingUp(final Player player) {
-		
-		if (warmup.contains(player.getUniqueId())) {
-			return true;
-		}
-		return false;
 	}
 	
 	
@@ -92,8 +57,10 @@ public CooldownManager(SpawnStarMain plugin) {
 	 */
 	public long getTimeRemaining(Player player) {
 		long remainingtime = 0;
-		if (!cooldown.containsKey(player.getUniqueId().toString())) return remainingtime;
-		remainingtime = (cooldown.get(player.getUniqueId().toString()) - System.currentTimeMillis()) / 1000;
+		if (!cooldown.containsKey(player.getUniqueId())) {
+			return remainingtime;
+		}
+		remainingtime = (cooldown.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000;
 		return remainingtime;
 	}
 

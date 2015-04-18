@@ -37,7 +37,7 @@ public class SpawnStarStack extends ItemStack {
 			coloredlore.add(ChatColor.translateAlternateColorCodes('&', line));
 		}
 		
-		// get item metadata
+		// get item metadata object
 		ItemMeta itemMeta = this.getItemMeta();
 		
 		// set item metadata DisplayName to value from config file
