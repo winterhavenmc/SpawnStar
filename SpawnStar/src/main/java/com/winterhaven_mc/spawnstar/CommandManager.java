@@ -74,20 +74,20 @@ public class CommandManager implements CommandExecutor {
 			// output config settings
 			String versionString = this.plugin.getDescription().getVersion();
 			sender.sendMessage(ChatColor.DARK_AQUA + "[SpawnStar] " + ChatColor.AQUA + "Version: " + ChatColor.RESET + versionString);
-			sender.sendMessage(ChatColor.GREEN + "Language: " + ChatColor.RESET + plugin.getConfig().getString("language","en-US"));
+			sender.sendMessage(ChatColor.GREEN + "Language: " + ChatColor.RESET + plugin.getConfig().getString("language"));
 			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + plugin.getConfig().getString("item-material"));
 			sender.sendMessage(ChatColor.GREEN + "Minimum spawn distance: " + ChatColor.RESET + plugin.getConfig().getInt("minimum-distance"));
 			sender.sendMessage(ChatColor.GREEN + "Warmup: " + ChatColor.RESET + plugin.getConfig().getInt("teleport-warmup") + " seconds");
 			sender.sendMessage(ChatColor.GREEN + "Cooldown: " + ChatColor.RESET + plugin.getConfig().getInt("teleport-cooldown") + " seconds");
-			sender.sendMessage(ChatColor.GREEN + "Shift-click required: " + ChatColor.RESET + plugin.getConfig().getString("shift-click","false"));
+			sender.sendMessage(ChatColor.GREEN + "Shift-click required: " + ChatColor.RESET + plugin.getConfig().getBoolean("shift-click"));
 			sender.sendMessage(ChatColor.GREEN + "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "
-					+ plugin.getConfig().getString("cancel-on-damage","false") + "/"
-					+ plugin.getConfig().getString("cancel-on-movement","false") + "/"
-					+ plugin.getConfig().getString("cancel-on-interaction","false") + " ]");
-			sender.sendMessage(ChatColor.GREEN + "Remove from inventory: " + ChatColor.RESET + plugin.getConfig().getString("remove-from-inventory","on-use"));
-			sender.sendMessage(ChatColor.GREEN + "Allow in recipes: " + ChatColor.RESET + plugin.getConfig().getString("allow-in-recipes","false"));
-			sender.sendMessage(ChatColor.GREEN + "From nether: " + ChatColor.RESET + plugin.getConfig().getString("from-nether","false"));
-			sender.sendMessage(ChatColor.GREEN + "From end: " + ChatColor.RESET + plugin.getConfig().getString("from-end","false"));
+					+ plugin.getConfig().getBoolean("cancel-on-damage") + "/"
+					+ plugin.getConfig().getBoolean("cancel-on-movement") + "/"
+					+ plugin.getConfig().getBoolean("cancel-on-interaction") + " ]");
+			sender.sendMessage(ChatColor.GREEN + "Remove from inventory: " + ChatColor.RESET + plugin.getConfig().getString("remove-from-inventory"));
+			sender.sendMessage(ChatColor.GREEN + "Allow in recipes: " + ChatColor.RESET + plugin.getConfig().getBoolean("allow-in-recipes"));
+			sender.sendMessage(ChatColor.GREEN + "From nether: " + ChatColor.RESET + plugin.getConfig().getBoolean("from-nether"));
+			sender.sendMessage(ChatColor.GREEN + "From end: " + ChatColor.RESET + plugin.getConfig().getBoolean("from-end"));
 			sender.sendMessage(ChatColor.GREEN + "Lightning: " + ChatColor.RESET + plugin.getConfig().getBoolean("lightning"));
 			sender.sendMessage(ChatColor.GREEN + "Enabled Words: " + ChatColor.RESET + getEnabledWorlds().toString());
 			return true;
@@ -107,7 +107,7 @@ public class CommandManager implements CommandExecutor {
 			}
 
 			// get current language setting
-			String original_language = plugin.getConfig().getString("language", "en-US");
+			String original_language = plugin.getConfig().getString("language");
 
 			// reload config.yml
 			plugin.reloadConfig();
@@ -116,7 +116,7 @@ public class CommandManager implements CommandExecutor {
 			updateEnabledWorlds();
 			
 			// if language setting has changed, instantiate new message manager with new language file
-			if (!original_language.equals(plugin.getConfig().getString("language", "en-US"))) {
+			if (!original_language.equals(plugin.getConfig().getString("language"))) {
 				plugin.messageManager = new MessageManager(plugin);
 			}
 			else {
@@ -174,7 +174,7 @@ public class CommandManager implements CommandExecutor {
 			
 			// validate quantity (min = 1, max = configured maximum, or runtime Integer.MAX_VALUE)
 			quantity = Math.max(1, quantity);
-			int maxQuantity = plugin.getConfig().getInt("max-give-amount",-1);
+			int maxQuantity = plugin.getConfig().getInt("max-give-amount");
 			if (maxQuantity < 0) {
 				maxQuantity = Integer.MAX_VALUE;
 			}

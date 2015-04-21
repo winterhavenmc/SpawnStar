@@ -27,7 +27,11 @@ public class SpawnStarItem extends ItemStack implements SpawnStarAPI {
 	public SpawnStarItem() {
 		
 		// set material type from config file
-		this.setType(Material.matchMaterial(SpawnStarMain.instance.getConfig().getString("item-material", "NETHER_STAR")));
+		Material configMaterial = Material.matchMaterial(SpawnStarMain.instance.getConfig().getString("item-material"));
+		if (configMaterial == null) {
+			configMaterial = Material.NETHER_STAR;
+		}
+		this.setType(configMaterial);
 
 		// retrieve item name and lore from language file file
 		String configItemName = SpawnStarMain.instance.messageManager.getItemName();
@@ -65,7 +69,11 @@ public class SpawnStarItem extends ItemStack implements SpawnStarAPI {
 	public SpawnStarItem(int quantity) {
 		
 		// set material type from config file
-		this.setType(Material.matchMaterial(SpawnStarMain.instance.getConfig().getString("item-material", "NETHER_STAR")));
+		Material configMaterial = Material.matchMaterial(SpawnStarMain.instance.getConfig().getString("item-material"));
+		if (configMaterial == null) {
+			configMaterial = Material.NETHER_STAR;
+		}
+		this.setType(configMaterial);
 
 		// retrieve item name and lore from language file file
 		String configItemName = SpawnStarMain.instance.messageManager.getItemName();
@@ -120,41 +128,41 @@ public class SpawnStarItem extends ItemStack implements SpawnStarAPI {
 
 	@Override
 	public Boolean isValidIngredient() {
-		return SpawnStarMain.instance.getConfig().getBoolean("allow-in-recipes",false);
+		return SpawnStarMain.instance.getConfig().getBoolean("allow-in-recipes");
 	}
 	
 	@Override
 	public int getCooldownTime() {
-		return SpawnStarMain.instance.getConfig().getInt("cooldown-time",60);
+		return SpawnStarMain.instance.getConfig().getInt("cooldown-time");
 	}
 
 	@Override
 	public int getWarmupTime() {
-		return SpawnStarMain.instance.getConfig().getInt("warmup-time",5);
+		return SpawnStarMain.instance.getConfig().getInt("warmup-time");
 	}
 
 
 	@Override
 	public int getMinSpawnDistance() {
-		return SpawnStarMain.instance.getConfig().getInt("minimum-distance",10);
+		return SpawnStarMain.instance.getConfig().getInt("minimum-distance");
 	}
 
 
 	@Override
 	public Boolean isCancelledOnDamage() {
-		return SpawnStarMain.instance.getConfig().getBoolean("cancel-on-damage",false);
+		return SpawnStarMain.instance.getConfig().getBoolean("cancel-on-damage");
 	}
 
 
 	@Override
 	public Boolean isCancelledOnMovement() {
-		return SpawnStarMain.instance.getConfig().getBoolean("cancel-on-movement",false);
+		return SpawnStarMain.instance.getConfig().getBoolean("cancel-on-movement");
 	}
 
 
 	@Override
 	public Boolean isCancelledOnInteraction() {
-		return SpawnStarMain.instance.getConfig().getBoolean("cancel-on-interaction",false);
+		return SpawnStarMain.instance.getConfig().getBoolean("cancel-on-interaction");
 	}
 	
 	@Override

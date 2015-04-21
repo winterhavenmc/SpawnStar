@@ -56,7 +56,7 @@ class PlayerEventListener implements Listener {
 		final Player player = event.getPlayer();
 		
 		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
-		if (plugin.getConfig().getBoolean("cancel-on-interaction",false)) {
+		if (plugin.getConfig().getBoolean("cancel-on-interaction")) {
 			
 			// if player is in warmup hashmap, check if they are interacting with a block (not air)
 			if (plugin.warmupManager.isWarmingUp(player)) {
@@ -95,7 +95,7 @@ class PlayerEventListener implements Listener {
 		}
 		
 		// if shift-click is configured true and player is not sneaking, send message and return
-		if (plugin.getConfig().getBoolean("shift-click",false) && !event.getPlayer().isSneaking()) {
+		if (plugin.getConfig().getBoolean("shift-click") && !event.getPlayer().isSneaking()) {
 			plugin.messageManager.sendPlayerMessage(player, "usage-shift-click");
 			return;
 		}
@@ -121,14 +121,14 @@ class PlayerEventListener implements Listener {
 		Location spawnLocation = playerWorld.getSpawnLocation();
 		
 		// if from-nether is enabled in config and player is in nether, try to get overworld spawn location
-		if (plugin.getConfig().getBoolean("from-nether", false) &&
+		if (plugin.getConfig().getBoolean("from-nether") &&
 				playerWorld.getName().endsWith("_nether") &&
 				overworld != null) {
 			spawnLocation = overworld.getSpawnLocation();
 		}
 		
 		// if from-end is enabled in config, and player is in end, try to get overworld spawn location 
-		if (plugin.getConfig().getBoolean("from-end", false) &&
+		if (plugin.getConfig().getBoolean("from-end") &&
 				playerWorld.getName().endsWith("_the_end") &&
 				overworld != null) {
 			spawnLocation = overworld.getSpawnLocation();
@@ -146,31 +146,31 @@ class PlayerEventListener implements Listener {
 		}
 		
 		// if player is less than config min-distance from spawn, send player min-distance message and return
-		if (player.getWorld() == spawnLocation.getWorld() && spawnLocation.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance", 10)) {
+		if (player.getWorld() == spawnLocation.getWorld() && spawnLocation.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
 			plugin.messageManager.sendPlayerMessage(player, "teleport-min-distance");
 			return;
 		}
 		
 		// if remove-from-inventory is configured on-use, take one spawn star item from inventory now
-		if (plugin.getConfig().getString("remove-from-inventory","on-use").equalsIgnoreCase("on-use")) {
+		if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-use")) {
 			ItemStack removeItem = playerItem;
 			removeItem.setAmount(playerItem.getAmount() - 1);
 			player.setItemInHand(removeItem);
 		}
 		
 		// if warmup setting is greater than zero, send warmup message
-		if (plugin.getConfig().getInt("teleport-warmup",0) > 0) {
+		if (plugin.getConfig().getInt("teleport-warmup") > 0) {
 			plugin.messageManager.sendPlayerMessage(player, "teleport-warmup");
 		}
 		
 		// initiate delayed teleport for player to spawn location
-		BukkitTask teleportTask = new DelayedTeleportTask(player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup",0) * 20);
+		BukkitTask teleportTask = new DelayedTeleportTask(player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup") * 20);
 		
 		// insert player and taskId into warmup hashmap
 		plugin.warmupManager.putPlayer(player, teleportTask.getTaskId());
 		
 		// if log-use is enabled in config, write log entry
-		if (plugin.getConfig().getBoolean("log-use", true)) {
+		if (plugin.getConfig().getBoolean("log-use")) {
 			
 			// construct log message
 			String configItemName = plugin.messageManager.getItemName();
@@ -219,7 +219,7 @@ class PlayerEventListener implements Listener {
 	void onCraftPrepare(PrepareItemCraftEvent event) {
 
 		// if allow-in-recipes is true in configuration, do nothing and return
-		if (plugin.getConfig().getBoolean("allow-in-recipes",false)) {
+		if (plugin.getConfig().getBoolean("allow-in-recipes")) {
 			return;
 		}
 
@@ -245,7 +245,7 @@ class PlayerEventListener implements Listener {
 		}
 		
 		// if cancel-on-damage configuration is true, check if damaged entity is player
-		if (plugin.getConfig().getBoolean("cancel-on-damage", false)) {
+		if (plugin.getConfig().getBoolean("cancel-on-damage")) {
 			
 			Entity entity = event.getEntity();
 
@@ -266,7 +266,7 @@ class PlayerEventListener implements Listener {
 	void onPlayerMovement(PlayerMoveEvent event) {
 				
 		// if cancel-on-movement configuration is false, do nothing and return
-		if (!plugin.getConfig().getBoolean("cancel-on-movement", false)) {
+		if (!plugin.getConfig().getBoolean("cancel-on-movement")) {
 			return;
 		}
 			

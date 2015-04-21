@@ -24,7 +24,7 @@ class DelayedTeleportTask extends BukkitRunnable {
 		this.spawnLocation = spawnLocation;
 		
 		// start repeating task for generating particles at player location
-		if (plugin.getConfig().getBoolean("particle-effects",true)) {
+		if (plugin.getConfig().getBoolean("particle-effects")) {
 
 			// start particle task, with 2 tick delay so it doesn't self cancel on first run
 			particleTask = new ParticleTask(player).runTaskTimer(plugin, 2L, 10);
@@ -57,12 +57,12 @@ class DelayedTeleportTask extends BukkitRunnable {
 			plugin.messageManager.sendPlayerMessage(player, "teleport-success");
 
 			// if lightning is enabled in config, strike lightning at spawn location
-			if (plugin.getConfig().getBoolean("lightning", true)) {
+			if (plugin.getConfig().getBoolean("lightning")) {
 				player.getWorld().strikeLightningEffect(spawnLocation);
 			}
 			
 			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
-			if (plugin.getConfig().getString("remove-from-inventory","on-use").equalsIgnoreCase("on-success")) {
+			if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-success")) {
 				ItemStack playerItem = player.getItemInHand();
 				ItemStack removeItem = playerItem;
 				removeItem.setAmount(playerItem.getAmount() - 1);

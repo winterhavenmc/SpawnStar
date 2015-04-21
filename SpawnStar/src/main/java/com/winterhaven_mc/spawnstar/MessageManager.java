@@ -37,7 +37,7 @@ class MessageManager {
         this.installLocalizationFiles(localization_files);
 		
 		// get configured language
-		String language = plugin.getConfig().getString("language","en-US");
+		String language = plugin.getConfig().getString("language");
 
 		// check if localization file for configured language exists, if not then fallback to en-US
 		if (!new File(plugin.getDataFolder() + "/language/" + language + ".yml").exists()) {
@@ -73,7 +73,7 @@ class MessageManager {
 	void sendPlayerMessage(CommandSender sender, String messageID, Integer quantity) {
 		
 		// if message is set to enabled in messages file
-		if (messages.getConfig().getBoolean("messages." + messageID + ".enabled",false)) {
+		if (messages.getConfig().getBoolean("messages." + messageID + ".enabled")) {
 
 			// set substitution variables defaults in case sender is not a player
 			String playerName = "console";
@@ -98,7 +98,7 @@ class MessageManager {
 				}
 				
 				// if message has repeat delay value and was displayed to player more recently, do nothing and return
-				int messageRepeatDelay = messages.getConfig().getInt("messages." + messageID + ".repeat-delay",0);
+				int messageRepeatDelay = messages.getConfig().getInt("messages." + messageID + ".repeat-delay");
 				if (lastDisplayed > System.currentTimeMillis() - messageRepeatDelay * 1000) {
 					return;
 				}
@@ -125,19 +125,19 @@ class MessageManager {
 	        String itemName = getItemName().replaceAll("&[0-9A-Za-zK-Ok-oRr]", "");
 
 	        // get warmup value from config file
-	        Integer warmupTime = plugin.getConfig().getInt("teleport-warmup",0);
+	        Integer warmupTime = plugin.getConfig().getInt("teleport-warmup");
 	        
 			String overworldname = worldName.replaceFirst("(_nether|_the_end)$", "");
 			
 			// if from-nether is enabled in config and player is in nether, get overworld name
-			if (plugin.getConfig().getBoolean("from-nether", false) &&
+			if (plugin.getConfig().getBoolean("from-nether") &&
 					worldName.endsWith("_nether") &&
 					plugin.getServer().getWorld(overworldname) != null) {
 				worldName = overworldname;
 			}
 			
 			// if from-end is enabled in config, and player is in end, get overworld name 
-			if (plugin.getConfig().getBoolean("from-end", false) &&
+			if (plugin.getConfig().getBoolean("from-end") &&
 					worldName.endsWith("_the_end") &&
 					plugin.getServer().getWorld(overworldname) != null) {
 				worldName = overworldname;
@@ -203,12 +203,12 @@ class MessageManager {
     }
     
     String getItemName() {
-    	String itemName = messages.getConfig().getString("item-name","SpawnStar");
+    	String itemName = messages.getConfig().getString("item-name");
     	return itemName;
     }
     
     String getItemNamePlural() {
-    	String itemNamePlural = messages.getConfig().getString("item-name-plural","SpawnStars");
+    	String itemNamePlural = messages.getConfig().getString("item-name-plural");
     	return itemNamePlural;
     }
     
