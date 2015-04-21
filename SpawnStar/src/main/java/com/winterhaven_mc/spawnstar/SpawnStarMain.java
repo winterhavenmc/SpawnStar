@@ -38,7 +38,7 @@ public final class SpawnStarMain extends JavaPlugin {
 		saveDefaultConfig();
 		
 		// load config.yml
-		reloadConfig();
+//		reloadConfig();
 		
 		// instantiate message manager
 		messageManager = new MessageManager(this);

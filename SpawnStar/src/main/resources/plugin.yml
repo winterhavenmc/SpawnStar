@@ -1,7 +1,7 @@
 name: SpawnStar
 main: com.winterhaven_mc.spawnstar.SpawnStarMain
-author: Tim Savage
-version: 1.5
+author: ${project.author}
+version: ${project.version}
 softdepend: [Multiverse-Core]
 
 commands:

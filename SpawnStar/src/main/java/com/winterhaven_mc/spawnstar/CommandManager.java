@@ -73,7 +73,7 @@ public class CommandManager implements CommandExecutor {
 			
 			// output config settings
 			String versionString = this.plugin.getDescription().getVersion();
-			sender.sendMessage(ChatColor.AQUA + "[SpawnStar] Version: " + ChatColor.RESET + versionString);
+			sender.sendMessage(ChatColor.DARK_AQUA + "[SpawnStar] " + ChatColor.AQUA + "Version: " + ChatColor.RESET + versionString);
 			sender.sendMessage(ChatColor.GREEN + "Language: " + ChatColor.RESET + plugin.getConfig().getString("language","en-US"));
 			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + plugin.getConfig().getString("item-material"));
 			sender.sendMessage(ChatColor.GREEN + "Minimum spawn distance: " + ChatColor.RESET + plugin.getConfig().getInt("minimum-distance"));
@@ -85,7 +85,7 @@ public class CommandManager implements CommandExecutor {
 					+ plugin.getConfig().getString("cancel-on-movement","false") + "/"
 					+ plugin.getConfig().getString("cancel-on-interaction","false") + " ]");
 			sender.sendMessage(ChatColor.GREEN + "Remove from inventory: " + ChatColor.RESET + plugin.getConfig().getString("remove-from-inventory","on-use"));
-			sender.sendMessage(ChatColor.GREEN + "Allow in crafting: " + ChatColor.RESET + plugin.getConfig().getString("allow-in-recipes","false"));
+			sender.sendMessage(ChatColor.GREEN + "Allow in recipes: " + ChatColor.RESET + plugin.getConfig().getString("allow-in-recipes","false"));
 			sender.sendMessage(ChatColor.GREEN + "From nether: " + ChatColor.RESET + plugin.getConfig().getString("from-nether","false"));
 			sender.sendMessage(ChatColor.GREEN + "From end: " + ChatColor.RESET + plugin.getConfig().getString("from-end","false"));
 			sender.sendMessage(ChatColor.GREEN + "Lightning: " + ChatColor.RESET + plugin.getConfig().getBoolean("lightning"));
