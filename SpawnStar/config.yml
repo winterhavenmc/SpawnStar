@@ -15,10 +15,19 @@ disabled-worlds:
   - disabled_world2
 
 # material to be used as spawnstar item
-itemmaterial: NETHER_STAR
+item-material: NETHER_STAR
 
 # minimum distance from spawn
-mindistance: 10
+minimum-distance: 10
+
+# cooldown time in seconds
+teleport-cooldown: 60
+
+# warmup time in seconds
+teleport-warmup: 5
+
+# particle effects during warmup
+particle-effects: true
 
 # require shift-click to use spawnstar item
 shift-click: true
@@ -27,7 +36,7 @@ shift-click: true
 remove-from-inventory: on-use
 
 # allow spawnstar items to be used in crafting recipes
-allow-crafting: false
+allow-in-recipes: false
 
 # cancel teleport if player takes damage
 cancel-on-damage: false
@@ -36,19 +45,10 @@ cancel-on-damage: false
 cancel-on-movement: false
 
 # cancel teleport if player interacts with another block
-cancel-on-interact: false
+cancel-on-interaction: false
 
-# cooldown time in seconds
-cooldown: 60
-
-# warmup time in seconds
-warmup: 5
-
-# particle effects during warmup
-particle-effects: true
-
-# write log entry on use
-log-use: true
+# maximum number of spawn star items that can be given at once (-1 for no limit)
+max-give-amount: -1
 
 # if player is in netherworld, try to respawn in matching overworld
 from-nether: true
@@ -58,3 +58,6 @@ from-end: true
 
 # lightning strike at spawn location on use
 lightning: true
+
+# write log entry on use
+log-use: true

@@ -1,7 +1,8 @@
 package com.winterhaven_mc.spawnstar;
 
-//import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.onarandombox.MultiverseCore.MultiverseCore;
 
 /**
  * Bukkit plugin to create items that return player to
@@ -17,10 +18,15 @@ public final class SpawnStarMain extends JavaPlugin {
 	static SpawnStarMain instance;
 
 	final Boolean debug = getConfig().getBoolean("debug");
-	public CooldownManager cooldownManager;
-	public WarmupManager warmupManager;
-	public MessageManager messageManager;
+	
+	CooldownManager cooldownManager;
+	WarmupManager warmupManager;
+	MessageManager messageManager;
+	CommandManager commandManager;
 	PlayerEventListener playerListener;
+
+	MultiverseCore mvCore;
+	Boolean mvEnabled = false;
 
 	@Override
 	public void onEnable() {
@@ -34,11 +40,11 @@ public final class SpawnStarMain extends JavaPlugin {
 		// load config.yml
 		reloadConfig();
 		
-		// register command executor
-		getCommand("spawnstar").setExecutor(new CommandManager(this));
-
 		// instantiate message manager
 		messageManager = new MessageManager(this);
+
+		// instantiate command manager
+		commandManager = new CommandManager(this);
 
 		// instantiate cooldown manager
 		cooldownManager = new CooldownManager(this);
@@ -48,6 +54,16 @@ public final class SpawnStarMain extends JavaPlugin {
 		
 		// instantiate player listener
 		playerListener = new PlayerEventListener(this);
+		
+		// set reference item for making comparisons
+		SpawnStarItem.setStandard(new SpawnStarItem());
+		
+		// get reference to Multiverse-Core if installed
+		mvCore = (MultiverseCore) this.getServer().getPluginManager().getPlugin("Multiverse-Core");
+		if (mvCore != null && mvCore.isEnabled()) {
+			this.getLogger().info("Multiverse-Core detected.");
+			this.mvEnabled = true;
+		}
 
 	}
 

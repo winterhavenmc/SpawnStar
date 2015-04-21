@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  * @version		1.0
  *  
  */
-public class WarmupManager {
+class WarmupManager {
 	
 	final SpawnStarMain plugin;		// reference to main class
 	private ConcurrentHashMap<UUID,Integer> warmupMap;
@@ -23,7 +23,7 @@ public class WarmupManager {
 	 * 
 	 * @param	plugin		A reference to this plugin's main class
 	 */
-	public WarmupManager(SpawnStarMain plugin) {
+	WarmupManager(SpawnStarMain plugin) {
 		this.plugin = plugin;
 		warmupMap = new ConcurrentHashMap<UUID,Integer>();
 	}
@@ -34,7 +34,7 @@ public class WarmupManager {
 	 * @param player
 	 * @param taskId
 	 */
-	public void putPlayer(final Player player, final Integer taskId) {
+	void putPlayer(final Player player, final Integer taskId) {
 		warmupMap.put(player.getUniqueId(), taskId);
 	}
 	
@@ -43,7 +43,7 @@ public class WarmupManager {
 	 * Remove player uuid from warmup hashmap.
 	 * @param player
 	 */
-	public void removePlayer(final Player player) {		
+	void removePlayer(final Player player) {		
 		warmupMap.remove(player.getUniqueId());
 	}
 	
@@ -53,7 +53,7 @@ public class WarmupManager {
 	 * @param player
 	 * @return
 	 */
-	public boolean isWarmingUp(final Player player) {
+	boolean isWarmingUp(final Player player) {
 		
 		// if player is in warmup hashmap, return true, otherwise return false
 		if (warmupMap.containsKey(player.getUniqueId())) {
@@ -63,7 +63,7 @@ public class WarmupManager {
 	}
 	
 	
-	public void cancelTeleport(final Player player) {
+	void cancelTeleport(final Player player) {
 		
 		// if player is in warmup hashmap, cancel delayed teleport task and remove player from warmup hashmap
 		if (warmupMap.containsKey(player.getUniqueId())) {

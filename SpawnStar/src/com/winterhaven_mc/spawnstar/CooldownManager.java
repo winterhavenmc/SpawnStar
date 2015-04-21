@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @version		1.0
  *  
  */
-public class CooldownManager {
+class CooldownManager {
 	
 	private final SpawnStarMain plugin;		// reference to main class
 	private ConcurrentHashMap<UUID, Long> cooldown;	// private hashmap to store player uuids and cooldown expire times
@@ -24,7 +24,7 @@ public class CooldownManager {
 	 * 
 	 * @param	plugin		A reference to this plugin's main class
 	 */
-public CooldownManager(SpawnStarMain plugin) {
+CooldownManager(SpawnStarMain plugin) {
 		this.plugin = plugin;
 		cooldown = new ConcurrentHashMap<UUID, Long>();
 	}
@@ -35,9 +35,9 @@ public CooldownManager(SpawnStarMain plugin) {
 	 * Schedule task to remove player uuid from cooldown hashmap when time expires.
 	 * @param player
 	 */
-	public void setPlayerCooldown(final Player player) {
+	void setPlayerCooldown(final Player player) {
 
-		int cooldown_seconds = plugin.getConfig().getInt("cooldown");
+		int cooldown_seconds = plugin.getConfig().getInt("teleport-cooldown");
 
 		Long expiretime = System.currentTimeMillis() + (cooldown_seconds * 1000);
 		cooldown.put(player.getUniqueId(), expiretime);
@@ -55,12 +55,11 @@ public CooldownManager(SpawnStarMain plugin) {
 	 * @param player
 	 * @return long remainingtime
 	 */
-	public long getTimeRemaining(Player player) {
+	long getTimeRemaining(Player player) {
 		long remainingtime = 0;
-		if (!cooldown.containsKey(player.getUniqueId())) {
-			return remainingtime;
+		if (cooldown.containsKey(player.getUniqueId())) {
+			remainingtime = (cooldown.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000;
 		}
-		remainingtime = (cooldown.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000;
 		return remainingtime;
 	}
 

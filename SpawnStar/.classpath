@@ -7,5 +7,10 @@
 			<attribute name="javadoc_location" value="jar:file:/home/savage/Projects/Libraries/bukkit-1.6.4-R2.0-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/savage/Projects/Libraries/Multiverse-Core-2.4.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://ci.onarandombox.com/job/Multiverse-Core/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

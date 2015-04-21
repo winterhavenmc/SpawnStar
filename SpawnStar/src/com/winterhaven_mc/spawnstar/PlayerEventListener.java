@@ -1,7 +1,5 @@
 package com.winterhaven_mc.spawnstar;
 
-import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -26,11 +24,10 @@ import org.bukkit.scheduler.BukkitTask;
  * @version		1.0
  *  
  */
-public class PlayerEventListener implements Listener {
+class PlayerEventListener implements Listener {
 
 	// reference to main class
 	private final SpawnStarMain plugin;
-	ItemStack spawnStar;
 	
 	
 	/**
@@ -38,10 +35,14 @@ public class PlayerEventListener implements Listener {
 	 * 
 	 * @param	plugin		A reference to this plugin's main class
 	 */
-	public PlayerEventListener(SpawnStarMain plugin) {
+	PlayerEventListener(SpawnStarMain plugin) {
+		
+		// reference to main
 		this.plugin = plugin;
+		
+		// register events in this class
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		this.spawnStar = new SpawnStarStack(1);
+		
 	}
 
 	
@@ -49,13 +50,13 @@ public class PlayerEventListener implements Listener {
 	 * Player interact event listener
 	 */
 	@EventHandler
-	public void onPlayerUse(PlayerInteractEvent event) {
+	void onPlayerUse(PlayerInteractEvent event) {
 
 		// get player
 		final Player player = event.getPlayer();
 		
-		// if cancel-on-interact is configured true, check if player is in warmup hashmap
-		if (plugin.getConfig().getBoolean("cancel-on-interact",false)) {
+		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
+		if (plugin.getConfig().getBoolean("cancel-on-interaction",false)) {
 			
 			// if player is in warmup hashmap, check if they are interacting with a block (not air)
 			if (plugin.warmupManager.isWarmingUp(player)) {
@@ -63,7 +64,7 @@ public class PlayerEventListener implements Listener {
 				// if player is interacting with a block, cancel teleport, output message and return
 				if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {			
 					plugin.warmupManager.cancelTeleport(player);
-					plugin.messageManager.sendPlayerMessage(player, "interact-cancelled");
+					plugin.messageManager.sendPlayerMessage(player, "teleport-cancelled-interaction");
 					return;
 				}
 			}
@@ -73,7 +74,7 @@ public class PlayerEventListener implements Listener {
 		ItemStack playerItem = player.getItemInHand();
 
 		// if item used is not a spawnstar, do nothing and return
-		if (!this.spawnStar.isSimilar(playerItem)) {
+		if (!SpawnStarItem.getStandard().isSimilar(playerItem)) {
 			return;
 		}
 		
@@ -83,19 +84,19 @@ public class PlayerEventListener implements Listener {
 		}
 		
 		// if players current world is not enabled in config, do nothing and return
-		if (!this.playerWorldEnabled(player)) {
+		if (!playerWorldEnabled(player)) {
 			return;
 		}
 		
 		// if player does not have spawnstar.use permission, send message and return
 		if (!player.hasPermission("spawnstar.use")) {
-			plugin.messageManager.sendPlayerMessage(player, "deniedpermission");
+			plugin.messageManager.sendPlayerMessage(player, "permission-denied-use");
 			return;
 		}
 		
 		// if shift-click is configured true and player is not sneaking, send message and return
 		if (plugin.getConfig().getBoolean("shift-click",false) && !event.getPlayer().isSneaking()) {
-			plugin.messageManager.sendPlayerMessage(player, "shift-click-usage");
+			plugin.messageManager.sendPlayerMessage(player, "usage-shift-click");
 			return;
 		}
 		
@@ -104,7 +105,7 @@ public class PlayerEventListener implements Listener {
 		
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.cooldownManager.getTimeRemaining(player) > 0) {
-			plugin.messageManager.sendPlayerMessage(player, "cooldown");
+			plugin.messageManager.sendPlayerMessage(player, "teleport-cooldown");
 			return;
 		}
 		
@@ -116,33 +117,37 @@ public class PlayerEventListener implements Listener {
 		World playerWorld = player.getWorld();
 		String overworldName = playerWorld.getName().replaceFirst("(_nether|_the_end)$", "");
 		World overworld = plugin.getServer().getWorld(overworldName);
+		
 		Location spawnLocation = playerWorld.getSpawnLocation();
 		
 		// if from-nether is enabled in config and player is in nether, try to get overworld spawn location
 		if (plugin.getConfig().getBoolean("from-nether", false) &&
 				playerWorld.getName().endsWith("_nether") &&
 				overworld != null) {
-			playerWorld = overworld;
-			spawnLocation = playerWorld.getSpawnLocation();
-			if (plugin.debug) {
-				plugin.getLogger().info("Player in nether world, trying to respawn in " + playerWorld.getName());
-			}
+			spawnLocation = overworld.getSpawnLocation();
 		}
 		
 		// if from-end is enabled in config, and player is in end, try to get overworld spawn location 
 		if (plugin.getConfig().getBoolean("from-end", false) &&
 				playerWorld.getName().endsWith("_the_end") &&
 				overworld != null) {
-			playerWorld = overworld;
-			spawnLocation = playerWorld.getSpawnLocation();
-			if (plugin.debug) {
-				plugin.getLogger().info("Player in end world, trying to respawn in " + playerWorld.getName());
-			}
+			spawnLocation = overworld.getSpawnLocation();
+		}
+		
+		// if multiverse is enabled, get spawn location from it so we have pitch and yaw
+		if (plugin.mvEnabled) {
+			spawnLocation = plugin.mvCore.getMVWorldManager().getMVWorld(spawnLocation.getWorld()).getSpawnLocation();
+		}
+		else {
+			// otherwise set pitch and yaw from player
+			spawnLocation.setPitch(player.getLocation().getPitch());
+			spawnLocation.setYaw(player.getLocation().getYaw());
+			
 		}
 		
 		// if player is less than config min-distance from spawn, send player min-distance message and return
-		if (player.getWorld() == playerWorld && spawnLocation.distance(player.getLocation()) < plugin.getConfig().getInt("mindistance", 10)) {
-			plugin.messageManager.sendPlayerMessage(player, "min-distance");
+		if (player.getWorld() == spawnLocation.getWorld() && spawnLocation.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance", 10)) {
+			plugin.messageManager.sendPlayerMessage(player, "teleport-min-distance");
 			return;
 		}
 		
@@ -154,12 +159,12 @@ public class PlayerEventListener implements Listener {
 		}
 		
 		// if warmup setting is greater than zero, send warmup message
-		if (plugin.getConfig().getInt("warmup",0) > 0) {
-			plugin.messageManager.sendPlayerMessage(player, "warmup");
+		if (plugin.getConfig().getInt("teleport-warmup",0) > 0) {
+			plugin.messageManager.sendPlayerMessage(player, "teleport-warmup");
 		}
 		
 		// initiate delayed teleport for player to spawn location
-		BukkitTask teleportTask = new DelayedTeleportTask(player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("warmup",0) * 20);
+		BukkitTask teleportTask = new DelayedTeleportTask(player, spawnLocation).runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup",0) * 20);
 		
 		// insert player and taskId into warmup hashmap
 		plugin.warmupManager.putPlayer(player, teleportTask.getTaskId());
@@ -182,19 +187,26 @@ public class PlayerEventListener implements Listener {
 	
 	
 	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event) {
+	void onPlayerDeath(PlayerDeathEvent event) {
 		
 		Player player = (Player)event.getEntity();
+		
+		// cancel any pending teleport for player
 		plugin.warmupManager.removePlayer(player);
 		
 	}
 
 	
 	@EventHandler
-	public void onPlayerLogout(PlayerQuitEvent event) {
+	void onPlayerQuit(PlayerQuitEvent event) {
 		
 		Player player = event.getPlayer();
+		
+		// cancel any pending teleport for player
 		plugin.warmupManager.removePlayer(player);
+		
+		// remove player from message cooldown map
+		plugin.messageManager.removePlayerCooldown(player);
 		
 	}
 	
@@ -204,15 +216,15 @@ public class PlayerEventListener implements Listener {
 	 * @param event
 	 */
 	@EventHandler
-	public void onCraftPrepare(PrepareItemCraftEvent event) {
+	void onCraftPrepare(PrepareItemCraftEvent event) {
 
-		// if allow-crafting is true in configuration, do nothing and return
-		if (plugin.getConfig().getBoolean("allow-crafting",false)) {
+		// if allow-in-recipes is true in configuration, do nothing and return
+		if (plugin.getConfig().getBoolean("allow-in-recipes",false)) {
 			return;
 		}
 
 		// if crafting inventory contains spawnstar item, set result item to null
-		if (event.getInventory().containsAtLeast(this.spawnStar, 1)) {
+		if (event.getInventory().containsAtLeast(SpawnStarItem.getStandard(), 1)) {
 			event.getInventory().setResult(null);
 		}
 		
@@ -225,7 +237,7 @@ public class PlayerEventListener implements Listener {
 	 * @param event
 	 */
 	@EventHandler
-	public void onEntityDamage(EntityDamageEvent event) {
+	void onEntityDamage(EntityDamageEvent event) {
 		
 		// if event is already cancelled, do nothing and return
 		if (event.isCancelled()) {
@@ -243,7 +255,7 @@ public class PlayerEventListener implements Listener {
 				// if player is in warmup hashmap, cancel teleport and send player message
 				if (plugin.warmupManager.isWarmingUp((Player) entity)) {
 					plugin.warmupManager.cancelTeleport((Player) entity);
-					plugin.messageManager.sendPlayerMessage((Player) entity, "damage-cancelled");
+					plugin.messageManager.sendPlayerMessage((Player) entity, "teleport-cancelled-damage");
 				}				
 			}
 		}
@@ -251,7 +263,7 @@ public class PlayerEventListener implements Listener {
 	
 	
 	@EventHandler
-	public void onPlayerMovement(PlayerMoveEvent event) {
+	void onPlayerMovement(PlayerMoveEvent event) {
 				
 		// if cancel-on-movement configuration is false, do nothing and return
 		if (!plugin.getConfig().getBoolean("cancel-on-movement", false)) {
@@ -266,8 +278,7 @@ public class PlayerEventListener implements Listener {
 			// check for player movement other than head turning
 			if (event.getFrom().distance(event.getTo()) > 0) {
 				plugin.warmupManager.cancelTeleport(player);
-				plugin.messageManager.sendPlayerMessage(player,
-						"movement-cancelled");
+				plugin.messageManager.sendPlayerMessage(player,"teleport-cancelled-movement");
 			}
 		}
 	}
@@ -280,27 +291,11 @@ public class PlayerEventListener implements Listener {
 	 */
 	private boolean playerWorldEnabled(Player player) {
 		
-		// get string list of enabled worlds from config
-		List<String> enabledWorlds = plugin.getConfig().getStringList("enabled-worlds");
-		
-		// if player current world is in list of enabled worlds, return true
-		if (enabledWorlds.contains(player.getWorld().getName())) {
+		// if player world is in list of enabled worlds, return true
+		if (plugin.commandManager.getEnabledWorlds().contains(player.getWorld().getName())) {
 			return true;
 		}
 		
-		// get string list of disabled worlds from config
-		List<String> disabledworlds = plugin.getConfig().getStringList("disabled-worlds");
-		
-		// if player current world is in list of disabled worlds, return false
-		if (disabledworlds.contains(player.getWorld().getName())) {
-			return false;
-		}
-		
-		// if enabled worlds list is empty, return true
-		if (enabledWorlds.isEmpty()) {
-			return true;
-		}
-
 		// otherwise return false
 		return false;
 	}

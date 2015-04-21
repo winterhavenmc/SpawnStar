@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class DelayedTeleportTask extends BukkitRunnable {
+class DelayedTeleportTask extends BukkitRunnable {
 
 	SpawnStarMain plugin;
 	Player player;
@@ -16,7 +16,7 @@ public class DelayedTeleportTask extends BukkitRunnable {
 	/**
 	 * Class constructor method
 	 */
-	public DelayedTeleportTask(final Player player, final Location spawnLocation) {
+	DelayedTeleportTask(final Player player, final Location spawnLocation) {
 		
 		this.plugin = SpawnStarMain.instance;
 		this.player = player;
@@ -44,11 +44,17 @@ public class DelayedTeleportTask extends BukkitRunnable {
 			// remove player from warmup hashmap
 			plugin.warmupManager.removePlayer(player);
 		
+			// if multiverse is not enabled, copy pitch and yaw from player
+			if (!plugin.mvEnabled) {
+				spawnLocation.setPitch(player.getLocation().getPitch());
+				spawnLocation.setYaw(player.getLocation().getYaw());
+			}
+			
 			// teleport player to spawn location
 			player.teleport(spawnLocation);
 
 			// send player respawn message
-			plugin.messageManager.sendPlayerMessage(player, "respawn");
+			plugin.messageManager.sendPlayerMessage(player, "teleport-success");
 
 			// if lightning is enabled in config, strike lightning at spawn location
 			if (plugin.getConfig().getBoolean("lightning", true)) {
@@ -62,7 +68,6 @@ public class DelayedTeleportTask extends BukkitRunnable {
 				removeItem.setAmount(playerItem.getAmount() - 1);
 				player.setItemInHand(removeItem);
 			}
-			
 
 			// set player cooldown
 			plugin.cooldownManager.setPlayerCooldown(player);

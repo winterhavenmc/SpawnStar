@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author savage
  *
  */
-public class ParticleTask extends BukkitRunnable {
+class ParticleTask extends BukkitRunnable {
 
 	SpawnStarMain plugin;
 	Player player;
@@ -19,7 +19,7 @@ public class ParticleTask extends BukkitRunnable {
 	/**
 	 * Class constructor method
 	 */
-	public ParticleTask(final Player player) {
+	ParticleTask(final Player player) {
 		
 		this.plugin = SpawnStarMain.instance;
 		this.player = player;
