@@ -8,31 +8,51 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
+
 
 /**
- * Implements SpawnStarStack. Extends <code>ItemStack</code>.
+ * Implements SpawnStarAPI.
  * 
  * @author      Tim Savage
  * @version		1.0
  *  
  */
-public class SpawnStarItem extends ItemStack implements SpawnStarAPI {
+public class SpawnStarUtilities implements SpawnStarAPI {
 
 	// reference ItemStack for making comparisons
 	private static ItemStack standardSpawnStar;
 	
-	/**
-	 * Class constructor method with no parameters
-	 */
-	public SpawnStarItem() {
+	
+	public static ItemStack createItem(int quantity) {
+		
+		quantity = Math.max(quantity, 1);
 		
 		// set material type from config file
-		Material configMaterial = Material.matchMaterial(SpawnStarMain.instance.getConfig().getString("item-material"));
+		String[] configMaterialElements = SpawnStarMain.instance.getConfig().getString("item-material").split("\\s*:\\s*");
+		Material configMaterial = Material.matchMaterial(configMaterialElements[0]);
 		if (configMaterial == null) {
 			configMaterial = Material.NETHER_STAR;
 		}
-		this.setType(configMaterial);
-
+		
+		// parse material data from config file if present
+		byte configMaterialDataByte;
+		
+		if (configMaterialElements.length > 1) {
+			try {
+				configMaterialDataByte = Byte.parseByte(configMaterialElements[1]);
+			}
+			catch (NumberFormatException e) {
+				configMaterialDataByte = (byte) 0;
+			}
+		}
+		else {
+			configMaterialDataByte = (byte) 0;
+		}
+		
+		// create item stack with configured material and data
+		ItemStack newItem = new ItemStack(configMaterial,quantity,configMaterialDataByte);
+		
 		// retrieve item name and lore from language file file
 		String configItemName = SpawnStarMain.instance.messageManager.getItemName();
 		List<String> configItemLore = SpawnStarMain.instance.messageManager.getItemLore();
@@ -45,75 +65,42 @@ public class SpawnStarItem extends ItemStack implements SpawnStarAPI {
 		}
 		
 		// get item metadata object
-		ItemMeta itemMeta = this.getItemMeta();
+		ItemMeta itemMeta = newItem.getItemMeta();
 		
 		// set item metadata DisplayName to value from config file
 		itemMeta.setDisplayName(configItemName);
 
 		// set item metadata Lore to value from config file
 		itemMeta.setLore(coloredLore);
-
+		
 		// save new item metadata
-		this.setItemMeta(itemMeta);
+		newItem.setItemMeta(itemMeta);
 
-		// set stack amount
-		this.setAmount(1);
-		
-	}
-
-
-	/**
-	 * Class constructor method with stack size
-	 * @param quantity
-	 */
-	public SpawnStarItem(int quantity) {
-		
-		// set material type from config file
-		Material configMaterial = Material.matchMaterial(SpawnStarMain.instance.getConfig().getString("item-material"));
-		if (configMaterial == null) {
-			configMaterial = Material.NETHER_STAR;
-		}
-		this.setType(configMaterial);
-
-		// retrieve item name and lore from language file file
-		String configItemName = SpawnStarMain.instance.messageManager.getItemName();
-		List<String> configItemLore = SpawnStarMain.instance.messageManager.getItemLore();
-
-		// allow for '&' character for color codes in name and lore
-		configItemName = ChatColor.translateAlternateColorCodes('&', configItemName);
-		ArrayList<String> coloredLore = new ArrayList<String>();
-		for (String line : configItemLore) {
-			coloredLore.add(ChatColor.translateAlternateColorCodes('&', line));
-		}
-		
-		// get item metadata object
-		ItemMeta itemMeta = this.getItemMeta();
-		
-		// set item metadata DisplayName to value from config file
-		itemMeta.setDisplayName(configItemName);
-
-		// set item metadata Lore to value from config file
-		itemMeta.setLore(coloredLore);
-
-		// save new item metadata
-		this.setItemMeta(itemMeta);
-
-		// set stack amount
-		this.setAmount(quantity);
-		
+		return newItem;
 	}
 
 	public static ItemStack getStandard() {
-		return SpawnStarItem.standardSpawnStar;
+		return SpawnStarUtilities.standardSpawnStar;
 	}
 
-	public static void setStandard(SpawnStarItem standard) {
-		SpawnStarItem.standardSpawnStar = standard;
+	public static void setStandard(ItemStack itemStack) {
+		SpawnStarUtilities.standardSpawnStar = itemStack;
 	}
 
+	@SuppressWarnings("static-access")
+	@Override
+	public ItemStack getItem() {
+		return this.createItem(1);
+	}
+	
 	@Override
 	public Material getItemMaterial() {
 		return standardSpawnStar.getType();
+	}
+	
+	@Override
+	public MaterialData getItemData() {
+		return standardSpawnStar.getData();
 	}
 	
 	@Override

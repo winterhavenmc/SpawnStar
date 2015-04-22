@@ -74,8 +74,13 @@ public class CommandManager implements CommandExecutor {
 			// output config settings
 			String versionString = this.plugin.getDescription().getVersion();
 			sender.sendMessage(ChatColor.DARK_AQUA + "[SpawnStar] " + ChatColor.AQUA + "Version: " + ChatColor.RESET + versionString);
+			if (plugin.debug) {
+				sender.sendMessage(ChatColor.DARK_RED + "DEBUG: true");
+			}
 			sender.sendMessage(ChatColor.GREEN + "Language: " + ChatColor.RESET + plugin.getConfig().getString("language"));
-			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + plugin.getConfig().getString("item-material"));
+//			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + plugin.getConfig().getString("item-material"));
+			sender.sendMessage(ChatColor.GREEN + "Item: " + ChatColor.RESET + SpawnStarUtilities.getStandard().getType().toString());
+			sender.sendMessage(ChatColor.GREEN + "Data: " + ChatColor.RESET + SpawnStarUtilities.getStandard().getData().toString());
 			sender.sendMessage(ChatColor.GREEN + "Minimum spawn distance: " + ChatColor.RESET + plugin.getConfig().getInt("minimum-distance"));
 			sender.sendMessage(ChatColor.GREEN + "Warmup: " + ChatColor.RESET + plugin.getConfig().getInt("teleport-warmup") + " seconds");
 			sender.sendMessage(ChatColor.GREEN + "Cooldown: " + ChatColor.RESET + plugin.getConfig().getInt("teleport-cooldown") + " seconds");
@@ -124,7 +129,7 @@ public class CommandManager implements CommandExecutor {
 			}
 			
 			// refresh reference item in case changes were made
-			SpawnStarItem.setStandard(new SpawnStarItem(1));
+			SpawnStarUtilities.setStandard(SpawnStarUtilities.createItem(1));
 			
 			// send reloaded message to command sender
 			plugin.messageManager.sendPlayerMessage(sender, "command-success-reload");
@@ -205,7 +210,7 @@ public class CommandManager implements CommandExecutor {
 			}
 
 			// add specified quantity of spawnstar(s) to player inventory
-			HashMap<Integer,ItemStack> noFit = player.getInventory().addItem(new SpawnStarItem(quantity));
+			HashMap<Integer,ItemStack> noFit = player.getInventory().addItem(SpawnStarUtilities.createItem(quantity));
 			
 			// count items that didn't fit in inventory
 			int noFitCount = 0;
@@ -246,7 +251,7 @@ public class CommandManager implements CommandExecutor {
 			ItemStack playerItem = player.getItemInHand();
 			
 			// check that player is holding a spawnstar stack
-			if (!SpawnStarItem.getStandard().isSimilar(playerItem)) {
+			if (!SpawnStarUtilities.getStandard().isSimilar(playerItem)) {
 				plugin.messageManager.sendPlayerMessage(sender, "command-fail-destroy-no-match");
 				return true;
 			}

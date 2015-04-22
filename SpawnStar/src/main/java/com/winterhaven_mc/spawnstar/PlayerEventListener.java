@@ -74,7 +74,7 @@ class PlayerEventListener implements Listener {
 		ItemStack playerItem = player.getItemInHand();
 
 		// if item used is not a spawnstar, do nothing and return
-		if (!SpawnStarItem.getStandard().isSimilar(playerItem)) {
+		if (!SpawnStarUtilities.getStandard().isSimilar(playerItem)) {
 			return;
 		}
 		
@@ -224,7 +224,7 @@ class PlayerEventListener implements Listener {
 		}
 
 		// if crafting inventory contains spawnstar item, set result item to null
-		if (event.getInventory().containsAtLeast(SpawnStarItem.getStandard(), 1)) {
+		if (event.getInventory().containsAtLeast(SpawnStarUtilities.getStandard(), 1)) {
 			event.getInventory().setResult(null);
 		}
 		

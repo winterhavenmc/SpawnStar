@@ -17,13 +17,13 @@ public final class SpawnStarMain extends JavaPlugin {
 	// static reference to main class
 	static SpawnStarMain instance;
 
-	final Boolean debug = getConfig().getBoolean("debug");
+	Boolean debug = getConfig().getBoolean("debug");
 	
 	CooldownManager cooldownManager;
 	WarmupManager warmupManager;
 	MessageManager messageManager;
 	CommandManager commandManager;
-	PlayerEventListener playerListener;
+	PlayerEventListener playerEventListener;
 
 	MultiverseCore mvCore;
 	Boolean mvEnabled = false;
@@ -36,9 +36,6 @@ public final class SpawnStarMain extends JavaPlugin {
 		
 		// install default config.yml if not present  
 		saveDefaultConfig();
-		
-		// load config.yml
-//		reloadConfig();
 		
 		// instantiate message manager
 		messageManager = new MessageManager(this);
@@ -53,10 +50,10 @@ public final class SpawnStarMain extends JavaPlugin {
 		warmupManager = new WarmupManager(this);
 		
 		// instantiate player listener
-		playerListener = new PlayerEventListener(this);
+		playerEventListener = new PlayerEventListener(this);
 		
 		// set reference item for making comparisons
-		SpawnStarItem.setStandard(new SpawnStarItem());
+		SpawnStarUtilities.setStandard(SpawnStarUtilities.createItem(1));
 		
 		// get reference to Multiverse-Core if installed
 		mvCore = (MultiverseCore) this.getServer().getPluginManager().getPlugin("Multiverse-Core");
