@@ -1,5 +1,7 @@
 package com.winterhaven_mc.spawnstar;
 
+import java.util.HashMap;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,6 +52,20 @@ class DelayedTeleportTask extends BukkitRunnable {
 				spawnLocation.setYaw(player.getLocation().getYaw());
 			}
 			
+			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
+			if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-success")) {
+				
+				// try to remove one spawn star item from player inventory
+				HashMap<Integer,ItemStack> notRemoved = player.getInventory().removeItem(SpawnStarUtilities.getStandard());
+				
+				// if one spawn star item could not be removed inventory, send message, set cooldown and return
+				if (!notRemoved.isEmpty()) {
+					plugin.messageManager.sendPlayerMessage(player, "teleport-cancelled-no-item");
+					plugin.cooldownManager.setPlayerCooldown(player);
+					return;
+				}
+			}
+
 			// teleport player to spawn location
 			player.teleport(spawnLocation);
 
@@ -61,14 +77,6 @@ class DelayedTeleportTask extends BukkitRunnable {
 				player.getWorld().strikeLightningEffect(spawnLocation);
 			}
 			
-			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
-			if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-success")) {
-				ItemStack playerItem = player.getItemInHand();
-				ItemStack removeItem = playerItem;
-				removeItem.setAmount(playerItem.getAmount() - 1);
-				player.setItemInHand(removeItem);
-			}
-
 			// set player cooldown
 			plugin.cooldownManager.setPlayerCooldown(player);
 

@@ -74,13 +74,16 @@ messages:
     string: '&cYou do not have permission to use &b%itemname%&3 in %worldname%.'
   teleport-cancelled-damage:
     enabled: true
-    string: '&3Teleport cancelled by damage!'
+    string: '&cTeleport cancelled by damage!'
   teleport-cancelled-interaction:
     enabled: true
-    string: '&3Teleport cancelled by interaction!'
+    string: '&cTeleport cancelled by interaction!'
   teleport-cancelled-movement:
     enabled: true
-    string: '&3Teleport cancelled by movement!'
+    string: '&cTeleport cancelled by movement!'
+  teleport-cancelled-no-item:
+    enabled: true
+    string: '&cYou no longer have a SpawnStar item!'
   teleport-cooldown:
     enabled: true
     repeat-delay: 1
