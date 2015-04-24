@@ -24,7 +24,7 @@ public class SpawnStarUtilities implements SpawnStarAPI {
 	private static ItemStack standardSpawnStar;
 	
 	
-	public static ItemStack createItem(int quantity) {
+	static ItemStack createItem(int quantity) {
 		
 		quantity = Math.max(quantity, 1);
 		
@@ -79,11 +79,11 @@ public class SpawnStarUtilities implements SpawnStarAPI {
 		return newItem;
 	}
 
-	public static ItemStack getStandard() {
+	static ItemStack getStandard() {
 		return SpawnStarUtilities.standardSpawnStar;
 	}
 
-	public static void setStandard(ItemStack itemStack) {
+	static void setStandard(ItemStack itemStack) {
 		SpawnStarUtilities.standardSpawnStar = itemStack;
 	}
 
