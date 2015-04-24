@@ -1,4 +1,4 @@
-# This is the config file for SpawnStar plugin v1.5
+# This is the config file for SpawnStar plugin v1.3
 
 # localized language support
 language: en-US
@@ -14,8 +14,7 @@ disabled-worlds:
   - disabled_world1
   - disabled_world2
 
-# material to be used as spawnstar item. Set item data using a colon, example: WOOL:5
-# invalid item data may be reset, so use only valid item data values for a given material
+# material to be used as spawnstar item
 item-material: NETHER_STAR
 
 # minimum distance from spawn

@@ -25,16 +25,16 @@ item-lore:
 messages:
   command-fail-args-count-over:
     enabled: true
-    string: '&3[SpawnStar]&c Zu viele Parameter!'
+    string: '&4Zu viele Parameter!'
   command-fail-args-count-under:
     enabled: true
-    string: '&3[SpawnStar]&c Zu wenig Parameter!'
+    string: '&4Zu wenig Parameter!'
   command-fail-destroy-console:
     enabled: true
-    string: '&3[SpawnStar]&c Du musst Spiel SpawnStar Elemente zu zerstören!'
+    string: '&3[SpawnStar] &cDu musst Spiel SpawnStar Elemente zu zerstören!'
   command-fail-destroy-no-match:
     enabled: true
-    string: '&3[SpawnStar]&c Der Artikel Sie halten ist kein SpawnStar Artikel!'
+    string: '&3[SpawnStar] &cDer Artikel Sie halten ist kein SpawnStar Artikel!'
   command-fail-give-inventory-full:
     enabled: true
     string: '&3Nicht geben konnte %itemname% zu %playername% weil ihr Inventar voll ist.'
@@ -46,41 +46,38 @@ messages:
     string: '&3Dieser Spieler ist nicht online.'
   command-fail-quantity-invalid:
     enabled: true
-    string: '&3[SpawnStar]&c &cUngültige Anzahl!'
+    string: '&3[SpawnStar] &cUngültige Anzahl!'
   command-success-destroy:
     enabled: true
-    string: '&3[SpawnStar]&c %itemname% zerstört!'
+    string: '&3[SpawnStar] &c%itemname% zerstört!'
   command-success-give:
     enabled: true
     string: '&3Du hast %quantity% %itemname%, um %playername%.'
   command-success-reload:
     enabled: true
-    string: '&3[SpawnStar]&b Konfiguration neu geladen.'
+    string: '&3[SpawnStar] Konfiguration neu geladen.'
   permission-denied-give:
     enabled: true
-    string: '&cSie sind nicht berechtigt, Laichen Sterne geben!'
+    string: '&4Sie sind nicht berechtigt, Laichen Sterne geben!'
   permission-denied-reload:
     enabled: true
-    string: '&cSie haben keine Berechtigung, die Konfiguration neu zu laden!'
+    string: '&4Sie haben keine Berechtigung, die Konfiguration neu zu laden!'
   permission-denied-status:
     enabled: true
-    string: '&cSie haben keine Berechtigung, um die Einstellungen zu sehen!'
+    string: '&4Sie haben keine Berechtigung, um die Einstellungen zu sehen!'
   permission-denied-use:
     enabled: true
     repeat-delay: 1
-    string: '&cSie haben nicht die Erlaubnis, eine &b%itemname%&3 in %worldname% verwenden.'
+    string: '&3Sie haben nicht die Erlaubnis, eine &b%itemname%&3 in %worldname% verwenden.'
   teleport-cancelled-damage:
     enabled: true
-    string: '&cTeleportation durch Beschädigung aufgehoben!'
+    string: '&3Teleportation durch Beschädigung aufgehoben!'
   teleport-cancelled-interaction:
     enabled: true
-    string: '&cTeleportation unterbrochen durch Interaktion!'
+    string: '&3Teleportation unterbrochen durch Interaktion!'
   teleport-cancelled-movement:
     enabled: true
-    string: '&cTeleportation durch Bewegung abgebrochen!'
-  teleport-cancelled-no-item:
-    enabled: true
-    string: '&cSie müssen nicht mehr eine %itemname%!'
+    string: '&3Teleportation durch Bewegung abgebrochen!'
   teleport-cooldown:
     enabled: true
     repeat-delay: 1
@@ -99,6 +96,4 @@ messages:
     enabled: true
     repeat-delay: 1
     string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %itemname% verwenden.'
-    
-    Sie müssen nicht mehr eine SpawnStar!
     
