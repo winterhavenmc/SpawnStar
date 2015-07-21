@@ -111,22 +111,14 @@ public class CommandManager implements CommandExecutor {
 				return true;
 			}
 
-			// get current language setting
-			String original_language = plugin.getConfig().getString("language");
-
-			// reload config.yml
+			// reload main configuration
 			plugin.reloadConfig();
 
 			// update enabledWorlds field
 			updateEnabledWorlds();
 			
-			// if language setting has changed, instantiate new message manager with new language file
-			if (!original_language.equals(plugin.getConfig().getString("language"))) {
-				plugin.messageManager = new MessageManager(plugin);
-			}
-			else {
-				plugin.messageManager.reloadMessages();
-			}
+			// reload messages
+			plugin.messageManager.reload();
 			
 			// refresh reference item in case changes were made
 			SpawnStarUtilities.setStandard(SpawnStarUtilities.createItem(1));

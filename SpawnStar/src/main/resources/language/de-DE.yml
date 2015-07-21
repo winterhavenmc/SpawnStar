@@ -18,6 +18,11 @@ item-lore:
 # %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
 # %warmuptime%			seconds until teleport (valid in warmup message only)
 # %quantity%			number of items (valid in give command message only)
+#
+# %PLAYERNAME%          Player's name, with no color codes
+# %PLAYERNICKNAME%      Player's nickname, with no color codes
+# %ITEMNAME%            Item name, with no color codes
+# %WORLDNAME%           World name that player is in, with no color codes
 
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
