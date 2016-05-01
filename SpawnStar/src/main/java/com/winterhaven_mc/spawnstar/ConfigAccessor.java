@@ -38,7 +38,7 @@ public class ConfigAccessor {
     private File configFile;
     private FileConfiguration fileConfiguration;
 
-	public ConfigAccessor(JavaPlugin plugin, String fileName) {
+	public ConfigAccessor(final JavaPlugin plugin, final String fileName) {
         if (plugin == null)
             throw new IllegalArgumentException("plugin cannot be null");
         this.plugin = plugin;

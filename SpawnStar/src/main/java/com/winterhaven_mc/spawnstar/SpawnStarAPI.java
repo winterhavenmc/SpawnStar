@@ -91,21 +91,21 @@ public interface SpawnStarAPI {
 	 * @param player
 	 * @return Boolean
 	 */
-	Boolean isWarmingUp(Player player);
+	Boolean isWarmingUp(final Player player);
 
 	/**
 	 * Is player teleport cooldown in effect for this player
 	 * @param player
 	 * @return Boolean
 	 */
-	Boolean isCoolingDown(Player player);
+	Boolean isCoolingDown(final Player player);
 
 	/**
 	 * Time remaining for player cooldown in seconds for this player
 	 * @param player
 	 * @return long
 	 */
-	long cooldownTimeRemaining(Player player);
+	long cooldownTimeRemaining(final Player player);
 	
 	/**
 	 * Get list of worlds in which the SpawnStar plugin is enabled
@@ -117,6 +117,6 @@ public interface SpawnStarAPI {
 	 * Cancel pending teleport for this player
 	 * @param player
 	 */
-	void cancelTeleport(Player player);
+	void cancelTeleport(final Player player);
 
 }

@@ -14,7 +14,10 @@ import org.bukkit.entity.Player;
  */
 class WarmupManager {
 	
-	final SpawnStarMain plugin;		// reference to main class
+	// reference to main class
+	private final SpawnStarMain plugin;
+
+	// Map of players warming with player UUID as key and taskId as value
 	private ConcurrentHashMap<UUID,Integer> warmupMap;
 
 	

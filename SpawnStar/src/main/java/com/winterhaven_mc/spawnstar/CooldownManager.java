@@ -24,7 +24,7 @@ class CooldownManager {
 	 * 
 	 * @param	plugin		A reference to this plugin's main class
 	 */
-CooldownManager(SpawnStarMain plugin) {
+CooldownManager(final SpawnStarMain plugin) {
 		this.plugin = plugin;
 		cooldown = new ConcurrentHashMap<UUID, Long>();
 	}
@@ -55,7 +55,7 @@ CooldownManager(SpawnStarMain plugin) {
 	 * @param player
 	 * @return long remainingtime
 	 */
-	long getTimeRemaining(Player player) {
+	long getTimeRemaining(final Player player) {
 		long remainingtime = 0;
 		if (cooldown.containsKey(player.getUniqueId())) {
 			remainingtime = (cooldown.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000;

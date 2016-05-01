@@ -33,7 +33,7 @@ class MessageManager {
 	 * 
 	 * @param plugin
 	 */
-	MessageManager(SpawnStarMain plugin) {
+	MessageManager(final SpawnStarMain plugin) {
 		
 		// create pointer to main class
 		this.plugin = plugin;
@@ -66,7 +66,7 @@ class MessageManager {
 	 * @param player		Player to message
 	 * @param messageId		Identifier of message to send from messages.yml
 	 */
-    void sendPlayerMessage(CommandSender sender, String messageId) {
+    void sendPlayerMessage(final CommandSender sender, final String messageId) {
 		this.sendPlayerMessage(sender, messageId, 1);
 	}
 
@@ -77,7 +77,7 @@ class MessageManager {
 	 * @param messageId		Identifier of message to send from messages.yml
 	 * @param parameter1	Additional data
 	 */
-	void sendPlayerMessage(CommandSender sender, String messageId, Integer quantity) {
+	void sendPlayerMessage(final CommandSender sender, final String messageId, final Integer quantity) {
 		
 		// if message is set to enabled in messages file
 		if (messages.getConfig().getBoolean("messages." + messageId + ".enabled")) {
@@ -196,7 +196,7 @@ class MessageManager {
 	 * @param player
 	 * @param messageId
 	 */
-	private void putMessageCooldown(Player player, String messageId) {
+	private void putMessageCooldown(final Player player, final String messageId) {
 		
 		ConcurrentHashMap<String, Long> tempMap = new ConcurrentHashMap<String, Long>();
 		tempMap.put(messageId, System.currentTimeMillis());
@@ -210,7 +210,7 @@ class MessageManager {
 	 * @param messageId
 	 * @return cooldown expire time
 	 */
-	private long getMessageCooldown(Player player, String messageId) {
+	private long getMessageCooldown(final Player player, final String messageId) {
 		
 		// check if player is in message cooldown hashmap
 		if (messageCooldownMap.containsKey(player.getUniqueId())) {
@@ -230,7 +230,7 @@ class MessageManager {
 	 * Remove player from message cooldown map
 	 * @param player
 	 */
-	void removePlayerCooldown(Player player) {
+	void removePlayerCooldown(final Player player) {
 		messageCooldownMap.remove(player.getUniqueId());
 	}
 
@@ -342,7 +342,7 @@ class MessageManager {
 	 * @param language
 	 * @return
 	 */
-	private String languageFileExists(String language) {
+	private String languageFileExists(final String language) {
 		
 		// check if localization file for configured language exists, if not then fallback to en-US
 		File languageFile = new File(plugin.getDataFolder() 

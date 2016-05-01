@@ -8,13 +8,13 @@ import org.bukkit.scheduler.BukkitRunnable;
  * A self-cancelling, repeating task that generates ender signal particles
  * at a player's location as long as they are in the warmup hashmap
  * 
- * @author savage
+ * @author Tim Savage
  *
  */
 class ParticleTask extends BukkitRunnable {
 
-	SpawnStarMain plugin;
-	Player player;
+	private final SpawnStarMain plugin;
+	private final Player player;
 
 	/**
 	 * Class constructor method

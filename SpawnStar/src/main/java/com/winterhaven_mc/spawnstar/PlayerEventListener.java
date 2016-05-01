@@ -35,7 +35,7 @@ class PlayerEventListener implements Listener {
 	 * 
 	 * @param	plugin		A reference to this plugin's main class
 	 */
-	PlayerEventListener(SpawnStarMain plugin) {
+	PlayerEventListener(final SpawnStarMain plugin) {
 		
 		// reference to main
 		this.plugin = plugin;
@@ -50,7 +50,7 @@ class PlayerEventListener implements Listener {
 	 * Player interact event listener
 	 */
 	@EventHandler
-	void onPlayerUse(PlayerInteractEvent event) {
+	void onPlayerUse(final PlayerInteractEvent event) {
 
 		// get player
 		final Player player = event.getPlayer();
@@ -71,7 +71,7 @@ class PlayerEventListener implements Listener {
 		}
 		
 		// get players item in hand
-		ItemStack playerItem = player.getInventory().getItemInMainHand();
+		ItemStack playerItem = player.getInventory().getItemInHand();
 
 		// if item used is not a spawnstar, do nothing and return
 		if (!SpawnStarUtilities.getStandard().isSimilar(playerItem)) {
@@ -118,9 +118,9 @@ class PlayerEventListener implements Listener {
 			return;
 		}
 		
-		World playerWorld = player.getWorld();
-		String overworldName = playerWorld.getName().replaceFirst("(_nether|_the_end)$", "");
-		World overworld = plugin.getServer().getWorld(overworldName);
+		final World playerWorld = player.getWorld();
+		final String overworldName = playerWorld.getName().replaceFirst("(_nether|_the_end)$", "");
+		final World overworld = plugin.getServer().getWorld(overworldName);
 		
 		Location spawnLocation = playerWorld.getSpawnLocation();
 		
@@ -159,7 +159,7 @@ class PlayerEventListener implements Listener {
 		if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-use")) {
 			ItemStack removeItem = playerItem;
 			removeItem.setAmount(playerItem.getAmount() - 1);
-			player.getInventory().setItemInMainHand(removeItem);
+			player.getInventory().setItemInHand(removeItem);
 		}
 		
 		// if warmup setting is greater than zero, send warmup message
@@ -191,9 +191,9 @@ class PlayerEventListener implements Listener {
 	
 	
 	@EventHandler
-	void onPlayerDeath(PlayerDeathEvent event) {
+	void onPlayerDeath(final PlayerDeathEvent event) {
 		
-		Player player = (Player)event.getEntity();
+		final Player player = (Player)event.getEntity();
 		
 		// cancel any pending teleport for player
 		plugin.warmupManager.removePlayer(player);
@@ -202,9 +202,9 @@ class PlayerEventListener implements Listener {
 
 	
 	@EventHandler
-	void onPlayerQuit(PlayerQuitEvent event) {
+	void onPlayerQuit(final PlayerQuitEvent event) {
 		
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 		
 		// cancel any pending teleport for player
 		plugin.warmupManager.removePlayer(player);
@@ -220,7 +220,7 @@ class PlayerEventListener implements Listener {
 	 * @param event
 	 */
 	@EventHandler
-	void onCraftPrepare(PrepareItemCraftEvent event) {
+	void onCraftPrepare(final PrepareItemCraftEvent event) {
 
 		// if allow-in-recipes is true in configuration, do nothing and return
 		if (plugin.getConfig().getBoolean("allow-in-recipes")) {
@@ -241,7 +241,7 @@ class PlayerEventListener implements Listener {
 	 * @param event
 	 */
 	@EventHandler
-	void onEntityDamage(EntityDamageEvent event) {
+	void onEntityDamage(final EntityDamageEvent event) {
 		
 		// if event is already cancelled, do nothing and return
 		if (event.isCancelled()) {
@@ -251,7 +251,7 @@ class PlayerEventListener implements Listener {
 		// if cancel-on-damage configuration is true, check if damaged entity is player
 		if (plugin.getConfig().getBoolean("cancel-on-damage")) {
 			
-			Entity entity = event.getEntity();
+			final Entity entity = event.getEntity();
 
 			// if damaged entity is player, check for pending teleport
 			if (entity instanceof Player) {
@@ -267,14 +267,14 @@ class PlayerEventListener implements Listener {
 	
 	
 	@EventHandler
-	void onPlayerMovement(PlayerMoveEvent event) {
+	void onPlayerMovement(final PlayerMoveEvent event) {
 				
 		// if cancel-on-movement configuration is false, do nothing and return
 		if (!plugin.getConfig().getBoolean("cancel-on-movement")) {
 			return;
 		}
 			
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
 		// if player is in warmup hashmap, cancel teleport and send player message
 		if (plugin.warmupManager.isWarmingUp(player)) {
@@ -293,7 +293,7 @@ class PlayerEventListener implements Listener {
 	 * @param player
 	 * @return
 	 */
-	private boolean playerWorldEnabled(Player player) {
+	private boolean playerWorldEnabled(final Player player) {
 		
 		// if player world is in list of enabled worlds, return true
 		if (plugin.commandManager.getEnabledWorlds().contains(player.getWorld().getName())) {

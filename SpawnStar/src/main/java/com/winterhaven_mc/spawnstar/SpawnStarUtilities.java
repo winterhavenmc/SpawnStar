@@ -24,9 +24,9 @@ public class SpawnStarUtilities implements SpawnStarAPI {
 	private static ItemStack standardSpawnStar;
 	
 	
-	static ItemStack createItem(int quantity) {
+	static ItemStack createItem(final int qty) {
 		
-		quantity = Math.max(quantity, 1);
+		final int quantity = Math.max(qty, 1);
 		
 		// set material type from config file
 		String[] configMaterialElements = SpawnStarMain.instance.getConfig().getString("item-material").split("\\s*:\\s*");
@@ -83,7 +83,7 @@ public class SpawnStarUtilities implements SpawnStarAPI {
 		return SpawnStarUtilities.standardSpawnStar;
 	}
 
-	static void setStandard(ItemStack itemStack) {
+	static void setStandard(final ItemStack itemStack) {
 		SpawnStarUtilities.standardSpawnStar = itemStack;
 	}
 
@@ -153,17 +153,17 @@ public class SpawnStarUtilities implements SpawnStarAPI {
 	}
 	
 	@Override
-	public Boolean isWarmingUp(Player player) {
+	public Boolean isWarmingUp(final Player player) {
 		return SpawnStarMain.instance.warmupManager.isWarmingUp(player);
 	}
 	
 	@Override
-	public Boolean isCoolingDown(Player player) {
+	public Boolean isCoolingDown(final Player player) {
 		return SpawnStarMain.instance.cooldownManager.getTimeRemaining(player) > 0;
 	}
 	
 	@Override
-	public long cooldownTimeRemaining(Player player) {
+	public long cooldownTimeRemaining(final Player player) {
 		return SpawnStarMain.instance.cooldownManager.getTimeRemaining(player);
 	}
 	
@@ -173,7 +173,7 @@ public class SpawnStarUtilities implements SpawnStarAPI {
 	}
 	
 	@Override
-	public void cancelTeleport(Player player) {
+	public void cancelTeleport(final Player player) {
 		SpawnStarMain.instance.warmupManager.cancelTeleport(player);
 	}
 
