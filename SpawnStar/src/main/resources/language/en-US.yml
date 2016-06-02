@@ -7,6 +7,9 @@ item-lore:
   - '&eUse to Return'
   - '&eto World Spawn'
 
+# Spawn Display Name
+spawn-display-name: 'spawn'
+
 # Custom Messages
 #
 # Variable substitutions:

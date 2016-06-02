@@ -1,5 +1,5 @@
 name: SpawnStar
-main: com.winterhaven_mc.spawnstar.SpawnStarMain
+main: com.winterhaven_mc.spawnstar.PluginMain
 author: ${project.author}
 version: ${project.version}
 softdepend: [Multiverse-Core]

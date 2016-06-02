@@ -1,4 +1,4 @@
-# This is the config file for SpawnStar plugin v1.5
+# This is the config file for ${project.name} v${project.version}
 
 # localized language support
 language: en-US
@@ -29,6 +29,9 @@ teleport-warmup: 5
 
 # particle effects during warmup
 particle-effects: true
+
+# play sound effects
+sound-effects: true
 
 # require shift-click to use spawnstar item
 shift-click: true
