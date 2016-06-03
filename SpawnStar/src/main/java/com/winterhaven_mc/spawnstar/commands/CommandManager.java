@@ -64,7 +64,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// initalize return list
 		final List<String> returnList = new ArrayList<>();
 
-		// return list of valid matching subcommands
+		// if first argument, return list of valid matching subcommands
 		if (args.length == 1) {
 
 			for (String subcommand : subcommands) {
@@ -76,7 +76,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// if second argument,
-		// return list of online players is subcommand is "give", or list of subcommands if subcommand is 'help'
+		// if subcommand is "give", return list of matching online players
+		// if subcomamnd is "help", return list of matching subcommands
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("give")) {
 				@SuppressWarnings("deprecation")
