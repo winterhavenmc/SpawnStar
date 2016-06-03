@@ -7,6 +7,10 @@ item-lore:
   - '&eSe utiliza para volver'
   - '&eal origen del mundo'
 
+# Spawn Display Name
+spawn-display-name: 'spawn'
+
+
 # Custom Messages
 #
 # Variable substitutions:
@@ -102,7 +106,7 @@ messages:
     string: '&3Volviendo a desovar de &b%worldname%.'
   teleport-warmup:
     enabled: true
-    string: '&3Teletransportarse a desovar en &b%warmuptime%&3 segundos...'
+    string: '&3Teletransportarse a desovar en &b%warmuptime%&3...'
   usage-shift-click:
     enabled: true
     repeat-delay: 1

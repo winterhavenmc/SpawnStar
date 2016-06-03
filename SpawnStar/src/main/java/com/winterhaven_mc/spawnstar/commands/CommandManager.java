@@ -15,7 +15,7 @@ import java.util.*;
 
 
 /**
- * Implements command executor for <code>SpawnStar</code> commands.
+ * Implements command executor for SpawnStar commands.
  *
  * @author      Tim Savage
  * @version		1.0
@@ -23,15 +23,18 @@ import java.util.*;
  */
 public final class CommandManager implements CommandExecutor, TabCompleter {
 
-	private final static ChatColor helpColor = ChatColor.YELLOW;
-	private final static ChatColor usageColor = ChatColor.GOLD;
-
 	// reference to main class
 	private final PluginMain plugin;
 
+	// constants for chat colors
+	private final static ChatColor helpColor = ChatColor.YELLOW;
+	private final static ChatColor usageColor = ChatColor.GOLD;
+
+	// constant List of subcommands
 	private final static List<String> subcommands =
 			Collections.unmodifiableList(new ArrayList<>(
 					Arrays.asList("give", "destroy", "status", "reload", "help")));
+
 
 	/**
 	 * Class constructor method for CommandManager
@@ -58,6 +61,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	public final List<String> onTabComplete(final CommandSender sender, final Command command,
 	                                        final String alias, final String[] args) {
 
+		// initalize return list
 		final List<String> returnList = new ArrayList<>();
 
 		// return list of valid matching subcommands
@@ -71,9 +75,17 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			}
 		}
 
-		// return list of online players, or commands if subcommand is 'help'
+		// if second argument,
+		// return list of online players is subcommand is "give", or list of subcommands if subcommand is 'help'
 		if (args.length == 2) {
-			if (args[0].equalsIgnoreCase("help")) {
+			if (args[0].equalsIgnoreCase("give")) {
+				@SuppressWarnings("deprecation")
+				List<Player> matchedPlayers = plugin.getServer().matchPlayer(args[1]);
+				for (Player player : matchedPlayers) {
+					returnList.add(player.getName());
+				}
+			}
+			else if (args[0].equalsIgnoreCase("help")) {
 				for (String subcommand : subcommands) {
 					if (sender.hasPermission("spawnstar." + subcommand)
 							&& subcommand.startsWith(args[0].toLowerCase())) {
@@ -81,16 +93,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 					}
 				}
 			}
-			else {
-				@SuppressWarnings("deprecation")
-				List<Player> matchedPlayers = plugin.getServer().matchPlayer(args[1]);
-				for (Player player : matchedPlayers) {
-					returnList.add(player.getName());
-				}
-			}
 		}
 
-		// return some useful quantities
+		// if third argument, return some useful quantities
 		if (args.length == 3) {
 			returnList.add("1");
 			returnList.add("2");
@@ -110,11 +115,11 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	public final boolean onCommand(final CommandSender sender, final Command cmd,
 	                               final String label, final String[] args) {
 
-		String subcmd;
+		String subcommand;
 
 		// get subcommand
 		if (args.length > 0) {
-			subcmd = args[0];
+			subcommand = args[0];
 		}
 		// if no arguments, display usage for all commands
 		else {
@@ -123,48 +128,78 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// status command
-		if (subcmd.equalsIgnoreCase("status")) {
+		if (subcommand.equalsIgnoreCase("status")) {
 			return statusCommand(sender,args);
 		}
 
 		// reload command
-		if (subcmd.equalsIgnoreCase("reload")) {
+		if (subcommand.equalsIgnoreCase("reload")) {
 			return reloadCommand(sender,args);
 		}
 
 		// give command
-		if (subcmd.equalsIgnoreCase("give")) {
+		if (subcommand.equalsIgnoreCase("give")) {
 			return giveCommand(sender,args);
 		}
 
 		// destroy command
-		if (subcmd.equalsIgnoreCase("destroy")) {
+		if (subcommand.equalsIgnoreCase("destroy")) {
 			return destroyCommand(sender,args);
 		}
 
 		// help command
-		if (subcmd.equalsIgnoreCase("help")) {
+		if (subcommand.equalsIgnoreCase("help")) {
 			return helpCommand(sender,args);
 		}
 
+		// send invalid command message
 		plugin.messageManager.sendPlayerMessage(sender, "command-fail-invalid-command");
+
+		// play command fail sound for player
 		plugin.soundManager.playerSound(sender, "command-fail");
+
+		// display usage for help command
 		displayUsage(sender,"help");
+
+		// return true to prevent display of bukkit usage string
 		return true;
 	}
+
 
 	/**
 	 * Display plugin settings
 	 * @param sender the command sender
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	@SuppressWarnings("UnusedParameters")
 	private boolean statusCommand(final CommandSender sender, final String args[]) {
 
-		// if command sender does not have permission to view status, output error message and return true
+		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission("spawnstar.status")) {
 			plugin.messageManager.sendPlayerMessage(sender, "permission-denied-status");
 			plugin.soundManager.playerSound(sender, "command-fail");
+			return true;
+		}
+
+		// get subcommand from command arguments
+		final String subcommand = args[0];
+
+		// argument limits
+		int minArgs = 1;
+		int maxArgs = 1;
+
+		// check min arguments
+		if (args.length < minArgs) {
+			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
+			plugin.soundManager.playerSound(sender, "command-fail");
+			displayUsage(sender, subcommand);
+			return true;
+		}
+
+		// check max arguments
+		if (args.length > maxArgs) {
+			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
+			plugin.soundManager.playerSound(sender, "command-fail");
+			displayUsage(sender, subcommand);
 			return true;
 		}
 
@@ -187,16 +222,12 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 				+ ChatColor.RESET + plugin.getConfig().getInt("minimum-distance"));
 
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
-				+ ChatColor.RESET + plugin.getConfig().getInt("teleport-warmup") + " seconds");
+				+ ChatColor.RESET
+				+ plugin.messageManager.getTimeString(plugin.getConfig().getInt("teleport-warmup")));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
-				+ ChatColor.RESET + plugin.getConfig().getInt("teleport-cooldown") + " seconds");
-
-		sender.sendMessage(ChatColor.GREEN + "Left-click allowed: "
-				+ ChatColor.RESET + plugin.getConfig().getBoolean("left-click"));
-
-		sender.sendMessage(ChatColor.GREEN + "Shift-click required: "
-				+ ChatColor.RESET + plugin.getConfig().getBoolean("shift-click"));
+				+ ChatColor.RESET
+				+ plugin.messageManager.getTimeString(plugin.getConfig().getInt("teleport-cooldown")));
 
 		sender.sendMessage(ChatColor.GREEN
 				+ "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "
@@ -228,14 +259,15 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private boolean reloadCommand(final CommandSender sender, final String args[]) {
 
-		// if sender does not have permission to reload config, send error message and return true
+		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission("spawnstar.reload")) {
 			plugin.messageManager.sendPlayerMessage(sender,"permission-denied-reload");
 			plugin.soundManager.playerSound(sender, "command-fail");
 			return true;
 		}
 
-		String subcmd = args[0];
+		// get subcommand from command arguments
+		final String subcommand = args[0];
 
 		// argument limits
 		int minArgs = 1;
@@ -245,7 +277,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length < minArgs) {
 			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
 			plugin.soundManager.playerSound(sender, "command-fail");
-			displayUsage(sender, subcmd);
+			displayUsage(sender, subcommand);
 			return true;
 		}
 
@@ -253,7 +285,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length > maxArgs) {
 			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
 			plugin.soundManager.playerSound(sender, "command-fail");
-			displayUsage(sender, subcmd);
+			displayUsage(sender, subcommand);
 			return true;
 		}
 
@@ -288,14 +320,15 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// usage: /give <targetplayer> [qty]
 
-		// if command sender does not have permission to give SpawnStars, output error message and return true
+		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
 			plugin.messageManager.sendPlayerMessage(sender, "permission-denied-give");
 			plugin.soundManager.playerSound(sender, "command-fail");
 			return true;
 		}
 
-		String subcmd = args[0];
+		// get subcommand from command arguments
+		final String subcommand = args[0];
 
 		// argument limits
 		int minArgs = 2;
@@ -305,7 +338,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length < minArgs) {
 			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
 			plugin.soundManager.playerSound(sender, "command-fail");
-			displayUsage(sender, subcmd);
+			displayUsage(sender, subcommand);
 			return true;
 		}
 
@@ -313,7 +346,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length > maxArgs) {
 			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
 			plugin.soundManager.playerSound(sender, "command-fail");
-			displayUsage(sender, subcmd);
+			displayUsage(sender, subcommand);
 			return true;
 		}
 
@@ -394,7 +427,6 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param args the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	@SuppressWarnings("UnusedParameters")
 	private boolean destroyCommand(final CommandSender sender, final String args[]) {
 
 		// sender must be in game player
@@ -410,20 +442,58 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
+		// get subcommand from command arguments
+		final String subcommand = args[0];
+
+		// argument limits
+		int minArgs = 1;
+		int maxArgs = 1;
+
+		// check min arguments
+		if (args.length < minArgs) {
+			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
+			plugin.soundManager.playerSound(sender, "command-fail");
+			displayUsage(sender, subcommand);
+			return true;
+		}
+
+		// check max arguments
+		if (args.length > maxArgs) {
+			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
+			plugin.soundManager.playerSound(sender, "command-fail");
+			displayUsage(sender, subcommand);
+			return true;
+		}
+
+		// get in game player that issued command
 		Player player = (Player) sender;
+
+		// get item in player's hand
 		ItemStack playerItem = player.getInventory().getItemInHand();
 
-		// check that player is holding a spawnstar stack
+		// check that player held item is a spawnstar stack
 		if (!SimpleAPI.isSpawnStar(playerItem)) {
 			plugin.messageManager.sendPlayerMessage(sender, "command-fail-destroy-no-match");
 			plugin.soundManager.playerSound(sender, "command-fail");
 			return true;
 		}
+
+		// get quantity of items in stack (to display in message)
 		int quantity = playerItem.getAmount();
+
+		// set quantity of items to zero
 		playerItem.setAmount(0);
+
+		// set player's item in hand to the zero quantity itemstack
 		player.getInventory().setItemInHand(playerItem);
+
+		// send success message
 		plugin.messageManager.sendPlayerMessage(sender, "command-success-destroy", quantity);
+
+		// play success sound
 		plugin.soundManager.playerSound(player,"command-success-destroy");
+
+		// return true to prevent display of bukkit command usage string
 		return true;
 	}
 

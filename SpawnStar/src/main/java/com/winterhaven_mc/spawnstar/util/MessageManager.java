@@ -326,7 +326,7 @@ public final class MessageManager {
 	 * @param duration the time duration in milliseconds to format
 	 * @return formatted time string
 	 */
-	private String getTimeString(long duration) {
+	public String getTimeString(long duration) {
 
 		StringBuilder timeString = new StringBuilder();
 

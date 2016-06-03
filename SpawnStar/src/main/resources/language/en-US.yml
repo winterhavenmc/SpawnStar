@@ -10,6 +10,15 @@ item-lore:
 # Spawn Display Name
 spawn-display-name: 'spawn'
 
+# Time strings
+hour: 'hour'
+hour_plural: 'hours'
+minute: 'minute'
+minute_plural: 'minutes'
+second: 'second'
+second_plural: 'seconds'
+
+
 # Custom Messages
 #
 # Variable substitutions:

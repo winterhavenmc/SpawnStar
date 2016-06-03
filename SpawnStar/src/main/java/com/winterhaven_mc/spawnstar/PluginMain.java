@@ -1,6 +1,7 @@
 package com.winterhaven_mc.spawnstar;
 
 import com.winterhaven_mc.spawnstar.commands.CommandManager;
+import com.winterhaven_mc.spawnstar.listeners.PlayerEventListener;
 import com.winterhaven_mc.spawnstar.teleport.TeleportManager;
 import com.winterhaven_mc.spawnstar.util.MessageManager;
 import com.winterhaven_mc.util.SoundManager;
@@ -34,7 +35,7 @@ public final class PluginMain extends JavaPlugin {
 		// set static reference to main class
 		instance = this;
 
-		// install default config.yml if not present  
+		// install default configuration file if not already present
 		saveDefaultConfig();
 
 		// instantiate world manager
@@ -53,7 +54,7 @@ public final class PluginMain extends JavaPlugin {
 		new CommandManager(this);
 
 		// instantiate player event listener
-		new com.winterhaven_mc.spawnstar.listeners.PlayerEventListener(this);
+		new PlayerEventListener(this);
 	}
 
 }

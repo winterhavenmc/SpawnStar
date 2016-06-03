@@ -46,6 +46,7 @@ public final class PlayerEventListener implements Listener {
 
 	/**
 	 * PlayerInteract event handler
+	 * @param event the event handled by this method
 	 */
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -61,7 +62,8 @@ public final class PlayerEventListener implements Listener {
 			if (plugin.teleportManager.isWarmingUp(player)) {
 
 				// if player is interacting with a block, cancel teleport, output message and return
-				if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
+						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 					plugin.teleportManager.cancelTeleport(player);
 					plugin.messageManager.sendPlayerMessage(player, "teleport-cancelled-interaction");
 
@@ -114,7 +116,7 @@ public final class PlayerEventListener implements Listener {
 
 
 	/**
-	 * Player death event handler
+	 * Cancel pending teleport on player death
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -129,7 +131,7 @@ public final class PlayerEventListener implements Listener {
 
 
 	/**
-	 * Player quit event handler
+	 * Perform cleanup tasks when player logs off server
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -168,7 +170,6 @@ public final class PlayerEventListener implements Listener {
 
 
 	/**
-	 * EntityDamageByEntity event handler<br>
 	 * Cancels pending teleport if player takes damage during warmup
 	 * @param event the event handled by this method
 	 */
@@ -200,7 +201,6 @@ public final class PlayerEventListener implements Listener {
 
 
 	/**
-	 * PlayerMoveEvent handler<br>
 	 * Cancels teleport if player moves during warmup
 	 * @param event the event handled by this method
 	 */

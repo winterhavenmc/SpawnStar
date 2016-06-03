@@ -7,6 +7,10 @@ item-lore:
   - '&eVerwenden Sie zum Ursprung'
   - '&eder Welt zurück'
 
+# Spawn Display Name
+spawn-display-name: 'spawn'
+
+
 # Custom Messages
 #
 # Variable substitutions:
@@ -99,7 +103,7 @@ messages:
     string: '&3Rückkehr zu laichen &b%worldname%&3.'
   teleport-warmup:
     enabled: true
-    string: '&3Teleportieren, um in &b%warmuptime%&3 Sekunden laichen...'
+    string: '&3Teleportieren, um in &b%warmuptime%&3 laichen...'
   usage-shift-click:
     enabled: true
     repeat-delay: 1
