@@ -62,19 +62,7 @@ public final class MessageManager {
 	 * @param messageId			message identifier in messages file
 	 */
 	public final void sendPlayerMessage(final CommandSender sender, final String messageId) {
-		this.sendPlayerMessage(sender, messageId, 1, "", null);
-	}
-
-
-	/**
-	 *  Send message to player
-	 *
-	 * @param sender			player receiving message
-	 * @param messageId			message identifier in messages file
-	 * @param destinationName   name of destination
-	 */
-	public final void sendPlayerMessage(final CommandSender sender, final String messageId, final String destinationName) {
-		this.sendPlayerMessage(sender, messageId, 1, destinationName, null);
+		this.sendPlayerMessage(sender, messageId, 1, null);
 	}
 
 
@@ -93,11 +81,23 @@ public final class MessageManager {
 	/**
 	 * Send message to player
 	 *
+	 * @param sender			player receiving message
+	 * @param messageId			message identifier in messages file
+	 * @param destinationName	name of teleport destination
+	 */
+	public final void sendPlayerMessage(final CommandSender sender, final String messageId, final String destinationName) {
+		this.sendPlayerMessage(sender, messageId, 1, destinationName, null);
+	}
+
+
+	/**
+	 * Send message to player
+	 *
 	 * @param sender			player recieving message
 	 * @param messageId			message identifier in messages file
 	 */
 	@SuppressWarnings("unused")
-	final void sendPlayerMessage(final CommandSender sender, final String messageId, final Player targetPlayer) {
+	final void sendPlayerMessage(final CommandSender sender, final String messageId, final CommandSender targetPlayer) {
 		this.sendPlayerMessage(sender, messageId, 1, "", targetPlayer);
 	}
 
@@ -109,8 +109,9 @@ public final class MessageManager {
 	 * @param messageId			message identifier in messages file
 	 */
 	@SuppressWarnings("unused")
-	final void sendPlayerMessage(final CommandSender sender, final String messageId,
-	                             final Integer quantity, final Player targetPlayer) {
+	public final void sendPlayerMessage(final CommandSender sender, final String messageId,
+	                                    final Integer quantity, final CommandSender targetPlayer) {
+
 		this.sendPlayerMessage(sender, messageId, quantity, "", targetPlayer);
 	}
 
@@ -127,7 +128,7 @@ public final class MessageManager {
 	                             final String messageId,
 	                             final Integer quantity,
 	                             final String destinationName,
-	                             final Player targetPlayer) {
+	                             final CommandSender targetPlayer) {
 
 		// if message is not enabled in messages file, do nothing and return
 		if (!messages.getConfig().getBoolean("messages." + messageId + ".enabled")) {
@@ -192,7 +193,6 @@ public final class MessageManager {
 			message = StringUtil.replace(message,"%itemname%",itemName);
 			message = StringUtil.replace(message,"%playername%",playerName);
 			message = StringUtil.replace(message,"%worldname%",worldName);
-			message = StringUtil.replace(message,"%timeremaining%",cooldownString);
 			message = StringUtil.replace(message,"%warmuptime%",warmupString);
 			message = StringUtil.replace(message,"%quantity%",quantity.toString());
 			message = StringUtil.replace(message,"%destination%",destinationName);
@@ -212,7 +212,7 @@ public final class MessageManager {
 
 			// no stripping of color codes necessary, but do variable substitutions anyhow
 			// in case all caps variables were used
-			message = StringUtil.replace(message,"%TIMEREMAINING%", cooldownString);
+			message = StringUtil.replace(message,"%COOLDOWNTIME%", cooldownString);
 			message = StringUtil.replace(message,"%WARMUPTIME%", warmupString);
 			message = StringUtil.replace(message,"%QUANTITY%", quantity.toString());
 		}

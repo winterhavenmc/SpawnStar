@@ -77,24 +77,24 @@ final class DelayedTeleportTask extends BukkitRunnable {
 				
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
 				if (notRemoved) {
-					plugin.messageManager.sendPlayerMessage(player, "teleport-cancelled-no-item");
-					plugin.soundManager.playerSound(player, "teleport-cancelled-no-item");
+					plugin.messageManager.sendPlayerMessage(player, "TELEPORT_CANCELLED_NO_ITEM");
+					plugin.soundManager.playerSound(player, "TELEPORT_CANCELLED_NO_ITEM");
 					plugin.teleportManager.startCooldown(player);
 					return;
 				}
 			}
 
 			// play pre-teleport sound if sound effects are enabled
-			plugin.soundManager.playerSound(player, "teleport-success-departure");
+			plugin.soundManager.playerSound(player, "TELEPORT_SUCCESS_DEPARTURE");
 
 			// teleport player to destination
 			player.teleport(destination);
 
 			// send player respawn message
-			plugin.messageManager.sendPlayerMessage(player, "teleport-success", destinationName);
+			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_SUCCESS", destinationName);
 
 			// play post-teleport sound if sound effects are enabled
-			plugin.soundManager.playerSound(player, "teleport-success-arrival");
+			plugin.soundManager.playerSound(player, "TELEPORT_SUCCESS_ARRIVAL");
 
 			// if lightning is enabled in config, strike lightning at spawn location
 			if (plugin.getConfig().getBoolean("lightning")) {

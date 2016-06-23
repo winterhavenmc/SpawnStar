@@ -157,7 +157,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.messageManager.sendPlayerMessage(sender, "command-fail-invalid-command");
 
 		// play command fail sound for player
-		plugin.soundManager.playerSound(sender, "command-fail");
+		plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 
 		// display usage for help command
 		displayUsage(sender,"help");
@@ -176,8 +176,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission("spawnstar.status")) {
-			plugin.messageManager.sendPlayerMessage(sender, "permission-denied-status");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_STATUS_PERMISSION");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -190,16 +190,16 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check min arguments
 		if (args.length < minArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_UNDER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_OVER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -262,8 +262,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission("spawnstar.reload")) {
-			plugin.messageManager.sendPlayerMessage(sender,"permission-denied-reload");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_RELOAD_PERMISSION");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -276,19 +276,22 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check min arguments
 		if (args.length < minArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_UNDER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_OVER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
+
+		// reinstall main configuration file if necessary
+		plugin.saveDefaultConfig();
 
 		// reload main configuration
 		plugin.reloadConfig();
@@ -306,7 +309,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.debug = plugin.getConfig().getBoolean("debug");
 
 		// send reloaded message
-		plugin.messageManager.sendPlayerMessage(sender,"command-success-reload");
+		plugin.messageManager.sendPlayerMessage(sender,"COMMAND_SUCCESS_RELOAD");
 		return true;
 	}
 
@@ -323,8 +326,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
-			plugin.messageManager.sendPlayerMessage(sender, "permission-denied-give");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_GIVE_PERMISSION");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -337,16 +340,16 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check min arguments
 		if (args.length < minArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_UNDER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_OVER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -361,8 +364,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			try {
 				quantity = Integer.parseInt(args[2]);
 			} catch (NumberFormatException e) {
-				plugin.messageManager.sendPlayerMessage(sender, "command-fail-quantity-invalid");
-				plugin.soundManager.playerSound(sender, "command-fail");
+				plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_GIVE_QUANTITY_INVALID");
+				plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 				return true;
 			}
 		}
@@ -394,8 +397,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity) {
-			plugin.messageManager.sendPlayerMessage(sender, "command-fail-give-inventory-full", quantity);
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_GIVE_INVENTORY_FULL",
+					quantity,targetPlayer);
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -403,21 +407,24 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		quantity = quantity - noFitCount;
 
 		// don't display messages if giving item to self
-		if (!sender.getName().equals(targetPlayer.getName())) {
+//		if (!sender.getName().equals(targetPlayer.getName())) {
 
 			// send message and play sound to giver
-			plugin.messageManager.sendPlayerMessage(sender, "command-success-give",quantity);
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_SUCCESS_GIVE_SENDER",
+					quantity,targetPlayer);
 
 			// if giver is in game, play sound
 			if (sender instanceof Player) {
-				plugin.soundManager.playerSound(sender, "command-success-give-sender");
+				plugin.soundManager.playerSound(sender, "COMMAND_SUCCESS_GIVE_SENDER");
 			}
 
 			// send message to target player
-			plugin.messageManager.sendPlayerMessage(targetPlayer, "command-success-give-target",quantity);
-		}
+			plugin.messageManager.sendPlayerMessage(targetPlayer,"COMMAND_SUCCESS_GIVE_TARGET",
+					quantity,sender);
+//		}
+
 		// play sound to target player
-		plugin.soundManager.playerSound(targetPlayer, "command-success-give-target");
+		plugin.soundManager.playerSound(targetPlayer, "COMMAND_SUCCESS_GIVE_TARGET");
 		return true;
 	}
 
@@ -432,14 +439,14 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// sender must be in game player
 		if (!(sender instanceof Player)) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-destroy-console");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_DESTROY_CONSOLE");
 			return true;
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission("spawnstar.destroy")) {
-			plugin.messageManager.sendPlayerMessage(sender, "permission-denied-destroy");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_DESTROY_PERMISSION");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -452,16 +459,16 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check min arguments
 		if (args.length < minArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-under");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_UNDER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendPlayerMessage(sender,"command-fail-args-count-over");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_FAIL_ARGS_COUNT_OVER");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -474,8 +481,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check that player held item is a spawnstar stack
 		if (!SimpleAPI.isSpawnStar(playerItem)) {
-			plugin.messageManager.sendPlayerMessage(sender, "command-fail-destroy-no-match");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_DESTROY_NO_MATCH");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -489,10 +496,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		player.getInventory().setItemInHand(playerItem);
 
 		// send success message
-		plugin.messageManager.sendPlayerMessage(sender, "command-success-destroy", quantity);
+		plugin.messageManager.sendPlayerMessage(sender, "COMMAND_SUCCESS_DESTROY", quantity);
 
 		// play success sound
-		plugin.soundManager.playerSound(player,"command-success-destroy");
+		plugin.soundManager.playerSound(player,"COMMAND_SUCCESS_DESTROY");
 
 		// return true to prevent display of bukkit command usage string
 		return true;
@@ -550,7 +557,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission("spawnstar.help")) {
 			plugin.messageManager.sendPlayerMessage(sender, "permission-denied-help");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return true;
 		}
 
@@ -614,13 +621,13 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			}
 		}
 		if (matchedPlayers.isEmpty()) {
-			plugin.messageManager.sendPlayerMessage(sender, "command-fail-player-not-found");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return null;
 		}
 		else {
-			plugin.messageManager.sendPlayerMessage(sender, "command-fail-player-not-online");
-			plugin.soundManager.playerSound(sender, "command-fail");
+			plugin.messageManager.sendPlayerMessage(sender, "COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE");
+			plugin.soundManager.playerSound(sender, "COMMAND_FAIL");
 			return null;
 		}
 	}

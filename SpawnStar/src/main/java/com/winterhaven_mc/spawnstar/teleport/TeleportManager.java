@@ -51,7 +51,7 @@ public final class TeleportManager {
 		
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
-			plugin.messageManager.sendPlayerMessage(player, "teleport-cooldown");
+			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_COOLDOWN");
 			return;
 		}
 		
@@ -72,7 +72,7 @@ public final class TeleportManager {
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (player.getWorld().equals(destination.getWorld()) 
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
-			plugin.messageManager.sendPlayerMessage(player, "teleport-min-distance", destinationName);
+			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_FAIL_MIN_DISTANCE", destinationName);
 			return;
 		}
 		
@@ -89,10 +89,10 @@ public final class TeleportManager {
 				plugin.getLogger().info("MessageId: " + "teleport-warmup");
 				plugin.getLogger().info("Destination: " + destinationName);
 			}
-			plugin.messageManager.sendPlayerMessage(player, "teleport-warmup",destinationName);
+			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_WARMUP",destinationName);
 			
 			// if enabled, play sound effect
-			plugin.soundManager.playerSound(player, "teleport-warmup");
+			plugin.soundManager.playerSound(player, "TELEPORT_WARMUP");
 		}
 		
 		// initiate delayed teleport for player to destination

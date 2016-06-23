@@ -62,7 +62,6 @@
 			</plugin>
 
 			<!-- Create Javadoc jar -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -78,7 +77,6 @@
 			</plugin>
 
 			<!-- Create Sources jar -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -123,8 +121,8 @@
 					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>
-
 		</plugins>
+
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -144,38 +142,45 @@
 			</resource>
 		</resources>
 	</build>
+
 	<repositories>
 		<repository>
 			<id>winterhaven-repo</id>
 			<url>https://nexus-winterhaven.rhcloud.com/content/groups/public/</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>1.8.8-R0.1-SNAPSHOT</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>world-manager-lib</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>config-accessor-lib</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>string-util-lib</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>language-manager-lib</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>sound-manager-lib</artifactId>
