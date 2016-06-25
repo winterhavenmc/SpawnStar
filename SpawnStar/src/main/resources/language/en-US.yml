@@ -23,8 +23,8 @@ second_plural: 'seconds'
 #
 # Variable substitutions:
 # %PLAYERNAME%          Player's name
-# %ITEMNAME%            Item name, with no color codes
 # $TARGETPLAYER%        Target player name
+# %ITEMNAME%            Item name, with no color codes
 # %WORLDNAME%           World name that player is in, with no color codes
 # %QUANTITY%			number of items (valid in give command message only)
 # %WARMUPTIME%			seconds until teleport (valid in warmup message only)
@@ -49,6 +49,10 @@ messages:
   COMMAND_SUCCESS_GIVE_TARGET:
     enabled: true
     string: '&3%TARGETPLAYER% gave you %QUANTITY% %ITEMNAME%.'
+
+  COMMAND_SUCCESS_GIVE_SELF:
+    enabled: true
+    string: '&3You gave yourself %QUANTITY% %ITEMNAME%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true

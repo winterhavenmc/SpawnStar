@@ -404,24 +404,24 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// subtract noFitCount from quantity
-		quantity = quantity - noFitCount;
+		quantity -= noFitCount;
 
-		// don't display messages if giving item to self
-//		if (!sender.getName().equals(targetPlayer.getName())) {
+		// send both players message if not giving item to self
+		if (!sender.getName().equals(targetPlayer.getName())) {
 
 			// send message and play sound to giver
 			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_SUCCESS_GIVE_SENDER",
 					quantity,targetPlayer);
-
-			// if giver is in game, play sound
-			if (sender instanceof Player) {
-				plugin.soundManager.playerSound(sender, "COMMAND_SUCCESS_GIVE_SENDER");
-			}
+			plugin.soundManager.playerSound(sender, "COMMAND_SUCCESS_GIVE_SENDER");
 
 			// send message to target player
 			plugin.messageManager.sendPlayerMessage(targetPlayer,"COMMAND_SUCCESS_GIVE_TARGET",
 					quantity,sender);
-//		}
+		}
+		else {
+			// send message when giving to self
+			plugin.messageManager.sendPlayerMessage(sender,"COMMAND_SUCCESS_GIVE_SELF",quantity);
+		}
 
 		// play sound to target player
 		plugin.soundManager.playerSound(targetPlayer, "COMMAND_SUCCESS_GIVE_TARGET");
