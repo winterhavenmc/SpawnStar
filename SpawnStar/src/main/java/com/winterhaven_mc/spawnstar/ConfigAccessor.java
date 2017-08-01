@@ -53,10 +53,14 @@ public class ConfigAccessor {
         fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
         // Look for defaults in the jar
-        InputStream defConfigStream = plugin.getResource(fileName);
+        /***
+	* Changed this to use File instead of InputStream in order to fix errors and get the plugin to start.
+	* --hoorigan, 2017-08-01 14:25R
+	***/
+	
+        File defConfigStream = configFile;
         if (defConfigStream != null) {
-			@SuppressWarnings("deprecation")
-			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+                        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
             fileConfiguration.setDefaults(defConfig);
         }
     }
