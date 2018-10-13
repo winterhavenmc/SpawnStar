@@ -106,6 +106,7 @@ public final class MessageManager {
 	 *
 	 * @param sender			player recieving message
 	 * @param messageId			message identifier in messages file
+	 * @param targetPlayer		player targeted
 	 */
 	@SuppressWarnings("unused")
 	final void sendPlayerMessage(final CommandSender sender,
@@ -120,6 +121,8 @@ public final class MessageManager {
 	 *
 	 * @param sender			player recieving message
 	 * @param messageId			message identifier in messages file
+	 * @param quantity			number of items
+	 * @param targetPlayer		player targeted
 	 */
 	public final void sendPlayerMessage(final CommandSender sender,
 	                                    final MessageId messageId,
@@ -135,6 +138,7 @@ public final class MessageManager {
 	 * @param sender			Player receiving message
 	 * @param messageId			message identifier in messages file
 	 * @param quantity			number of items
+	 * @param destinationName 	name of teleport destination
 	 * @param targetPlayer		player targeted
 	 */
 	@SuppressWarnings("WeakerAccess")
