@@ -56,7 +56,11 @@ messages:
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
-    string: '&3[SpawnStar] &bconfiguration reloaded.'
+    string: '&3[SpawnStar] &bConfiguration reloaded.'
+
+  COMMAND_FAIL_INVALID_COMMAND:
+    enabled: true
+    string: '&3[SpawnStar] &cThat is not a valid command!'
 
   COMMAND_FAIL_ARGS_COUNT_OVER:
     enabled: true
@@ -105,6 +109,10 @@ messages:
   COMMAND_FAIL_STATUS_PERMISSION:
     enabled: true
     string: '&cYou do not have permission to view SpawnStar settings!'
+
+  COMMAND_FAIL_HELP_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to view SpawnStar help!'
 
   TELEPORT_SUCCESS:
     enabled: true

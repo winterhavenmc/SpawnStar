@@ -13,6 +13,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import com.winterhaven_mc.spawnstar.PluginMain;
+
+import com.winterhaven_mc.spawnstar.messages.SoundId;
+import com.winterhaven_mc.spawnstar.messages.MessageId;
+
 import static com.winterhaven_mc.spawnstar.SimpleAPI.isSpawnStar;
 
 
@@ -48,7 +52,6 @@ public final class PlayerEventListener implements Listener {
 	 * PlayerInteract event handler
 	 * @param event the event handled by this method
 	 */
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	final void onPlayerUse(final PlayerInteractEvent event) {
 
@@ -65,16 +68,17 @@ public final class PlayerEventListener implements Listener {
 				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
 						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 					plugin.teleportManager.cancelTeleport(player);
-					plugin.messageManager.sendPlayerMessage(player, "TELEPORT_CANCELLED_INTERACTION");
+					plugin.messageManager.sendPlayerMessage(player,MessageId.TELEPORT_CANCELLED_INTERACTION);
 
 					// play sound effects if enabled
-					plugin.soundManager.playerSound(player, "TELEPORT_CANCELLED");
+					plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_CANCELLED);
 					return;
 				}
 			}
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
+		//noinspection deprecation
 		if (!isSpawnStar(player.getItemInHand())) {
 			return;
 		}
@@ -90,6 +94,7 @@ public final class PlayerEventListener implements Listener {
 
 		// cancel event
 		event.setCancelled(true);
+		//noinspection deprecation
 		player.updateInventory();
 
 		// if players current world is not enabled in config, do nothing and return
@@ -99,14 +104,14 @@ public final class PlayerEventListener implements Listener {
 
 		// if player does not have spawnstar.use permission, send message and return
 		if (!player.hasPermission("spawnstar.use")) {
-			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_FAIL_PERMISSION");
-			plugin.soundManager.playerSound(player, "TELEPORT_DENIED_PERMISSION");
+			plugin.messageManager.sendPlayerMessage(player,MessageId.TELEPORT_FAIL_PERMISSION);
+			plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 			return;
 		}
 
 		// if shift-click is configured true and player is not sneaking, send message and return
 		if (plugin.getConfig().getBoolean("shift-click") && !event.getPlayer().isSneaking()) {
-			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_FAIL_SHIFT_CLICK");
+			plugin.messageManager.sendPlayerMessage(player,MessageId.TELEPORT_FAIL_SHIFT_CLICK);
 			return;
 		}
 
@@ -189,11 +194,12 @@ public final class PlayerEventListener implements Listener {
 			// if damaged entity is player, check for pending teleport
 			if (entity instanceof Player) {
 
+				Player player = (Player) entity;
 				// if player is in warmup hashmap, cancel teleport and send player message
-				if (plugin.teleportManager.isWarmingUp((Player) entity)) {
-					plugin.teleportManager.cancelTeleport((Player) entity);
-					plugin.messageManager.sendPlayerMessage(entity, "TELEPORT_CANCELLED_DAMAGE");
-					plugin.soundManager.playerSound(entity, "TELEPORT_CANCELLED");
+				if (plugin.teleportManager.isWarmingUp(player)) {
+					plugin.teleportManager.cancelTeleport(player);
+					plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_CANCELLED_DAMAGE);
+					plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
 		}
@@ -220,8 +226,8 @@ public final class PlayerEventListener implements Listener {
 			// check for player movement other than head turning
 			if (event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportManager.cancelTeleport(player);
-				plugin.messageManager.sendPlayerMessage(player,"TELEPORT_CANCELLED_MOVEMENT");
-				plugin.soundManager.playerSound(player, "TELEPORT_CANCELLED");
+				plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_CANCELLED_MOVEMENT);
+				plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}
 	}

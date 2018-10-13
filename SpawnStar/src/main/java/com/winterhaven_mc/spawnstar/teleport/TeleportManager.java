@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.winterhaven_mc.spawnstar.messages.MessageId;
+import com.winterhaven_mc.spawnstar.messages.SoundId;
+
 public final class TeleportManager {
 
 	// reference to main class
@@ -46,12 +49,13 @@ public final class TeleportManager {
 	 * @param player the player being teleported
      */
 	public final void initiateTeleport(final Player player) {
-		
+
+		//noinspection deprecation
 		final ItemStack playerItem = player.getItemInHand();
 		
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
-			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_COOLDOWN");
+			plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_COOLDOWN);
 			return;
 		}
 		
@@ -72,13 +76,14 @@ public final class TeleportManager {
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (player.getWorld().equals(destination.getWorld()) 
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
-			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_FAIL_MIN_DISTANCE", destinationName);
+			plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE, destinationName);
 			return;
 		}
 		
 		// if remove-from-inventory is configured on-use, take one spawn star item from inventory now
 		if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-use")) {
 			playerItem.setAmount(playerItem.getAmount() - 1);
+			//noinspection deprecation
 			player.getInventory().setItemInHand(playerItem);
 		}
 		
@@ -89,10 +94,10 @@ public final class TeleportManager {
 				plugin.getLogger().info("MessageId: " + "teleport-warmup");
 				plugin.getLogger().info("Destination: " + destinationName);
 			}
-			plugin.messageManager.sendPlayerMessage(player, "TELEPORT_WARMUP",destinationName);
+			plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_WARMUP, destinationName);
 			
 			// if enabled, play sound effect
-			plugin.soundManager.playerSound(player, "TELEPORT_WARMUP");
+			plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_WARMUP);
 		}
 		
 		// initiate delayed teleport for player to destination

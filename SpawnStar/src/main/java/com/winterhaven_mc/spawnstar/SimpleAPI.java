@@ -140,37 +140,19 @@ public final class SimpleAPI {
 	 */
 	public static ItemStack getDefaultItem() {
 
-		// get material type and data from config file
-		byte configMaterialDataByte = 0;
-
 		// split material and data into elements
 		String[] configMaterialElements = plugin.getConfig().getString("item-material").split("\\s*:\\s*");
 
 		// try to match material
-		Material configMaterial = Material.matchMaterial(configMaterialElements[0]);
+		Material configMaterial = Material.matchMaterial(plugin.getConfig().getString("item-material"));
 
 		// if no match default to nether star
 		if (configMaterial == null) {
 			configMaterial = Material.NETHER_STAR;
 		}
-		else {
-			// if data set in config try to parse as byte; set to zero if it doesn't parse
-			if (configMaterialElements.length > 1) {
-				try {
-					configMaterialDataByte = Byte.parseByte(configMaterialElements[1]);
-				}
-				catch (NumberFormatException e) {
-					configMaterialDataByte = (byte) 0;
-				}
-			}
-			// if no data set in config default to zero
-			else {
-				configMaterialDataByte = (byte) 0;
-			}
-		}
 
 		// return item stack with configured material and data
-		return new ItemStack(configMaterial,1,configMaterialDataByte);
+		return new ItemStack(configMaterial,1);
 	}
 
 
@@ -181,11 +163,6 @@ public final class SimpleAPI {
 
 	public static String getItemNamePlural() {
 		return plugin.messageManager.getItemNamePlural();
-	}
-
-
-	public static String getLanguage() {
-		return plugin.messageManager.getLanguage();
 	}
 
 
@@ -238,11 +215,12 @@ public final class SimpleAPI {
 	}
 
 
+	@SuppressWarnings("SameParameterValue")
 	private static String hiddenString(String s) {
-		String hidden = "";
+		StringBuilder hidden = new StringBuilder();
 		for (char c : s.toCharArray())
-			hidden += ChatColor.COLOR_CHAR + "" + c;
-		return hidden;
+			hidden.append(ChatColor.COLOR_CHAR + "").append(c);
+		return hidden.toString();
 	}
 
 }

@@ -44,7 +44,7 @@ TELEPORT_CANCELLED:
 TELEPORT_CANCELLED_NO_ITEM:
   enabled: true
   player-only: false
-  sound: ENTITY_ANGRY_DONKEY
+  sound: ENTITY_DONKEY_ANGRY
   volume: 1
   pitch: 1
 
@@ -58,13 +58,13 @@ TELEPORT_WARMUP:
 TELEPORT_SUCCESS_DEPARTURE:
   enabled: true
   player-only: false
-  sound: ENTITY_ENDERMEN_TELEPORT
+  sound: ENTITY_ENDERMAN_TELEPORT
   volume: 1
   pitch: 1
 
 TELEPORT_SUCCESS_ARRIVAL:
   enabled: true
   player-only: false
-  sound: ENTITY_ENDERMEN_TELEPORT
+  sound: ENTITY_ENDERMAN_TELEPORT
   volume: 1
   pitch: 1
