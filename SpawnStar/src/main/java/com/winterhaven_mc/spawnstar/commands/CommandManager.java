@@ -125,6 +125,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length > 0) {
 			subcommand = args[0];
 		}
+
 		// if no arguments, display usage for all commands
 		else {
 			displayUsage(sender,"all");
