@@ -140,9 +140,6 @@ public final class SimpleAPI {
 	 */
 	public static ItemStack getDefaultItem() {
 
-		// split material and data into elements
-		String[] configMaterialElements = plugin.getConfig().getString("item-material").split("\\s*:\\s*");
-
 		// try to match material
 		Material configMaterial = Material.matchMaterial(plugin.getConfig().getString("item-material"));
 

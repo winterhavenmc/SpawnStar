@@ -1,6 +1,7 @@
 package com.winterhaven_mc.spawnstar.messages;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
+import com.winterhaven_mc.util.LanguageManager;
 import com.winterhaven_mc.util.StringUtil;
 import com.winterhaven_mc.util.SoundManager;
 import org.bukkit.ChatColor;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,16 +28,16 @@ public final class MessageManager {
 	private final PluginMain plugin;
 
 	// hashmap for per player message cooldown
-	private final ConcurrentHashMap<UUID, ConcurrentHashMap<MessageId, Long>> messageCooldownMap;
+	private final ConcurrentHashMap<UUID, EnumMap<MessageId, Long>> messageCooldownMap;
+
+	// language manager
+	private final LanguageManager languageManager;
+
+	// sound manager
+	private final SoundManager soundManager;
 
 	// configuration object for messages
 	private YamlConfiguration messages;
-
-	// message file helper
-	private MessageFileHelper messageFileHelper;
-
-	// sound manager
-	private SoundManager soundManager;
 
 
 	/**
@@ -47,17 +49,17 @@ public final class MessageManager {
 		// set reference to main class
 		this.plugin = plugin;
 
-		// instantiate messageFileHelper
-		this.messageFileHelper = new MessageFileHelper(plugin);
-
-		// load messages from file
-		this.messages = messageFileHelper.loadMessages();
-
 		// initialize messageCooldownMap
 		this.messageCooldownMap = new ConcurrentHashMap<>();
 
+		// instantiate messageFileHelper
+		this.languageManager = new LanguageManager(plugin);
+
 		// instantiate sound manager
 		this.soundManager = new SoundManager(plugin);
+
+		// load messages from file
+		this.messages = languageManager.loadMessages();
 	}
 
 
@@ -247,7 +249,7 @@ public final class MessageManager {
 	 */
 	private void putMessageCooldown(final Player player, final MessageId messageId) {
 
-		final ConcurrentHashMap<MessageId, Long> tempMap = new ConcurrentHashMap<>();
+		EnumMap<MessageId,Long> tempMap = new EnumMap<>(MessageId.class);
 		tempMap.put(messageId, System.currentTimeMillis());
 		this.messageCooldownMap.put(player.getUniqueId(), tempMap);
 	}
@@ -336,7 +338,7 @@ public final class MessageManager {
 	public final void reload() {
 
 		// reload messages
-		this.messages = messageFileHelper.loadMessages();
+		this.messages = languageManager.loadMessages();
 
 		// reload sounds
 		soundManager.reload();
