@@ -7,6 +7,7 @@ import com.winterhaven_mc.spawnstar.messages.MessageManager;
 import com.winterhaven_mc.util.WorldManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 /**
  * A Bukkit/Spigot plugin that allows the use of a custom inventory item to return to the
  * world spawn when used.<br>
@@ -55,4 +56,3 @@ public final class PluginMain extends JavaPlugin {
 	}
 
 }
-
