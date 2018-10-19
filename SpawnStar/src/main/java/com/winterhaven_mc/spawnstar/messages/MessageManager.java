@@ -52,7 +52,7 @@ public final class MessageManager {
 		// initialize messageCooldownMap
 		this.messageCooldownMap = new ConcurrentHashMap<>();
 
-		// instantiate messageFileHelper
+		// instantiate language manager
 		this.languageManager = new LanguageManager(plugin);
 
 		// instantiate sound manager
@@ -151,7 +151,7 @@ public final class MessageManager {
 	                             final CommandSender targetPlayer) {
 
 		// if message is not enabled in messages file, do nothing and return
-		if (!messages.getBoolean("messages." + messageId + ".enabled")) {
+		if (!isEnabled(messageId)) {
 			return;
 		}
 
@@ -175,7 +175,7 @@ public final class MessageManager {
 			long lastDisplayed = getMessageCooldown(player,messageId);
 
 			// get message repeat delay
-			int messageRepeatDelay = messages.getInt("messages." + messageId + ".repeat-delay");
+			int messageRepeatDelay = getRepeatDelay(messageId);
 
 			// if message has repeat delay value and was displayed to player more recently, do nothing and return
 			if (lastDisplayed > System.currentTimeMillis() - messageRepeatDelay * 1000) {
@@ -194,7 +194,7 @@ public final class MessageManager {
 		}
 
 		// get message from file
-		String message = messages.getString("messages." + messageId + ".string");
+		String message = getMessage(messageId);
 
 		// get item name and strip color codes
 		String itemName = getItemName();
@@ -243,6 +243,16 @@ public final class MessageManager {
 
 
 	/**
+	 * Play sound
+	 * @param sender command sender (player) to play sound
+	 * @param soundId unique identifier that refers to sound in sounds.yml
+	 */
+	public final void sendPlayerSound(final CommandSender sender, final SoundId soundId) {
+		this.soundManager.playerSound(sender,soundId.toString());
+	}
+
+
+	/**
 	 * Add entry to message cooldown map
 	 * @param player the player to insert in the message cooldown map
 	 * @param messageId the message identifier to insert in the cooldown map
@@ -287,16 +297,6 @@ public final class MessageManager {
 
 
 	/**
-	 * Play sound
-	 * @param sender command sender (player) to play sound
-	 * @param soundId unique identifier that refers to sound in sounds.yml
-	 */
-	public final void sendPlayerSound(final CommandSender sender, final SoundId soundId) {
-		this.soundManager.playerSound(sender,soundId.toString());
-	}
-
-
-	/**
 	 * Get item name from language file
 	 * @return the formatted display name of the SpawnStar item
 	 */
@@ -329,19 +329,6 @@ public final class MessageManager {
 	 */
 	public final String getSpawnDisplayName() {
 		return messages.getString("spawn-display-name");
-	}
-
-
-	/**
-	 * Reload messages
-	 */
-	public final void reload() {
-
-		// reload messages
-		this.messages = languageManager.loadMessages();
-
-		// reload sounds
-		soundManager.reload();
 	}
 
 
@@ -403,6 +390,49 @@ public final class MessageManager {
 		}
 
 		return timeString.toString().trim();
+	}
+
+
+	/**
+	 * Check if message is enabled
+	 * @param messageId message identifier to check
+	 * @return true if message is enabled, false if not
+	 */
+	private boolean isEnabled(MessageId messageId) {
+		return !messages.getBoolean("messages." + messageId.toString() + ".enabled");
+	}
+
+
+	/**
+	 * get message repeat delay from language file
+	 * @param messageId message identifier to retrieve message delay
+	 * @return int message repeat delay in seconds
+	 */
+	private int getRepeatDelay(MessageId messageId) {
+		return messages.getInt("messages." + messageId.toString() + ".repeat-delay");
+	}
+
+
+	/**
+	 * get message text from language file
+	 * @param messageId message identifier to retrieve message text
+	 * @return String message text
+	 */
+	private String getMessage(MessageId messageId) {
+		return messages.getString("messages." + messageId.toString() + ".string");
+	}
+
+
+	/**
+	 * Reload messages and sounds
+	 */
+	public final void reload() {
+
+		// reload messages
+		this.messages = languageManager.loadMessages();
+
+		// reload sounds
+		soundManager.reload();
 	}
 
 }
