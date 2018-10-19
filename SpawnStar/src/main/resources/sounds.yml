@@ -1,4 +1,5 @@
-# sound configuration file for ${project.name} v${project.version}
+# Sound configuration file for ${project.name} v${project.version}
+
 COMMAND_FAIL:
   enabled: true
   player-only: true
