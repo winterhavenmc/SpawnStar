@@ -1,4 +1,4 @@
-# This is the config file for ${project.name} v${project.version}
+# Configuration file for ${project.name} v${project.version}
 
 # localized language support
 language: en-US
@@ -35,8 +35,8 @@ sound-effects: true
 # require shift-click to use spawnstar item
 shift-click: true
 
-# remove item from inventory ( on-use | on-success | never )
-remove-from-inventory: on-use
+# remove item from inventory ( on-success | on-use | never )
+remove-from-inventory: on-success
 
 # allow spawnstar items to be used in crafting recipes
 allow-in-recipes: false
