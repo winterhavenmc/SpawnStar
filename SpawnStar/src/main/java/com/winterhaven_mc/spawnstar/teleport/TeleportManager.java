@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 import com.winterhaven_mc.spawnstar.messages.SoundId;
 
+
 public final class TeleportManager {
 
 	// reference to main class
