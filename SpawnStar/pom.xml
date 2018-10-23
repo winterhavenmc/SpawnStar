@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.13.1-R0.1-SNAPSHOT</version>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -48,11 +48,11 @@
 			<version>1.0.5</version>
 		</dependency>
 
-		<!-- SoundManagerLib -->
+		<!-- SoundConfigLib -->
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>sound-manager-lib</artifactId>
-			<version>1.0.5</version>
+			<artifactId>sound-config-lib</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
@@ -92,7 +92,7 @@
 									<include>com.winterhaven-mc:string-util-lib</include>
 									<include>com.winterhaven-mc:world-manager-lib</include>
 									<include>com.winterhaven-mc:language-manager-lib</include>
-									<include>com.winterhaven-mc:sound-manager-lib</include>
+									<include>com.winterhaven-mc:sound-config-lib</include>
 								</includes>
 							</artifactSet>
 						</configuration>
