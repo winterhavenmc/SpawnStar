@@ -4,7 +4,9 @@ import com.winterhaven_mc.spawnstar.commands.CommandManager;
 import com.winterhaven_mc.spawnstar.listeners.PlayerEventListener;
 import com.winterhaven_mc.spawnstar.teleport.TeleportManager;
 import com.winterhaven_mc.spawnstar.messages.MessageManager;
+import com.winterhaven_mc.util.SoundConfiguration;
 import com.winterhaven_mc.util.WorldManager;
+import com.winterhaven_mc.util.YamlSoundConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -26,6 +28,7 @@ public final class PluginMain extends JavaPlugin {
 	public Boolean debug = getConfig().getBoolean("debug");
 
 	public MessageManager messageManager;
+	public SoundConfiguration soundConfig;
 	public TeleportManager teleportManager;
 	public WorldManager worldManager;
 
@@ -39,14 +42,17 @@ public final class PluginMain extends JavaPlugin {
 		// install default configuration file if not already present
 		saveDefaultConfig();
 
-		// instantiate world manager
-		worldManager = new WorldManager(this);
-
 		// instantiate message manager
 		messageManager = new MessageManager(this);
 
+		// instantiate sound configuration
+		soundConfig = new YamlSoundConfiguration(this);
+
 		// instantiate teleport manager
 		teleportManager = new TeleportManager(this);
+
+		// instantiate world manager
+		worldManager = new WorldManager(this);
 
 		// instantiate command manager
 		new CommandManager(this);
