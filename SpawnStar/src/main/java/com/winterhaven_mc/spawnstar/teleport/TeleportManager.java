@@ -13,7 +13,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.winterhaven_mc.spawnstar.messages.MessageId;
-import com.winterhaven_mc.spawnstar.messages.SoundId;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
 
 public final class TeleportManager {
@@ -98,7 +98,7 @@ public final class TeleportManager {
 			plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_WARMUP, destinationName);
 			
 			// if enabled, play sound effect
-			plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_WARMUP);
+			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
 		}
 		
 		// initiate delayed teleport for player to destination

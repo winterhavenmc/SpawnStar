@@ -1,4 +1,4 @@
-package com.winterhaven_mc.spawnstar.messages;
+package com.winterhaven_mc.spawnstar.sounds;
 
 public enum SoundId {
 

@@ -3,7 +3,6 @@ package com.winterhaven_mc.spawnstar.messages;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.util.LanguageManager;
 import com.winterhaven_mc.util.StringUtil;
-import com.winterhaven_mc.util.SoundManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,9 +32,6 @@ public final class MessageManager {
 	// language manager
 	private final LanguageManager languageManager;
 
-	// sound manager
-	private final SoundManager soundManager;
-
 	// configuration object for messages
 	private YamlConfiguration messages;
 
@@ -54,9 +50,6 @@ public final class MessageManager {
 
 		// instantiate language manager
 		this.languageManager = new LanguageManager(plugin);
-
-		// instantiate sound manager
-		this.soundManager = new SoundManager(plugin);
 
 		// load messages from file
 		this.messages = languageManager.loadMessages();
@@ -243,16 +236,6 @@ public final class MessageManager {
 
 
 	/**
-	 * Play sound
-	 * @param sender command sender (player) to play sound
-	 * @param soundId unique identifier that refers to sound in sounds.yml
-	 */
-	public final void sendPlayerSound(final CommandSender sender, final SoundId soundId) {
-		this.soundManager.playerSound(sender,soundId.toString());
-	}
-
-
-	/**
 	 * Add entry to message cooldown map
 	 * @param player the player to insert in the message cooldown map
 	 * @param messageId the message identifier to insert in the cooldown map
@@ -430,9 +413,6 @@ public final class MessageManager {
 
 		// reload messages
 		this.messages = languageManager.loadMessages();
-
-		// reload sounds
-		soundManager.reload();
 	}
 
 }

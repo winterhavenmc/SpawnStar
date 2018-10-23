@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 import com.winterhaven_mc.spawnstar.messages.MessageId;
-import com.winterhaven_mc.spawnstar.messages.SoundId;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
 
 /**
@@ -161,7 +161,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND);
 
 		// play command fail sound for player
-		plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 
 		// display usage for help command
 		displayUsage(sender,"help");
@@ -181,7 +181,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission("spawnstar.status")) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -194,7 +194,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// check max arguments
 		if (args.length > maxArgs) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -258,7 +258,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission("spawnstar.reload")) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -271,7 +271,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// check max arguments
 		if (args.length > maxArgs) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -287,6 +287,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// reload messages
 		plugin.messageManager.reload();
+
+		// reload sounds
+		plugin.soundConfig.reload();
 
 		// set debug field
 		plugin.debug = plugin.getConfig().getBoolean("debug");
@@ -310,7 +313,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -324,7 +328,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// check min arguments
 		if (args.length < minArgs) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_UNDER);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -332,7 +336,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// check max arguments
 		if (args.length > maxArgs) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -345,7 +349,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 				quantity = Integer.parseInt(args[2]);
 			} catch (NumberFormatException e) {
 				plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID);
-				plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+				plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
 			}
 		}
@@ -379,7 +383,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (noFitCount == quantity) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL,
 					quantity,targetPlayer);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -392,7 +396,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			// send message and play sound to giver
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER,
 					quantity,targetPlayer);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
 
 			// send message to target player
 			plugin.messageManager.sendPlayerMessage(targetPlayer,MessageId.COMMAND_SUCCESS_GIVE_TARGET,
@@ -404,7 +408,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// play sound to target player
-		plugin.messageManager.sendPlayerSound(targetPlayer, SoundId.COMMAND_SUCCESS_GIVE_TARGET);
+		plugin.soundConfig.playSound(targetPlayer, SoundId.COMMAND_SUCCESS_GIVE_TARGET);
 		return true;
 	}
 
@@ -426,7 +430,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission("spawnstar.destroy")) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -439,7 +443,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// check max arguments
 		if (args.length > maxArgs) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
 		}
@@ -454,7 +458,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// check that player held item is a spawnstar stack
 		if (!SimpleAPI.isSpawnStar(playerItem)) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -472,7 +476,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_SUCCESS_DESTROY, quantity);
 
 		// play success sound
-		plugin.messageManager.sendPlayerSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
+		plugin.soundConfig.playSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
 
 		// return true to prevent display of bukkit command usage string
 		return true;
@@ -530,7 +534,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission("spawnstar.help")) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -595,12 +599,12 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 		if (matchedPlayers.isEmpty()) {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return null;
 		}
 		else {
 			plugin.messageManager.sendPlayerMessage(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE);
-			plugin.messageManager.sendPlayerSound(sender, SoundId.COMMAND_FAIL);
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return null;
 		}
 	}

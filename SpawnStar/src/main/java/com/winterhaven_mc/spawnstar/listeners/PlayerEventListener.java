@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import com.winterhaven_mc.spawnstar.PluginMain;
 
-import com.winterhaven_mc.spawnstar.messages.SoundId;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 
 import static com.winterhaven_mc.spawnstar.SimpleAPI.isSpawnStar;
@@ -71,7 +71,7 @@ public final class PlayerEventListener implements Listener {
 					plugin.messageManager.sendPlayerMessage(player,MessageId.TELEPORT_CANCELLED_INTERACTION);
 
 					// play sound effects if enabled
-					plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_CANCELLED);
+					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 					return;
 				}
 			}
@@ -105,7 +105,7 @@ public final class PlayerEventListener implements Listener {
 		// if player does not have spawnstar.use permission, send message and return
 		if (!player.hasPermission("spawnstar.use")) {
 			plugin.messageManager.sendPlayerMessage(player,MessageId.TELEPORT_FAIL_PERMISSION);
-			plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
+			plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 			return;
 		}
 
@@ -199,7 +199,7 @@ public final class PlayerEventListener implements Listener {
 				if (plugin.teleportManager.isWarmingUp(player)) {
 					plugin.teleportManager.cancelTeleport(player);
 					plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_CANCELLED_DAMAGE);
-					plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_CANCELLED);
+					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
 		}
@@ -227,7 +227,7 @@ public final class PlayerEventListener implements Listener {
 			if (event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportManager.cancelTeleport(player);
 				plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_CANCELLED_MOVEMENT);
-				plugin.messageManager.sendPlayerSound(player, SoundId.TELEPORT_CANCELLED);
+				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}
 	}
