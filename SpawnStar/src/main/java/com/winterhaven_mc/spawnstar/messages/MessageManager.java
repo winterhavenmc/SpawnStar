@@ -1,11 +1,13 @@
 package com.winterhaven_mc.spawnstar.messages;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.util.LanguageManager;
 import com.winterhaven_mc.util.StringUtil;
+import com.winterhaven_mc.util.LanguageManager;
+import com.winterhaven_mc.util.YamlLanguageManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
 import java.util.EnumMap;
@@ -33,7 +35,7 @@ public final class MessageManager {
 	private final LanguageManager languageManager;
 
 	// configuration object for messages
-	private YamlConfiguration messages;
+	private Configuration messages;
 
 
 	/**
@@ -49,7 +51,7 @@ public final class MessageManager {
 		this.messageCooldownMap = new ConcurrentHashMap<>();
 
 		// instantiate language manager
-		this.languageManager = new LanguageManager(plugin);
+		this.languageManager = new YamlLanguageManager(plugin);
 
 		// load messages from file
 		this.messages = languageManager.loadMessages();
