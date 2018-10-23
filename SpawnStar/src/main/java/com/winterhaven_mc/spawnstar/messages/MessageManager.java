@@ -64,9 +64,9 @@ public final class MessageManager {
 	 * @param sender			player receiving message
 	 * @param messageId			message identifier in messages file
 	 */
-	public final void sendPlayerMessage(final CommandSender sender,
-	                                    final MessageId messageId) {
-		this.sendPlayerMessage(sender, messageId, 1, null);
+	public final void sendMessage(final CommandSender sender,
+								  final MessageId messageId) {
+		this.sendMessage(sender, messageId, 1, null);
 	}
 
 
@@ -77,10 +77,10 @@ public final class MessageManager {
 	 * @param messageId			message identifier in messages file
 	 * @param quantity			number of items
 	 */
-	public final void sendPlayerMessage(final CommandSender sender,
-	                                    final MessageId messageId,
-	                                    final Integer quantity) {
-		this.sendPlayerMessage(sender, messageId, quantity, "", null);
+	public final void sendMessage(final CommandSender sender,
+								  final MessageId messageId,
+								  final Integer quantity) {
+		this.sendMessage(sender, messageId, quantity, "", null);
 	}
 
 
@@ -91,10 +91,10 @@ public final class MessageManager {
 	 * @param messageId			message identifier in messages file
 	 * @param destinationName	name of teleport destination
 	 */
-	public final void sendPlayerMessage(final CommandSender sender,
-	                                    final MessageId messageId,
-	                                    final String destinationName) {
-		this.sendPlayerMessage(sender, messageId, 1, destinationName, null);
+	public final void sendMessage(final CommandSender sender,
+								  final MessageId messageId,
+								  final String destinationName) {
+		this.sendMessage(sender, messageId, 1, destinationName, null);
 	}
 
 
@@ -106,10 +106,10 @@ public final class MessageManager {
 	 * @param targetPlayer		player targeted
 	 */
 	@SuppressWarnings("unused")
-	final void sendPlayerMessage(final CommandSender sender,
-	                             final MessageId messageId,
-	                             final CommandSender targetPlayer) {
-		this.sendPlayerMessage(sender, messageId, 1, "", targetPlayer);
+	final void sendMessage(final CommandSender sender,
+						   final MessageId messageId,
+						   final CommandSender targetPlayer) {
+		this.sendMessage(sender, messageId, 1, "", targetPlayer);
 	}
 
 
@@ -121,12 +121,12 @@ public final class MessageManager {
 	 * @param quantity			number of items
 	 * @param targetPlayer		player targeted
 	 */
-	public final void sendPlayerMessage(final CommandSender sender,
-	                                    final MessageId messageId,
-	                                    final Integer quantity,
-	                                    final CommandSender targetPlayer) {
+	public final void sendMessage(final CommandSender sender,
+								  final MessageId messageId,
+								  final Integer quantity,
+								  final CommandSender targetPlayer) {
 
-		this.sendPlayerMessage(sender, messageId, quantity, "", targetPlayer);
+		this.sendMessage(sender, messageId, quantity, "", targetPlayer);
 	}
 
 
@@ -139,11 +139,11 @@ public final class MessageManager {
 	 * @param targetPlayer		player targeted
 	 */
 	@SuppressWarnings("WeakerAccess")
-	final void sendPlayerMessage(final CommandSender sender,
-	                             final MessageId messageId,
-	                             final Integer quantity,
-	                             final String destinationName,
-	                             final CommandSender targetPlayer) {
+	final void sendMessage(final CommandSender sender,
+						   final MessageId messageId,
+						   final Integer quantity,
+						   final String destinationName,
+						   final CommandSender targetPlayer) {
 
 		// if message is not enabled in messages file, do nothing and return
 		if (!isEnabled(messageId)) {

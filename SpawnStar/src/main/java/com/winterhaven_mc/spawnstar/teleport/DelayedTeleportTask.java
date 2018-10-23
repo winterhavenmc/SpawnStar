@@ -80,7 +80,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 				
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
 				if (notRemoved) {
-					plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_CANCELLED_NO_ITEM);
+					plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_NO_ITEM);
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
 					plugin.teleportManager.startCooldown(player);
 					return;
@@ -94,7 +94,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			player.teleport(destination);
 
 			// send player respawn message
-			plugin.messageManager.sendPlayerMessage(player, MessageId.TELEPORT_SUCCESS, destinationName);
+			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_SUCCESS, destinationName);
 
 			// play post-teleport sound if sound effects are enabled
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
