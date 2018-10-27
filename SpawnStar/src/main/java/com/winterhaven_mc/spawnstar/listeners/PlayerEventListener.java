@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import com.winterhaven_mc.spawnstar.PluginMain;
 
+import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 
@@ -146,9 +146,6 @@ public final class PlayerEventListener implements Listener {
 
 		// cancel any pending teleport for player
 		plugin.teleportManager.cancelTeleport(player);
-
-		// remove player from message cooldown map
-		plugin.messageManager.removePlayerCooldown(player);
 	}
 
 
