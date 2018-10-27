@@ -5,6 +5,7 @@ import com.winterhaven_mc.util.AbstractMessageManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
  */
 public final class MessageManager extends AbstractMessageManager {
 
+	private PluginMain plugin;
 
 	/**
 	 * Class constructor
@@ -29,6 +31,8 @@ public final class MessageManager extends AbstractMessageManager {
 		// call super class constructor
 		//noinspection unchecked
 		super(plugin, MessageId.class);
+
+		this.plugin = plugin;
 	}
 
 
@@ -36,13 +40,32 @@ public final class MessageManager extends AbstractMessageManager {
 	protected Map<String,String> getDefaultReplacements(CommandSender recipient) {
 
 		Map<String,String> replacements = new HashMap<>();
-		replacements.put("%PLAYER_NAME%",recipient.getName());
+
+		// strip color codes
+		replacements.put("%PLAYER_NAME%",ChatColor.stripColor(recipient.getName()));
 		replacements.put("%WORLD_NAME%",ChatColor.stripColor(getWorldName(recipient)));
 		replacements.put("%ITEM_NAME%", ChatColor.stripColor(getItemName()));
 		replacements.put("%QUANTITY%","1");
 		replacements.put("%MATERIAL%","unknown");
-		replacements.put("%DESTINATION_NAME%","unknown");
+		replacements.put("%DESTINATION_NAME%",ChatColor.stripColor(getSpawnDisplayName()));
 		replacements.put("%TARGET_PLAYER%","target player");
+		replacements.put("%WARMUP_TIME%",getTimeString(plugin.getConfig().getInt("teleport-warmup")));
+
+		// leave color codes intact
+		replacements.put("%player_name%",recipient.getName());
+		replacements.put("%world_name%",getWorldName(recipient));
+		replacements.put("%item_name%",getItemName());
+		replacements.put("%destination_name%",getSpawnDisplayName());
+		replacements.put("%target_player%","target player");
+
+		// if recipient is player, get remaining cooldown time from teleport manager
+		if (recipient instanceof Player) {
+			replacements.put("%COOLDOWN_TIME%",
+					getTimeString(plugin.teleportManager.getCooldownTimeRemaining((Player)recipient)));
+		}
+		else {
+			replacements.put("%COOLDOWN_TIME",getTimeString(0L));
+		}
 
 		return replacements;
 	}
@@ -107,7 +130,8 @@ public final class MessageManager extends AbstractMessageManager {
 		Map<String,String> replacements = getDefaultReplacements(recipient);
 
 		// set destination name in replacement map
-		replacements.put("%DESTINATION_NAME%",destinationName);
+		replacements.put("%DESTINATION_NAME%",ChatColor.stripColor(destinationName));
+		replacements.put("%destination_name%",destinationName);
 
 		// send message
 		//noinspection unchecked
@@ -133,7 +157,8 @@ public final class MessageManager extends AbstractMessageManager {
 
 		// set strings replacement map
 		replacements.put("%QUANTITY%",quantity.toString());
-		replacements.put("%TARGET_PLAYER%",targetPlayer.getName());
+		replacements.put("%TARGET_PLAYER%",ChatColor.stripColor(targetPlayer.getName()));
+		replacements.put("%target_player%",targetPlayer.getName());
 
 		// send message
 		//noinspection unchecked
