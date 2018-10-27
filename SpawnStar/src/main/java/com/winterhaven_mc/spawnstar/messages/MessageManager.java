@@ -81,6 +81,11 @@ public final class MessageManager extends AbstractMessageManager {
 		// set quantity in replacement map
 		replacements.put("%QUANTITY$",quantity.toString());
 
+		// if quantity is greater than one, use substitute plural item name
+		if (quantity > 1) {
+			replacements.put("%ITEM_NAME%",getItemNamePlural());
+		}
+
 		// send message
 		//noinspection unchecked
 		sendMessage(recipient, messageId, replacements);
@@ -169,12 +174,12 @@ public final class MessageManager extends AbstractMessageManager {
 		int minutes = (int)(duration % 3600) / 60;
 		int seconds = (int)duration % 60;
 
-		String hour_string = this.messages.getString("HOUR");
-		String hour_plural_string = this.messages.getString("HOUR_PLURAL");
-		String minute_string = this.messages.getString("MINUTE");
-		String minute_plural_string = this.messages.getString("MINUTE_PLURAL");
-		String second_string = this.messages.getString("SECOND");
-		String second_plural_string = this.messages.getString("SECOND_PLURAL");
+		String hour_string = this.messages.getString("time_strings.HOUR");
+		String hour_plural_string = this.messages.getString("time_strings.HOUR_PLURAL");
+		String minute_string = this.messages.getString("time_strings.MINUTE");
+		String minute_plural_string = this.messages.getString("time_strings.MINUTE_PLURAL");
+		String second_string = this.messages.getString("time_strings.SECOND");
+		String second_plural_string = this.messages.getString("time_strings.SECOND_PLURAL");
 
 		if (hours > 1) {
 			timeString.append(hours);
