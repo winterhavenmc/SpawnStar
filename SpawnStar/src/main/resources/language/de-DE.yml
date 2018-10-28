@@ -1,40 +1,47 @@
-# Item Name
-item-name: '&aLaichen Stern'
-item-name-plural: '&aLaichen Sterne'
+# Language configuration file for ${project.name} v${project.version}
 
-# Item Lore
-item-lore:
+###########
+# Item Info
+###########
+item_info:
+  # Item Name
+  ITEM_NAME: '&aLaichen Stern'
+  ITEM_NAME_PLURAL: '&aLaichen Sterne'
+
+  # Item Lore
+  ITEM_LORE:
   - '&eVerwenden Sie zum Ursprung'
   - '&eder Welt zurück'
 
-# Spawn Display Name
-spawn-display-name: 'spawn'
+  # Spawn Display Name
+  SPAWN_DISPLAY_NAME: 'spawn'
 
 # Time strings
-hour: 'Stunde'
-hour_plural: 'Std.'
-minute: 'Minute'
-minute_plural: 'Minuten'
-second: 'Sekunde'
-second_plural: 'Sekunden'
+time_strings:
+  HOUR: 'Stunde'
+  HOUR_PLURAL: 'Std.'
+  MINUTE: 'Minute'
+  MINUTE_PLURAL: 'Minuten'
+  SECOND: 'Sekunde'
+  SECOND_PLURAL: 'Sekunden'
 
 
-# Custom Messages
-#
 # Variable substitutions:
-# %itemname%            Item name as defined in messages (this file)
-# %playername%          Player's name
-# %playernickname%      Player's nickname
-# %playerdisplayname%   Player's display name, including prefix/suffix
-# %worldname%           World name that player is in
-# %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
-# %warmuptime%			seconds until teleport (valid in warmup message only)
-# %quantity%			number of items (valid in give command message only)
 #
-# %PLAYERNAME%          Player's name, with no color codes
-# %PLAYERNICKNAME%      Player's nickname, with no color codes
-# %ITEMNAME%            Item name, with no color codes
-# %WORLDNAME%           World name that player is in, with no color codes
+# %PLAYER_NAME%          Player's name
+# %TARGET_PLAYER%        Target player name
+# %ITEM_NAME%            Item name, with no color codes
+# %WORLD_NAME%           World name that player is in, with no color codes
+# %DESTINATION_NAME%     Spawn display name as specified above
+# %QUANTITY%             number of items (valid in give command message only)
+# %WARMUP_TIME%          seconds until teleport (valid in warmup message only)
+# %COOLDOWN_TIME%        seconds remaining in cooldown (valid in cooldown message only)
+#
+# %player_name%          Player name, with color codes
+# %target_player%        Target player name, with color codes
+# %item_name%            Item name as defined in messages (this file), with color codes
+# %world_name%           World name that player is in, with color codes if present
+# %destination_name%     Spawn display name as specified above, with color codes if present
 
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
@@ -42,11 +49,11 @@ second_plural: 'Sekunden'
 messages:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar]&c %itemname% zerstört!'
+    string: '&3[SpawnStar]&c %item_name% zerstört!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
-    string: '&3Du hast %quantity% %itemname%, um %playername%.'
+    string: '&3Du hast %QUANTITY% %ITEM_NAME%, um %TARGET_PLAYER%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
@@ -74,7 +81,7 @@ messages:
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3Nicht geben konnte %itemname% zu %playername% weil ihr Inventar voll ist.'
+    string: '&3Nicht geben konnte %ITEM_NAME% zu %TARGET_PLAYER% weil ihr Inventar voll ist.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
@@ -102,22 +109,22 @@ messages:
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Rückkehr zu laichen &b%worldname%&3.'
+    string: '&3Rückkehr zu laichen &b%world_name%&3.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cSie haben nicht die Erlaubnis, eine &b%itemname%&3 in %worldname% verwenden.'
+    string: '&cSie haben nicht die Erlaubnis, eine &b%ITEM_NAME%&3 in %WORLD_NAME% verwenden.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie sind zu nahe für die Verwendung einer %itemname% laichen.'
+    string: '&3Sie sind zu nahe für die Verwendung einer %item_name% laichen.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %itemname% verwenden.'
+    string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM_NAME% verwenden.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
@@ -133,14 +140,14 @@ messages:
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    string: '&cSie müssen nicht mehr eine %itemname%!'
+    string: '&cSie müssen nicht mehr eine %ITEM_NAME%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie müssen bis &b%timeremaining%&3 Sekunden warten, um einen anderen %itemname% verwenden.'
+    string: '&3Sie müssen bis &b%COOLDOWN_TIME%&3 Sekunden warten, um einen anderen %ITEM_NAME% verwenden.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teleportieren, um in &b%warmuptime%&3...'
+    string: '&3Teleportieren, um in &b%WARMUP_TIME%&3...'
 

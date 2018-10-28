@@ -1,40 +1,47 @@
-# Item Name
-item-name: '&aEstrella de Origen'
-item-name-plural: '&aEstrellas de Origen'
+# Language configuration file for ${project.name} v${project.version}
 
-# Item Lore
-item-lore:
+###########
+# Item Info
+###########
+item_info:
+  # Item Name
+  ITEM_NAME: '&aEstrella de Origen'
+  ITEM_NAME_PLURAL: '&aEstrellas de Origen'
+
+  # Item Lore
+  ITEM_LORE:
   - '&eSe utiliza para volver'
   - '&eal origen del mundo'
 
-# Spawn Display Name
-spawn-display-name: 'spawn'
+  # Spawn Display Name
+  SPAWN_DISPLAY_NAME: 'spawn'
 
 # Time strings
-hour: 'hora'
-hour_plural: 'horas'
-minute: 'minuto'
-minute_plural: 'minutos'
-second: 'segundo'
-second_plural: 'segundos'
+time_strings:
+  HOUR: 'hora'
+  HOUR_PLURAL: 'horas'
+  MINUTE: 'minuto'
+  MINUTE_PLURAL: 'minutos'
+  SECOND: 'segundo'
+  SECOND_PLURAL: 'segundos'
 
 
-# Custom Messages
-#
 # Variable substitutions:
-# %itemname%            Item name as defined in messages (this file)
-# %playername%          Player's name
-# %playernickname%      Player's nickname
-# %playerdisplayname%   Player's display name, including prefix/suffix
-# %worldname%           World name that player is in
-# %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
-# %warmuptime%			seconds until teleport (valid in warmup message only)
-# %quantity%			number of items (valid in give command message only)
 #
-# %PLAYERNAME%          Player's name, with no color codes
-# %PLAYERNICKNAME%      Player's nickname, with no color codes
-# %ITEMNAME%            Item name, with no color codes
-# %WORLDNAME%           World name that player is in, with no color codes
+# %PLAYER_NAME%          Player's name
+# %TARGET_PLAYER%        Target player name
+# %ITEM_NAME%            Item name, with no color codes
+# %WORLD_NAME%           World name that player is in, with no color codes
+# %DESTINATION_NAME%     Spawn display name as specified above
+# %QUANTITY%             number of items (valid in give command message only)
+# %WARMUP_TIME%          seconds until teleport (valid in warmup message only)
+# %COOLDOWN_TIME%        seconds remaining in cooldown (valid in cooldown message only)
+#
+# %player_name%          Player name, with color codes
+# %target_player%        Target player name, with color codes
+# %item_name%            Item name as defined in messages (this file), with color codes
+# %world_name%           World name that player is in, with color codes if present
+# %destination_name%     Spawn display name as specified above, with color codes if present
 
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
@@ -42,11 +49,11 @@ second_plural: 'segundos'
 messages:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar]&c ¡%itemname% destruida!'
+    string: '&3[SpawnStar]&c ¡%item_name% destruida!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
-    string: '&3Usted diste %quantity% %itemname% a %playername%.'
+    string: '&3Usted diste %QUANTITY% %item_name% a %PLAYER_NAME%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
@@ -70,7 +77,7 @@ messages:
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3No se pudo dar %itemname% para %playername% porque sus inventario está lleno.'
+    string: '&3No se pudo dar %item_name% para %PLAYER_NAME% porque sus inventario está lleno.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
@@ -102,22 +109,22 @@ messages:
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Volviendo a desovar de &b%worldname%.'
+    string: '&3Volviendo a desovar de &b%world_name%.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cUsted no tiene permiso para usar %itemname% en %worldname%.'
+    string: '&cUsted no tiene permiso para usar %item_name% en %world_name%.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3Usted está demasiado cerca para desovar utilizar %itemname%.'
+    string: '&3Usted está demasiado cerca para desovar utilizar %item_name%.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %itemname%.'
+    string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %item_name%.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
@@ -133,13 +140,13 @@ messages:
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    string: '&c¡Ya no tiene un %itemname%!'
+    string: '&c¡Ya no tiene un %item_name%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3Tienes que esperar &b%timeremaining%&3 segundos para utilizar otro %itemname%.'
+    string: '&3Tienes que esperar &b%COOLDOWN_TIME%&3 segundos para utilizar otro %ITEM_NAME%.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teletransportarse a desovar en &b%warmuptime%&3...'
+    string: '&3Teletransportarse a desovar en &b%WARMUP_TIME%&3...'
