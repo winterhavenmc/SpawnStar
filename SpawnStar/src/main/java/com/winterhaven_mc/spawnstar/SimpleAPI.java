@@ -22,7 +22,7 @@ import java.util.List;
 public final class SimpleAPI {
 
 	private final static PluginMain plugin = PluginMain.instance;
-	private final static String itemTag = hiddenString("SpawnStarV1");
+	private final static String itemTag = plugin.messageManager.createHiddenString("SpawnStarV1");
 
 
 	/**
@@ -187,6 +187,7 @@ public final class SimpleAPI {
 
 		// retrieve item name and lore from language file file
 		String displayName = plugin.messageManager.getItemName();
+		//noinspection unchecked
 		List<String> configLore = plugin.messageManager.getItemLore();
 
 		// allow for '&' character for color codes in name and lore
@@ -209,15 +210,6 @@ public final class SimpleAPI {
 
 		// save new item metadata
 		itemStack.setItemMeta(itemMeta);
-	}
-
-
-	@SuppressWarnings("SameParameterValue")
-	private static String hiddenString(String s) {
-		StringBuilder hidden = new StringBuilder();
-		for (char c : s.toCharArray())
-			hidden.append(ChatColor.COLOR_CHAR + "").append(c);
-		return hidden.toString();
 	}
 
 }
