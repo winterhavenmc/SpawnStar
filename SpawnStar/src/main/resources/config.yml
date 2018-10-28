@@ -1,4 +1,4 @@
-# This is the config file for SpawnStar plugin v1.5
+# Configuration file for ${project.name} v${project.version}
 
 # localized language support
 language: en-US
@@ -14,8 +14,7 @@ disabled-worlds:
   - disabled_world1
   - disabled_world2
 
-# material to be used as spawnstar item. Set item data using a colon, example: WOOL:5
-# invalid item data may be reset, so use only valid item data values for a given material
+# material to be used as spawnstar item.
 item-material: NETHER_STAR
 
 # minimum distance from spawn
@@ -30,11 +29,14 @@ teleport-warmup: 5
 # particle effects during warmup
 particle-effects: true
 
+# play sound effects
+sound-effects: true
+
 # require shift-click to use spawnstar item
 shift-click: true
 
-# remove item from inventory ( on-use | on-success | never )
-remove-from-inventory: on-use
+# remove item from inventory ( on-success | on-use | never )
+remove-from-inventory: on-success
 
 # allow spawnstar items to be used in crafting recipes
 allow-in-recipes: false

@@ -1,110 +1,169 @@
-# Item Name
-item-name: '&aSpawnStar'
-item-name-plural: '&aSpawnStars'
+# Language configuration file for ${project.name} v${project.version}
 
-# Item Lore
-item-lore:
+###########
+# Item Info
+###########
+item_info:
+  # Item Display Name
+  ITEM_NAME: '&aSpawnStar'
+  ITEM_NAME_PLURAL: '&aSpawnStars'
+
+  # Item Lore
+  ITEM_LORE:
   - '&eUse to Return'
   - '&eto World Spawn'
 
-# Custom Messages
-#
+  # Spawn Display Name
+  SPAWN_DISPLAY_NAME: 'spawn'
+
+# Time strings
+time_strings:
+  HOUR: 'hour'
+  HOUR_PLURAL: 'hours'
+  MINUTE: 'minute'
+  MINUTE_PLURAL: 'minutes'
+  SECOND: 'second'
+  SECOND_PLURAL: 'seconds'
+
+
 # Variable substitutions:
-# %itemname%            Item name as defined in messages (this file)
-# %playername%          Player's name
-# %playernickname%      Player's nickname
-# %playerdisplayname%   Player's display name, including prefix/suffix
-# %worldname%           World name that player is in
-# %timeremaining%		seconds remaining in cooldown (valid in cooldown message only)
-# %warmuptime%			seconds until teleport (valid in warmup message only)
-# %quantity%			number of items (valid in give command message only)
 #
-# %PLAYERNAME%          Player's name, with no color codes
-# %PLAYERNICKNAME%      Player's nickname, with no color codes
-# %ITEMNAME%            Item name, with no color codes
-# %WORLDNAME%           World name that player is in, with no color codes
+# %PLAYER_NAME%          Player's name, with no color codes
+# %TARGET_PLAYER%        Target player name, with no color codes
+# %ITEM_NAME%            Item name, with no color codes
+# %WORLD_NAME%           World name that player is in, with no color codes
+# %DESTINATION_NAME%     Spawn display name as specified above, with no color codes
+# %QUANTITY%             number of items (valid in give command message only)
+# %WARMUP_TIME%          seconds until teleport (valid in warmup message only)
+# %COOLDOWN_TIME%        seconds remaining in cooldown (valid in cooldown message only)
+#
+# %player_name%          Player name, with color codes
+# %target_player%        Target player name, with color codes
+# %item_name%            Item name as defined in messages (this file), with color codes
+# %world_name%           World name that player is in, with color codes if present
+# %destination_name%     Spawn display name as specified above, with color codes if present
+
 
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
 
 messages:
-  command-fail-args-count-over:
+  COMMAND_SUCCESS_DESTROY:
+    enabled: true
+    string: '&3[SpawnStar] &c%ITEM_NAME% destroyed!'
+
+  COMMAND_SUCCESS_GIVE_SENDER:
+    enabled: true
+    string: '&3You gave %QUANTITY% %ITEM_NAME% to %TARGET_PLAYER%.'
+
+  COMMAND_SUCCESS_GIVE_TARGET:
+    enabled: true
+    string: '&3%TARGET_PLAYER% gave you %QUANTITY% %ITEM_NAME%.'
+
+  COMMAND_SUCCESS_GIVE_SELF:
+    enabled: true
+    string: '&3You gave yourself %QUANTITY% %ITEM_NAME%.'
+
+  COMMAND_SUCCESS_RELOAD:
+    enabled: true
+    string: '&3[SpawnStar] &bConfiguration reloaded.'
+
+  COMMAND_FAIL_INVALID_COMMAND:
+    enabled: true
+    string: '&3[SpawnStar] &cThat is not a valid command!'
+
+  COMMAND_FAIL_ARGS_COUNT_OVER:
     enabled: true
     string: '&3[SpawnStar] &cToo many arguments!'
-  command-fail-args-count-under:
+
+  COMMAND_FAIL_ARGS_COUNT_UNDER:
     enabled: true
     string: '&3[SpawnStar] &cToo few arguments!'
-  command-fail-destroy-console:
+
+  COMMAND_FAIL_DESTROY_CONSOLE:
     enabled: true
     string: '&3[SpawnStar] &cYou must be in game to destroy SpawnStar items!'
-  command-fail-destroy-no-match:
+
+  COMMAND_FAIL_DESTROY_NO_MATCH:
     enabled: true
     string: '&3[SpawnStar] &cThe item you are holding is not a SpawnStar item!'
-  command-fail-give-inventory-full:
+
+  COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3Could not give %itemname% to %playername% because their inventory is full.'
-  command-fail-player-not-found:
+    string: '&3Could not give %ITEM_NAME% to %TARGET_PLAYER% because their inventory is full.'
+
+  COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
     string: '&3That player could not be found.'
-  command-fail-player-not-online:
+
+  COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE:
     enabled: true
     string: '&3That player is not online.'
-  command-fail-quantity-invalid:
+
+  COMMAND_FAIL_GIVE_QUANTITY_INVALID:
     enabled: true
     string: '&3[SpawnStar] &cInvalid quantity!'
-  command-success-destroy:
-    enabled: true
-    string: '&3[SpawnStar] &c%itemname% destroyed!'
-  command-success-give:
-    enabled: true
-    string: '&3You gave %quantity% %itemname% to %playername%.'
-  command-success-reload:
-    enabled: true
-    string: '&3[SpawnStar] &bconfiguration reloaded.'
-  permission-denied-destroy:
+
+  COMMAND_FAIL_DESTROY_PERMISSION:
     enabled: true
     string: '&cYou do not have permission to destroy SpawnStar items!'
-  permission-denied-give:
+
+  COMMAND_FAIL_GIVE_PERMISSION:
     enabled: true
     string: '&cYou do not have permission to give SpawnStar items!'
-  permission-denied-reload:
+
+  COMMAND_FAIL_RELOAD_PERMISSION:
     enabled: true
     string: '&cYou do not have permission to reload the configuration!'
-  permission-denied-status:
+
+  COMMAND_FAIL_STATUS_PERMISSION:
     enabled: true
     string: '&cYou do not have permission to view SpawnStar settings!'
-  permission-denied-use:
+
+  COMMAND_FAIL_HELP_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to view SpawnStar help!'
+
+  TELEPORT_SUCCESS:
+    enabled: true
+    string: '&3Returned to &b%WORLD_NAME% &3spawn.'
+
+  TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cYou do not have permission to use &b%itemname%&3 in %worldname%.'
-  teleport-cancelled-damage:
+    string: '&cYou do not have permission to use &b%ITEM_NAME%&3 in %world_name%.'
+
+  TELEPORT_FAIL_MIN_DISTANCE:
+    enabled: true
+    repeat-delay: 1
+    string: '&3You are too close to %DESTINATION_NAME% to use a %ITEM_NAME%.'
+
+  TELEPORT_FAIL_SHIFT_CLICK:
+    enabled: true
+    repeat-delay: 1
+    string: '&3You must shift-click to use a %ITEM_NAME%.'
+
+  TELEPORT_CANCELLED_DAMAGE:
     enabled: true
     string: '&cTeleport cancelled by damage!'
-  teleport-cancelled-interaction:
+
+  TELEPORT_CANCELLED_INTERACTION:
     enabled: true
     string: '&cTeleport cancelled by interaction!'
-  teleport-cancelled-movement:
+
+  TELEPORT_CANCELLED_MOVEMENT:
     enabled: true
     string: '&cTeleport cancelled by movement!'
-  teleport-cancelled-no-item:
+
+  TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
     string: '&cYou no longer have a SpawnStar item!'
-  teleport-cooldown:
+
+  TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3You need to wait &b%timeremaining%&3 seconds to use another %itemname%.'
-  teleport-min-distance:
+    string: '&3You need to wait &b%COOLDOWN_TIME%&3 to use another %ITEM_NAME%.'
+
+  TELEPORT_WARMUP:
     enabled: true
-    repeat-delay: 1
-    string: '&3You are too close to spawn to use a %itemname%.'
-  teleport-success:
-    enabled: true
-    string: '&3Returned to &b%worldname% &3spawn.'
-  teleport-warmup:
-    enabled: true
-    string: '&3Teleporting to &b%worldname%&3 spawn in &b%warmuptime%&3 seconds...'
-  usage-shift-click:
-    enabled: true
-    repeat-delay: 1
-    string: '&3You must shift-click to use a %itemname%.'
- 
+    string: '&3Teleporting to &b%WORLD_NAME%&3 %DESTINATION_NAME% in &b%WARMUP_TIME%&3...'
