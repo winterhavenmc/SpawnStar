@@ -81,54 +81,114 @@ public final class SimpleAPI {
 		return !itemDisplayName.isEmpty() && itemDisplayName.startsWith(itemTag);
 	}
 
+
+	/**
+	 * Check configuration setting allow-in-recipes
+	 * @return configuration setting true or false
+	 */
 	public static Boolean isValidIngredient() {
 		return plugin.getConfig().getBoolean("allow-in-recipes");
 	}
 
+
+	/**
+	 * Get configured cooldown time
+	 * @return int configured cooldown time in seconds
+	 */
 	public static int getCooldownTime() {
 		return plugin.getConfig().getInt("cooldown-time");
 	}
 
+
+	/**
+	 * Get configured warmup time
+	 * @return int configured warmup time in seconds
+	 */
 	public static int getWarmupTime() {
 		return plugin.getConfig().getInt("warmup-time");
 	}
 
 
+	/**
+	 * Get configured minimum distance from spawn for SpawnStar use
+	 * @return int minimum distance in blocks
+	 */
 	public static int getMinSpawnDistance() {
 		return plugin.getConfig().getInt("minimum-distance");
 	}
 
 
+	/**
+	 * Get configured cancel on damage setting
+	 * @return boolean config value
+	 */
 	public static Boolean isCancelledOnDamage() {
 		return plugin.getConfig().getBoolean("cancel-on-damage");
 	}
 
 
+	/**
+	 * Get configured cancel on movement setting
+	 * @return boolean config value
+	 */
 	public static Boolean isCancelledOnMovement() {
 		return plugin.getConfig().getBoolean("cancel-on-movement");
 	}
 
 
+	/**
+	 * Get configured cancel on interaction setting
+	 * @return boolean config setting
+	 */
 	public static Boolean isCancelledOnInteraction() {
 		return plugin.getConfig().getBoolean("cancel-on-interaction");
 	}
 
+
+	/**
+	 * Check if player is currently warming up for pending teleport
+	 * @param player the player to check for pending teleport
+	 * @return boolean true if player is pending teleport, false if not
+	 */
 	public static Boolean isWarmingUp(Player player) {
 		return plugin.teleportManager.isWarmingUp(player);
 	}
 
+
+	/**
+	 * Check if player is currently cooling down before being allowed to
+	 * use a SpawnStar item for teleporting
+	 * @param player the player to check for cooldown
+	 * @return boolean true if player is cooling down, false if ready to use SpawnStar item
+	 */
 	public static Boolean isCoolingDown(Player player) {
 		return plugin.teleportManager.getCooldownTimeRemaining(player) > 0;
 	}
 
+
+	/**
+	 * Get time remaining before player is allowed to use another SpawnStar item
+	 * @param player the player for which to fetch cooldown time
+	 * @return long the time remaining before SpawnStar use will be allowed
+	 */
 	public static long cooldownTimeRemaining(Player player) {
 		return plugin.teleportManager.getCooldownTimeRemaining(player);
 	}
 
+
+	/**
+	 * Get list of enabled worlds configured
+	 * @return List of String - enabled world names
+	 */
 	public static List<String> getEnabledWorldNames() {
 		return plugin.worldManager.getEnabledWorldNames();
 	}
 
+
+	/**
+	 * Cancel a pending teleport for player
+	 * @param player the player to cancel pending teleport
+	 */
 	public static void cancelTeleport(Player player) {
 		plugin.teleportManager.cancelTeleport(player);
 	}
@@ -153,16 +213,31 @@ public final class SimpleAPI {
 	}
 
 
+	/**
+	 * Get item name as configured in language file
+	 * @return String - the item name as currently configured
+	 */
 	public static String getItemName() {
 		return plugin.messageManager.getItemName();
 	}
 
 
+	/**
+	 * Get item plural name as configured in language file
+	 * @return String - the item plural name as currently configured
+	 */
 	public static String getItemNamePlural() {
 		return plugin.messageManager.getItemNamePlural();
 	}
 
 
+	/**
+	 * Get location, adjusted by 1/2 block so as to be centered on the block
+	 * @param location the location to center on block
+	 * @return the location adjusted by 1/2 block
+	 * @deprecated this method may return inaccurate results for negative values of X or Z
+	 */
+	@Deprecated
 	public static Location getBlockCenteredLocation(final Location location) {
 
 		// if location is null, return null
