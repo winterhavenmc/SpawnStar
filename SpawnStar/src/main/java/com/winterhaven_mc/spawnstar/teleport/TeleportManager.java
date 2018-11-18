@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
@@ -20,11 +21,11 @@ public final class TeleportManager {
 
 	// reference to main class
 	private final PluginMain plugin;
-	
-	// hashmap to store player uuids and cooldown expire times
+
+	// hashmap to store player UUID and cooldown expire time in milliseconds
 	private final Map<UUID,Long> cooldownMap;
 
-	// HashMap containing player UUID as key and warmup time as value
+	// HashMap containing player UUID as key and warmup task id as value
 	private final Map<UUID,Integer> warmupMap;
 
 	
@@ -190,7 +191,7 @@ public final class TeleportManager {
 		final int cooldownSeconds = plugin.getConfig().getInt("teleport-cooldown");
 
 		// set expireTime to current time + configured cooldown period, in milliseconds
-		final Long expireTime = System.currentTimeMillis() + (cooldownSeconds * 1000);
+		final Long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
 		
 		// put in cooldown map with player UUID as key and expireTime as value
 		cooldownMap.put(player.getUniqueId(), expireTime);
@@ -207,7 +208,7 @@ public final class TeleportManager {
 	/**
 	 * Get time remaining for player cooldown
 	 * @param player the player whose cooldown time remaining to retrieve
-	 * @return long remainingTime
+	 * @return long remainingTime in milliseconds
 	 */
 	public final long getCooldownTimeRemaining(final Player player) {
 		
@@ -216,7 +217,7 @@ public final class TeleportManager {
 		
 		// if player is in cooldown map, set remainTime to map value
 		if (cooldownMap.containsKey(player.getUniqueId())) {
-			remainingTime = (cooldownMap.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000;
+			remainingTime = (cooldownMap.get(player.getUniqueId()) - System.currentTimeMillis());
 		}
 		return remainingTime;
 	}
