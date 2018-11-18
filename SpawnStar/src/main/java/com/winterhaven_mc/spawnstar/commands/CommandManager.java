@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
@@ -219,11 +220,13 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
-				+ plugin.messageManager.getTimeString(plugin.getConfig().getInt("teleport-warmup")));
+				+ plugin.messageManager.getTimeString(TimeUnit.SECONDS.toMillis(
+						plugin.getConfig().getInt("teleport-warmup"))));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
-				+ plugin.messageManager.getTimeString(plugin.getConfig().getInt("teleport-cooldown")));
+				+ plugin.messageManager.getTimeString(TimeUnit.SECONDS.toMillis(
+						plugin.getConfig().getInt("teleport-cooldown"))));
 
 		sender.sendMessage(ChatColor.GREEN
 				+ "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "
