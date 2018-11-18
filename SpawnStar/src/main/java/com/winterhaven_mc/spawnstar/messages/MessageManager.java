@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -49,7 +50,8 @@ public final class MessageManager extends AbstractMessageManager {
 		replacements.put("%MATERIAL%","unknown");
 		replacements.put("%DESTINATION_NAME%",ChatColor.stripColor(getSpawnDisplayName()));
 		replacements.put("%TARGET_PLAYER%","target player");
-		replacements.put("%WARMUP_TIME%",getTimeString(plugin.getConfig().getInt("teleport-warmup")));
+		replacements.put("%WARMUP_TIME%",
+				getTimeString(TimeUnit.SECONDS.toMillis(plugin.getConfig().getInt("teleport-warmup"))));
 
 		// leave color codes intact
 		replacements.put("%player_name%",recipient.getName());
@@ -64,7 +66,7 @@ public final class MessageManager extends AbstractMessageManager {
 					getTimeString(plugin.teleportManager.getCooldownTimeRemaining((Player)recipient)));
 		}
 		else {
-			replacements.put("%COOLDOWN_TIME",getTimeString(0L));
+			replacements.put("%COOLDOWN_TIME%",getTimeString(0L));
 		}
 
 		return replacements;
@@ -80,6 +82,7 @@ public final class MessageManager extends AbstractMessageManager {
 	public final void sendMessage(final CommandSender recipient,
 								  final MessageId messageId) {
 
+		// get default replacement map
 		Map<String,String> replacements = getDefaultReplacements(recipient);
 
 		//noinspection unchecked
