@@ -168,24 +168,4 @@ public final class MessageManager extends AbstractMessageManager {
 		this.sendMessage(recipient, messageId, replacements);
 	}
 
-
-	/**
-	 * Get configured plural item name from language file
-	 * @return the formatted plural display name of the SpawnStar item
-	 */
-	public final String getItemNamePlural() {
-		return ChatColor.translateAlternateColorCodes('&',
-				messages.getString("item_info.ITEM_NAME_PLURAL"));
-	}
-
-
-	/**
-	 * Get spawn display name from language file
-	 * @return the formatted display name for the world spawn
-	 */
-	public final String getSpawnDisplayName() {
-		return ChatColor.translateAlternateColorCodes('&',
-				messages.getString("item_info.SPAWN_DISPLAY_NAME"));
-	}
-
 }
