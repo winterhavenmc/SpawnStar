@@ -52,9 +52,8 @@ public final class TeleportManager {
      */
 	public final void initiateTeleport(final Player player) {
 
-		//noinspection deprecation
-		final ItemStack playerItem = player.getItemInHand();
-		
+		final ItemStack playerItem = player.getInventory().getItemInMainHand();
+
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
 			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_COOLDOWN);
