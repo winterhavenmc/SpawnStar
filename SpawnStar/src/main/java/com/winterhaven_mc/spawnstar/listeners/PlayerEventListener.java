@@ -78,7 +78,7 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!isSpawnStar(player.getInventory().getItemInMainHand())) {
+		if (!isSpawnStar(event.getItem())) {
 			return;
 		}
 
