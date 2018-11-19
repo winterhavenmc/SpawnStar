@@ -90,11 +90,6 @@ public final class TeleportManager {
 		
 		// if warmup setting is greater than zero, send warmup message
 		if (plugin.getConfig().getInt("teleport-warmup") > 0) {
-			if (plugin.debug) {
-				plugin.getLogger().info("Player: " + player.getName());
-				plugin.getLogger().info("MessageId: " + "teleport-warmup");
-				plugin.getLogger().info("Destination: " + destinationName);
-			}
 			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_WARMUP, destinationName);
 			
 			// if enabled, play sound effect
