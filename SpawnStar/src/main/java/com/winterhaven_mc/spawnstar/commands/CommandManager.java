@@ -455,8 +455,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		Player player = (Player) sender;
 
 		// get item in player's hand
-		//noinspection deprecation
-		ItemStack playerItem = player.getInventory().getItemInHand();
+		ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// check that player held item is a spawnstar stack
 		if (!SimpleAPI.isSpawnStar(playerItem)) {
