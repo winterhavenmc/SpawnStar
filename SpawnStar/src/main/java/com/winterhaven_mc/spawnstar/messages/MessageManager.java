@@ -23,6 +23,7 @@ public final class MessageManager extends AbstractMessageManager {
 
 	private PluginMain plugin;
 
+
 	/**
 	 * Class constructor
 	 * @param plugin reference to main class
