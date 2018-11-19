@@ -84,8 +84,7 @@ public final class TeleportManager {
 		// if remove-from-inventory is configured on-use, take one spawn star item from inventory now
 		if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-use")) {
 			playerItem.setAmount(playerItem.getAmount() - 1);
-			//noinspection deprecation
-			player.getInventory().setItemInHand(playerItem);
+			player.getInventory().setItemInMainHand(playerItem);
 		}
 		
 		// if warmup setting is greater than zero, send warmup message
