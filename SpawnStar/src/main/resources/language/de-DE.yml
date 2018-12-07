@@ -3,7 +3,7 @@
 ###########
 # Item Info
 ###########
-item_info:
+ITEM_INFO:
   # Item Name
   ITEM_NAME: '&aLaichen Stern'
   ITEM_NAME_PLURAL: '&aLaichen Sterne'
@@ -17,7 +17,9 @@ item_info:
   SPAWN_DISPLAY_NAME: 'spawn'
 
 # Time strings
-time_strings:
+TIME_STRINGS:
+  DAY: 'tag'
+  DAY_PLURAL: 'Tage'
   HOUR: 'Stunde'
   HOUR_PLURAL: 'Std.'
   MINUTE: 'Minute'
@@ -46,7 +48,7 @@ time_strings:
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
 
-messages:
+MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
     string: '&3[SpawnStar]&c %item_name% zerstört!'
