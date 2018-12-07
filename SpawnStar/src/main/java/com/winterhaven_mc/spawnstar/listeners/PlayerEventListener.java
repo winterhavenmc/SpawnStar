@@ -78,8 +78,7 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		//noinspection deprecation
-		if (!isSpawnStar(player.getItemInHand())) {
+		if (!isSpawnStar(player.getInventory().getItemInMainHand())) {
 			return;
 		}
 
@@ -163,7 +162,7 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if crafting inventory contains SpawnStar item, set result item to null
-		for(ItemStack itemStack : event.getInventory()) {
+		for (ItemStack itemStack : event.getInventory()) {
 			if (isSpawnStar(itemStack)) {
 				event.getInventory().setResult(null);
 			}

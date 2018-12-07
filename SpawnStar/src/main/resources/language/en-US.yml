@@ -3,7 +3,7 @@
 ###########
 # Item Info
 ###########
-item_info:
+ITEM_INFO:
   # Item Display Name
   ITEM_NAME: '&aSpawnStar'
   ITEM_NAME_PLURAL: '&aSpawnStars'
@@ -17,13 +17,16 @@ item_info:
   SPAWN_DISPLAY_NAME: 'spawn'
 
 # Time strings
-time_strings:
+TIME_STRINGS:
+  DAY: 'day'
+  DAY_PLURAL: 'days'
   HOUR: 'hour'
   HOUR_PLURAL: 'hours'
   MINUTE: 'minute'
   MINUTE_PLURAL: 'minutes'
   SECOND: 'second'
   SECOND_PLURAL: 'seconds'
+  UNLIMITED: 'unlimited time'
 
 
 # Variable substitutions:
@@ -47,7 +50,7 @@ time_strings:
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
 
-messages:
+MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
     string: '&3[SpawnStar] &c%ITEM_NAME% destroyed!'

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -21,6 +22,7 @@ import java.util.Map;
 public final class MessageManager extends AbstractMessageManager {
 
 	private PluginMain plugin;
+
 
 	/**
 	 * Class constructor
@@ -49,7 +51,8 @@ public final class MessageManager extends AbstractMessageManager {
 		replacements.put("%MATERIAL%","unknown");
 		replacements.put("%DESTINATION_NAME%",ChatColor.stripColor(getSpawnDisplayName()));
 		replacements.put("%TARGET_PLAYER%","target player");
-		replacements.put("%WARMUP_TIME%",getTimeString(plugin.getConfig().getInt("teleport-warmup")));
+		replacements.put("%WARMUP_TIME%",
+				getTimeString(TimeUnit.SECONDS.toMillis(plugin.getConfig().getInt("teleport-warmup"))));
 
 		// leave color codes intact
 		replacements.put("%player_name%",recipient.getName());
@@ -64,7 +67,7 @@ public final class MessageManager extends AbstractMessageManager {
 					getTimeString(plugin.teleportManager.getCooldownTimeRemaining((Player)recipient)));
 		}
 		else {
-			replacements.put("%COOLDOWN_TIME",getTimeString(0L));
+			replacements.put("%COOLDOWN_TIME%",getTimeString(0L));
 		}
 
 		return replacements;
@@ -80,6 +83,7 @@ public final class MessageManager extends AbstractMessageManager {
 	public final void sendMessage(final CommandSender recipient,
 								  final MessageId messageId) {
 
+		// get default replacement map
 		Map<String,String> replacements = getDefaultReplacements(recipient);
 
 		//noinspection unchecked
@@ -163,26 +167,6 @@ public final class MessageManager extends AbstractMessageManager {
 		// send message
 		//noinspection unchecked
 		this.sendMessage(recipient, messageId, replacements);
-	}
-
-
-	/**
-	 * Get configured plural item name from language file
-	 * @return the formatted plural display name of the SpawnStar item
-	 */
-	public final String getItemNamePlural() {
-		return ChatColor.translateAlternateColorCodes('&',
-				messages.getString("item_info.ITEM_NAME_PLURAL"));
-	}
-
-
-	/**
-	 * Get spawn display name from language file
-	 * @return the formatted display name for the world spawn
-	 */
-	public final String getSpawnDisplayName() {
-		return ChatColor.translateAlternateColorCodes('&',
-				messages.getString("item_info.SPAWN_DISPLAY_NAME"));
 	}
 
 }
