@@ -106,11 +106,13 @@ public final class MessageManager extends AbstractMessageManager {
 		Map<String,String> replacements = getDefaultReplacements(recipient);
 
 		// set quantity in replacement map
-		replacements.put("%QUANTITY$",quantity.toString());
+		replacements.put("%quantity%",quantity.toString());
+		replacements.put("%QUANTITY%",quantity.toString());
 
 		// if quantity is greater than one, use substitute plural item name
 		if (quantity > 1) {
-			replacements.put("%ITEM_NAME%",getItemNamePlural());
+			replacements.put("%item_name%",getItemNamePlural());
+			replacements.put("%ITEM_NAME%",ChatColor.stripColor(getItemNamePlural()));
 		}
 
 		// send message
@@ -134,8 +136,8 @@ public final class MessageManager extends AbstractMessageManager {
 		Map<String,String> replacements = getDefaultReplacements(recipient);
 
 		// set destination name in replacement map
-		replacements.put("%DESTINATION_NAME%",ChatColor.stripColor(destinationName));
 		replacements.put("%destination_name%",destinationName);
+		replacements.put("%DESTINATION_NAME%",ChatColor.stripColor(destinationName));
 
 		// send message
 		//noinspection unchecked
@@ -160,9 +162,10 @@ public final class MessageManager extends AbstractMessageManager {
 		Map<String,String> replacements = getDefaultReplacements(recipient);
 
 		// set strings replacement map
+		replacements.put("%quantity%",quantity.toString());
 		replacements.put("%QUANTITY%",quantity.toString());
-		replacements.put("%TARGET_PLAYER%",ChatColor.stripColor(targetPlayer.getName()));
 		replacements.put("%target_player%",targetPlayer.getName());
+		replacements.put("%TARGET_PLAYER%",ChatColor.stripColor(targetPlayer.getName()));
 
 		// send message
 		//noinspection unchecked

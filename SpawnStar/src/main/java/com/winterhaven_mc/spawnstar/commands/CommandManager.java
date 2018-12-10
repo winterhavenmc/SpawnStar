@@ -177,7 +177,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param sender the command sender
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	private boolean statusCommand(final CommandSender sender, final String args[]) {
+	private boolean statusCommand(final CommandSender sender, final String[] args) {
 
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission("spawnstar.status")) {
@@ -256,7 +256,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param args the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	private boolean reloadCommand(final CommandSender sender, final String args[]) {
+	private boolean reloadCommand(final CommandSender sender, final String[] args) {
 
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission("spawnstar.reload")) {
@@ -309,7 +309,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param args the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	private boolean giveCommand(final CommandSender sender, final String args[]) {
+	private boolean giveCommand(final CommandSender sender, final String[] args) {
 
 		// usage: /give <targetplayer> [qty]
 
@@ -422,7 +422,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param args the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	private boolean destroyCommand(final CommandSender sender, final String args[]) {
+	private boolean destroyCommand(final CommandSender sender, final String[] args) {
 
 		// sender must be in game player
 		if (!(sender instanceof Player)) {
@@ -531,7 +531,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param args the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
-	private boolean helpCommand(final CommandSender sender, final String args[]) {
+	private boolean helpCommand(final CommandSender sender, final String[] args) {
 
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission("spawnstar.help")) {
