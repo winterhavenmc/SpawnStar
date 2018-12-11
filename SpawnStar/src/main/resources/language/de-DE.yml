@@ -26,6 +26,8 @@ TIME_STRINGS:
   MINUTE_PLURAL: 'Minuten'
   SECOND: 'Sekunde'
   SECOND_PLURAL: 'Sekunden'
+  UNLIMITED: 'unbegrenzte Zeit'
+  LESS_THAN_ONE: 'weniger als eine'
 
 
 # Variable substitutions:
