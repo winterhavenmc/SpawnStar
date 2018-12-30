@@ -14,11 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  * A Bukkit/Spigot plugin that allows the use of a custom inventory item to return to the
  * world spawn when used.<br>
  * An alternative to the /spawn command.
- * 
- * @author      Tim Savage
- * @version		1.0
+ *
+ * @author Tim Savage
+ * @version 1.0
  */
-@SuppressWarnings("WeakerAccess")
 public final class PluginMain extends JavaPlugin {
 
 	// static reference to main class
