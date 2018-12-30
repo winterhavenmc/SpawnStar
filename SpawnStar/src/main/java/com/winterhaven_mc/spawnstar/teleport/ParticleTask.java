@@ -1,21 +1,23 @@
 package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
+
 import org.bukkit.Effect;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
 /**
  * A self-cancelling, repeating task that generates ender signal particles
  * at a player's location as long as they are in the warmup hashmap
- * 
- * @author savage
  *
+ * @author savage
  */
 final class ParticleTask extends BukkitRunnable {
 
 	private final PluginMain plugin = PluginMain.instance;
 	private final Player player;
+
 
 	/**
 	 * Class constructor method
@@ -23,8 +25,8 @@ final class ParticleTask extends BukkitRunnable {
 	ParticleTask(final Player player) {
 		this.player = player;
 	}
-	
-		
+
+
 	@Override
 	public final void run() {
 

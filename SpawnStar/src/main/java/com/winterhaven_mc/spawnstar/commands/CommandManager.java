@@ -2,6 +2,7 @@ package com.winterhaven_mc.spawnstar.commands;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.SimpleAPI;
+
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -21,9 +22,8 @@ import com.winterhaven_mc.spawnstar.sounds.SoundId;
 /**
  * Implements command executor for SpawnStar commands.
  *
- * @author      Tim Savage
- * @version		1.0
- *
+ * @author Tim Savage
+ * @version 1.0
  */
 public final class CommandManager implements CommandExecutor, TabCompleter {
 
@@ -63,7 +63,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	@Override
 	public final List<String> onTabComplete(final CommandSender sender, final Command command,
-	                                        final String alias, final String[] args) {
+											final String alias, final String[] args) {
 
 		// initalize return list
 		final List<String> returnList = new ArrayList<>();
@@ -113,12 +113,12 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	}
 
 
-	/** command executor method for SpawnStar
-	 *
+	/**
+	 * command executor method for SpawnStar
 	 */
 	@Override
 	public final boolean onCommand(final CommandSender sender, final Command cmd,
-	                               final String label, final String[] args) {
+								   final String label, final String[] args) {
 
 		String subcommand;
 
@@ -129,33 +129,33 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if no arguments, display usage for all commands
 		else {
-			displayUsage(sender,"all");
+			displayUsage(sender, "all");
 			return true;
 		}
 
 		// status command
 		if (subcommand.equalsIgnoreCase("status")) {
-			return statusCommand(sender,args);
+			return statusCommand(sender, args);
 		}
 
 		// reload command
 		if (subcommand.equalsIgnoreCase("reload")) {
-			return reloadCommand(sender,args);
+			return reloadCommand(sender, args);
 		}
 
 		// give command
 		if (subcommand.equalsIgnoreCase("give")) {
-			return giveCommand(sender,args);
+			return giveCommand(sender, args);
 		}
 
 		// destroy command
 		if (subcommand.equalsIgnoreCase("destroy")) {
-			return destroyCommand(sender,args);
+			return destroyCommand(sender, args);
 		}
 
 		// help command
 		if (subcommand.equalsIgnoreCase("help")) {
-			return helpCommand(sender,args);
+			return helpCommand(sender, args);
 		}
 
 		// send invalid command message
@@ -165,7 +165,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 
 		// display usage for help command
-		displayUsage(sender,"help");
+		displayUsage(sender, "help");
 
 		// return true to prevent display of bukkit usage string
 		return true;
@@ -174,6 +174,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Display plugin settings
+	 *
 	 * @param sender the command sender
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
@@ -221,12 +222,12 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
 				+ plugin.messageManager.getTimeString(TimeUnit.SECONDS.toMillis(
-						plugin.getConfig().getInt("teleport-warmup"))));
+				plugin.getConfig().getInt("teleport-warmup"))));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
 				+ plugin.messageManager.getTimeString(TimeUnit.SECONDS.toMillis(
-						plugin.getConfig().getInt("teleport-cooldown"))));
+				plugin.getConfig().getInt("teleport-cooldown"))));
 
 		sender.sendMessage(ChatColor.GREEN
 				+ "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "
@@ -252,8 +253,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Reload plugin settings
+	 *
 	 * @param sender the command sender
-	 * @param args the command arguments
+	 * @param args   the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
 	private boolean reloadCommand(final CommandSender sender, final String[] args) {
@@ -305,8 +307,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Give target player a spawnstar item
+	 *
 	 * @param sender the command sender
-	 * @param args the command arguments
+	 * @param args   the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
 	private boolean giveCommand(final CommandSender sender, final String[] args) {
@@ -350,7 +353,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length > 2) {
 			try {
 				quantity = Integer.parseInt(args[2]);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID);
 				plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
@@ -374,7 +378,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// add specified quantity of spawnstar(s) to player inventory
-		HashMap<Integer,ItemStack> noFit = targetPlayer.getInventory().addItem(SimpleAPI.createItem(quantity));
+		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(SimpleAPI.createItem(quantity));
 
 		// count items that didn't fit in inventory
 		int noFitCount = 0;
@@ -385,7 +389,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL,
-					quantity,targetPlayer);
+					quantity, targetPlayer);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -398,16 +402,16 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 			// send message and play sound to giver
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER,
-					quantity,targetPlayer);
+					quantity, targetPlayer);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
 
 			// send message to target player
-			plugin.messageManager.sendMessage(targetPlayer,MessageId.COMMAND_SUCCESS_GIVE_TARGET,
-					quantity,sender);
+			plugin.messageManager.sendMessage(targetPlayer, MessageId.COMMAND_SUCCESS_GIVE_TARGET,
+					quantity, sender);
 		}
 		else {
 			// send message when giving to self
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_GIVE_SELF,quantity);
+			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_GIVE_SELF, quantity);
 		}
 
 		// play sound to target player
@@ -418,8 +422,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Destroy command
+	 *
 	 * @param sender the command sender
-	 * @param args the command arguments
+	 * @param args   the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
 	private boolean destroyCommand(final CommandSender sender, final String[] args) {
@@ -487,7 +492,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Display command usage
-	 * @param sender the command sender
+	 *
+	 * @param sender        the command sender
 	 * @param passedCommand the command for which to display usage string
 	 */
 	private void displayUsage(final CommandSender sender, final String passedCommand) {
@@ -527,8 +533,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Display help message for commands
+	 *
 	 * @param sender the command sender
-	 * @param args the command arguments
+	 * @param args   the command arguments
 	 * @return always returns {@code true}, to prevent display of bukkit usage message
 	 */
 	private boolean helpCommand(final CommandSender sender, final String[] args) {
@@ -564,7 +571,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			helpMessage = "Displays help for SpawnStar commands.";
 		}
 		sender.sendMessage(helpColor + helpMessage);
-		displayUsage(sender,command);
+		displayUsage(sender, command);
 		return true;
 	}
 

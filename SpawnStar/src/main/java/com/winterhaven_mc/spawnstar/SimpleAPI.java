@@ -14,9 +14,9 @@ import java.util.List;
 
 /**
  * A simple static API for SpawnStar
- * @author      Tim Savage
- * @version		1.0
  *
+ * @author Tim Savage
+ * @version 1.0
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class SimpleAPI {
@@ -35,6 +35,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
+	 *
 	 * @param quantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
 	 */
@@ -59,6 +60,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Check if itemStack is a SpawnStar item
+	 *
 	 * @param itemStack the ItemStack to check
 	 * @return {@code true} if itemStack is a SpawnStar item, {@code false} if not
 	 */
@@ -70,7 +72,7 @@ public final class SimpleAPI {
 		}
 
 		// if item stack does not have display name return false
-		if (! itemStack.getItemMeta().hasDisplayName()) {
+		if (!itemStack.getItemMeta().hasDisplayName()) {
 			return false;
 		}
 
@@ -84,6 +86,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Check configuration setting allow-in-recipes
+	 *
 	 * @return configuration setting true or false
 	 */
 	public static Boolean isValidIngredient() {
@@ -93,6 +96,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get configured cooldown time
+	 *
 	 * @return int configured cooldown time in seconds
 	 */
 	public static int getCooldownTime() {
@@ -102,6 +106,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get configured warmup time
+	 *
 	 * @return int configured warmup time in seconds
 	 */
 	public static int getWarmupTime() {
@@ -111,6 +116,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get configured minimum distance from spawn for SpawnStar use
+	 *
 	 * @return int minimum distance in blocks
 	 */
 	public static int getMinSpawnDistance() {
@@ -120,6 +126,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get configured cancel on damage setting
+	 *
 	 * @return boolean config value
 	 */
 	public static Boolean isCancelledOnDamage() {
@@ -129,6 +136,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get configured cancel on movement setting
+	 *
 	 * @return boolean config value
 	 */
 	public static Boolean isCancelledOnMovement() {
@@ -138,6 +146,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get configured cancel on interaction setting
+	 *
 	 * @return boolean config setting
 	 */
 	public static Boolean isCancelledOnInteraction() {
@@ -147,6 +156,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Check if player is currently warming up for pending teleport
+	 *
 	 * @param player the player to check for pending teleport
 	 * @return boolean true if player is pending teleport, false if not
 	 */
@@ -158,6 +168,7 @@ public final class SimpleAPI {
 	/**
 	 * Check if player is currently cooling down before being allowed to
 	 * use a SpawnStar item for teleporting
+	 *
 	 * @param player the player to check for cooldown
 	 * @return boolean true if player is cooling down, false if ready to use SpawnStar item
 	 */
@@ -168,6 +179,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get time remaining before player is allowed to use another SpawnStar item
+	 *
 	 * @param player the player for which to fetch cooldown time
 	 * @return long the time remaining before SpawnStar use will be allowed
 	 */
@@ -178,6 +190,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get list of enabled worlds configured
+	 *
 	 * @return List of String - enabled world names
 	 */
 	public static List<String> getEnabledWorldNames() {
@@ -187,6 +200,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Cancel a pending teleport for player
+	 *
 	 * @param player the player to cancel pending teleport
 	 */
 	public static void cancelTeleport(Player player) {
@@ -196,6 +210,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Create an itemStack with default material and data from config
+	 *
 	 * @return ItemStack
 	 */
 	public static ItemStack getDefaultItem() {
@@ -209,12 +224,13 @@ public final class SimpleAPI {
 		}
 
 		// return item stack with configured material and data
-		return new ItemStack(configMaterial,1);
+		return new ItemStack(configMaterial, 1);
 	}
 
 
 	/**
 	 * Get item name as configured in language file
+	 *
 	 * @return String - the item name as currently configured
 	 */
 	public static String getItemName() {
@@ -224,6 +240,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get item plural name as configured in language file
+	 *
 	 * @return String - the item plural name as currently configured
 	 */
 	public static String getItemNamePlural() {
@@ -233,6 +250,7 @@ public final class SimpleAPI {
 
 	/**
 	 * Get location, adjusted by 1/2 block so as to be centered on the block
+	 *
 	 * @param location the location to center on block
 	 * @return the location adjusted by 1/2 block
 	 * @deprecated this method may return inaccurate results for negative values of X or Z
@@ -247,7 +265,7 @@ public final class SimpleAPI {
 
 		final World world = location.getWorld();
 		int x = location.getBlockX();
-		int y = (int)Math.round(location.getY());
+		int y = (int) Math.round(location.getY());
 		int z = location.getBlockZ();
 		return new Location(world, x + 0.5, y, z + 0.5, location.getYaw(), location.getPitch());
 	}
@@ -256,6 +274,7 @@ public final class SimpleAPI {
 	/**
 	 * Set ItemMetaData on ItemStack using custom display name and lore from language file.<br>
 	 * Display name additionally has hidden itemTag to make it identifiable as a SpawnStar item.
+	 *
 	 * @param itemStack the ItemStack on which to set SpawnStar MetaData
 	 */
 	private static void setMetaData(ItemStack itemStack) {

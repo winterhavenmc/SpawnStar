@@ -1,5 +1,9 @@
 package com.winterhaven_mc.spawnstar.listeners;
 
+import com.winterhaven_mc.spawnstar.PluginMain;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
+import com.winterhaven_mc.spawnstar.messages.MessageId;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,19 +17,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.spawnstar.sounds.SoundId;
-import com.winterhaven_mc.spawnstar.messages.MessageId;
-
 import static com.winterhaven_mc.spawnstar.SimpleAPI.isSpawnStar;
 
 
 /**
  * Implements player event listener for SpawnStar events
  *
- * @author      Tim Savage
- * @version		1.0
- *
+ * @author Tim Savage
+ * @version 1.0
  */
 public final class PlayerEventListener implements Listener {
 
@@ -50,6 +49,7 @@ public final class PlayerEventListener implements Listener {
 
 	/**
 	 * PlayerInteract event handler
+	 *
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -68,7 +68,7 @@ public final class PlayerEventListener implements Listener {
 				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
 						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 					plugin.teleportManager.cancelTeleport(player);
-					plugin.messageManager.sendMessage(player,MessageId.TELEPORT_CANCELLED_INTERACTION);
+					plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_INTERACTION);
 
 					// play sound effects if enabled
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
@@ -103,14 +103,14 @@ public final class PlayerEventListener implements Listener {
 
 		// if player does not have spawnstar.use permission, send message and return
 		if (!player.hasPermission("spawnstar.use")) {
-			plugin.messageManager.sendMessage(player,MessageId.TELEPORT_FAIL_PERMISSION);
+			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_PERMISSION);
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 			return;
 		}
 
 		// if shift-click is configured true and player is not sneaking, send message and return
 		if (plugin.getConfig().getBoolean("shift-click") && !event.getPlayer().isSneaking()) {
-			plugin.messageManager.sendMessage(player,MessageId.TELEPORT_FAIL_SHIFT_CLICK);
+			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK);
 			return;
 		}
 
@@ -121,6 +121,7 @@ public final class PlayerEventListener implements Listener {
 
 	/**
 	 * Cancel pending teleport on player death
+	 *
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -136,6 +137,7 @@ public final class PlayerEventListener implements Listener {
 
 	/**
 	 * Perform cleanup tasks when player logs off server
+	 *
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -151,6 +153,7 @@ public final class PlayerEventListener implements Listener {
 	/**
 	 * Prepare Item Craft event handler<br>
 	 * Prevents SpawnStar items from being used in crafting recipes if configured
+	 *
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -172,6 +175,7 @@ public final class PlayerEventListener implements Listener {
 
 	/**
 	 * Cancels pending teleport if player takes damage during warmup
+	 *
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
@@ -204,6 +208,7 @@ public final class PlayerEventListener implements Listener {
 
 	/**
 	 * Cancels teleport if player moves during warmup
+	 *
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
