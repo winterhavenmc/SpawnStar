@@ -1,6 +1,8 @@
 package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
+import com.winterhaven_mc.spawnstar.messages.MessageId;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,19 +17,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import com.winterhaven_mc.spawnstar.messages.MessageId;
-import com.winterhaven_mc.spawnstar.sounds.SoundId;
-
 
 public final class TeleportManager {
 
 	// reference to main class
 	private final PluginMain plugin;
 
-	// hashmap to store player UUID and cooldown expire time in milliseconds
+	// Map to store player UUID and cooldown expire time in milliseconds
 	private final Map<UUID, Long> cooldownMap;
 
-	// HashMap containing player UUID as key and warmup task id as value
+	// Map containing player UUID as key and warmup task id as value
 	private final Map<UUID, Integer> warmupMap;
 
 
