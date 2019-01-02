@@ -55,6 +55,7 @@ public final class TeleportManager {
 	 */
 	public final void initiateTeleport(final Player player) {
 
+		// get player item in main hand
 		final ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// if player cooldown has not expired, send player cooldown message and return
