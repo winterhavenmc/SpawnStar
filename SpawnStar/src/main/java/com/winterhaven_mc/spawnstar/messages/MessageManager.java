@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class MessageManager extends AbstractMessageManager {
 
+	// reference to plugin main class
 	private PluginMain plugin;
 
 
@@ -34,6 +35,7 @@ public final class MessageManager extends AbstractMessageManager {
 		//noinspection unchecked
 		super(plugin, MessageId.class);
 
+		// set reference to main class
 		this.plugin = plugin;
 	}
 
