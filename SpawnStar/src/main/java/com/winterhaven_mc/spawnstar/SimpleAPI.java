@@ -1,15 +1,14 @@
 package com.winterhaven_mc.spawnstar;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -249,35 +248,16 @@ public final class SimpleAPI {
 
 
 	/**
-	 * Get location, adjusted by 1/2 block so as to be centered on the block
-	 *
-	 * @param location the location to center on block
-	 * @return the location adjusted by 1/2 block
-	 * @deprecated this method may return inaccurate results for negative values of X or Z
-	 */
-	@Deprecated
-	public static Location getBlockCenteredLocation(final Location location) {
-
-		// if location is null, return null
-		if (location == null) {
-			return null;
-		}
-
-		final World world = location.getWorld();
-		int x = location.getBlockX();
-		int y = (int) Math.round(location.getY());
-		int z = location.getBlockZ();
-		return new Location(world, x + 0.5, y, z + 0.5, location.getYaw(), location.getPitch());
-	}
-
-
-	/**
 	 * Set ItemMetaData on ItemStack using custom display name and lore from language file.<br>
 	 * Display name additionally has hidden itemTag to make it identifiable as a SpawnStar item.
 	 *
 	 * @param itemStack the ItemStack on which to set SpawnStar MetaData
+	 * @throws NullPointerException if passed itemStack is null
 	 */
 	private static void setMetaData(ItemStack itemStack) {
+
+		// check for null itemStack
+		Objects.requireNonNull(itemStack);
 
 		// retrieve item name and lore from language file file
 		String displayName = plugin.messageManager.getItemName();
