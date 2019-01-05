@@ -112,13 +112,10 @@ public final class TeleportManager {
 		// if log-use is enabled in config, write log entry
 		if (plugin.getConfig().getBoolean("log-use")) {
 
-			// construct log message
-			String configItemName = plugin.messageManager.getItemName();
-			String log_message = player.getName() + " just used a " + configItemName
-					+ " in " + plugin.messageManager.getWorldName(player) + ".";
-
 			// write message to log
-			plugin.getLogger().info(ChatColor.stripColor(log_message));
+			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
+					+ plugin.messageManager.getItemName() + ChatColor.RESET + " in "
+					+ plugin.messageManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
 
