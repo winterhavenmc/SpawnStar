@@ -1,7 +1,10 @@
 package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
+import com.winterhaven_mc.spawnstar.messages.MessageId;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -14,19 +17,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import com.winterhaven_mc.spawnstar.messages.MessageId;
-import com.winterhaven_mc.spawnstar.sounds.SoundId;
-
 
 public final class TeleportManager {
 
 	// reference to main class
 	private final PluginMain plugin;
 
-	// hashmap to store player UUID and cooldown expire time in milliseconds
+	// Map to store player UUID and cooldown expire time in milliseconds
 	private final Map<UUID, Long> cooldownMap;
 
-	// HashMap containing player UUID as key and warmup task id as value
+	// Map containing player UUID as key and warmup task id as value
 	private final Map<UUID, Integer> warmupMap;
 
 
@@ -55,6 +55,7 @@ public final class TeleportManager {
 	 */
 	public final void initiateTeleport(final Player player) {
 
+		// get player item in main hand
 		final ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// if player cooldown has not expired, send player cooldown message and return
@@ -111,15 +112,10 @@ public final class TeleportManager {
 		// if log-use is enabled in config, write log entry
 		if (plugin.getConfig().getBoolean("log-use")) {
 
-			// construct log message
-			String configItemName = plugin.messageManager.getItemName();
-			String log_message = player.getName() + " just used a " + configItemName + " in " + player.getWorld().getName() + ".";
-
-			// strip color codes from log message
-			log_message = log_message.replaceAll("&[0-9a-fA-Fk-oK-OrR]", "");
-
 			// write message to log
-			plugin.getLogger().info(log_message);
+			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
+					+ plugin.messageManager.getItemName() + ChatColor.RESET + " in "
+					+ plugin.messageManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
 

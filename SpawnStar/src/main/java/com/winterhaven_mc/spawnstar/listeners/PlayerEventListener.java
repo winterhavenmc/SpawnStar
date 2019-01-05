@@ -39,7 +39,7 @@ public final class PlayerEventListener implements Listener {
 	 */
 	public PlayerEventListener(final PluginMain plugin) {
 
-		// reference to main
+		// set reference to main class
 		this.plugin = plugin;
 
 		// register events in this class
@@ -143,6 +143,7 @@ public final class PlayerEventListener implements Listener {
 	@EventHandler
 	final void onPlayerQuit(final PlayerQuitEvent event) {
 
+		// get event player
 		Player player = event.getPlayer();
 
 		// cancel any pending teleport for player
@@ -219,6 +220,7 @@ public final class PlayerEventListener implements Listener {
 			return;
 		}
 
+		// get event player
 		Player player = event.getPlayer();
 
 		// if player is in warmup hashmap, cancel teleport and send player message

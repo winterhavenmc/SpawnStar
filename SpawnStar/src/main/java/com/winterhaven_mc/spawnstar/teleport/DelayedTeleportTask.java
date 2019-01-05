@@ -34,7 +34,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 
 	/**
-	 * Class constructor method
+	 * Class constructor
 	 */
 	DelayedTeleportTask(final Player player, final Location destination,
 						final String destinationName, final ItemStack playerItem) {
