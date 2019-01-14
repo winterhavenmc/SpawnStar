@@ -67,10 +67,14 @@ public final class PlayerEventListener implements Listener {
 				// if player is interacting with a block, cancel teleport, output message and return
 				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
 						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
+					// cancel teleport
 					plugin.teleportManager.cancelTeleport(player);
+
+					// send cancelled teleport message
 					plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_INTERACTION);
 
-					// play sound effects if enabled
+					// play cancelled teleport sound
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 					return;
 				}
