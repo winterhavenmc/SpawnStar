@@ -4,11 +4,13 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.util.AbstractMessageManager;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -41,7 +43,10 @@ public final class MessageManager extends AbstractMessageManager {
 
 
 	@Override
-	protected Map<String, String> getDefaultReplacements(CommandSender recipient) {
+	protected Map<String, String> getDefaultReplacements(final CommandSender recipient) {
+
+		// check for null parameters
+		Objects.requireNonNull(recipient);
 
 		Map<String, String> replacements = new HashMap<>();
 
@@ -85,6 +90,10 @@ public final class MessageManager extends AbstractMessageManager {
 	public final void sendMessage(final CommandSender recipient,
 								  final MessageId messageId) {
 
+		// check for null parameters
+		Objects.requireNonNull(recipient);
+		Objects.requireNonNull(messageId);
+
 		// get default replacement map
 		Map<String, String> replacements = getDefaultReplacements(recipient);
 
@@ -102,14 +111,18 @@ public final class MessageManager extends AbstractMessageManager {
 	 */
 	public final void sendMessage(final CommandSender recipient,
 								  final MessageId messageId,
-								  final Integer quantity) {
+								  final int quantity) {
+
+		// check for null parameters
+		Objects.requireNonNull(recipient);
+		Objects.requireNonNull(messageId);
 
 		// get default replacement map
 		Map<String, String> replacements = getDefaultReplacements(recipient);
 
 		// set quantity in replacement map
-		replacements.put("%quantity%", quantity.toString());
-		replacements.put("%QUANTITY%", quantity.toString());
+		replacements.put("%quantity%", String.valueOf(quantity));
+		replacements.put("%QUANTITY%", String.valueOf(quantity));
 
 		// if quantity is greater than one, use substitute plural item name
 		if (quantity > 1) {
@@ -128,18 +141,23 @@ public final class MessageManager extends AbstractMessageManager {
 	 *
 	 * @param recipient       player receiving message
 	 * @param messageId       message identifier in messages file
-	 * @param destinationName name of teleport destination
+	 * @param destination     name of teleport destination
 	 */
 	public final void sendMessage(final CommandSender recipient,
 								  final MessageId messageId,
-								  final String destinationName) {
+								  final Location destination) {
+
+		// check for null parameters
+		Objects.requireNonNull(recipient);
+		Objects.requireNonNull(messageId);
+		Objects.requireNonNull(destination);
 
 		// get default replacement map
 		Map<String, String> replacements = getDefaultReplacements(recipient);
 
-		// set destination name in replacement map
-		replacements.put("%destination_name%", destinationName);
-		replacements.put("%DESTINATION_NAME%", ChatColor.stripColor(destinationName));
+		// get world name for destination
+		replacements.put("%world_name%", getWorldName(destination));
+		replacements.put("%WORLD_NAME%", ChatColor.stripColor(getWorldName(destination)));
 
 		// send message
 		//noinspection unchecked
@@ -157,15 +175,20 @@ public final class MessageManager extends AbstractMessageManager {
 	 */
 	public final void sendMessage(final CommandSender recipient,
 								  final MessageId messageId,
-								  final Integer quantity,
+								  final int quantity,
 								  final CommandSender targetPlayer) {
+
+		// check for null parameters
+		Objects.requireNonNull(recipient);
+		Objects.requireNonNull(messageId);
+		Objects.requireNonNull(targetPlayer);
 
 		// get default replacement map
 		Map<String, String> replacements = getDefaultReplacements(recipient);
 
 		// set strings replacement map
-		replacements.put("%quantity%", quantity.toString());
-		replacements.put("%QUANTITY%", quantity.toString());
+		replacements.put("%quantity%", String.valueOf(quantity));
+		replacements.put("%QUANTITY%", String.valueOf(quantity));
 		replacements.put("%target_player%", targetPlayer.getName());
 		replacements.put("%TARGET_PLAYER%", ChatColor.stripColor(targetPlayer.getName()));
 
