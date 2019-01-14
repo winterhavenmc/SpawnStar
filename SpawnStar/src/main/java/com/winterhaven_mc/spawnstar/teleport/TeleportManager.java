@@ -12,9 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -80,22 +78,14 @@ public final class TeleportManager {
 		Location destination = plugin.worldManager.getSpawnLocation(playerWorld);
 
 		// if player is in nether, get over world if configured
-		if (playerWorld.getName().endsWith("_nether")
+		if (playerWorld.getEnvironment().equals(World.Environment.NETHER)
 				&& plugin.getConfig().getBoolean("from-nether")) {
-			String overWorldName = playerWorld.getName().replace("_nether","");
-			World overWorld = plugin.getServer().getWorld(overWorldName);
-			if (overWorld != null) {
-				destination = plugin.worldManager.getSpawnLocation(overWorld);
-			}
+			destination = getOverWorld(playerWorld).getSpawnLocation();
 		}
 		// if player is in end, get over world if configured
-		else if (playerWorld.getName().endsWith("_the_end")
+		else if (playerWorld.getEnvironment().equals(World.Environment.THE_END)
 				&& plugin.getConfig().getBoolean("from-end")) {
-			String overWorldName = playerWorld.getName().replace("_the_end","");
-			World overWorld = plugin.getServer().getWorld(overWorldName);
-			if (overWorld != null) {
-				destination = plugin.worldManager.getSpawnLocation(overWorld);
-			}
+			destination = getOverWorld(playerWorld).getSpawnLocation();
 		}
 
 		// if player is less than config min-distance from destination, send player min-distance message and return
@@ -259,6 +249,47 @@ public final class TeleportManager {
 			remainingTime = (cooldownMap.get(player.getUniqueId()) - System.currentTimeMillis());
 		}
 		return remainingTime;
+	}
+
+
+	/**
+	 * Attempt to get normal world associated with passed nether or end world
+	 * @param passedWorld the passed world from which to evince an over world
+	 * @return the normal world associated with passed nether or end world,
+	 * or passed world if no matching normal world found
+	 */
+	private World getOverWorld(final World passedWorld) {
+
+		// check for null parameter
+		Objects.requireNonNull(passedWorld);
+
+		// create list to store normal environment worlds
+		List<World> normalWorlds = new ArrayList<>();
+
+		// iterate through all server worlds
+		for (World checkWorld : plugin.getServer().getWorlds()) {
+
+			// if world is normal environment, try to match name to passed world
+			if (checkWorld.getEnvironment().equals(World.Environment.NORMAL)) {
+
+				// check if normal world matches passed world minus nether/end suffix
+				if (checkWorld.getName().equals(passedWorld.getName()
+						.replaceFirst("(_nether$|_the_end$)",""))) {
+					return checkWorld;
+				}
+
+				// if no match, add to list of normal worlds
+				normalWorlds.add(checkWorld);
+			}
+		}
+
+		// if only one normal world exists, return that world
+		if (normalWorlds.size() == 1) {
+			return normalWorlds.get(0);
+		}
+
+		// if no matching normal world found and more than one normal world exists, return passed world
+		return passedWorld;
 	}
 
 }
