@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +56,9 @@ public final class TeleportManager {
 	 */
 	public final void initiateTeleport(final Player player) {
 
+		// check for null parameter
+		Objects.requireNonNull(player);
+
 		// get player item in main hand
 		final ItemStack playerItem = player.getInventory().getItemInMainHand();
 
@@ -72,16 +76,32 @@ public final class TeleportManager {
 		// get player world
 		World playerWorld = player.getWorld();
 
-		// set destinationName string to spawn name from language file
-		String destinationName = plugin.messageManager.getSpawnDisplayName();
-
 		// get spawn location from world manager
 		Location destination = plugin.worldManager.getSpawnLocation(playerWorld);
+
+		// if player is in nether, get over world if configured
+		if (playerWorld.getName().endsWith("_nether")
+				&& plugin.getConfig().getBoolean("from-nether")) {
+			String overWorldName = playerWorld.getName().replace("_nether","");
+			World overWorld = plugin.getServer().getWorld(overWorldName);
+			if (overWorld != null) {
+				destination = plugin.worldManager.getSpawnLocation(overWorld);
+			}
+		}
+		// if player is in end, get over world if configured
+		else if (playerWorld.getName().endsWith("_the_end")
+				&& plugin.getConfig().getBoolean("from-end")) {
+			String overWorldName = playerWorld.getName().replace("_the_end","");
+			World overWorld = plugin.getServer().getWorld(overWorldName);
+			if (overWorld != null) {
+				destination = plugin.worldManager.getSpawnLocation(overWorld);
+			}
+		}
 
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (player.getWorld().equals(destination.getWorld())
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE, destinationName);
+			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE, destination);
 			return;
 		}
 
@@ -93,7 +113,7 @@ public final class TeleportManager {
 
 		// if warmup setting is greater than zero, send warmup message
 		if (plugin.getConfig().getInt("teleport-warmup") > 0) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_WARMUP, destinationName);
+			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_WARMUP, destination);
 
 			// if enabled, play sound effect
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
@@ -103,7 +123,6 @@ public final class TeleportManager {
 		BukkitTask teleportTask =
 				new DelayedTeleportTask(player,
 						destination,
-						destinationName,
 						playerItem.clone()).runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup") * 20);
 
 		// insert player and taskId into warmup hashmap
@@ -126,7 +145,11 @@ public final class TeleportManager {
 	 * @param player the player whose uuid will be used as the key in the warmup map
 	 * @param taskId the warmup task Id to be placed in the warmup map
 	 */
-	private void putWarmup(final Player player, final Integer taskId) {
+	private void putWarmup(final Player player, final int taskId) {
+
+		// check for null parameter
+		Objects.requireNonNull(player);
+
 		warmupMap.put(player.getUniqueId(), taskId);
 	}
 
@@ -137,6 +160,11 @@ public final class TeleportManager {
 	 * @param player the player whose uuid will be removed from the warmup map
 	 */
 	final void removeWarmup(final Player player) {
+
+		// check for null parameter
+		Objects.requireNonNull(player);
+
+		// remove player uuid from warm up map
 		warmupMap.remove(player.getUniqueId());
 	}
 
@@ -148,6 +176,10 @@ public final class TeleportManager {
 	 * @return {@code true} if player uuid is in the warmup map, {@code false} if it is not
 	 */
 	public final boolean isWarmingUp(final Player player) {
+
+		// check for null parameter
+		Objects.requireNonNull(player);
+
 		return warmupMap.containsKey(player.getUniqueId());
 	}
 
@@ -158,6 +190,9 @@ public final class TeleportManager {
 	 * @param player the player whose teleport will be cancelled
 	 */
 	public final void cancelTeleport(final Player player) {
+
+		// check for null parameter
+		Objects.requireNonNull(player);
 
 		// if player is in warmup hashmap, cancel delayed teleport task and remove player from warmup hashmap
 		if (warmupMap.containsKey(player.getUniqueId())) {
@@ -184,6 +219,9 @@ public final class TeleportManager {
 	 */
 	final void startCooldown(final Player player) {
 
+		// check for null parameter
+		Objects.requireNonNull(player);
+
 		// get cooldown time in seconds from config
 		final int cooldownSeconds = plugin.getConfig().getInt("teleport-cooldown");
 
@@ -209,6 +247,9 @@ public final class TeleportManager {
 	 * @return long remainingTime in milliseconds
 	 */
 	public final long getCooldownTimeRemaining(final Player player) {
+
+		// check for null parameter
+		Objects.requireNonNull(player);
 
 		// initialize remainingTime
 		long remainingTime = 0;
