@@ -11,20 +11,19 @@ import org.bukkit.scheduler.BukkitTask;
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
+import java.util.Objects;
+
 
 final class DelayedTeleportTask extends BukkitRunnable {
 
 	// reference to main class
-	private final PluginMain plugin;
+	private final PluginMain plugin = PluginMain.instance;
 
 	// player being teleported
 	private final Player player;
 
 	// teleport destination
 	private final Location destination;
-
-	// teleport destination display name
-	private final String destinationName;
 
 	// particle task
 	private BukkitTask particleTask;
@@ -36,14 +35,12 @@ final class DelayedTeleportTask extends BukkitRunnable {
 	/**
 	 * Class constructor
 	 */
-	DelayedTeleportTask(final Player player, final Location destination,
-						final String destinationName, final ItemStack playerItem) {
+	DelayedTeleportTask(final Player player, final Location destination, final ItemStack playerItem) {
 
-		this.plugin = PluginMain.instance;
-		this.player = player;
-		this.playerItem = playerItem;
-		this.destination = destination;
-		this.destinationName = destinationName;
+		// check for null parameters
+		this.player = Objects.requireNonNull(player);
+		this.destination = Objects.requireNonNull(destination);
+		this.playerItem = Objects.requireNonNull(playerItem);
 
 		// start repeating task for generating particles at player location
 		if (plugin.getConfig().getBoolean("particle-effects")) {
@@ -97,7 +94,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			player.teleport(destination);
 
 			// send player respawn message
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_SUCCESS, destinationName);
+			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_SUCCESS, destination);
 
 			// play post-teleport sound if sound effects are enabled
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
