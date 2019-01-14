@@ -180,6 +180,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private boolean statusCommand(final CommandSender sender, final String[] args) {
 
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(args);
+
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission("spawnstar.status")) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION);
@@ -260,6 +264,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private boolean reloadCommand(final CommandSender sender, final String[] args) {
 
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(args);
+
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission("spawnstar.reload")) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION);
@@ -314,7 +322,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private boolean giveCommand(final CommandSender sender, final String[] args) {
 
-		// usage: /give <targetplayer> [qty]
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(args);
 
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
@@ -429,6 +439,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private boolean destroyCommand(final CommandSender sender, final String[] args) {
 
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(args);
+
 		// sender must be in game player
 		if (!(sender instanceof Player)) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE);
@@ -498,6 +512,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private void displayUsage(final CommandSender sender, final String passedCommand) {
 
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(passedCommand);
+
 		String command = passedCommand;
 
 		if (command.isEmpty() || command.equalsIgnoreCase("help")) {
@@ -540,6 +558,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	private boolean helpCommand(final CommandSender sender, final String[] args) {
 
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(args);
+
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission("spawnstar.help")) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION);
@@ -578,6 +600,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	@SuppressWarnings("deprecation")
 	private Player matchPlayer(final CommandSender sender, final String targetPlayerName) {
+
+		// check for null parameters
+		Objects.requireNonNull(sender);
+		Objects.requireNonNull(targetPlayerName);
 
 		Player targetPlayer;
 
