@@ -6,6 +6,8 @@ import org.bukkit.Effect;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
+
 
 /**
  * A self-cancelling, repeating task that generates ender signal particles
@@ -23,7 +25,9 @@ final class ParticleTask extends BukkitRunnable {
 	 * Class constructor method
 	 */
 	ParticleTask(final Player player) {
-		this.player = player;
+
+		//check for null parameter
+		this.player = Objects.requireNonNull(player);
 	}
 
 

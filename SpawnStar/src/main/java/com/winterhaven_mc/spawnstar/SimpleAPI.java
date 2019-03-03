@@ -8,7 +8,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -35,13 +34,13 @@ public final class SimpleAPI {
 	/**
 	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
 	 *
-	 * @param quantity number of SpawnStar items in newly created stack
+	 * @param passedQuantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
 	 */
-	public static ItemStack createItem(int quantity) {
+	public static ItemStack createItem(final int passedQuantity) {
 
 		// validate quantity
-		quantity = Math.max(quantity, 1);
+		int quantity = Math.max(passedQuantity, 1);
 
 		// create item stack with configured material and data
 		final ItemStack newItem = getDefaultItem();
@@ -63,7 +62,7 @@ public final class SimpleAPI {
 	 * @param itemStack the ItemStack to check
 	 * @return {@code true} if itemStack is a SpawnStar item, {@code false} if not
 	 */
-	public static boolean isSpawnStar(ItemStack itemStack) {
+	public static boolean isSpawnStar(final ItemStack itemStack) {
 
 		// if item stack is empty (null or air) return false
 		if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
@@ -128,7 +127,7 @@ public final class SimpleAPI {
 	 *
 	 * @return boolean config value
 	 */
-	public static Boolean isCancelledOnDamage() {
+	public static boolean isCancelledOnDamage() {
 		return plugin.getConfig().getBoolean("cancel-on-damage");
 	}
 
@@ -138,7 +137,7 @@ public final class SimpleAPI {
 	 *
 	 * @return boolean config value
 	 */
-	public static Boolean isCancelledOnMovement() {
+	public static boolean isCancelledOnMovement() {
 		return plugin.getConfig().getBoolean("cancel-on-movement");
 	}
 
@@ -148,7 +147,7 @@ public final class SimpleAPI {
 	 *
 	 * @return boolean config setting
 	 */
-	public static Boolean isCancelledOnInteraction() {
+	public static boolean isCancelledOnInteraction() {
 		return plugin.getConfig().getBoolean("cancel-on-interaction");
 	}
 
@@ -159,7 +158,13 @@ public final class SimpleAPI {
 	 * @param player the player to check for pending teleport
 	 * @return boolean true if player is pending teleport, false if not
 	 */
-	public static Boolean isWarmingUp(Player player) {
+	public static boolean isWarmingUp(Player player) {
+
+		//check for null parameter
+		if (player == null) {
+			return false;
+		}
+
 		return plugin.teleportManager.isWarmingUp(player);
 	}
 
@@ -171,7 +176,13 @@ public final class SimpleAPI {
 	 * @param player the player to check for cooldown
 	 * @return boolean true if player is cooling down, false if ready to use SpawnStar item
 	 */
-	public static Boolean isCoolingDown(Player player) {
+	public static boolean isCoolingDown(final Player player) {
+
+		//check for null parameter
+		if (player == null) {
+			return false;
+		}
+
 		return plugin.teleportManager.getCooldownTimeRemaining(player) > 0;
 	}
 
@@ -182,7 +193,13 @@ public final class SimpleAPI {
 	 * @param player the player for which to fetch cooldown time
 	 * @return long the time remaining before SpawnStar use will be allowed
 	 */
-	public static long cooldownTimeRemaining(Player player) {
+	public static long cooldownTimeRemaining(final Player player) {
+
+		//check for null parameter
+		if (player == null) {
+			return 0L;
+		}
+
 		return plugin.teleportManager.getCooldownTimeRemaining(player);
 	}
 
@@ -202,7 +219,13 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player to cancel pending teleport
 	 */
-	public static void cancelTeleport(Player player) {
+	public static void cancelTeleport(final Player player) {
+
+		//check for null parameter
+		if (player == null) {
+			return;
+		}
+
 		plugin.teleportManager.cancelTeleport(player);
 	}
 
@@ -222,7 +245,7 @@ public final class SimpleAPI {
 			configMaterial = Material.NETHER_STAR;
 		}
 
-		// return item stack with configured material and data
+		// return item stack with configured material and quantity 1
 		return new ItemStack(configMaterial, 1);
 	}
 
@@ -252,12 +275,13 @@ public final class SimpleAPI {
 	 * Display name additionally has hidden itemTag to make it identifiable as a SpawnStar item.
 	 *
 	 * @param itemStack the ItemStack on which to set SpawnStar MetaData
-	 * @throws NullPointerException if passed itemStack is null
 	 */
-	private static void setMetaData(ItemStack itemStack) {
+	private static void setMetaData(final ItemStack itemStack) {
 
-		// check for null itemStack
-		Objects.requireNonNull(itemStack);
+		// check for null parameter
+		if (itemStack == null) {
+			return;
+		}
 
 		// retrieve item name and lore from language file file
 		String displayName = plugin.messageManager.getItemName();
