@@ -2,9 +2,11 @@ package com.winterhaven_mc.spawnstar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 public final class SimpleAPI {
 
 	private final static PluginMain plugin = PluginMain.instance;
-	private final static String itemTag = plugin.messageManager.createHiddenString("SpawnStarV1");
+	private final static NamespacedKey itemKey = new NamespacedKey(plugin, "isSpawnStar");
 
 
 	/**
@@ -74,17 +76,9 @@ public final class SimpleAPI {
 			return false;
 		}
 
-		// if item stack does not have display name return false
+		// if item stack has persistent data tag, return true; otherwise return false
 		//noinspection ConstantConditions
-		if (!itemStack.getItemMeta().hasDisplayName()) {
-			return false;
-		}
-
-		// get item display name
-		String itemDisplayName = itemStack.getItemMeta().getDisplayName();
-
-		// check that name contains hidden token
-		return !itemDisplayName.isEmpty() && itemDisplayName.startsWith(itemTag);
+		return itemStack.getItemMeta().getPersistentDataContainer().has(itemKey, PersistentDataType.BYTE);
 	}
 
 
@@ -292,7 +286,6 @@ public final class SimpleAPI {
 
 		// retrieve item name and lore from language file
 		String displayName = plugin.messageManager.getItemName();
-		//noinspection unchecked
 		List<String> configLore = plugin.messageManager.getItemLore();
 
 		// allow for '&' character for color codes in name and lore
@@ -309,7 +302,7 @@ public final class SimpleAPI {
 
 		// set item metadata display name to value from config file
 		//noinspection ConstantConditions
-		itemMeta.setDisplayName(itemTag + displayName);
+		itemMeta.setDisplayName(ChatColor.RESET + displayName);
 
 		// set item metadata Lore to value from config file
 		itemMeta.setLore(coloredLore);
