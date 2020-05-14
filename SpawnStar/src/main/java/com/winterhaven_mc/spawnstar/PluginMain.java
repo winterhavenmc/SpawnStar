@@ -7,6 +7,7 @@ import com.winterhaven_mc.spawnstar.messages.MessageManager;
 import com.winterhaven_mc.util.SoundConfiguration;
 import com.winterhaven_mc.util.WorldManager;
 import com.winterhaven_mc.util.YamlSoundConfiguration;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -30,7 +31,6 @@ public final class PluginMain extends JavaPlugin {
 	public SoundConfiguration soundConfig;
 	public TeleportManager teleportManager;
 	public WorldManager worldManager;
-
 
 	@Override
 	public void onEnable() {
