@@ -69,7 +69,13 @@ public final class SimpleAPI {
 			return false;
 		}
 
+		// if item stack does not have metadata return false
+		if (!itemStack.hasItemMeta()) {
+			return false;
+		}
+
 		// if item stack does not have display name return false
+		//noinspection ConstantConditions
 		if (!itemStack.getItemMeta().hasDisplayName()) {
 			return false;
 		}
@@ -238,6 +244,7 @@ public final class SimpleAPI {
 	public static ItemStack getDefaultItem() {
 
 		// try to match material
+		@SuppressWarnings("ConstantConditions")
 		Material configMaterial = Material.matchMaterial(plugin.getConfig().getString("item-material"));
 
 		// if no match default to nether star
@@ -283,7 +290,7 @@ public final class SimpleAPI {
 			return;
 		}
 
-		// retrieve item name and lore from language file file
+		// retrieve item name and lore from language file
 		String displayName = plugin.messageManager.getItemName();
 		//noinspection unchecked
 		List<String> configLore = plugin.messageManager.getItemLore();
@@ -301,6 +308,7 @@ public final class SimpleAPI {
 		final ItemMeta itemMeta = itemStack.getItemMeta();
 
 		// set item metadata display name to value from config file
+		//noinspection ConstantConditions
 		itemMeta.setDisplayName(itemTag + displayName);
 
 		// set item metadata Lore to value from config file
@@ -311,4 +319,3 @@ public final class SimpleAPI {
 	}
 
 }
-
