@@ -45,6 +45,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 *
 	 * @param plugin reference to main class
 	 */
+	@SuppressWarnings("ConstantConditions")
 	public CommandManager(final PluginMain plugin) {
 
 		// set reference to main class
@@ -84,7 +85,6 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if subcomamnd is "help", return list of matching subcommands
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("give")) {
-				@SuppressWarnings("deprecation")
 				List<Player> matchedPlayers = plugin.getServer().matchPlayer(args[1]);
 				for (Player player : matchedPlayers) {
 					returnList.add(player.getName());
@@ -329,7 +329,6 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION);
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -598,7 +597,6 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	}
 
 
-	@SuppressWarnings("deprecation")
 	private Player matchPlayer(final CommandSender sender, final String targetPlayerName) {
 
 		// check for null parameters
@@ -634,14 +632,12 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 		if (matchedPlayers.isEmpty()) {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND);
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
-			return null;
 		}
 		else {
 			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE);
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
-			return null;
 		}
+		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+		return null;
 	}
 
 }
