@@ -307,6 +307,9 @@ public final class SimpleAPI {
 		// set item metadata Lore to value from config file
 		itemMeta.setLore(coloredLore);
 
+		// set persistent data in item metadata
+		itemMeta.getPersistentDataContainer().set(itemKey, PersistentDataType.BYTE, (byte) 1);
+
 		// save new item metadata
 		itemStack.setItemMeta(itemMeta);
 	}
