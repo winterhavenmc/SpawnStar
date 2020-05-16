@@ -2,9 +2,11 @@ package com.winterhaven_mc.spawnstar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 public final class SimpleAPI {
 
 	private final static PluginMain plugin = PluginMain.instance;
-	private final static String itemTag = plugin.messageManager.createHiddenString("SpawnStarV1");
+	private final static NamespacedKey itemKey = new NamespacedKey(plugin, "isSpawnStar");
 
 
 	/**
@@ -69,16 +71,14 @@ public final class SimpleAPI {
 			return false;
 		}
 
-		// if item stack does not have display name return false
-		if (!itemStack.getItemMeta().hasDisplayName()) {
+		// if item stack does not have metadata return false
+		if (!itemStack.hasItemMeta()) {
 			return false;
 		}
 
-		// get item display name
-		String itemDisplayName = itemStack.getItemMeta().getDisplayName();
-
-		// check that name contains hidden token
-		return !itemDisplayName.isEmpty() && itemDisplayName.startsWith(itemTag);
+		// if item stack has persistent data tag, return true; otherwise return false
+		//noinspection ConstantConditions
+		return itemStack.getItemMeta().getPersistentDataContainer().has(itemKey, PersistentDataType.BYTE);
 	}
 
 
@@ -238,6 +238,7 @@ public final class SimpleAPI {
 	public static ItemStack getDefaultItem() {
 
 		// try to match material
+		@SuppressWarnings("ConstantConditions")
 		Material configMaterial = Material.matchMaterial(plugin.getConfig().getString("item-material"));
 
 		// if no match default to nether star
@@ -283,9 +284,8 @@ public final class SimpleAPI {
 			return;
 		}
 
-		// retrieve item name and lore from language file file
+		// retrieve item name and lore from language file
 		String displayName = plugin.messageManager.getItemName();
-		//noinspection unchecked
 		List<String> configLore = plugin.messageManager.getItemLore();
 
 		// allow for '&' character for color codes in name and lore
@@ -301,14 +301,17 @@ public final class SimpleAPI {
 		final ItemMeta itemMeta = itemStack.getItemMeta();
 
 		// set item metadata display name to value from config file
-		itemMeta.setDisplayName(itemTag + displayName);
+		//noinspection ConstantConditions
+		itemMeta.setDisplayName(ChatColor.RESET + displayName);
 
 		// set item metadata Lore to value from config file
 		itemMeta.setLore(coloredLore);
+
+		// set persistent data in item metadata
+		itemMeta.getPersistentDataContainer().set(itemKey, PersistentDataType.BYTE, (byte) 1);
 
 		// save new item metadata
 		itemStack.setItemMeta(itemMeta);
 	}
 
 }
-

@@ -20,10 +20,10 @@ import java.util.concurrent.TimeUnit;
  * @author Tim Savage
  * @version 1.0
  */
-public final class MessageManager extends AbstractMessageManager {
+public final class MessageManager extends AbstractMessageManager<MessageId> {
 
 	// reference to plugin main class
-	private PluginMain plugin;
+	private final PluginMain plugin;
 
 
 	/**
@@ -34,7 +34,6 @@ public final class MessageManager extends AbstractMessageManager {
 	public MessageManager(final PluginMain plugin) {
 
 		// call super class constructor
-		//noinspection unchecked
 		super(plugin, MessageId.class);
 
 		// set reference to main class
@@ -97,7 +96,6 @@ public final class MessageManager extends AbstractMessageManager {
 		// get default replacement map
 		Map<String, String> replacements = getDefaultReplacements(recipient);
 
-		//noinspection unchecked
 		sendMessage(recipient, messageId, replacements);
 	}
 
@@ -131,7 +129,6 @@ public final class MessageManager extends AbstractMessageManager {
 		}
 
 		// send message
-		//noinspection unchecked
 		sendMessage(recipient, messageId, replacements);
 	}
 
@@ -160,7 +157,6 @@ public final class MessageManager extends AbstractMessageManager {
 		replacements.put("%WORLD_NAME%", ChatColor.stripColor(getWorldName(destination)));
 
 		// send message
-		//noinspection unchecked
 		this.sendMessage(recipient, messageId, replacements);
 	}
 
@@ -193,7 +189,6 @@ public final class MessageManager extends AbstractMessageManager {
 		replacements.put("%TARGET_PLAYER%", ChatColor.stripColor(targetPlayer.getName()));
 
 		// send message
-		//noinspection unchecked
 		this.sendMessage(recipient, messageId, replacements);
 	}
 

@@ -231,7 +231,7 @@ public final class PlayerEventListener implements Listener {
 		if (plugin.teleportManager.isWarmingUp(player)) {
 
 			// check for player movement other than head turning
-			if (event.getFrom().distance(event.getTo()) > 0) {
+			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportManager.cancelTeleport(player);
 				plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_MOVEMENT);
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
