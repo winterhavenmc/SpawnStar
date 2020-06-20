@@ -4,6 +4,7 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 
 import org.bukkit.Effect;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -17,7 +18,10 @@ import java.util.Objects;
  */
 final class ParticleTask extends BukkitRunnable {
 
-	private final PluginMain plugin = PluginMain.instance;
+	// reference to main class
+	private final PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
+
+	// player to emit particles
 	private final Player player;
 
 

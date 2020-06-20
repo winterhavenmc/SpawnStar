@@ -32,28 +32,20 @@ TIME_STRINGS:
 
 # Variable substitutions:
 #
-# %PLAYER_NAME%          Player's name
-# %TARGET_PLAYER%        Target player name
-# %ITEM_NAME%            Item name, with no color codes
-# %WORLD_NAME%           World name that player is in, with no color codes
-# %DESTINATION_NAME%     Spawn display name as specified above
+# %PLAYER%               message recipient's name
+# %ITEM%                 Item name, as defined in this file
 # %QUANTITY%             number of items (valid in give command message only)
-# %WARMUP_TIME%          seconds until teleport (valid in warmup message only)
-# %COOLDOWN_TIME%        seconds remaining in cooldown (valid in cooldown message only)
-#
-# %player_name%          Player name, with color codes
-# %target_player%        Target player name, with color codes
-# %item_name%            Item name as defined in messages (this file), with color codes
-# %world_name%           World name that player is in, with color codes if present
-# %destination_name%     Spawn display name as specified above, with color codes if present
+# %WORLD%                World name that player is in
+# %TARGET_PLAYER%        Target player name
+# %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
 
-# repeat-delay is the number of seconds to wait before
+# optional repeat-delay setting is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
 
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar]&c %item_name% zerstört!'
+    string: '&3[SpawnStar]&c %ITEM% zerstört!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
@@ -113,22 +105,22 @@ MESSAGES:
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Rückkehr zu laichen &b%world_name%&3.'
+    string: '&3Rückkehr zu laichen &b%WORLD%&3.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cSie haben nicht die Erlaubnis, eine &b%ITEM_NAME%&3 in %WORLD_NAME% verwenden.'
+    string: '&cSie haben nicht die Erlaubnis, eine &b%ITEM%&3 in %WORLD% verwenden.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie sind zu nahe für die Verwendung einer %item_name% laichen.'
+    string: '&3Sie sind zu nahe für die Verwendung einer %ITEM% laichen.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM_NAME% verwenden.'
+    string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM% verwenden.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
@@ -144,14 +136,14 @@ MESSAGES:
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    string: '&cSie müssen nicht mehr eine %ITEM_NAME%!'
+    string: '&cSie müssen nicht mehr eine %ITEM%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie müssen bis &b%COOLDOWN_TIME%&3 Sekunden warten, um einen anderen %ITEM_NAME% verwenden.'
+    string: '&3Sie müssen bis &b%DURATION%&3 Sekunden warten, um einen anderen %ITEM% verwenden.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teleportieren, um in &b%WARMUP_TIME%&3...'
+    string: '&3Teleportieren, um in &b%DURATION%&3...'
 

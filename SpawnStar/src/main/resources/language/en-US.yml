@@ -32,41 +32,32 @@ TIME_STRINGS:
 
 # Variable substitutions:
 #
-# %PLAYER_NAME%          Player's name, with no color codes
-# %TARGET_PLAYER%        Target player name, with no color codes
-# %ITEM_NAME%            Item name, with no color codes
-# %WORLD_NAME%           World name that player is in, with no color codes
-# %DESTINATION_NAME%     Spawn display name as specified above, with no color codes
+# %PLAYER%               message recipient's name
+# %ITEM%                 Item name, as defined in this file
 # %QUANTITY%             number of items (valid in give command message only)
-# %WARMUP_TIME%          seconds until teleport (valid in warmup message only)
-# %COOLDOWN_TIME%        seconds remaining in cooldown (valid in cooldown message only)
-#
-# %player_name%          Player name, with color codes
-# %target_player%        Target player name, with color codes
-# %item_name%            Item name as defined in messages (this file), with color codes
-# %world_name%           World name that player is in, with color codes if present
-# %destination_name%     Spawn display name as specified above, with color codes if present
+# %WORLD%                World name that player is in
+# %TARGET_PLAYER%        Target player name
+# %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
 
-
-# repeat-delay is the number of seconds to wait before
+# optional repeat-delay setting is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
 
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar] &c%ITEM_NAME% destroyed!'
+    string: '&3[SpawnStar] &c%ITEM% destroyed!'
 
   COMMAND_SUCCESS_GIVE_SENDER:
     enabled: true
-    string: '&3You gave %QUANTITY% %ITEM_NAME% to %TARGET_PLAYER%.'
+    string: '&3You gave %QUANTITY% %ITEM% to %TARGET_PLAYER%.'
 
   COMMAND_SUCCESS_GIVE_TARGET:
     enabled: true
-    string: '&3%TARGET_PLAYER% gave you %QUANTITY% %ITEM_NAME%.'
+    string: '&3%TARGET_PLAYER% gave you %QUANTITY% %ITEM%.'
 
   COMMAND_SUCCESS_GIVE_SELF:
     enabled: true
-    string: '&3You gave yourself %QUANTITY% %ITEM_NAME%.'
+    string: '&3You gave yourself %QUANTITY% %ITEM%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
@@ -94,7 +85,7 @@ MESSAGES:
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3Could not give %ITEM_NAME% to %TARGET_PLAYER% because their inventory is full.'
+    string: '&3Could not give %ITEM% to %TARGET_PLAYER% because their inventory is full.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
@@ -130,22 +121,22 @@ MESSAGES:
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Returned to &b%WORLD_NAME% &3spawn.'
+    string: '&3Returned to &b%WORLD% spawn&3.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cYou do not have permission to use &b%ITEM_NAME%&3 in %world_name%.'
+    string: '&cYou do not have permission to use &b%ITEM%&3 in %WORLD%.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3You are too close to %DESTINATION_NAME% to use a %ITEM_NAME%.'
+    string: '&3You are too close to spawn to use a %ITEM%.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3You must shift-click to use a %ITEM_NAME%.'
+    string: '&3You must shift-click to use a %ITEM%.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
@@ -166,8 +157,8 @@ MESSAGES:
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3You need to wait &b%COOLDOWN_TIME%&3 to use another %ITEM_NAME%.'
+    string: '&3You need to wait &b%DURATION%&3 to use another %ITEM%.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teleporting to &b%WORLD_NAME%&3 %DESTINATION_NAME% in &b%WARMUP_TIME%&3...'
+    string: '&3Teleporting to &b%WORLD% spawn&3 in &b%DURATION%&3...'

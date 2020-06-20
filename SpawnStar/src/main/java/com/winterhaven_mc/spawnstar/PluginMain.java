@@ -3,9 +3,9 @@ package com.winterhaven_mc.spawnstar;
 import com.winterhaven_mc.spawnstar.commands.CommandManager;
 import com.winterhaven_mc.spawnstar.listeners.PlayerEventListener;
 import com.winterhaven_mc.spawnstar.teleport.TeleportManager;
-import com.winterhaven_mc.spawnstar.messages.MessageManager;
-import com.winterhaven_mc.util.SoundConfiguration;
+import com.winterhaven_mc.util.LanguageManager;
 import com.winterhaven_mc.util.WorldManager;
+import com.winterhaven_mc.util.SoundConfiguration;
 import com.winterhaven_mc.util.YamlSoundConfiguration;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,13 +21,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class PluginMain extends JavaPlugin {
 
-	// static reference to main class
-	public static PluginMain instance;
-
 	// global debug setting read from config file
 	public Boolean debug = getConfig().getBoolean("debug");
 
-	public MessageManager messageManager;
 	public SoundConfiguration soundConfig;
 	public TeleportManager teleportManager;
 	public WorldManager worldManager;
@@ -35,14 +31,11 @@ public final class PluginMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		// set static reference to main class
-		instance = this;
-
 		// install default configuration file if not already present
 		saveDefaultConfig();
 
-		// instantiate message manager
-		messageManager = new MessageManager(this);
+		// initialize language manager
+		LanguageManager.init();
 
 		// instantiate sound configuration
 		soundConfig = new YamlSoundConfiguration(this);

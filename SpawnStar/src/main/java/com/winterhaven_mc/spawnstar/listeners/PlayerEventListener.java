@@ -1,9 +1,10 @@
 package com.winterhaven_mc.spawnstar.listeners;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
+import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
-import com.winterhaven_mc.spawnstar.messages.MessageId;
 
+import com.winterhaven_mc.spawnstar.util.SpawnStar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static com.winterhaven_mc.spawnstar.SimpleAPI.isSpawnStar;
+import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
 /**
@@ -72,7 +73,7 @@ public final class PlayerEventListener implements Listener {
 					plugin.teleportManager.cancelTeleport(player);
 
 					// send cancelled teleport message
-					plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_INTERACTION);
+					Message.create(player, TELEPORT_CANCELLED_INTERACTION).send();
 
 					// play cancelled teleport sound
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
@@ -82,7 +83,7 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!isSpawnStar(player.getInventory().getItemInMainHand())) {
+		if (!SpawnStar.isItem(player.getInventory().getItemInMainHand())) {
 			return;
 		}
 
@@ -107,14 +108,14 @@ public final class PlayerEventListener implements Listener {
 
 		// if player does not have spawnstar.use permission, send message and return
 		if (!player.hasPermission("spawnstar.use")) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_PERMISSION);
+			Message.create(player, TELEPORT_FAIL_PERMISSION).send();
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 			return;
 		}
 
 		// if shift-click is configured true and player is not sneaking, send message and return
 		if (plugin.getConfig().getBoolean("shift-click") && !event.getPlayer().isSneaking()) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK);
+			Message.create(player, TELEPORT_FAIL_SHIFT_CLICK).send();
 			return;
 		}
 
@@ -171,7 +172,7 @@ public final class PlayerEventListener implements Listener {
 
 		// if crafting inventory contains SpawnStar item, set result item to null
 		for (ItemStack itemStack : event.getInventory()) {
-			if (isSpawnStar(itemStack)) {
+			if (SpawnStar.isItem(itemStack)) {
 				event.getInventory().setResult(null);
 			}
 		}
@@ -203,7 +204,7 @@ public final class PlayerEventListener implements Listener {
 				// if player is in warmup hashmap, cancel teleport and send player message
 				if (plugin.teleportManager.isWarmingUp(player)) {
 					plugin.teleportManager.cancelTeleport(player);
-					plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_DAMAGE);
+					Message.create(player, TELEPORT_CANCELLED_DAMAGE).send();
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
@@ -233,7 +234,7 @@ public final class PlayerEventListener implements Listener {
 			// check for player movement other than head turning
 			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportManager.cancelTeleport(player);
-				plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_MOVEMENT);
+				Message.create(player, TELEPORT_CANCELLED_MOVEMENT).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}

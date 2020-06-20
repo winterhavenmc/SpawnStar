@@ -2,9 +2,11 @@ package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
 
+import com.winterhaven_mc.spawnstar.messages.Message;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -13,11 +15,14 @@ import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
 import java.util.Objects;
 
+import static com.winterhaven_mc.spawnstar.messages.Macro.WORLD;
+import static com.winterhaven_mc.spawnstar.messages.MessageId.TELEPORT_SUCCESS;
+
 
 final class DelayedTeleportTask extends BukkitRunnable {
 
 	// reference to main class
-	private final PluginMain plugin = PluginMain.instance;
+	private final PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
 
 	// player being teleported
 	private final Player player;
@@ -64,7 +69,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			plugin.teleportManager.removeWarmup(player);
 
 			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
-			if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-success")) {
+			if ("on-success".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory"))) {
 
 				// try to remove one SpawnStar item from player inventory
 				boolean notRemoved = true;
@@ -80,8 +85,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
 				if (notRemoved) {
-					plugin.messageManager.sendMessage(player, MessageId.TELEPORT_CANCELLED_NO_ITEM);
-					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
+					Message.create(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
 					plugin.teleportManager.startCooldown(player);
 					return;
 				}
@@ -94,7 +98,9 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			player.teleport(destination);
 
 			// send player respawn message
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_SUCCESS, destination);
+			Message.create(player, TELEPORT_SUCCESS)
+					.setMacro(WORLD, destination.getWorld())
+					.send();
 
 			// play post-teleport sound if sound effects are enabled
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);

@@ -32,20 +32,12 @@ TIME_STRINGS:
 
 # Variable substitutions:
 #
-# %PLAYER_NAME%          Player's name
-# %TARGET_PLAYER%        Target player name
-# %ITEM_NAME%            Item name, with no color codes
-# %WORLD_NAME%           World name that player is in, with no color codes
-# %DESTINATION_NAME%     Spawn display name as specified above
+# %PLAYER%               message recipient's name
+# %ITEM%                 Item name, as defined in this file
 # %QUANTITY%             number of items (valid in give command message only)
-# %WARMUP_TIME%          seconds until teleport (valid in warmup message only)
-# %COOLDOWN_TIME%        seconds remaining in cooldown (valid in cooldown message only)
-#
-# %player_name%          Player name, with color codes
-# %target_player%        Target player name, with color codes
-# %item_name%            Item name as defined in messages (this file), with color codes
-# %world_name%           World name that player is in, with color codes if present
-# %destination_name%     Spawn display name as specified above, with color codes if present
+# %WORLD%                World name that player is in
+# %TARGET_PLAYER%        Target player name
+# %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
 
 # repeat-delay is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
@@ -53,11 +45,11 @@ TIME_STRINGS:
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar]&c ¡%item_name% destruida!'
+    string: '&3[SpawnStar]&c ¡%ITEM% destruida!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
-    string: '&3Usted diste %QUANTITY% %item_name% a %PLAYER_NAME%.'
+    string: '&3Usted diste %QUANTITY% %ITEM% a %PLAYER%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
@@ -81,7 +73,7 @@ MESSAGES:
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3No se pudo dar %item_name% para %PLAYER_NAME% porque sus inventario está lleno.'
+    string: '&3No se pudo dar %ITEM% para %PLAYER% porque sus inventario está lleno.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
@@ -113,22 +105,22 @@ MESSAGES:
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Volviendo a desovar de &b%world_name%.'
+    string: '&3Volviendo a desovar de &b%WORLD%.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cUsted no tiene permiso para usar %item_name% en %world_name%.'
+    string: '&cUsted no tiene permiso para usar %ITEM% en %WORLD%.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3Usted está demasiado cerca para desovar utilizar %item_name%.'
+    string: '&3Usted está demasiado cerca para desovar utilizar %ITEM%.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %item_name%.'
+    string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %ITEM%.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
@@ -144,13 +136,13 @@ MESSAGES:
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    string: '&c¡Ya no tiene un %item_name%!'
+    string: '&c¡Ya no tiene un %ITEM%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3Tienes que esperar &b%COOLDOWN_TIME%&3 segundos para utilizar otro %ITEM_NAME%.'
+    string: '&3Tienes que esperar &b%DURATION%&3 segundos para utilizar otro %ITEM_NAME%.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teletransportarse a desovar en &b%WARMUP_TIME%&3...'
+    string: '&3Teletransportarse a desovar en &b%DURATION%&3...'

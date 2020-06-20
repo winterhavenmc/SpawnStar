@@ -1,7 +1,11 @@
 package com.winterhaven_mc.spawnstar.commands;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.spawnstar.SimpleAPI;
+import com.winterhaven_mc.spawnstar.messages.Message;
+import com.winterhaven_mc.spawnstar.util.SpawnStar;
+import com.winterhaven_mc.spawnstar.messages.MessageId;
+import com.winterhaven_mc.spawnstar.sounds.SoundId;
+import com.winterhaven_mc.util.LanguageManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -15,8 +19,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import com.winterhaven_mc.spawnstar.messages.MessageId;
-import com.winterhaven_mc.spawnstar.sounds.SoundId;
+import static com.winterhaven_mc.spawnstar.messages.Macro.*;
+import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
 /**
@@ -34,7 +38,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	private final static ChatColor helpColor = ChatColor.YELLOW;
 	private final static ChatColor usageColor = ChatColor.GOLD;
 
-	// constant List of subcommands
+		// constant List of subcommands
 	private final static List<String> subcommands =
 			Collections.unmodifiableList(new ArrayList<>(
 					Arrays.asList("give", "destroy", "status", "reload", "help")));
@@ -45,17 +49,16 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 *
 	 * @param plugin reference to main class
 	 */
-	@SuppressWarnings("ConstantConditions")
 	public CommandManager(final PluginMain plugin) {
 
 		// set reference to main class
 		this.plugin = plugin;
 
 		// register this class as command executor
-		plugin.getCommand("spawnstar").setExecutor(this);
+		Objects.requireNonNull(plugin.getCommand("spawnstar")).setExecutor(this);
 
 		// register this class as tab completer
-		plugin.getCommand("spawnstar").setTabCompleter(this);
+		Objects.requireNonNull(plugin.getCommand("spawnstar")).setTabCompleter(this);
 	}
 
 
@@ -66,47 +69,35 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	public final List<String> onTabComplete(final CommandSender sender, final Command command,
 											final String alias, final String[] args) {
 
-		// initalize return list
+		// initialize return list
 		final List<String> returnList = new ArrayList<>();
 
-		// if first argument, return list of valid matching subcommands
-		if (args.length == 1) {
+		switch (args.length) {
+			case 1: // return list of valid matching subcommands
+				returnList.addAll(matchSubcommand(sender, args[0]));
+				break;
 
-			for (String subcommand : subcommands) {
-				if (sender.hasPermission("spawnstar." + subcommand)
-						&& subcommand.startsWith(args[0].toLowerCase())) {
-					returnList.add(subcommand);
+			case 2: // second argument
+				// if subcomamnd is "help", return list of matching subcommands
+				if (args[0].equalsIgnoreCase("help")) {
+					returnList.addAll(matchSubcommand(sender, args[1]));
 				}
-			}
-		}
-
-		// if second argument,
-		// if subcommand is "give", return list of matching online players
-		// if subcomamnd is "help", return list of matching subcommands
-		if (args.length == 2) {
-			if (args[0].equalsIgnoreCase("give")) {
-				List<Player> matchedPlayers = plugin.getServer().matchPlayer(args[1]);
-				for (Player player : matchedPlayers) {
-					returnList.add(player.getName());
-				}
-			}
-			else if (args[0].equalsIgnoreCase("help")) {
-				for (String subcommand : subcommands) {
-					if (sender.hasPermission("spawnstar." + subcommand)
-							&& subcommand.startsWith(args[0].toLowerCase())) {
-						returnList.add(subcommand);
+				// if subcommand is "give", return list of matching online players
+				else if (args[0].equalsIgnoreCase("give")) {
+					List<Player> matchedPlayers = plugin.getServer().matchPlayer(args[1]);
+					for (Player player : matchedPlayers) {
+						returnList.add(player.getName());
 					}
 				}
-			}
-		}
+				break;
 
-		// if third argument, return some useful quantities
-		if (args.length == 3) {
-			returnList.add("1");
-			returnList.add("2");
-			returnList.add("3");
-			returnList.add("5");
-			returnList.add("10");
+			case 3: // return some useful quantities
+				returnList.add("1");
+				returnList.add("2");
+				returnList.add("3");
+				returnList.add("5");
+				returnList.add("10");
+				break;
 		}
 
 		return returnList;
@@ -159,7 +150,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// send invalid command message
-		plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND);
+		Message.create(sender, COMMAND_FAIL_INVALID_COMMAND).send();
 
 		// play command fail sound for player
 		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
@@ -186,7 +177,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission("spawnstar.status")) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION);
+			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -199,7 +190,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
+			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
@@ -225,12 +216,12 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
-				+ plugin.messageManager.getTimeString(TimeUnit.SECONDS.toMillis(
+				+ LanguageManager.getInstance().getTimeString(TimeUnit.SECONDS.toMillis(
 				plugin.getConfig().getInt("teleport-warmup"))));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
-				+ plugin.messageManager.getTimeString(TimeUnit.SECONDS.toMillis(
+				+ LanguageManager.getInstance().getTimeString(TimeUnit.SECONDS.toMillis(
 				plugin.getConfig().getInt("teleport-cooldown"))));
 
 		sender.sendMessage(ChatColor.GREEN
@@ -270,7 +261,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission("spawnstar.reload")) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION);
+			Message.create(sender, COMMAND_FAIL_RELOAD_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -283,7 +274,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
@@ -299,7 +290,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.worldManager.reload();
 
 		// reload messages
-		plugin.messageManager.reload();
+		LanguageManager.reload();
 
 		// reload sounds
 		plugin.soundConfig.reload();
@@ -308,7 +299,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		plugin.debug = plugin.getConfig().getBoolean("debug");
 
 		// send reloaded message
-		plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_RELOAD);
+		Message.create(sender, COMMAND_SUCCESS_RELOAD).send();
 		return true;
 	}
 
@@ -328,7 +319,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION);
+			Message.create(sender, COMMAND_FAIL_GIVE_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -342,7 +333,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check min arguments
 		if (args.length < minArgs) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_UNDER);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_UNDER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
@@ -350,7 +341,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
@@ -364,7 +355,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 				quantity = Integer.parseInt(args[2]);
 			}
 			catch (NumberFormatException e) {
-				plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID);
+				Message.create(sender, COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
 				plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
 			}
@@ -387,7 +378,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// add specified quantity of spawnstar(s) to player inventory
-		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(SimpleAPI.createItem(quantity));
+		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(SpawnStar.create(quantity));
 
 		// count items that didn't fit in inventory
 		int noFitCount = 0;
@@ -397,8 +388,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL,
-					quantity, targetPlayer);
+			Message.create(sender, COMMAND_FAIL_GIVE_INVENTORY_FULL)
+					.setMacro(QUANTITY, quantity)
+					.setMacro(TARGET_PLAYER, targetPlayerName)
+					.send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -410,17 +403,23 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (!sender.getName().equals(targetPlayer.getName())) {
 
 			// send message and play sound to giver
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER,
-					quantity, targetPlayer);
+			Message.create(sender, COMMAND_SUCCESS_GIVE_SENDER)
+					.setMacro(QUANTITY, quantity)
+					.setMacro(TARGET_PLAYER, targetPlayerName)
+					.send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
 
 			// send message to target player
-			plugin.messageManager.sendMessage(targetPlayer, MessageId.COMMAND_SUCCESS_GIVE_TARGET,
-					quantity, sender);
+			Message.create(targetPlayer, COMMAND_SUCCESS_GIVE_TARGET)
+					.setMacro(QUANTITY, quantity)
+					.setMacro(TARGET_PLAYER, sender)
+					.send();
 		}
 		else {
 			// send message when giving to self
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_GIVE_SELF, quantity);
+			Message.create(sender, COMMAND_SUCCESS_GIVE_SELF)
+					.setMacro(QUANTITY, quantity)
+					.send();
 		}
 
 		// play sound to target player
@@ -444,13 +443,13 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// sender must be in game player
 		if (!(sender instanceof Player)) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE);
+			Message.create(sender, COMMAND_FAIL_DESTROY_CONSOLE).send();
 			return true;
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission("spawnstar.destroy")) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION);
+			Message.create(sender, COMMAND_FAIL_DESTROY_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -463,7 +462,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// check max arguments
 		if (args.length > maxArgs) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender, subcommand);
 			return true;
@@ -476,8 +475,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// check that player held item is a spawnstar stack
-		if (!SimpleAPI.isSpawnStar(playerItem)) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH);
+		if (!SpawnStar.isItem(playerItem)) {
+			Message.create(sender, COMMAND_FAIL_DESTROY_NO_MATCH).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -493,7 +492,9 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		player.getInventory().setItemInHand(playerItem);
 
 		// send success message
-		plugin.messageManager.sendMessage(sender, MessageId.COMMAND_SUCCESS_DESTROY, quantity);
+		Message.create(sender, COMMAND_SUCCESS_DESTROY)
+				.setMacro(QUANTITY, quantity)
+				.send();
 
 		// play success sound
 		plugin.soundConfig.playSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
@@ -563,7 +564,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission("spawnstar.help")) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION);
+			Message.create(sender, COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -631,13 +632,25 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 			}
 		}
 		if (matchedPlayers.isEmpty()) {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND);
+			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send();
 		}
 		else {
-			plugin.messageManager.sendMessage(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE);
+			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE).send();
 		}
 		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 		return null;
+	}
+
+
+	List<String> matchSubcommand(CommandSender sender, String arg) {
+		List<String> returnList = new ArrayList<>();
+		for (String subcommand : subcommands) {
+			if (sender.hasPermission("spawnstar." + subcommand)
+					&& subcommand.startsWith(arg.toLowerCase())) {
+				returnList.add(subcommand);
+			}
+		}
+		return returnList;
 	}
 
 }

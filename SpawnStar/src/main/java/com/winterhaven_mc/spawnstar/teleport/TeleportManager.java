@@ -1,9 +1,10 @@
 package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.spawnstar.messages.MessageId;
+import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
+import com.winterhaven_mc.util.LanguageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,11 +17,17 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import static com.winterhaven_mc.spawnstar.messages.Macro.*;
+import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
+
 
 public final class TeleportManager {
 
 	// reference to main class
 	private final PluginMain plugin;
+
+	// reference to language manager
+	private final LanguageManager languageManager = LanguageManager.getInstance();
 
 	// Map to store player UUID and cooldown expire time in milliseconds
 	private final Map<UUID, Long> cooldownMap;
@@ -62,7 +69,9 @@ public final class TeleportManager {
 
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_COOLDOWN);
+			Message.create(player, TELEPORT_COOLDOWN)
+					.setMacro(DURATION, languageManager.getTimeString(getCooldownTimeRemaining(player)))
+					.send();
 			return;
 		}
 
@@ -91,19 +100,25 @@ public final class TeleportManager {
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (player.getWorld().equals(destination.getWorld())
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE, destination);
+			Message.create(player, TELEPORT_FAIL_MIN_DISTANCE)
+					.setMacro(WORLD, destination.getWorld())
+					.send();
 			return;
 		}
 
 		// if remove-from-inventory is configured on-use, take one spawn star item from inventory now
-		if (plugin.getConfig().getString("remove-from-inventory").equalsIgnoreCase("on-use")) {
+		if ("on-use".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory"))) {
 			playerItem.setAmount(playerItem.getAmount() - 1);
 			player.getInventory().setItemInMainHand(playerItem);
 		}
 
 		// if warmup setting is greater than zero, send warmup message
-		if (plugin.getConfig().getInt("teleport-warmup") > 0) {
-			plugin.messageManager.sendMessage(player, MessageId.TELEPORT_WARMUP, destination);
+		int warmupTime = plugin.getConfig().getInt("teleport-warmup");
+		if (warmupTime > 0) {
+			Message.create(player, TELEPORT_WARMUP)
+					.setMacro(WORLD, destination.getWorld())
+					.setMacro(DURATION, languageManager.getTimeString(TimeUnit.SECONDS.toMillis(warmupTime)))
+					.send();
 
 			// if enabled, play sound effect
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
@@ -123,8 +138,8 @@ public final class TeleportManager {
 
 			// write message to log
 			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ plugin.messageManager.getItemName() + ChatColor.RESET + " in "
-					+ plugin.messageManager.getWorldName(player) + ChatColor.RESET + ".");
+					+ languageManager.getItemName() + ChatColor.RESET + " in "
+					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
 
