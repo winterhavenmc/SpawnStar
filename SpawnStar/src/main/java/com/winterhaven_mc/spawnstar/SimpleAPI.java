@@ -3,7 +3,6 @@ package com.winterhaven_mc.spawnstar;
 import com.winterhaven_mc.spawnstar.util.SpawnStar;
 import com.winterhaven_mc.util.LanguageManager;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,9 +21,6 @@ public final class SimpleAPI {
 
 	// reference to main class
 	private final static PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
-
-	// persistent metadata name spaced key
-	private final static NamespacedKey itemKey = new NamespacedKey(plugin, "isSpawnStar");
 
 
 	/**
