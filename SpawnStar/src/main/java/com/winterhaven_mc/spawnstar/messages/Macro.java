@@ -3,7 +3,7 @@ package com.winterhaven_mc.spawnstar.messages;
 public enum Macro {
 
 	DURATION,
-	QUANTITY,
+	ITEM_QUANTITY,
 	TARGET_PLAYER,
 	WORLD,
 

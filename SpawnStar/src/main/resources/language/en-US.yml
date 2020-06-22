@@ -34,7 +34,7 @@ TIME_STRINGS:
 #
 # %PLAYER%               message recipient's name
 # %ITEM%                 Item name, as defined in this file
-# %QUANTITY%             number of items (valid in give command message only)
+# %ITEM_QUANTITY%             number of items (valid in give command message only)
 # %WORLD%                World name that player is in
 # %TARGET_PLAYER%        Target player name
 # %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
@@ -49,15 +49,15 @@ MESSAGES:
 
   COMMAND_SUCCESS_GIVE_SENDER:
     enabled: true
-    string: '&3You gave %QUANTITY% %ITEM% to %TARGET_PLAYER%.'
+    string: '&3You gave %ITEM_QUANTITY% %ITEM% to %TARGET_PLAYER%.'
 
   COMMAND_SUCCESS_GIVE_TARGET:
     enabled: true
-    string: '&3%TARGET_PLAYER% gave you %QUANTITY% %ITEM%.'
+    string: '&3%TARGET_PLAYER% gave you %ITEM_QUANTITY% %ITEM%.'
 
   COMMAND_SUCCESS_GIVE_SELF:
     enabled: true
-    string: '&3You gave yourself %QUANTITY% %ITEM%.'
+    string: '&3You gave yourself %ITEM_QUANTITY% %ITEM%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
