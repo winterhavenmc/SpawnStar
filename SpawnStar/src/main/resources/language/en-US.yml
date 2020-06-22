@@ -34,7 +34,7 @@ TIME_STRINGS:
 #
 # %PLAYER%               message recipient's name
 # %ITEM%                 Item name, as defined in this file
-# %ITEM_QUANTITY%             number of items (valid in give command message only)
+# %ITEM_QUANTITY%        number of items; affects plurality of %ITEM%
 # %WORLD%                World name that player is in
 # %TARGET_PLAYER%        Target player name
 # %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
