@@ -70,7 +70,7 @@ public final class TeleportManager {
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
 			Message.create(player, TELEPORT_COOLDOWN)
-					.setMacro(DURATION, languageManager.getTimeString(getCooldownTimeRemaining(player)))
+					.setMacro(DURATION, getCooldownTimeRemaining(player))
 					.send();
 			return;
 		}
@@ -113,11 +113,11 @@ public final class TeleportManager {
 		}
 
 		// if warmup setting is greater than zero, send warmup message
-		int warmupTime = plugin.getConfig().getInt("teleport-warmup");
+		long warmupTime = plugin.getConfig().getLong("teleport-warmup");
 		if (warmupTime > 0) {
 			Message.create(player, TELEPORT_WARMUP)
 					.setMacro(WORLD, destination.getWorld())
-					.setMacro(DURATION, languageManager.getTimeString(TimeUnit.SECONDS.toMillis(warmupTime)))
+					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
 					.send();
 
 			// if enabled, play sound effect
