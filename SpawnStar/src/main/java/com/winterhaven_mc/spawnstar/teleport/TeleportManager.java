@@ -269,6 +269,7 @@ public final class TeleportManager {
 
 	/**
 	 * Attempt to get normal world associated with passed nether or end world
+	 *
 	 * @param passedWorld the passed world from which to evince an over world
 	 * @return the normal world associated with passed nether or end world,
 	 * or passed world if no matching normal world found
