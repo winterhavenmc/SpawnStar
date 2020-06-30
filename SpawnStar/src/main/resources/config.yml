@@ -60,7 +60,7 @@ from-nether: true
 from-end: true
 
 # lightning strike at spawn location on use
-lightning: true
+lightning: false
 
 # write log entry on use
 log-use: true
