@@ -98,7 +98,6 @@ public final class PlayerEventListener implements Listener {
 
 		// cancel event
 		event.setCancelled(true);
-		//noinspection deprecation
 		player.updateInventory();
 
 		// if players current world is not enabled in config, do nothing and return
