@@ -21,9 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class PluginMain extends JavaPlugin {
 
-	// global debug setting read from config file
-	public Boolean debug = getConfig().getBoolean("debug");
-
 	public SoundConfiguration soundConfig;
 	public TeleportManager teleportManager;
 	public WorldManager worldManager;

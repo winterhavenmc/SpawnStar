@@ -201,7 +201,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		sender.sendMessage(ChatColor.DARK_AQUA + "[SpawnStar] "
 				+ ChatColor.AQUA + "Version: " + ChatColor.RESET + versionString);
 
-		if (plugin.debug) {
+		if (plugin.getConfig().getBoolean("debug")) {
 			sender.sendMessage(ChatColor.DARK_RED + "DEBUG: true");
 		}
 
@@ -294,9 +294,6 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// reload sounds
 		plugin.soundConfig.reload();
-
-		// set debug field
-		plugin.debug = plugin.getConfig().getBoolean("debug");
 
 		// send reloaded message
 		Message.create(sender, COMMAND_SUCCESS_RELOAD).send();
