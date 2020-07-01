@@ -19,6 +19,10 @@ import static com.winterhaven_mc.spawnstar.messages.Macro.WORLD;
 import static com.winterhaven_mc.spawnstar.messages.MessageId.TELEPORT_SUCCESS;
 
 
+/**
+ * Class that extends BukkitRunnable to teleport a player to the world spawn location
+ * after a configured warmup period.
+ */
 final class DelayedTeleportTask extends BukkitRunnable {
 
 	// reference to main class
@@ -39,6 +43,10 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 	/**
 	 * Class constructor
+	 *
+	 * @param player the player to be teleported
+	 * @param destination the world spawn location
+	 * @param playerItem the player item used to initiate teleport
 	 */
 	DelayedTeleportTask(final Player player, final Location destination, final ItemStack playerItem) {
 
