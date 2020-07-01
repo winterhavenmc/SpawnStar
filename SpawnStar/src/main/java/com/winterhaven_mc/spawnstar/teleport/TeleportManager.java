@@ -29,10 +29,10 @@ public final class TeleportManager {
 	// reference to language manager
 	private final LanguageManager languageManager = LanguageManager.getInstance();
 
-	// Map to store player UUID and cooldown expire time in milliseconds
+	// Map of player UUID and cooldown expire time in milliseconds
 	private final Map<UUID, Long> cooldownMap;
 
-	// Map containing player UUID as key and warmup task id as value
+	// Map of player UUID as key and warmup task id as value
 	private final Map<UUID, Integer> warmupMap;
 
 
