@@ -86,6 +86,17 @@ public class SpawnStar {
 
 
 	/**
+	 * Get item name as configured in language file
+	 *
+	 * @return String - the item name as currently configured
+	 * @deprecated use LanguageManager getItemName() method
+	 */
+	public static String getItemName() {
+		return LanguageManager.getInstance().getItemName();
+	}
+
+
+	/**
 	 * Create an itemStack with default material and data from config
 	 *
 	 * @return ItemStack

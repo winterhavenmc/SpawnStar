@@ -201,10 +201,10 @@ public final class SimpleAPI {
 	 * Get item name as configured in language file
 	 *
 	 * @return String - the item name as currently configured
-	 * @deprecated use LanguageManager getItemName() method
+	 * @deprecated use SpawnStar.getItemName() method
 	 */
 	public static String getItemName() {
-		return LanguageManager.getInstance().getItemName();
+		return SpawnStar.getItemName();
 	}
 
 
