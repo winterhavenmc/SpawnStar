@@ -24,10 +24,7 @@ import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
 /**
- * Implements command executor for SpawnStar commands.
- *
- * @author Tim Savage
- * @version 1.0
+ * Implements command executor and tab completer for SpawnStar commands.
  */
 public final class CommandManager implements CommandExecutor, TabCompleter {
 
@@ -78,7 +75,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 				break;
 
 			case 2: // second argument
-				// if subcomamnd is "help", return list of matching subcommands
+				// if subcommand is "help", return list of matching subcommands
 				if (args[0].equalsIgnoreCase("help")) {
 					returnList.addAll(matchSubcommand(sender, args[1]));
 				}
@@ -595,6 +592,14 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	}
 
 
+	/**
+	 * Match online player; sends appropriate message for offline or unknown players
+	 *
+	 * @param sender the command sender
+	 * @param targetPlayerName the player name to match
+	 *
+	 * @return Player - a matching player object, or null if no match
+	 */
 	private Player matchPlayer(final CommandSender sender, final String targetPlayerName) {
 
 		// check for null parameters
@@ -639,11 +644,18 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	}
 
 
+	/**
+	 * Match list of subcommands for which player has permission
+	 *
+	 * @param sender the command sender (player) to check for permission
+	 * @param arg the partial subcommand string to match
+	 * @return List of String - matching subcommands
+	 */
 	List<String> matchSubcommand(CommandSender sender, String arg) {
 		List<String> returnList = new ArrayList<>();
 		for (String subcommand : subcommands) {
 			if (sender.hasPermission("spawnstar." + subcommand)
-					&& subcommand.startsWith(arg.toLowerCase())) {
+					&& subcommand.toLowerCase().startsWith(arg.toLowerCase())) {
 				returnList.add(subcommand);
 			}
 		}
