@@ -4,14 +4,29 @@ import com.winterhaven_mc.util.AbstractMessage;
 import org.bukkit.command.CommandSender;
 
 
+/**
+ * Class extends AbstractMessage in order to provide a static constructor
+ */
 public class Message extends AbstractMessage<MessageId,Macro> {
 
 
+	/**
+	 * Private class constructor
+	 *
+	 * @param recipient the message recipient
+	 * @param messageId the enum entry representing the message to be displayed
+	 */
 	private Message(CommandSender recipient, MessageId messageId) {
 		super(recipient, messageId);
 	}
 
 
+	/**
+	 * Static class constructor
+	 *
+	 * @param recipient the message recipient
+	 * @param messageId the enum entry representing the message to be displayed
+	 */
 	public static Message create(CommandSender recipient, MessageId messageId) {
 		return new Message(recipient, messageId);
 	}
