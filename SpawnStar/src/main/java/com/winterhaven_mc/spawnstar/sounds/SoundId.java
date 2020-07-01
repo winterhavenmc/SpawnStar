@@ -1,5 +1,8 @@
 package com.winterhaven_mc.spawnstar.sounds;
 
+/**
+ * Enum that contains entries for configured sounds
+ */
 public enum SoundId {
 
 	COMMAND_FAIL,
