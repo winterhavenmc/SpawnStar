@@ -4,7 +4,7 @@
 	<artifactId>SpawnStar</artifactId>
 	<version>1.16.0</version>
 	<name>SpawnStar</name>
-	<url>http://dev.bukkit.org/bukkit-plugins/spawnstar/</url>
+	<url>https://github.com/tim-savage/SpawnStar</url>
 
 	<properties>
 		<project.author>Tim Savage</project.author>
