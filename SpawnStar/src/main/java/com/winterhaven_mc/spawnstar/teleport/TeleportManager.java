@@ -21,6 +21,9 @@ import static com.winterhaven_mc.spawnstar.messages.Macro.*;
 import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
+/**
+ * Class that manages player teleportation, including warmup and cooldown.
+ */
 public final class TeleportManager {
 
 	// reference to main class
