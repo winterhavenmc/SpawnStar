@@ -11,7 +11,7 @@ public class Message extends AbstractMessage<MessageId,Macro> {
 
 
 	/**
-	 * Private class constructor
+	 * Private class constructor; calls inherited super constructor
 	 *
 	 * @param recipient the message recipient
 	 * @param messageId the enum entry representing the message to be displayed
@@ -26,6 +26,7 @@ public class Message extends AbstractMessage<MessageId,Macro> {
 	 *
 	 * @param recipient the message recipient
 	 * @param messageId the enum entry representing the message to be displayed
+	 * @return new instance of Message created with private constructor
 	 */
 	public static Message create(CommandSender recipient, MessageId messageId) {
 		return new Message(recipient, messageId);
