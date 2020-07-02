@@ -31,7 +31,14 @@ COMMAND_SUCCESS_DESTROY:
 TELEPORT_DENIED_PERMISSION:
   enabled: true
   player-only: true
-  sound: ENTITY_GENERIC_EXTINGUISH_FIRE
+  sound: BLOCK_NOTE_BLOCK_BASS
+  volume: 1
+  pitch: 1
+
+TELEPORT_DENIED_WORLD_DISABLED:
+  enabled: true
+  player-only: true
+  sound: BLOCK_NOTE_BLOCK_BASS
   volume: 1
   pitch: 1
 
