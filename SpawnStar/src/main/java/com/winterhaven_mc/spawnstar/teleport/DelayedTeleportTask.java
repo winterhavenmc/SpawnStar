@@ -70,10 +70,10 @@ final class DelayedTeleportTask extends BukkitRunnable {
 		// cancel particles task
 		particleTask.cancel();
 
-		// if player is in warmup hashmap
+		// if player is in warmup map
 		if (plugin.teleportManager.isWarmingUp(player)) {
 
-			// remove player from warmup hashmap
+			// remove player from warmup map
 			plugin.teleportManager.removeWarmup(player);
 
 			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
