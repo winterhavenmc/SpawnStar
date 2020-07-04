@@ -29,15 +29,14 @@ public final class TeleportManager {
 	// reference to main class
 	private final PluginMain plugin;
 
-	// reference to language manager
-	private final LanguageManager languageManager = LanguageManager.getInstance();
-
 	// Map of player UUID and cooldown expire time in milliseconds
 	private final Map<UUID, Long> cooldownMap;
 
 	// Map of player UUID as key and warmup task id as value
 	private final Map<UUID, Integer> warmupMap;
 
+	// Set containing player uuid for teleport initiated, removed by task
+	private final Set<UUID> teleportInitiated;
 
 	/**
 	 * Class constructor
@@ -54,6 +53,9 @@ public final class TeleportManager {
 
 		// initialize warmup map
 		warmupMap = new ConcurrentHashMap<>();
+
+		// initialize tpi set
+		teleportInitiated = ConcurrentHashMap.newKeySet();
 	}
 
 
@@ -134,14 +136,14 @@ public final class TeleportManager {
 						playerItem.clone()).runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup") * 20);
 
 		// insert player and taskId into warmup hashmap
-		plugin.teleportManager.putWarmup(player, teleportTask.getTaskId());
+		putWarmup(player, teleportTask.getTaskId());
 
 		// if log-use is enabled in config, write log entry
 		if (plugin.getConfig().getBoolean("log-use")) {
 
 			// write message to log
 			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ languageManager.getItemName() + ChatColor.RESET + " in "
+					+ LanguageManager.getInstance().getItemName() + ChatColor.RESET + " in "
 					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
@@ -158,7 +160,20 @@ public final class TeleportManager {
 		// check for null parameter
 		Objects.requireNonNull(player);
 
+		// put player uuid, taskId in warmup map
 		warmupMap.put(player.getUniqueId(), taskId);
+
+		// insert player uuid into teleport initiated set
+		teleportInitiated.add(player.getUniqueId());
+
+		// create task to remove player uuid from tpi set after 2 ticks
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				teleportInitiated.remove(player.getUniqueId());
+			}
+		}.runTaskLater(plugin, plugin.getConfig().getInt("interact-delay", 2));
+
 	}
 
 
@@ -214,7 +229,7 @@ public final class TeleportManager {
 			}
 
 			// remove player from warmup hashmap
-			warmupMap.remove(player.getUniqueId());
+			removeWarmup(player);
 		}
 	}
 
@@ -309,6 +324,23 @@ public final class TeleportManager {
 
 		// if no matching normal world found and more than one normal world exists, return passed world
 		return passedWorld;
+	}
+
+
+	/**
+	 * Check if player is in teleport initiated set
+	 *
+	 * @param player the player to check if teleport is initiated
+	 * @return {@code true} if teleport been initiated, {@code false} if it has not
+	 */
+	public final boolean isInitiated(final Player player) {
+
+		// check for null parameter
+		if (player == null) {
+			return false;
+		}
+
+		return !teleportInitiated.contains(player.getUniqueId());
 	}
 
 }

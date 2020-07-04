@@ -6,8 +6,10 @@ import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
 import com.winterhaven_mc.spawnstar.util.SpawnStar;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.TileState;
 import org.bukkit.block.data.Openable;
+import org.bukkit.block.data.type.Switch;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,10 +23,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
@@ -46,7 +45,9 @@ public final class PlayerEventListener implements Listener {
 				Material.CARTOGRAPHY_TABLE,
 				Material.CRAFTING_TABLE,
 				Material.FLETCHING_TABLE,
-				Material.SMITHING_TABLE )));
+				Material.SMITHING_TABLE,
+				Material.LOOM,
+				Material.STONECUTTER)));
 
 
 	/**
@@ -67,10 +68,10 @@ public final class PlayerEventListener implements Listener {
 	/**
 	 * PlayerInteract event handler
 	 *
-	 * @param event the event handled by this method
+	 * @param event PlayerInteractEvent handled by this method
 	 */
 	@EventHandler
-	final void onPlayerUse(final PlayerInteractEvent event) {
+	final void onPlayerInteract(final PlayerInteractEvent event) {
 
 		// get player
 		final Player player = event.getPlayer();
@@ -84,6 +85,12 @@ public final class PlayerEventListener implements Listener {
 				// if player is interacting with a block, cancel teleport, output message and return
 				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
 						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
+					// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
+					// this is a workaround for event double firing (once for each hand) on every player interaction
+					if (!plugin.teleportManager.isInitiated(player)) {
+						return;
+					}
 
 					// cancel teleport
 					plugin.teleportManager.cancelTeleport(player);
@@ -103,58 +110,83 @@ public final class PlayerEventListener implements Listener {
 			return;
 		}
 
-		// if event action is not a right click, or not a left click if configured, do nothing and return
-		if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR)
-				|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
-				|| (plugin.getConfig().getBoolean("left-click")
-				&& !(event.getAction().equals(Action.LEFT_CLICK_AIR)
-				|| event.getAction().equals(Action.LEFT_CLICK_BLOCK)))) {
+		// get event action
+		Action action = event.getAction();
+
+		// if event action is PHYSICAL (not left click or right click), do nothing and return
+		if (action.equals(Action.PHYSICAL)) {
 			return;
 		}
 
-		// check if clicked block is null
-		if (event.getClickedBlock() != null) {
+		// if event action is left-click, and left-click is config disabled, do nothing and return
+		if (action.equals(Action.LEFT_CLICK_BLOCK)
+				|| action.equals(Action.LEFT_CLICK_AIR)
+				&& !plugin.getConfig().getBoolean("left-click")) {
+			return;
+		}
 
-			// allow use of doors, gates and trap doors with item in hand
-			if (event.getClickedBlock().getBlockData() instanceof Openable) {
+		// if player is not warming
+		if (!plugin.teleportManager.isWarmingUp(player)) {
+
+			// get clicked block
+			Block block = event.getClickedBlock();
+
+			// check if clicked block is air (null)
+			if (block != null) {
+
+				if (!event.getPlayer().isSneaking()) {
+
+					// allow use of doors, gates and trap doors with item in hand
+					if (block.getBlockData() instanceof Openable) {
+						return;
+					}
+
+					// allow use of switches with item in hand
+					if (block.getBlockData() instanceof Switch) {
+						return;
+					}
+
+					// allow use of containers and other tile entity blocks with item in hand
+					if (block.getState() instanceof TileState) {
+						return;
+					}
+
+					// allow use of crafting tables with item in hand
+					if (craftTables.contains(block.getType())) {
+						return;
+					}
+
+					// if shift-click configured, send shift-click message, cancel event and return
+					if (plugin.getConfig().getBoolean("shift-click")) {
+						Message.create(player, TELEPORT_FAIL_SHIFT_CLICK).send();
+						event.setCancelled(true);
+						return;
+					}
+				}
+			}
+
+			// if players current world is not enabled in config, do nothing and return
+			if (!plugin.worldManager.isEnabled(player.getWorld())) {
+				Message.create(player, TELEPORT_FAIL_WORLD_DISABLED).send();
+				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
+				event.setCancelled(true);
 				return;
 			}
 
-			// allow use of containers and other tile state blocks with item in hand
-			if (event.getClickedBlock().getState() instanceof TileState) {
+			// if player does not have spawnstar.use permission, send message and return
+			if (!player.hasPermission("spawnstar.use")) {
+				Message.create(player, TELEPORT_FAIL_PERMISSION).send();
+				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
+				event.setCancelled(true);
 				return;
 			}
 
-			// allow use of crafting tables with item in hand
-			if (craftTables.contains(event.getClickedBlock().getType())) {
-				return;
-			}
+			// initiate teleport
+			plugin.teleportManager.initiateTeleport(player);
 		}
 
 		// cancel event
 		event.setCancelled(true);
-		player.updateInventory();
-
-		// if players current world is not enabled in config, do nothing and return
-		if (!plugin.worldManager.isEnabled(player.getWorld())) {
-			return;
-		}
-
-		// if player does not have spawnstar.use permission, send message and return
-		if (!player.hasPermission("spawnstar.use")) {
-			Message.create(player, TELEPORT_FAIL_PERMISSION).send();
-			plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
-			return;
-		}
-
-		// if shift-click is configured true and player is not sneaking, send message and return
-		if (plugin.getConfig().getBoolean("shift-click") && !event.getPlayer().isSneaking()) {
-			Message.create(player, TELEPORT_FAIL_SHIFT_CLICK).send();
-			return;
-		}
-
-		// initiate teleport
-		plugin.teleportManager.initiateTeleport(player);
 	}
 
 
