@@ -12,8 +12,6 @@ import java.util.Objects;
 /**
  * A self-cancelling, repeating task that generates ender signal particles
  * at a player's location as long as they are in the warmup hashmap
- *
- * @author savage
  */
 final class ParticleTask extends BukkitRunnable {
 
@@ -26,6 +24,9 @@ final class ParticleTask extends BukkitRunnable {
 
 	/**
 	 * Class constructor method
+	 *
+	 * @param plugin reference to plugin main class
+	 * @param player the player to emit particles
 	 */
 	ParticleTask(final PluginMain plugin, final Player player) {
 

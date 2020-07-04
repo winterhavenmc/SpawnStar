@@ -43,6 +43,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 	/**
 	 * Class constructor
 	 *
+	 * @param plugin reference to plugin main class
 	 * @param player the player to be teleported
 	 * @param destination the world spawn location
 	 * @param playerItem the player item used to initiate teleport

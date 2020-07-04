@@ -41,7 +41,7 @@ public final class TeleportManager {
 	/**
 	 * Class constructor
 	 *
-	 * @param plugin reference to main class
+	 * @param plugin reference to plugin main class
 	 */
 	public TeleportManager(final PluginMain plugin) {
 
