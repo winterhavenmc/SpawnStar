@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SpawnStar {
+/**
+ * Utility class with static methods useful for creating and using SpawnStar item stacks
+ */
+public final class SpawnStar {
 
 	// reference to main class
 	private final static PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
