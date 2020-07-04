@@ -122,6 +122,11 @@ MESSAGES:
     repeat-delay: 1
     string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM% verwenden.'
 
+  TELEPORT_FAIL_WORLD_DISABLED:
+    enabled: true
+    repeat-delay: 1
+    string: '&Laichen Sterne sind in dieser Welt nicht aktiviert.'
+
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
     string: '&cTeleportation durch Beschädigung aufgehoben!'
@@ -146,4 +151,3 @@ MESSAGES:
   TELEPORT_WARMUP:
     enabled: true
     string: '&3Teleportieren, um in &b%DURATION%&3...'
-

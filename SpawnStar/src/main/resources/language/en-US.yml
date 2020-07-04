@@ -138,6 +138,11 @@ MESSAGES:
     repeat-delay: 1
     string: '&3You must shift-click to use a %ITEM%.'
 
+  TELEPORT_FAIL_WORLD_DISABLED:
+    enabled: true
+    repeat-delay: 1
+    string: '&3SpawnStars are not enabled in this world.'
+
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
     string: '&cTeleport cancelled by damage!'

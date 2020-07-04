@@ -122,6 +122,11 @@ MESSAGES:
     repeat-delay: 1
     string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %ITEM%.'
 
+  TELEPORT_FAIL_WORLD_DISABLED:
+    enabled: true
+    repeat-delay: 1
+    string: '&3Las estrellas de origen no están habilitadas en este mundo.'
+
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
     string: '&c¡teletransporte cancelado por daños!'
