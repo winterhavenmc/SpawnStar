@@ -35,7 +35,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	private final static ChatColor helpColor = ChatColor.YELLOW;
 	private final static ChatColor usageColor = ChatColor.GOLD;
 
-		// constant List of subcommands
+	// constant List of subcommands
 	private final static List<String> SUBCOMMANDS =
 			Collections.unmodifiableList(new ArrayList<>(
 					Arrays.asList("give", "destroy", "status", "reload", "help")));
@@ -651,7 +651,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * @param arg the partial subcommand string to match
 	 * @return List of String - matching subcommands
 	 */
-	List<String> matchSubcommand(CommandSender sender, String arg) {
+	List<String> matchSubcommand(final CommandSender sender, final String arg) {
 		List<String> returnList = new ArrayList<>();
 		for (String subcommand : SUBCOMMANDS) {
 			if (sender.hasPermission("spawnstar." + subcommand)
