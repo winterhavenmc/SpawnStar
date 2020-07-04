@@ -6,7 +6,6 @@ import com.winterhaven_mc.spawnstar.messages.Message;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -26,7 +25,7 @@ import static com.winterhaven_mc.spawnstar.messages.MessageId.TELEPORT_SUCCESS;
 final class DelayedTeleportTask extends BukkitRunnable {
 
 	// reference to main class
-	private final PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
+	private final PluginMain plugin;
 
 	// player being teleported
 	private final Player player;
@@ -48,9 +47,13 @@ final class DelayedTeleportTask extends BukkitRunnable {
 	 * @param destination the world spawn location
 	 * @param playerItem the player item used to initiate teleport
 	 */
-	DelayedTeleportTask(final Player player, final Location destination, final ItemStack playerItem) {
+	DelayedTeleportTask(final PluginMain plugin,
+						final Player player,
+						final Location destination,
+						final ItemStack playerItem) {
 
 		// check for null parameters
+		this.plugin = Objects.requireNonNull(plugin);
 		this.player = Objects.requireNonNull(player);
 		this.destination = Objects.requireNonNull(destination);
 		this.playerItem = Objects.requireNonNull(playerItem);
