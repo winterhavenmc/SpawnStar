@@ -62,7 +62,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 		if (plugin.getConfig().getBoolean("particle-effects")) {
 
 			// start particle task, with 2 tick delay so it doesn't self cancel on first run
-			particleTask = new ParticleTask(player).runTaskTimer(plugin, 2L, 10);
+			particleTask = new ParticleTask(plugin, player).runTaskTimer(plugin, 2L, 10);
 		}
 	}
 
