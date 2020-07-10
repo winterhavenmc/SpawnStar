@@ -30,9 +30,6 @@ import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 /**
  * Implements player event listener for SpawnStar events
- *
- * @author Tim Savage
- * @version 1.0
  */
 public final class PlayerEventListener implements Listener {
 
