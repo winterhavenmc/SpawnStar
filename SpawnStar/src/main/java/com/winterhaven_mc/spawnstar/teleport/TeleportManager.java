@@ -38,6 +38,7 @@ public final class TeleportManager {
 	// Set containing player uuid for teleport initiated, removed by task
 	private final Set<UUID> teleportInitiated;
 
+
 	/**
 	 * Class constructor
 	 *
