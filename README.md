@@ -8,14 +8,14 @@ A configurable item that serves as a physical replacement for the /spawn command
 *   Customizable display name and lore.
 *   Option to teleport back to overworld from nether or the end.
 *   Configurable cool down period.
-*   Configurable warm up period, with optional particle effects during warm up. (v1.2)
-*   Individually configurable options to cancel teleport during warmup on damage, movement, or block interaction. (v1.4)
-*   Configurable option to remove item from inventory on use, after successful teleport, or never. (v1.4)
-*   Configurable option to prevent using SpawnStar items in crafting recipes. (v1.3)
-*   Configurable option to require shift-click to use. (v1.3)
-*   Uses MultiVerse world aliases in messages, if installed (v1.5)
-*   Uses MultiVerse world spawn location, if installed. (So players will be looking in the right direction on respawn.) (v1.5)
-*   Configurable per message repeat delay (message cooldown) where appropriate. (v1.5)
+*   Configurable warm up period, with optional particle effects during warm up.
+*   Individually configurable options to cancel teleport during warmup on damage, movement, or block interaction.
+*   Configurable option to remove item from inventory on use, after successful teleport, or never.
+*   Configurable option to prevent using SpawnStar items in crafting recipes.
+*   Configurable option to require shift-click to use.
+*   Uses MultiVerse world aliases in messages, if installed.
+*   Uses MultiVerse world spawn location, if installed. (So players will be looking in the right direction on respawn.)
+*   Configurable per message repeat delay (message cooldown) where appropriate.
 *   Customizable language support.
 
 # Commands
