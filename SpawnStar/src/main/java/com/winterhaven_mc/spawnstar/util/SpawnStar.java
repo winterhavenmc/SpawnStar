@@ -106,9 +106,16 @@ public final class SpawnStar {
 	 */
 	public static ItemStack getDefaultItem() {
 
+		// get default material string from configuration file
+		String configMaterialString = plugin.getConfig().getString("item-material");
+
+		// if config material string is null, set to NETHER_STAR
+		if (configMaterialString == null) {
+			configMaterialString = "NETHER_STAR";
+		}
+
 		// try to match material
-		@SuppressWarnings("ConstantConditions")
-		Material configMaterial = Material.matchMaterial(plugin.getConfig().getString("item-material"));
+		Material configMaterial = Material.matchMaterial(configMaterialString);
 
 		// if no match default to nether star
 		if (configMaterial == null) {
