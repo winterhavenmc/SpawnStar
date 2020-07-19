@@ -7,6 +7,14 @@ COMMAND_FAIL:
   volume: 1
   pitch: 1
 
+COMMAND_INVALID:
+  enabled: true
+  player-only: true
+  sound: ENTITY_WANDERING_TRADER_AMBIENT
+  volume: 1
+  pitch: 1
+
+
 COMMAND_SUCCESS_GIVE_SENDER:
   enabled: true
   player-only: true
@@ -27,6 +35,7 @@ COMMAND_SUCCESS_DESTROY:
   sound: ENTITY_ITEM_BREAK
   volume: 1
   pitch: 1
+
 
 TELEPORT_DENIED_PERMISSION:
   enabled: true

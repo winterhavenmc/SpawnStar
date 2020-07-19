@@ -6,6 +6,7 @@ package com.winterhaven_mc.spawnstar.sounds;
 public enum SoundId {
 
 	COMMAND_FAIL,
+	COMMAND_INVALID,
 	COMMAND_SUCCESS_GIVE_SENDER,
 	COMMAND_SUCCESS_DESTROY,
 	COMMAND_SUCCESS_GIVE_TARGET,
