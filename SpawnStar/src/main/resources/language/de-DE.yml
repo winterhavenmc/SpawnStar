@@ -55,6 +55,36 @@ MESSAGES:
     enabled: true
     string: '&3[SpawnStar]&b Konfiguration neu geladen.'
 
+
+  COMMAND_HELP_DESTROY:
+    enabled: true
+    string: '&eDestroys the stack of HomeStars you are holding.'
+
+  COMMAND_HELP_GIVE:
+    enabled: true
+    string: '&eGives a HomeStar to a player.'
+
+  COMMAND_HELP_HELP:
+    enabled: true
+    string: '&eDisplays help for HomeStar commands.'
+
+  COMMAND_HELP_RELOAD:
+    enabled: true
+    string: '&eReloads the configuration without needing to restart the server.'
+
+  COMMAND_HELP_STATUS:
+    enabled: true
+    string: '&eDisplays plugin configuration settings.'
+
+  COMMAND_HELP_INVALID:
+    enabled: true
+    string: '&3[HomeStar]&c That is not a valid command!'
+
+  COMMAND_HELP_USAGE_HEADER:
+    enabled: true
+    string: '&eCommand usage:'
+
+
   COMMAND_FAIL_ARGS_COUNT_OVER:
     enabled: true
     string: '&3[SpawnStar]&c Zu viele Parameter!'
