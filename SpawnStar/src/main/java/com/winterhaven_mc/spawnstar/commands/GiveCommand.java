@@ -85,12 +85,24 @@ public class GiveCommand extends AbstractCommand {
 			return true;
 		}
 
-		String targetPlayerName = args.get(1);
+		// get passed player name
+		String targetPlayerName = args.get(0);
+
+		// try to match target player name to currently online player
+		Player targetPlayer = matchPlayer(sender, targetPlayerName);
+
+		// if no match, do nothing and return (message was output by matchPlayer method)
+		if (targetPlayer == null) {
+			return true;
+		}
+
+		// set default quantity
 		int quantity = 1;
 
-		if (args.size() > 2) {
+		// if second argument, try to parse as integer
+		if (args.size() == 2) {
 			try {
-				quantity = Integer.parseInt(args.get(2));
+				quantity = Integer.parseInt(args.get(1));
 			}
 			catch (NumberFormatException e) {
 				Message.create(sender, COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
@@ -106,14 +118,6 @@ public class GiveCommand extends AbstractCommand {
 			maxQuantity = Integer.MAX_VALUE;
 		}
 		quantity = Math.min(maxQuantity, quantity);
-
-		// try to match target player name to currently online player
-		Player targetPlayer = matchPlayer(sender, targetPlayerName);
-
-		// if no match, do nothing and return (message was output by matchPlayer method)
-		if (targetPlayer == null) {
-			return true;
-		}
 
 		// add specified quantity of spawnstar(s) to player inventory
 		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(SpawnStar.create(quantity));
