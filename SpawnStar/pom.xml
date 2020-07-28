@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.winterhaven-mc</groupId>
 	<artifactId>SpawnStar</artifactId>
-	<version>1.16.1</version>
+	<version>1.15.0</version>
 	<name>SpawnStar</name>
 	<url>https://github.com/tim-savage/SpawnStar</url>
 
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.16.1-R0.1-SNAPSHOT</version>
+			<version>1.15.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
