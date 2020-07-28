@@ -15,7 +15,7 @@ import static com.winterhaven_mc.spawnstar.messages.Macro.ITEM_QUANTITY;
 import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
-public class DestroyCommand extends AbstractCommand {
+public class DestroyCommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 

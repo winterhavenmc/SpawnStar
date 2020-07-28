@@ -18,7 +18,7 @@ import static com.winterhaven_mc.spawnstar.sounds.SoundId.*;
  * Help command implementation<br>
  * displays help and usage messages for plugin commands
  */
-public class HelpCommand extends AbstractCommand implements Subcommand {
+public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	private final PluginMain plugin;
 	private final SubcommandMap subcommandMap;

@@ -12,7 +12,7 @@ import java.util.Objects;
 import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
-public class ReloadCommand extends AbstractCommand {
+public class ReloadCommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 

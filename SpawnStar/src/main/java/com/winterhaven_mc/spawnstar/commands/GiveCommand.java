@@ -17,7 +17,7 @@ import static com.winterhaven_mc.spawnstar.messages.Macro.TARGET_PLAYER;
 import static com.winterhaven_mc.spawnstar.messages.MessageId.*;
 
 
-public class GiveCommand extends AbstractCommand {
+public class GiveCommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 
