@@ -34,6 +34,7 @@ public class HelpCommand extends AbstractCommand implements Subcommand {
 		this.setName("help");
 		this.setUsage("/spawnstar help [command]");
 		this.setDescription(COMMAND_HELP_HELP);
+		this.setMaxArgs(1);
 	}
 
 
@@ -66,6 +67,14 @@ public class HelpCommand extends AbstractCommand implements Subcommand {
 		if (!sender.hasPermission("spawnstar.help")) {
 			Message.create(sender, COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			return true;
+		}
+
+		// check max arguments
+		if (args.size() > getMaxArgs()) {
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			displayUsage(sender);
 			return true;
 		}
 

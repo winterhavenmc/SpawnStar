@@ -25,7 +25,9 @@ public class StatusCommand extends AbstractCommand {
 		this.setName("status");
 		this.setUsage("/spawnstar status");
 		this.setDescription(COMMAND_HELP_STATUS);
+		this.setMaxArgs(0);
 	}
+
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
@@ -37,11 +39,8 @@ public class StatusCommand extends AbstractCommand {
 			return true;
 		}
 
-		// argument limits
-		int maxArgs = 1;
-
 		// check max arguments
-		if (args.size() > maxArgs) {
+		if (args.size() > getMaxArgs()) {
 			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);

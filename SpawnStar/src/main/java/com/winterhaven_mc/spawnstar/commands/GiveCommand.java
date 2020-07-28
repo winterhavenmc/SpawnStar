@@ -27,6 +27,8 @@ public class GiveCommand extends AbstractCommand {
 		this.setName("give");
 		this.setUsage("/spawnstar give <player> [quantity]");
 		this.setDescription(COMMAND_HELP_GIVE);
+		this.setMinArgs(1);
+		this.setMaxArgs(2);
 	}
 
 
@@ -67,12 +69,8 @@ public class GiveCommand extends AbstractCommand {
 			return true;
 		}
 
-		// argument limits
-		int minArgs = 2;
-		int maxArgs = 3;
-
 		// check min arguments
-		if (args.size() < minArgs) {
+		if (args.size() < getMinArgs()) {
 			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_UNDER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
@@ -80,7 +78,7 @@ public class GiveCommand extends AbstractCommand {
 		}
 
 		// check max arguments
-		if (args.size() > maxArgs) {
+		if (args.size() > getMaxArgs()) {
 			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);

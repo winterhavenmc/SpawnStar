@@ -15,6 +15,8 @@ public abstract class AbstractCommand implements Subcommand {
 	private List<String> aliases = new ArrayList<>();
 	private String usageString;
 	private MessageId description;
+	private int minArgs;
+	private int maxArgs;
 
 
 	@Override
@@ -65,6 +67,22 @@ public abstract class AbstractCommand implements Subcommand {
 	@Override
 	public void setDescription(final MessageId description) {
 		this.description = description;
+	}
+
+	@Override
+	public int getMinArgs() { return minArgs; }
+
+	@Override
+	public void setMinArgs(int minArgs) {
+		this.minArgs = minArgs;
+	}
+
+	@Override
+	public int getMaxArgs() { return maxArgs; }
+
+	@Override
+	public void setMaxArgs(int maxArgs) {
+		this.maxArgs = maxArgs;
 	}
 
 

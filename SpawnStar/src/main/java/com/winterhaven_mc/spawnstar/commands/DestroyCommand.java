@@ -25,6 +25,7 @@ public class DestroyCommand extends AbstractCommand {
 		this.setName("destroy");
 		this.setUsage("/spawnstar destroy");
 		this.setDescription(COMMAND_HELP_DESTROY);
+		this.setMaxArgs(0);
 	}
 
 
@@ -44,11 +45,8 @@ public class DestroyCommand extends AbstractCommand {
 			return true;
 		}
 
-		// argument limits
-		int maxArgs = 1;
-
 		// check max arguments
-		if (args.size() > maxArgs) {
+		if (args.size() > getMaxArgs()) {
 			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
