@@ -24,11 +24,12 @@ public class GiveCommand extends AbstractSubcommand {
 
 	GiveCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.setName("give");
-		this.setUsage("/spawnstar give <player> [quantity]");
-		this.setDescription(COMMAND_HELP_GIVE);
-		this.setMinArgs(1);
-		this.setMaxArgs(2);
+		this.name = "give";
+		this.usage = "/spawnstar give <player> [quantity]";
+		this.description = COMMAND_HELP_GIVE;
+		this.permission = "spawnstar.give";
+		this.minArgs = 1;
+		this.maxArgs = 2;
 	}
 
 

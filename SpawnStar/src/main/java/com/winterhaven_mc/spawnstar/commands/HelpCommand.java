@@ -21,20 +21,19 @@ import static com.winterhaven_mc.spawnstar.sounds.SoundId.*;
 public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	private final PluginMain plugin;
-	private final SubcommandMap subcommandMap;
 
 
 	/**
 	 * Class constructor
 	 * @param plugin reference to plugin main class instance
 	 */
-	HelpCommand(final PluginMain plugin, final SubcommandMap subcommandMap) {
+	HelpCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.subcommandMap = Objects.requireNonNull(subcommandMap);
-		this.setName("help");
-		this.setUsage("/spawnstar help [command]");
-		this.setDescription(COMMAND_HELP_HELP);
-		this.setMaxArgs(1);
+		this.name = "help";
+		this.usage = "/spawnstar help [command]";
+		this.description = COMMAND_HELP_HELP;
+		this.permission = "spawnstar.help";
+		this.maxArgs = 1;
 	}
 
 
@@ -46,8 +45,8 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("help")) {
-				for (String subcommand : subcommandMap.getKeys()) {
-					if (sender.hasPermission("spawnstar." + subcommand)
+				for (String subcommand : subcommandMap.getNames()) {
+					if (sender.hasPermission(permission)
 							&& subcommand.startsWith(args[1].toLowerCase())
 							&& !subcommand.equalsIgnoreCase("help")) {
 						returnList.add(subcommand);
@@ -64,7 +63,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 	public boolean onCommand(CommandSender sender, List<String> args) {
 
 		// if command sender does not have permission to display help, output error message and return true
-		if (!sender.hasPermission("spawnstar.help")) {
+		if (!sender.hasPermission(permission)) {
 			Message.create(sender, COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
@@ -124,7 +123,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		Message.create(sender, COMMAND_HELP_USAGE_HEADER).send();
 
-		for (String subcommandName : subcommandMap.getKeys()) {
+		for (String subcommandName : subcommandMap.getNames()) {
 			if (subcommandMap.getCommand(subcommandName) != null) {
 				subcommandMap.getCommand(subcommandName).displayUsage(sender);
 			}

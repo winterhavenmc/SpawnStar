@@ -11,12 +11,14 @@ import java.util.List;
 
 public abstract class AbstractSubcommand implements Subcommand {
 
-	private String name;
-	private List<String> aliases = new ArrayList<>();
-	private String usageString;
-	private MessageId description;
-	private int minArgs;
-	private int maxArgs;
+	protected String name;
+	protected List<String> aliases = new ArrayList<>();
+	protected String usage;
+	protected MessageId description;
+	protected String permission;
+	protected int minArgs;
+	protected int maxArgs;
+	protected SubcommandMap subcommandMap;
 
 
 	@Override
@@ -25,38 +27,18 @@ public abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public final void setName(final String name) {
-		this.name = name;
-	}
-
-	@Override
 	public final List<String> getAliases() {
 		return aliases;
 	}
 
 	@Override
-	public final void setAliases(List<String> aliases) {
-		this.aliases = aliases;
-	}
-
-	@Override
-	public final void addAlias(String alias) {
-		this.aliases.add(alias);
-	}
-
-	@Override
 	public final String getUsage() {
-		return usageString;
+		return usage;
 	}
 
 	@Override
 	public final void displayUsage(CommandSender sender) {
-		sender.sendMessage(usageString);
-	}
-
-	@Override
-	public final void setUsage(String usageString) {
-		this.usageString = usageString;
+		sender.sendMessage(usage);
 	}
 
 	@Override
@@ -65,25 +47,15 @@ public abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public final void setDescription(final MessageId description) {
-		this.description = description;
+	public final String getPermission() {
+		return permission;
 	}
 
 	@Override
 	public final int getMinArgs() { return minArgs; }
 
 	@Override
-	public final void setMinArgs(int minArgs) {
-		this.minArgs = minArgs;
-	}
-
-	@Override
 	public final int getMaxArgs() { return maxArgs; }
-
-	@Override
-	public final void setMaxArgs(int maxArgs) {
-		this.maxArgs = maxArgs;
-	}
 
 
 	@Override
@@ -91,6 +63,12 @@ public abstract class AbstractSubcommand implements Subcommand {
 									  final String alias, final String[] args) {
 
 		return Collections.emptyList();
+	}
+
+	@Override
+	public void register(SubcommandMap subcommandMap) {
+		this.subcommandMap = subcommandMap;
+		subcommandMap.register(this);
 	}
 
 }

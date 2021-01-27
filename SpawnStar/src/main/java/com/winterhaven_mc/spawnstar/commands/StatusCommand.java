@@ -22,10 +22,11 @@ public class StatusCommand extends AbstractSubcommand {
 
 	StatusCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.setName("status");
-		this.setUsage("/spawnstar status");
-		this.setDescription(COMMAND_HELP_STATUS);
-		this.setMaxArgs(0);
+		this.name = "status";
+		this.usage = "/spawnstar status";
+		this.description = COMMAND_HELP_STATUS;
+		this.permission = "spawnstar.status";
+		this.maxArgs = 0;
 	}
 
 
@@ -33,7 +34,7 @@ public class StatusCommand extends AbstractSubcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if command sender does not have permission to view status, output error message and return
-		if (!sender.hasPermission("spawnstar.status")) {
+		if (!sender.hasPermission(permission)) {
 			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;

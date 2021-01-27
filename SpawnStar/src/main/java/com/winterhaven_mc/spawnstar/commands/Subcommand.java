@@ -16,30 +16,20 @@ public interface Subcommand {
 
 	String getName();
 
-	void setName(final String name);
-
 	List<String> getAliases();
 
-	void setAliases(List<String> aliases);
-
-	void addAlias(String alias);
-
 	String getUsage();
-
-	void setUsage(String usageString);
 
 	void displayUsage(CommandSender sender);
 
 	MessageId getDescription();
 
-	void setDescription(MessageId messageId);
+	String getPermission();
 
 	int getMinArgs();
 
-	void setMinArgs(int minArgs);
-
 	int getMaxArgs();
 
-	void setMaxArgs(int maxArgs);
+	void register(SubcommandMap subcommandMap);
 
 }
