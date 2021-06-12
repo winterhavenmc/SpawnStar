@@ -1,0 +1,199 @@
+# Language configuration file for ${project.name} v${project.version}
+
+###########
+# Item Info
+###########
+ITEM_INFO:
+  # Item Display Name
+  ITEM_NAME: '&aSpawnStar'
+  ITEM_NAME_PLURAL: '&aSpawnStars'
+
+  # Item Lore
+  ITEM_LORE:
+  - '&eUse to Return'
+  - '&eto World Spawn'
+
+  # Spawn Display Name
+  SPAWN_DISPLAY_NAME: 'spawn'
+
+# Time strings
+TIME_STRINGS:
+  DAY: 'day'
+  DAY_PLURAL: 'days'
+  HOUR: 'hour'
+  HOUR_PLURAL: 'hours'
+  MINUTE: 'minute'
+  MINUTE_PLURAL: 'minutes'
+  SECOND: 'second'
+  SECOND_PLURAL: 'seconds'
+  UNLIMITED: 'unlimited time'
+  LESS_THAN_ONE: 'less than one'
+
+
+# Variable substitutions:
+#
+# %PLAYER%               message recipient's name
+# %ITEM%                 Item name, as defined in this file
+# %ITEM_QUANTITY%        number of items (valid in give command message only)
+# %WORLD%                World name that player is in
+# %TARGET_PLAYER%        Target player name
+# %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
+
+# optional repeat-delay setting is the number of seconds to wait before
+# displaying a message again (only used on appropriate messages)
+
+MESSAGES:
+  COMMAND_SUCCESS_DESTROY:
+    enabled: true
+    string: '&3[SpawnStar] &c%ITEM% destroyed!'
+
+  COMMAND_SUCCESS_GIVE_SENDER:
+    enabled: true
+    string: '&3You gave %ITEM_QUANTITY% %ITEM% to %TARGET_PLAYER%.'
+
+  COMMAND_SUCCESS_GIVE_TARGET:
+    enabled: true
+    string: '&3%TARGET_PLAYER% gave you %ITEM_QUANTITY% %ITEM%.'
+
+  COMMAND_SUCCESS_GIVE_SELF:
+    enabled: true
+    string: '&3You gave yourself %ITEM_QUANTITY% %ITEM%.'
+
+  COMMAND_SUCCESS_RELOAD:
+    enabled: true
+    string: '&3[SpawnStar] &bConfiguration reloaded.'
+
+
+  COMMAND_HELP_INVALID:
+    enabled: true
+    string: '&3[SpawnStar]&c That is not a valid command!'
+
+  COMMAND_HELP_DESTROY:
+    enabled: true
+    string: '&eDestroys the stack of HomeStars you are holding.'
+
+  COMMAND_HELP_GIVE:
+    enabled: true
+    string: '&eGives a HomeStar to a player.'
+
+  COMMAND_HELP_HELP:
+    enabled: true
+    string: '&eDisplays help for HomeStar commands.'
+
+  COMMAND_HELP_RELOAD:
+    enabled: true
+    string: '&eReloads the configuration without needing to restart the server.'
+
+  COMMAND_HELP_STATUS:
+    enabled: true
+    string: '&eDisplays plugin configuration settings.'
+
+  COMMAND_HELP_USAGE_HEADER:
+    enabled: true
+    string: '&eCommand usage:'
+
+
+  COMMAND_FAIL_INVALID_COMMAND:
+    enabled: true
+    string: '&3[SpawnStar] &cThat is not a valid command!'
+
+  COMMAND_FAIL_ARGS_COUNT_OVER:
+    enabled: true
+    string: '&3[SpawnStar] &cToo many arguments!'
+
+  COMMAND_FAIL_ARGS_COUNT_UNDER:
+    enabled: true
+    string: '&3[SpawnStar] &cToo few arguments!'
+
+  COMMAND_FAIL_DESTROY_CONSOLE:
+    enabled: true
+    string: '&3[SpawnStar] &cYou must be in game to destroy SpawnStar items!'
+
+  COMMAND_FAIL_DESTROY_NO_MATCH:
+    enabled: true
+    string: '&3[SpawnStar] &cThe item you are holding is not a SpawnStar item!'
+
+  COMMAND_FAIL_GIVE_INVENTORY_FULL:
+    enabled: true
+    string: '&3Could not give %ITEM% to %TARGET_PLAYER% because their inventory is full.'
+
+  COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
+    enabled: true
+    string: '&3That player could not be found.'
+
+  COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE:
+    enabled: true
+    string: '&3That player is not online.'
+
+  COMMAND_FAIL_GIVE_QUANTITY_INVALID:
+    enabled: true
+    string: '&3[SpawnStar] &cInvalid quantity!'
+
+  COMMAND_FAIL_DESTROY_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to destroy SpawnStar items!'
+
+  COMMAND_FAIL_GIVE_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to give SpawnStar items!'
+
+  COMMAND_FAIL_RELOAD_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to reload the configuration!'
+
+  COMMAND_FAIL_STATUS_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to view SpawnStar settings!'
+
+  COMMAND_FAIL_HELP_PERMISSION:
+    enabled: true
+    string: '&cYou do not have permission to view SpawnStar help!'
+
+  TELEPORT_SUCCESS:
+    enabled: true
+    string: '&3Returned to &b%WORLD% spawn&3.'
+
+  TELEPORT_FAIL_PERMISSION:
+    enabled: true
+    repeat-delay: 1
+    string: '&cYou do not have permission to use &b%ITEM%&3 in %WORLD%.'
+
+  TELEPORT_FAIL_MIN_DISTANCE:
+    enabled: true
+    repeat-delay: 1
+    string: '&3You are too close to spawn to use a %ITEM%.'
+
+  TELEPORT_FAIL_SHIFT_CLICK:
+    enabled: true
+    repeat-delay: 1
+    string: '&3You must shift-click to use a %ITEM%.'
+
+  TELEPORT_FAIL_WORLD_DISABLED:
+    enabled: true
+    repeat-delay: 1
+    string: '&3SpawnStars are not enabled in this world.'
+
+  TELEPORT_CANCELLED_DAMAGE:
+    enabled: true
+    string: '&cTeleport cancelled by damage!'
+
+  TELEPORT_CANCELLED_INTERACTION:
+    enabled: true
+    string: '&cTeleport cancelled by interaction!'
+
+  TELEPORT_CANCELLED_MOVEMENT:
+    enabled: true
+    string: '&cTeleport cancelled by movement!'
+
+  TELEPORT_CANCELLED_NO_ITEM:
+    enabled: true
+    string: '&cYou no longer have a SpawnStar item!'
+
+  TELEPORT_COOLDOWN:
+    enabled: true
+    repeat-delay: 1
+    string: '&3You need to wait &b%DURATION%&3 to use another %ITEM%.'
+
+  TELEPORT_WARMUP:
+    enabled: true
+    string: '&3Teleporting to &b%WORLD% spawn&3 in &b%DURATION%&3...'
