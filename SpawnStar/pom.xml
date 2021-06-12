@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.winterhaven-mc</groupId>
 	<artifactId>SpawnStar</artifactId>
-	<version>1.15.0</version>
+	<version>1.16.0-SNAPSHOT</version>
 	<name>SpawnStar</name>
 	<url>https://github.com/tim-savage/SpawnStar</url>
 
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.15.2-R0.1-SNAPSHOT</version>
+			<version>1.16.5-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -48,31 +48,56 @@
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>messenger-lib</artifactId>
-			<version>1.16.0</version>
+			<version>1.16.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- SoundConfigLib -->
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>sound-config-lib</artifactId>
-			<version>1.0.5</version>
+			<version>1.0.6</version>
 		</dependency>
 
 		<!-- WorldManagerLib -->
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>world-manager-lib</artifactId>
-			<version>1.16.0</version>
+			<version>1.16.1</version>
+		</dependency>
+
+		<!-- Unit Testing Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mock Bukkit Framework -->
+		<dependency>
+			<groupId>com.github.seeseemelk</groupId>
+			<artifactId>MockBukkit-v1.16</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<!-- Resources -->
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+
+		<!-- Test Resources -->
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 
 		<plugins>
 			<plugin>
@@ -149,6 +174,18 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<!-- Plugin for Unit Tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+
+				<configuration>
+					<junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
