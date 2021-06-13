@@ -4,7 +4,6 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
-import com.winterhaven_mc.util.LanguageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -77,7 +76,7 @@ public final class TeleportManager {
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
 			Message.create(player, TELEPORT_COOLDOWN)
 					.setMacro(DURATION, getCooldownTimeRemaining(player))
-					.send();
+					.send(plugin.languageManager);
 			return;
 		}
 
@@ -108,7 +107,7 @@ public final class TeleportManager {
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
 			Message.create(player, TELEPORT_FAIL_MIN_DISTANCE)
 					.setMacro(WORLD, destination.getWorld())
-					.send();
+					.send(plugin.languageManager);
 			return;
 		}
 
@@ -124,7 +123,7 @@ public final class TeleportManager {
 			Message.create(player, TELEPORT_WARMUP)
 					.setMacro(WORLD, destination.getWorld())
 					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
-					.send();
+					.send(plugin.languageManager);
 
 			// if enabled, play sound effect
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
@@ -133,7 +132,7 @@ public final class TeleportManager {
 		// initiate delayed teleport for player to destination
 		BukkitTask teleportTask =
 				new DelayedTeleportTask(plugin, player, destination, playerItem.clone())
-						.runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup") * 20);
+						.runTaskLater(plugin, plugin.getConfig().getLong("teleport-warmup") * 20);
 
 		// insert player and taskId into warmup hashmap
 		putWarmup(player, teleportTask.getTaskId());
@@ -143,7 +142,7 @@ public final class TeleportManager {
 
 			// write message to log
 			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ LanguageManager.getInstance().getItemName() + ChatColor.RESET + " in "
+					+ plugin.languageManager.getItemName() + ChatColor.RESET + " in "
 					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
@@ -246,10 +245,10 @@ public final class TeleportManager {
 		Objects.requireNonNull(player);
 
 		// get cooldown time in seconds from config
-		final int cooldownSeconds = plugin.getConfig().getInt("teleport-cooldown");
+		final long cooldownSeconds = plugin.getConfig().getLong("teleport-cooldown");
 
 		// set expireTime to current time + configured cooldown period, in milliseconds
-		final Long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
+		final long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
 
 		// put in cooldown map with player UUID as key and expireTime as value
 		cooldownMap.put(player.getUniqueId(), expireTime);
@@ -259,7 +258,7 @@ public final class TeleportManager {
 			public void run() {
 				cooldownMap.remove(player.getUniqueId());
 			}
-		}.runTaskLater(plugin, (cooldownSeconds * 20));
+		}.runTaskLater(plugin, (cooldownSeconds * 20L));
 	}
 
 
