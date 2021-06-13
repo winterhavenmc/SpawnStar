@@ -8,7 +8,11 @@ import com.winterhaven_mc.util.WorldManager;
 import com.winterhaven_mc.util.SoundConfiguration;
 import com.winterhaven_mc.util.YamlSoundConfiguration;
 
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+
+import java.io.File;
 
 
 /**
@@ -26,6 +30,21 @@ public final class PluginMain extends JavaPlugin {
 	public WorldManager worldManager;
 	public CommandManager commandManager;
 	public PlayerEventListener playerEventListener;
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("unused")
+	public PluginMain() {
+		super();
+	}
+
+
+	@SuppressWarnings("unused")
+	protected PluginMain(JavaPluginLoader loader, PluginDescriptionFile descriptionFile, File dataFolder, File file) {
+		super(loader, descriptionFile, dataFolder, file);
+	}
+
 
 	@Override
 	public void onEnable() {
