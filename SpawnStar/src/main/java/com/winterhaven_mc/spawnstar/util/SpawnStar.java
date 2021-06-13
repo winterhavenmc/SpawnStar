@@ -1,5 +1,6 @@
 package com.winterhaven_mc.spawnstar.util;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.util.LanguageManager;
 import org.bukkit.ChatColor;
@@ -23,10 +24,11 @@ public final class SpawnStar {
 	private final static PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
 
 	// reference to language manager
-	private final static LanguageManager languageManager = LanguageManager.getInstance();
+	private final static LanguageManager languageManager = plugin.languageManager;
 
 	// name spaced key for persistent data
-	public final static NamespacedKey PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
+	@VisibleForTesting
+	protected final static NamespacedKey PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
 
 
 	/**
@@ -95,7 +97,7 @@ public final class SpawnStar {
 	 * @deprecated use LanguageManager getItemName() method
 	 */
 	public static String getItemName() {
-		return LanguageManager.getInstance().getItemName();
+		return plugin.languageManager.getItemName();
 	}
 
 
