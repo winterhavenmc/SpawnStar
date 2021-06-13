@@ -22,10 +22,11 @@ public class DestroyCommand extends AbstractSubcommand {
 
 	DestroyCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.setName("destroy");
-		this.setUsage("/spawnstar destroy");
-		this.setDescription(COMMAND_HELP_DESTROY);
-		this.setMaxArgs(0);
+		this.name = "destroy";
+		this.usage = "/spawnstar destroy";
+		this.permission = "spawnstar.destroy";
+		this.description = COMMAND_HELP_DESTROY;
+		this.maxArgs = 0;
 	}
 
 
@@ -34,20 +35,20 @@ public class DestroyCommand extends AbstractSubcommand {
 
 		// sender must be in game player
 		if (!(sender instanceof Player)) {
-			Message.create(sender, COMMAND_FAIL_DESTROY_CONSOLE).send();
+			Message.create(sender, COMMAND_FAIL_DESTROY_CONSOLE).send(plugin.languageManager);
 			return true;
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
-		if (!sender.hasPermission("spawnstar.destroy")) {
-			Message.create(sender, COMMAND_FAIL_DESTROY_PERMISSION).send();
+		if (!sender.hasPermission(permission)) {
+			Message.create(sender, COMMAND_FAIL_DESTROY_PERMISSION).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -61,7 +62,7 @@ public class DestroyCommand extends AbstractSubcommand {
 
 		// check that player held item is a spawnstar stack
 		if (!SpawnStar.isItem(playerItem)) {
-			Message.create(sender, COMMAND_FAIL_DESTROY_NO_MATCH).send();
+			Message.create(sender, COMMAND_FAIL_DESTROY_NO_MATCH).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -79,7 +80,7 @@ public class DestroyCommand extends AbstractSubcommand {
 		// send success message
 		Message.create(sender, COMMAND_SUCCESS_DESTROY)
 				.setMacro(ITEM_QUANTITY, quantity)
-				.send();
+				.send(plugin.languageManager);
 
 		// play success sound
 		plugin.soundConfig.playSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
