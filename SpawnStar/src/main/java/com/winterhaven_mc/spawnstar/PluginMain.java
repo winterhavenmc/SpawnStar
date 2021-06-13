@@ -20,9 +20,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class PluginMain extends JavaPlugin {
 
+	public LanguageManager languageManager;
 	public SoundConfiguration soundConfig;
 	public TeleportManager teleportManager;
 	public WorldManager worldManager;
+	public CommandManager commandManager;
+	public PlayerEventListener playerEventListener;
 
 	@Override
 	public void onEnable() {
@@ -30,8 +33,8 @@ public final class PluginMain extends JavaPlugin {
 		// install default configuration file if not already present
 		saveDefaultConfig();
 
-		// initialize language manager
-		LanguageManager.init();
+		// instantiate language manager
+		languageManager = new LanguageManager(this);
 
 		// instantiate sound configuration
 		soundConfig = new YamlSoundConfiguration(this);
@@ -43,10 +46,10 @@ public final class PluginMain extends JavaPlugin {
 		worldManager = new WorldManager(this);
 
 		// instantiate command manager
-		new CommandManager(this);
+		commandManager = new CommandManager(this);
 
 		// instantiate player event listener
-		new PlayerEventListener(this);
+		playerEventListener = new PlayerEventListener(this);
 	}
 
 }
