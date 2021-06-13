@@ -4,7 +4,6 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
-import com.winterhaven_mc.util.LanguageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -22,10 +21,11 @@ public class StatusCommand extends AbstractSubcommand {
 
 	StatusCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.setName("status");
-		this.setUsage("/spawnstar status");
-		this.setDescription(COMMAND_HELP_STATUS);
-		this.setMaxArgs(0);
+		this.name = "status";
+		this.usage = "/spawnstar status";
+		this.description = COMMAND_HELP_STATUS;
+		this.permission = "spawnstar.status";
+		this.maxArgs = 0;
 	}
 
 
@@ -33,15 +33,15 @@ public class StatusCommand extends AbstractSubcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if command sender does not have permission to view status, output error message and return
-		if (!sender.hasPermission("spawnstar.status")) {
-			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send();
+		if (!sender.hasPermission(permission)) {
+			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -67,12 +67,12 @@ public class StatusCommand extends AbstractSubcommand {
 
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
-				+ LanguageManager.getInstance().getTimeString(TimeUnit.SECONDS.toMillis(
+				+ plugin.languageManager.getTimeString(TimeUnit.SECONDS.toMillis(
 				plugin.getConfig().getInt("teleport-warmup"))));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
-				+ LanguageManager.getInstance().getTimeString(TimeUnit.SECONDS.toMillis(
+				+ plugin.languageManager.getTimeString(TimeUnit.SECONDS.toMillis(
 				plugin.getConfig().getInt("teleport-cooldown"))));
 
 		sender.sendMessage(ChatColor.GREEN

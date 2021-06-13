@@ -21,20 +21,19 @@ import static com.winterhaven_mc.spawnstar.sounds.SoundId.*;
 public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	private final PluginMain plugin;
-	private final SubcommandMap subcommandMap;
 
 
 	/**
 	 * Class constructor
 	 * @param plugin reference to plugin main class instance
 	 */
-	HelpCommand(final PluginMain plugin, final SubcommandMap subcommandMap) {
+	HelpCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.subcommandMap = Objects.requireNonNull(subcommandMap);
-		this.setName("help");
-		this.setUsage("/spawnstar help [command]");
-		this.setDescription(COMMAND_HELP_HELP);
-		this.setMaxArgs(1);
+		this.name = "help";
+		this.usage = "/spawnstar help [command]";
+		this.description = COMMAND_HELP_HELP;
+		this.permission = "spawnstar.help";
+		this.maxArgs = 1;
 	}
 
 
@@ -47,7 +46,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("help")) {
 				for (String subcommand : subcommandMap.getKeys()) {
-					if (sender.hasPermission("spawnstar." + subcommand)
+					if (sender.hasPermission(permission)
 							&& subcommand.startsWith(args[1].toLowerCase())
 							&& !subcommand.equalsIgnoreCase("help")) {
 						returnList.add(subcommand);
@@ -64,15 +63,15 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 	public boolean onCommand(CommandSender sender, List<String> args) {
 
 		// if command sender does not have permission to display help, output error message and return true
-		if (!sender.hasPermission("spawnstar.help")) {
-			Message.create(sender, COMMAND_FAIL_HELP_PERMISSION).send();
+		if (!sender.hasPermission(permission)) {
+			Message.create(sender, COMMAND_FAIL_HELP_PERMISSION).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -103,13 +102,13 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		// if subcommand found in map, display help message and usage
 		if (subcommand != null) {
-			Message.create(sender, subcommand.getDescription()).send();
+			Message.create(sender, subcommand.getDescription()).send(plugin.languageManager);
 			subcommand.displayUsage(sender);
 		}
 
 		// else display invalid command help message and usage for all commands
 		else {
-			Message.create(sender, COMMAND_HELP_INVALID).send();
+			Message.create(sender, COMMAND_HELP_INVALID).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
 			displayUsageAll(sender);
 		}
@@ -122,7 +121,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 	 */
 	void displayUsageAll(CommandSender sender) {
 
-		Message.create(sender, COMMAND_HELP_USAGE_HEADER).send();
+		Message.create(sender, COMMAND_HELP_USAGE_HEADER).send(plugin.languageManager);
 
 		for (String subcommandName : subcommandMap.getKeys()) {
 			if (subcommandMap.getCommand(subcommandName) != null) {
