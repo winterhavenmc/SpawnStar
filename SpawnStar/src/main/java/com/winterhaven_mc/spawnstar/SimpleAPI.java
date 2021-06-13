@@ -1,7 +1,6 @@
 package com.winterhaven_mc.spawnstar;
 
 import com.winterhaven_mc.spawnstar.util.SpawnStar;
-import com.winterhaven_mc.util.LanguageManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -215,7 +214,7 @@ public final class SimpleAPI {
 	 * @deprecated use LanguageManager getItemNamePlural() method
 	 */
 	public static String getItemNamePlural() {
-		return LanguageManager.getInstance().getItemNamePlural();
+		return plugin.languageManager.getItemNamePlural();
 	}
 
 
