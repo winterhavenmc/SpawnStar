@@ -3,7 +3,6 @@ package com.winterhaven_mc.spawnstar.commands;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
-import com.winterhaven_mc.util.LanguageManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -19,10 +18,11 @@ public class ReloadCommand extends AbstractSubcommand {
 
 	ReloadCommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
-		this.setName("reload");
-		this.setUsage("/spawnstar reload");
-		this.setDescription(COMMAND_HELP_RELOAD);
-		this.setMaxArgs(0);
+		this.name = "reload";
+		this.usage = "/spawnstar reload";
+		this.description = COMMAND_HELP_RELOAD;
+		this.permission = "spawnstar.reload";
+		this.maxArgs = 0;
 	}
 
 
@@ -30,15 +30,15 @@ public class ReloadCommand extends AbstractSubcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if sender does not have permission to reload config, send error message and return
-		if (!sender.hasPermission("spawnstar.reload")) {
-			Message.create(sender, COMMAND_FAIL_RELOAD_PERMISSION).send();
+		if (!sender.hasPermission(permission)) {
+			Message.create(sender, COMMAND_FAIL_RELOAD_PERMISSION).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -54,13 +54,13 @@ public class ReloadCommand extends AbstractSubcommand {
 		plugin.worldManager.reload();
 
 		// reload messages
-		LanguageManager.reload();
+		plugin.languageManager.reload();
 
 		// reload sounds
 		plugin.soundConfig.reload();
 
 		// send reloaded message
-		Message.create(sender, COMMAND_SUCCESS_RELOAD).send();
+		Message.create(sender, COMMAND_SUCCESS_RELOAD).send(plugin.languageManager);
 		return true;
 	}
 
