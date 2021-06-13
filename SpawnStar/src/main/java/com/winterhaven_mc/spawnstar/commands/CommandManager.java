@@ -101,7 +101,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if subcommand is null, get help command from map
 		if (subcommand == null) {
 			subcommand = subcommandMap.getCommand("help");
-			Message.create(sender, COMMAND_FAIL_INVALID_COMMAND).send();
+			Message.create(sender, COMMAND_FAIL_INVALID_COMMAND).send(plugin.languageManager);
 			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
 		}
 
@@ -121,13 +121,13 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// initialize empty list
 		List<String> returnList = new ArrayList<>();
 
-		// iterate over each subcommand in map
-		for (String subcommand : subcommandMap.getKeys()) {
+		// iterate over each subcommand entry in map
+		for (Map.Entry<String, Subcommand> entry : subcommandMap.getEntries()) {
 
 			// if sender has permission and command begins with match string, add to return list
-			if (sender.hasPermission("spawnstar." + subcommand)
-					&& subcommand.startsWith(matchString.toLowerCase())) {
-				returnList.add(subcommand);
+			if (sender.hasPermission(entry.getValue().getPermission())
+					&& entry.getKey().startsWith(matchString.toLowerCase())) {
+				returnList.add(entry.getKey());
 			}
 		}
 
