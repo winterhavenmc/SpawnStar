@@ -74,25 +74,23 @@ public class SpawnStarTests {
                 Assertions.assertNotNull(plugin.languageManager.getItemLore());
             }
 
-        }
+            @Test
+            @DisplayName("teleport manager is not null.")
+            void TeleportManagerNotNull() {
+                Assertions.assertNotNull(plugin.teleportManager);
+            }
 
-        @Test
-        @DisplayName("teleport manager is not null.")
-        void TeleportManagerNotNull() {
-            Assertions.assertNotNull(plugin.teleportManager);
-        }
+            @Test
+            @DisplayName("command manager is not null.")
+            void CommandManagerNotNull() {
+                Assertions.assertNotNull(plugin.commandManager);
+            }
 
-        @Test
-        @DisplayName("command manager is not null.")
-        void CommandManagerNotNull() {
-            Assertions.assertNotNull(plugin.commandManager);
-        }
-
-        @Test
-        @DisplayName("player event listener is not null.")
-        void PlayerEventListenerNotNull() {
-            Assertions.assertNotNull(plugin.playerEventListener);
+            @Test
+            @DisplayName("player event listener is not null.")
+            void PlayerEventListenerNotNull() {
+                Assertions.assertNotNull(plugin.playerEventListener);
+            }
         }
     }
-
 }
