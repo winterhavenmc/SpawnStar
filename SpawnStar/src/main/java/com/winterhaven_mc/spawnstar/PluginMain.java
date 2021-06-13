@@ -32,7 +32,7 @@ public final class PluginMain extends JavaPlugin {
 	public PlayerEventListener playerEventListener;
 
 	/**
-	 *
+	 * Constructor for testing
 	 */
 	@SuppressWarnings("unused")
 	public PluginMain() {
@@ -40,6 +40,9 @@ public final class PluginMain extends JavaPlugin {
 	}
 
 
+	/**
+	 * Constructor for testing
+	 */
 	@SuppressWarnings("unused")
 	protected PluginMain(JavaPluginLoader loader, PluginDescriptionFile descriptionFile, File dataFolder, File file) {
 		super(loader, descriptionFile, dataFolder, file);
