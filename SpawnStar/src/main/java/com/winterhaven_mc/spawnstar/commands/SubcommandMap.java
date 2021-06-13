@@ -34,7 +34,7 @@ public class SubcommandMap {
 	 */
 	Subcommand getCommand(final String name) {
 
-		String key = name;
+		String key = name.toLowerCase();
 
 		if (aliasMap.containsKey(key)) {
 			key = aliasMap.get(key);
@@ -51,4 +51,10 @@ public class SubcommandMap {
 	List<String> getKeys() {
 		return new ArrayList<>(subcommandMap.keySet());
 	}
+
+
+	Set<Map.Entry<String, Subcommand>> getEntries() {
+		return subcommandMap.entrySet();
+	}
+
 }
