@@ -31,14 +31,14 @@ public class ReloadCommand extends AbstractSubcommand {
 
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission(permission)) {
-			Message.create(sender, COMMAND_FAIL_RELOAD_PERMISSION).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_RELOAD_PERMISSION).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -54,13 +54,13 @@ public class ReloadCommand extends AbstractSubcommand {
 		plugin.worldManager.reload();
 
 		// reload messages
-		plugin.languageManager.reload();
+		plugin.languageHandler.reload();
 
 		// reload sounds
 		plugin.soundConfig.reload();
 
 		// send reloaded message
-		Message.create(sender, COMMAND_SUCCESS_RELOAD).send(plugin.languageManager);
+		Message.create(sender, COMMAND_SUCCESS_RELOAD).send(plugin.languageHandler);
 		return true;
 	}
 
