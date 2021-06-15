@@ -34,14 +34,14 @@ public class StatusCommand extends AbstractSubcommand {
 
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission(permission)) {
-			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
+			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -67,12 +67,12 @@ public class StatusCommand extends AbstractSubcommand {
 
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
-				+ plugin.languageManager.getTimeString(TimeUnit.SECONDS.toMillis(
+				+ plugin.languageHandler.getTimeString(TimeUnit.SECONDS.toMillis(
 				plugin.getConfig().getInt("teleport-warmup"))));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
-				+ plugin.languageManager.getTimeString(TimeUnit.SECONDS.toMillis(
+				+ plugin.languageHandler.getTimeString(TimeUnit.SECONDS.toMillis(
 				plugin.getConfig().getInt("teleport-cooldown"))));
 
 		sender.sendMessage(ChatColor.GREEN
