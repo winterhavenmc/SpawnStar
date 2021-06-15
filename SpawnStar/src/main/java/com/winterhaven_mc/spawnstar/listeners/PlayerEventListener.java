@@ -4,7 +4,6 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
-import com.winterhaven_mc.spawnstar.util.SpawnStar;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.TileState;
@@ -93,7 +92,7 @@ public final class PlayerEventListener implements Listener {
 					plugin.teleportManager.cancelTeleport(player);
 
 					// send cancelled teleport message
-					Message.create(player, TELEPORT_CANCELLED_INTERACTION).send(plugin.languageManager);
+					Message.create(player, TELEPORT_CANCELLED_INTERACTION).send(plugin.languageHandler);
 
 					// play cancelled teleport sound
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
@@ -103,7 +102,7 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!SpawnStar.isItem(event.getItem())) {
+		if (!plugin.spawnStarFactory.isItem(event.getItem())) {
 			return;
 		}
 
@@ -161,14 +160,14 @@ public final class PlayerEventListener implements Listener {
 
 			// if players current world is not enabled in config, do nothing and return
 			if (!plugin.worldManager.isEnabled(player.getWorld())) {
-				Message.create(player, TELEPORT_FAIL_WORLD_DISABLED).send(plugin.languageManager);
+				Message.create(player, TELEPORT_FAIL_WORLD_DISABLED).send(plugin.languageHandler);
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use")) {
-				Message.create(player, TELEPORT_FAIL_PERMISSION).send(plugin.languageManager);
+				Message.create(player, TELEPORT_FAIL_PERMISSION).send(plugin.languageHandler);
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 				return;
 			}
@@ -177,7 +176,7 @@ public final class PlayerEventListener implements Listener {
 			// send teleport fail shift-click message, cancel event and return
 			if (plugin.getConfig().getBoolean("shift-click")
 					&& !player.isSneaking()) {
-				Message.create(player, TELEPORT_FAIL_SHIFT_CLICK).send(plugin.languageManager);
+				Message.create(player, TELEPORT_FAIL_SHIFT_CLICK).send(plugin.languageHandler);
 				return;
 			}
 
@@ -235,7 +234,7 @@ public final class PlayerEventListener implements Listener {
 
 		// if crafting inventory contains SpawnStar item, set result item to null
 		for (ItemStack itemStack : event.getInventory()) {
-			if (SpawnStar.isItem(itemStack)) {
+			if (plugin.spawnStarFactory.isItem(itemStack)) {
 				event.getInventory().setResult(null);
 			}
 		}
@@ -267,7 +266,7 @@ public final class PlayerEventListener implements Listener {
 				// if player is in warmup hashmap, cancel teleport and send player message
 				if (plugin.teleportManager.isWarmingUp(player)) {
 					plugin.teleportManager.cancelTeleport(player);
-					Message.create(player, TELEPORT_CANCELLED_DAMAGE).send(plugin.languageManager);
+					Message.create(player, TELEPORT_CANCELLED_DAMAGE).send(plugin.languageHandler);
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
@@ -297,7 +296,7 @@ public final class PlayerEventListener implements Listener {
 			// check for player movement other than head turning
 			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportManager.cancelTeleport(player);
-				Message.create(player, TELEPORT_CANCELLED_MOVEMENT).send(plugin.languageManager);
+				Message.create(player, TELEPORT_CANCELLED_MOVEMENT).send(plugin.languageHandler);
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}
