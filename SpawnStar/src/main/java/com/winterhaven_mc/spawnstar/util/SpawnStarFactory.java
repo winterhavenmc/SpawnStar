@@ -1,43 +1,71 @@
 package com.winterhaven_mc.spawnstar.util;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.util.LanguageManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * Utility class with static methods useful for creating and using SpawnStar item stacks
+ * Factory class for creating and testing SpawnStar item stacks
  */
-public final class SpawnStar {
+public final class SpawnStarFactory {
 
 	// reference to main class
-	private final static PluginMain plugin = JavaPlugin.getPlugin(PluginMain.class);
-
-	// reference to language manager
-	private final static LanguageManager languageManager = plugin.languageManager;
+	private final PluginMain plugin;
 
 	// name spaced key for persistent data
-	@VisibleForTesting
-	protected final static NamespacedKey PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
+	protected final NamespacedKey PERSISTENT_KEY;
+
+	// item metadata fields
+	protected int quantity;
+	protected ItemStack itemStack;
+	protected String itemStackName;
+	protected List<String> itemStackLore;
 
 
 	/**
-	 * Private constructor to prevent instantiation
+	 * Class constructor
 	 *
+	 * @param plugin reference to the plugin main class instance
 	 * @throws AssertionError on attempt to instantiate
 	 */
-	private SpawnStar() {
-		throw new AssertionError();
+	public SpawnStarFactory(PluginMain plugin) {
+
+		this.plugin = plugin;
+
+		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
+
+		this.quantity = 1;
+		this.itemStack = getDefaultItemStack();
+		this.itemStackName = plugin.languageHandler.getItemName();
+		this.itemStackLore = plugin.languageHandler.getItemLore();
+
+		setMetaData(this.itemStack);
+	}
+
+
+	/**
+	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
+	 *
+	 * @return ItemStack of SpawnStar items
+	 */
+	public final ItemStack create() {
+
+		ItemStack clonedItem = this.itemStack.clone();
+
+		// set quantity
+		clonedItem.setAmount(quantity);
+
+		// return cloned item
+		return clonedItem;
 	}
 
 
@@ -47,22 +75,18 @@ public final class SpawnStar {
 	 * @param passedQuantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
 	 */
-	public static ItemStack create(final int passedQuantity) {
+	public final ItemStack create(final int passedQuantity) {
+
+		ItemStack clonedItem = this.itemStack.clone();
 
 		// validate quantity
 		int quantity = Math.max(passedQuantity, 1);
 
-		// create item stack with configured material and data
-		final ItemStack newItem = getDefaultItem();
-
 		// set quantity
-		newItem.setAmount(quantity);
+		clonedItem.setAmount(quantity);
 
-		// set item display name and lore
-		setMetaData(newItem);
-
-		// return new item
-		return newItem;
+		// return cloned item
+		return clonedItem;
 	}
 
 
@@ -72,7 +96,7 @@ public final class SpawnStar {
 	 * @param itemStack the ItemStack to check
 	 * @return {@code true} if itemStack is a SpawnStar item, {@code false} if not
 	 */
-	public static boolean isItem(final ItemStack itemStack) {
+	public final boolean isItem(final ItemStack itemStack) {
 
 		// if item stack is empty (null or air) return false
 		if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
@@ -94,10 +118,9 @@ public final class SpawnStar {
 	 * Get item name as configured in language file
 	 *
 	 * @return String - the item name as currently configured
-	 * @deprecated use LanguageManager getItemName() method
 	 */
-	public static String getItemName() {
-		return plugin.languageManager.getItemName();
+	public final String getItemName() {
+		return plugin.languageHandler.getItemName();
 	}
 
 
@@ -106,7 +129,7 @@ public final class SpawnStar {
 	 *
 	 * @return ItemStack
 	 */
-	public static ItemStack getDefaultItem() {
+	public final ItemStack getDefaultItemStack() {
 
 		// get default material string from configuration file
 		String configMaterialString = plugin.getConfig().getString("item-material");
@@ -135,7 +158,7 @@ public final class SpawnStar {
 	 *
 	 * @param itemStack the ItemStack on which to set SpawnStar MetaData
 	 */
-	public static void setMetaData(final ItemStack itemStack) {
+	public final void setMetaData(final ItemStack itemStack) {
 
 		// check for null parameter
 		if (itemStack == null) {
@@ -143,8 +166,8 @@ public final class SpawnStar {
 		}
 
 		// retrieve item name and lore from language file
-		String itemName = languageManager.getItemName();
-		List<String> configLore = languageManager.getItemLore();
+		String itemName = plugin.languageHandler.getItemName();
+		List<String> configLore = plugin.languageHandler.getItemLore();
 
 		// allow for '&' character for color codes in name and lore
 		itemName = ChatColor.translateAlternateColorCodes('&', itemName);
