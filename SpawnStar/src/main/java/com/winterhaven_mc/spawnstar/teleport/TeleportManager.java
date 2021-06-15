@@ -76,7 +76,7 @@ public final class TeleportManager {
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
 			Message.create(player, TELEPORT_COOLDOWN)
 					.setMacro(DURATION, getCooldownTimeRemaining(player))
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 			return;
 		}
 
@@ -107,7 +107,7 @@ public final class TeleportManager {
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
 			Message.create(player, TELEPORT_FAIL_MIN_DISTANCE)
 					.setMacro(WORLD, destination.getWorld())
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 			return;
 		}
 
@@ -123,7 +123,7 @@ public final class TeleportManager {
 			Message.create(player, TELEPORT_WARMUP)
 					.setMacro(WORLD, destination.getWorld())
 					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 
 			// if enabled, play sound effect
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
@@ -142,7 +142,7 @@ public final class TeleportManager {
 
 			// write message to log
 			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ plugin.languageManager.getItemName() + ChatColor.RESET + " in "
+					+ plugin.languageHandler.getItemName() + ChatColor.RESET + " in "
 					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
@@ -154,7 +154,7 @@ public final class TeleportManager {
 	 * @param player the player whose uuid will be used as the key in the warmup map
 	 * @param taskId the warmup task Id to be placed in the warmup map
 	 */
-	private void putWarmup(final Player player, final int taskId) {
+    final protected void putWarmup(final Player player, final int taskId) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
