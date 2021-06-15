@@ -1,7 +1,5 @@
 package com.winterhaven_mc.spawnstar;
 
-import com.winterhaven_mc.spawnstar.util.SpawnStar;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,12 +31,23 @@ public final class SimpleAPI {
 	/**
 	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
 	 *
+	 * @return ItemStack of SpawnStar items
+	 * @deprecated use SpawnStar.create(quantity) method
+	 */
+	public static ItemStack createItem() {
+		return plugin.spawnStarFactory.create(1);
+	}
+
+
+	/**
+	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
+	 *
 	 * @param passedQuantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
 	 * @deprecated use SpawnStar.create(quantity) method
 	 */
 	public static ItemStack createItem(final int passedQuantity) {
-		return SpawnStar.create(passedQuantity);
+		return plugin.spawnStarFactory.create(passedQuantity);
 	}
 
 
@@ -50,7 +59,7 @@ public final class SimpleAPI {
 	 * @deprecated use SpawnStar.isItem(itemStack) method
 	 */
 	public static boolean isSpawnStar(final ItemStack itemStack) {
-		return SpawnStar.isItem(itemStack);
+		return plugin.spawnStarFactory.isItem(itemStack);
 	}
 
 
@@ -192,7 +201,7 @@ public final class SimpleAPI {
 	 * @deprecated use SpawnStar.getDefaultItem() method
 	 */
 	public static ItemStack getDefaultItem() {
-		return SpawnStar.getDefaultItem();
+		return plugin.spawnStarFactory.getDefaultItemStack();
 	}
 
 
@@ -203,7 +212,7 @@ public final class SimpleAPI {
 	 * @deprecated use SpawnStar.getItemName() method
 	 */
 	public static String getItemName() {
-		return SpawnStar.getItemName();
+		return plugin.spawnStarFactory.getItemName();
 	}
 
 
@@ -214,19 +223,7 @@ public final class SimpleAPI {
 	 * @deprecated use LanguageManager getItemNamePlural() method
 	 */
 	public static String getItemNamePlural() {
-		return plugin.languageManager.getItemNamePlural();
-	}
-
-
-	/**
-	 * Set ItemMetaData on ItemStack using custom display name and lore from language file.<br>
-	 * Display name additionally has hidden itemTag to make it identifiable as a SpawnStar item.
-	 *
-	 * @param itemStack the ItemStack on which to set SpawnStar MetaData
-	 * @deprecated use SpawnStar.setMetaData(itemStack) method
-	 */
-	private static void setMetaData(final ItemStack itemStack) {
-		SpawnStar.setMetaData(itemStack);
+		return plugin.languageHandler.getItemNamePlural();
 	}
 
 }
