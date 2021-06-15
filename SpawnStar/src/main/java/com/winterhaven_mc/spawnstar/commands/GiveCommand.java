@@ -3,7 +3,6 @@ package com.winterhaven_mc.spawnstar.commands;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
-import com.winterhaven_mc.spawnstar.util.SpawnStar;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -65,14 +64,14 @@ public class GiveCommand extends AbstractSubcommand {
 
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give")) {
-			Message.create(sender, COMMAND_FAIL_GIVE_PERMISSION).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_GIVE_PERMISSION).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check min arguments
 		if (args.size() < getMinArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_UNDER).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_UNDER).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -80,7 +79,7 @@ public class GiveCommand extends AbstractSubcommand {
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -106,7 +105,7 @@ public class GiveCommand extends AbstractSubcommand {
 				quantity = Integer.parseInt(args.get(1));
 			}
 			catch (NumberFormatException e) {
-				Message.create(sender, COMMAND_FAIL_GIVE_QUANTITY_INVALID).send(plugin.languageManager);
+				Message.create(sender, COMMAND_FAIL_GIVE_QUANTITY_INVALID).send(plugin.languageHandler);
 				plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
 			}
@@ -121,7 +120,7 @@ public class GiveCommand extends AbstractSubcommand {
 		quantity = Math.min(maxQuantity, quantity);
 
 		// add specified quantity of spawnstar(s) to player inventory
-		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(SpawnStar.create(quantity));
+		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(plugin.spawnStarFactory.create(quantity));
 
 		// count items that didn't fit in inventory
 		int noFitCount = 0;
@@ -134,7 +133,7 @@ public class GiveCommand extends AbstractSubcommand {
 			Message.create(sender, COMMAND_FAIL_GIVE_INVENTORY_FULL)
 					.setMacro(ITEM_QUANTITY, quantity)
 					.setMacro(TARGET_PLAYER, targetPlayerName)
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -149,20 +148,20 @@ public class GiveCommand extends AbstractSubcommand {
 			Message.create(sender, COMMAND_SUCCESS_GIVE_SENDER)
 					.setMacro(ITEM_QUANTITY, quantity)
 					.setMacro(TARGET_PLAYER, targetPlayerName)
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
 
 			// send message to target player
 			Message.create(targetPlayer, COMMAND_SUCCESS_GIVE_TARGET)
 					.setMacro(ITEM_QUANTITY, quantity)
 					.setMacro(TARGET_PLAYER, sender)
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 		}
 		else {
 			// send message when giving to self
 			Message.create(sender, COMMAND_SUCCESS_GIVE_SELF)
 					.setMacro(ITEM_QUANTITY, quantity)
-					.send(plugin.languageManager);
+					.send(plugin.languageHandler);
 		}
 
 		// play sound to target player
@@ -213,10 +212,10 @@ public class GiveCommand extends AbstractSubcommand {
 			}
 		}
 		if (matchedPlayers.isEmpty()) {
-			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send(plugin.languageHandler);
 		}
 		else {
-			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE).send(plugin.languageManager);
+			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE).send(plugin.languageHandler);
 		}
 		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 		return null;
