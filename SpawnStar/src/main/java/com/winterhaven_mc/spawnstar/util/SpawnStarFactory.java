@@ -2,14 +2,12 @@ package com.winterhaven_mc.spawnstar.util;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,10 +23,12 @@ public final class SpawnStarFactory {
 	protected final NamespacedKey PERSISTENT_KEY;
 
 	// item metadata fields
-	protected int quantity;
-	protected ItemStack itemStack;
-	protected String itemStackName;
-	protected List<String> itemStackLore;
+	protected final Material defaultMaterial = Material.NETHER_STAR;
+	protected final Material material;
+	protected final int quantity;
+	protected final ItemStack protoItem;
+	protected final String itemStackName;
+	protected final List<String> itemStackLore;
 
 
 	/**
@@ -44,11 +44,27 @@ public final class SpawnStarFactory {
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
 
 		this.quantity = 1;
-		this.itemStack = getDefaultItemStack();
+		this.material = getConfigItemMaterial();
 		this.itemStackName = plugin.languageHandler.getItemName();
 		this.itemStackLore = plugin.languageHandler.getItemLore();
 
-		setMetaData(this.itemStack);
+		this.protoItem = new ItemStack(material, quantity);
+
+		// get item metadata object
+		final ItemMeta itemMeta = protoItem.getItemMeta();
+
+		// set item metadata display name to value from config file
+		//noinspection ConstantConditions
+		itemMeta.setDisplayName(itemStackName);
+
+		// set item metadata Lore to value from config file
+		itemMeta.setLore(itemStackLore);
+
+		// set persistent data in item metadata
+		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
+
+		// save new item metadata
+		protoItem.setItemMeta(itemMeta);
 	}
 
 
@@ -58,14 +74,7 @@ public final class SpawnStarFactory {
 	 * @return ItemStack of SpawnStar items
 	 */
 	public final ItemStack create() {
-
-		ItemStack clonedItem = this.itemStack.clone();
-
-		// set quantity
-		clonedItem.setAmount(quantity);
-
-		// return cloned item
-		return clonedItem;
+		return  this.protoItem.clone();
 	}
 
 
@@ -77,7 +86,7 @@ public final class SpawnStarFactory {
 	 */
 	public final ItemStack create(final int passedQuantity) {
 
-		ItemStack clonedItem = this.itemStack.clone();
+		ItemStack clonedItem = this.protoItem.clone();
 
 		// validate quantity
 		int quantity = Math.max(passedQuantity, 1);
@@ -115,84 +124,36 @@ public final class SpawnStarFactory {
 
 
 	/**
-	 * Get item name as configured in language file
-	 *
-	 * @return String - the item name as currently configured
-	 */
-	public final String getItemName() {
-		return plugin.languageHandler.getItemName();
-	}
-
-
-	/**
-	 * Create an itemStack with default material and data from config
+	 * Get material defined in config, or default material
 	 *
 	 * @return ItemStack
 	 */
-	public final ItemStack getDefaultItemStack() {
+	protected final Material getConfigItemMaterial() {
 
 		// get default material string from configuration file
 		String configMaterialString = plugin.getConfig().getString("item-material");
 
 		// if config material string is null, set to NETHER_STAR
 		if (configMaterialString == null) {
-			configMaterialString = "NETHER_STAR";
+			configMaterialString = defaultMaterial.toString();
 		}
 
 		// try to match material
 		Material configMaterial = Material.matchMaterial(configMaterialString);
 
-		// if no match default to nether star
+		// if no match use default material
 		if (configMaterial == null) {
-			configMaterial = Material.NETHER_STAR;
+			configMaterial = defaultMaterial;
 		}
 
 		// return item stack with configured material and quantity 1
-		return new ItemStack(configMaterial, 1);
+		return configMaterial;
 	}
 
 
-	/**
-	 * Set ItemMetaData on ItemStack using custom display name and lore from language file.<br>
-	 * Display name additionally has hidden itemTag to make it identifiable as a SpawnStar item.
-	 *
-	 * @param itemStack the ItemStack on which to set SpawnStar MetaData
-	 */
-	public final void setMetaData(final ItemStack itemStack) {
-
-		// check for null parameter
-		if (itemStack == null) {
-			return;
-		}
-
-		// retrieve item name and lore from language file
-		String itemName = plugin.languageHandler.getItemName();
-		List<String> configLore = plugin.languageHandler.getItemLore();
-
-		// allow for '&' character for color codes in name and lore
-		itemName = ChatColor.translateAlternateColorCodes('&', itemName);
-
-		ArrayList<String> coloredLore = new ArrayList<>();
-
-		for (String line : configLore) {
-			coloredLore.add(ChatColor.translateAlternateColorCodes('&', line));
-		}
-
-		// get item metadata object
-		final ItemMeta itemMeta = itemStack.getItemMeta();
-
-		// set item metadata display name to value from config file
-		//noinspection ConstantConditions
-		itemMeta.setDisplayName(itemName);
-
-		// set item metadata Lore to value from config file
-		itemMeta.setLore(coloredLore);
-
-		// set persistent data in item metadata
-		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
-
-		// save new item metadata
-		itemStack.setItemMeta(itemMeta);
+	public final void reload() {
+		plugin.spawnStarFactory = new SpawnStarFactory(plugin);
+		plugin.getLogger().info("SpawnStar Factory reloaded.");
 	}
 
 }
