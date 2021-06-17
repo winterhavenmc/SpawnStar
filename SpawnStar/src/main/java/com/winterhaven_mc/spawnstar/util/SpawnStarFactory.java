@@ -86,9 +86,10 @@ public final class SpawnStarFactory {
 	 */
 	public final ItemStack create(final int passedQuantity) {
 
+		// get clone of proto item
 		ItemStack clonedItem = this.protoItem.clone();
 
-		// validate quantity
+		// validate passed quantity
 		int quantity = Math.max(passedQuantity, 1);
 
 		// set quantity
@@ -124,18 +125,18 @@ public final class SpawnStarFactory {
 
 
 	/**
-	 * Get material defined in config, or default material
+	 * Get material defined in config, or default material defined in class field
 	 *
-	 * @return ItemStack
+	 * @return Material
 	 */
 	protected final Material getConfigItemMaterial() {
 
 		// get default material string from configuration file
 		String configMaterialString = plugin.getConfig().getString("item-material");
 
-		// if config material string is null, set to NETHER_STAR
+		// if config material string is null, set to default material name as string
 		if (configMaterialString == null) {
-			configMaterialString = defaultMaterial.toString();
+			configMaterialString = defaultMaterial.name();
 		}
 
 		// try to match material
@@ -151,6 +152,9 @@ public final class SpawnStarFactory {
 	}
 
 
+	/**
+	 * Reload plugin's SpawnStarFactory. Replaces existing plugin.spawnStarFactory with new instance.
+	 */
 	public final void reload() {
 		plugin.spawnStarFactory = new SpawnStarFactory(plugin);
 		plugin.getLogger().info("SpawnStar Factory reloaded.");
