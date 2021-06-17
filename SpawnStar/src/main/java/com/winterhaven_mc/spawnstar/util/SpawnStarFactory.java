@@ -35,7 +35,6 @@ public final class SpawnStarFactory {
 	 * Class constructor
 	 *
 	 * @param plugin reference to the plugin main class instance
-	 * @throws AssertionError on attempt to instantiate
 	 */
 	public SpawnStarFactory(PluginMain plugin) {
 
@@ -53,11 +52,11 @@ public final class SpawnStarFactory {
 		// get item metadata object
 		final ItemMeta itemMeta = protoItem.getItemMeta();
 
-		// set item metadata display name to value from config file
+		// set item metadata display name to value from language file
 		//noinspection ConstantConditions
 		itemMeta.setDisplayName(itemStackName);
 
-		// set item metadata Lore to value from config file
+		// set item metadata Lore to value from language file
 		itemMeta.setLore(itemStackLore);
 
 		// set persistent data in item metadata
@@ -134,20 +133,20 @@ public final class SpawnStarFactory {
 		// get default material string from configuration file
 		String configMaterialString = plugin.getConfig().getString("item-material");
 
-		// if config material string is null, set to default material name as string
+		// if config material string is null, return default material
 		if (configMaterialString == null) {
-			configMaterialString = defaultMaterial.name();
+			return defaultMaterial;
 		}
 
 		// try to match material
 		Material configMaterial = Material.matchMaterial(configMaterialString);
 
-		// if no match use default material
+		// if no match, return default material
 		if (configMaterial == null) {
-			configMaterial = defaultMaterial;
+			return defaultMaterial;
 		}
 
-		// return item stack with configured material and quantity 1
+		// return material
 		return configMaterial;
 	}
 
