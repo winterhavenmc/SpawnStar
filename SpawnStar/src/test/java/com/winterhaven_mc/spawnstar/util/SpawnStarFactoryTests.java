@@ -2,6 +2,7 @@ package com.winterhaven_mc.spawnstar.util;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+//import be.seeseemelk.mockbukkit.WorldMock;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.*;
 public class SpawnStarFactoryTests {
 
     private ServerMock server;
-    //    private WorldMock worldMock;
+//    private WorldMock world;
     private PluginMain plugin;
 
     @BeforeAll
@@ -22,7 +23,7 @@ public class SpawnStarFactoryTests {
         server = MockBukkit.mock();
 
         // create mock world
-//        worldMock = server.addSimpleWorld("world");
+//        world = server.addSimpleWorld("world");
 
         // start the mock plugin
         plugin = MockBukkit.load(PluginMain.class);
