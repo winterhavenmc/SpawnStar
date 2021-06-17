@@ -262,6 +262,11 @@ public final class TeleportManager {
 	}
 
 
+	public final boolean isCoolingDown(final Player player) {
+		return getCooldownTimeRemaining(player) > 0;
+	}
+
+
 	/**
 	 * Get time remaining for player cooldown
 	 *
