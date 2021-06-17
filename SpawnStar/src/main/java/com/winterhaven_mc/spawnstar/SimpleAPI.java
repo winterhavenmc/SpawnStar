@@ -29,6 +29,16 @@ public final class SimpleAPI {
 
 
 	/**
+	 * Get list of enabled worlds configured
+	 *
+	 * @return List of String - enabled world names
+	 */
+	public static List<String> getEnabledWorldNames() {
+		return plugin.worldManager.getEnabledWorldNames();
+	}
+
+
+	/**
 	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
 	 *
 	 * @return ItemStack of SpawnStar items
@@ -44,7 +54,7 @@ public final class SimpleAPI {
 	 *
 	 * @param passedQuantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
-	 * @deprecated use SpawnStar.create(quantity) method
+	 * @deprecated use plugin.spawnStarFactory.create(quantity) method
 	 */
 	public static ItemStack createItem(final int passedQuantity) {
 		return plugin.spawnStarFactory.create(passedQuantity);
@@ -56,7 +66,7 @@ public final class SimpleAPI {
 	 *
 	 * @param itemStack the ItemStack to check
 	 * @return {@code true} if itemStack is a SpawnStar item, {@code false} if not
-	 * @deprecated use SpawnStar.isItem(itemStack) method
+	 * @deprecated use plugin.spawnStarFactory.isItem(itemStack) method
 	 */
 	public static boolean isSpawnStar(final ItemStack itemStack) {
 		return plugin.spawnStarFactory.isItem(itemStack);
@@ -145,7 +155,7 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player to check for pending teleport
 	 * @return boolean true if player is pending teleport, false if not
-	 * @deprecated Use plugin.teleportManager.isWarmingUp(player)
+	 * @deprecated Use {@code plugin.teleportManager.isWarmingUp(player)} method
 	 */
 	public static boolean isWarmingUp(Player player) {
 		return plugin.teleportManager.isWarmingUp(player);
@@ -158,7 +168,7 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player to check for cooldown
 	 * @return boolean true if player is cooling down, false if ready to use SpawnStar item
-	 * @deprecated use plugin.teleportManager.isCoolingDown(player)
+	 * @deprecated use {@code plugin.teleportManager.isCoolingDown(player)} method
 	 */
 	public static boolean isCoolingDown(final Player player) {
 		return plugin.teleportManager.isCoolingDown(player);
@@ -170,7 +180,7 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player for which to fetch cooldown time
 	 * @return long the time remaining before SpawnStar use will be allowed
-	 * @deprecated use plugin.teleportManager.getCooldownTimeRemaining(player)
+	 * @deprecated use {@code plugin.teleportManager.getCooldownTimeRemaining(player)} method
 	 */
 	public static long cooldownTimeRemaining(final Player player) {
 		return plugin.teleportManager.getCooldownTimeRemaining(player);
@@ -178,20 +188,10 @@ public final class SimpleAPI {
 
 
 	/**
-	 * Get list of enabled worlds configured
-	 *
-	 * @return List of String - enabled world names
-	 */
-	public static List<String> getEnabledWorldNames() {
-		return plugin.worldManager.getEnabledWorldNames();
-	}
-
-
-	/**
 	 * Cancel a pending teleport for player
 	 *
 	 * @param player the player to cancel pending teleport
-	 * @deprecated use teleportManager.cancelTeleport(player)
+	 * @deprecated use {@code plugin.teleportManager.cancelTeleport(player)} method
 	 */
 	public static void cancelTeleport(final Player player) {
 		plugin.teleportManager.cancelTeleport(player);
@@ -202,7 +202,7 @@ public final class SimpleAPI {
 	 * Create an itemStack with default material and data from config
 	 *
 	 * @return ItemStack
-	 * @deprecated use SpawnStar.getDefaultItem() method
+	 * @deprecated use {@code plugin.spawnStarFactory.create()} method
 	 */
 	public static ItemStack getDefaultItem() {
 		return plugin.spawnStarFactory.create();
@@ -213,7 +213,7 @@ public final class SimpleAPI {
 	 * Get item name as configured in language file
 	 *
 	 * @return String - the item name as currently configured
-	 * @deprecated use SpawnStar.getItemName() method
+	 * @deprecated use {@code plugin.languageHandler.getItemName()} method
 	 */
 	public static String getItemName() {
 		return plugin.languageHandler.getItemName();
@@ -224,7 +224,7 @@ public final class SimpleAPI {
 	 * Get item plural name as configured in language file
 	 *
 	 * @return String - the item plural name as currently configured
-	 * @deprecated use LanguageManager getItemNamePlural() method
+	 * @deprecated use {@code plugin.languageHandler.getItemNamePlural()} method
 	 */
 	public static String getItemNamePlural() {
 		return plugin.languageHandler.getItemNamePlural();
