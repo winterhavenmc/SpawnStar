@@ -3,6 +3,7 @@ package com.winterhaven_mc.spawnstar.commands;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
+import com.winterhaven_mc.spawnstar.util.SpawnStarFactory;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -50,6 +51,9 @@ public class ReloadCommand extends AbstractSubcommand {
 		// reload main configuration
 		plugin.reloadConfig();
 
+		// reload debug global
+		plugin.debug = plugin.getConfig().getBoolean("debug");
+
 		// update enabledWorlds list
 		plugin.worldManager.reload();
 
@@ -58,6 +62,9 @@ public class ReloadCommand extends AbstractSubcommand {
 
 		// reload sounds
 		plugin.soundConfig.reload();
+
+		// reload item factory
+		plugin.spawnStarFactory.reload();
 
 		// send reloaded message
 		Message.create(sender, COMMAND_SUCCESS_RELOAD).send(plugin.languageHandler);
