@@ -6,9 +6,9 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import org.junit.jupiter.api.*;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CommandManagerTests {
-    @SuppressWarnings("FieldCanBeLocal")
     private ServerMock server;
     private PlayerMock player;
     private PluginMain plugin;
