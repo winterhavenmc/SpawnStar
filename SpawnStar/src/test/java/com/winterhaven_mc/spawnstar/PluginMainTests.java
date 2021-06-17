@@ -109,8 +109,8 @@ public class PluginMainTests {
         Set<String> enumConfigKeyStrings = new HashSet<>();
 
         public Config() {
-            for (ConfigKey configKey : ConfigKey.values()) {
-                this.enumConfigKeyStrings.add(configKey.getKey());
+            for (ConfigSetting configSetting : ConfigSetting.values()) {
+                this.enumConfigKeyStrings.add(configSetting.getKey());
             }
         }
 
@@ -126,14 +126,6 @@ public class PluginMainTests {
             Assertions.assertEquals("en-US", config.getString("language"));
         }
 
-        @ParameterizedTest
-        @EnumSource(ConfigKey.class)
-        @DisplayName("enum config key is contained in plugin.getConfig().getKeys().")
-        void ConfigFileKeysContainsEnumKey(ConfigKey configKey) {
-            Assertions.assertNotNull(configKey);
-            Assertions.assertTrue(plugin.getConfig().getKeys(false).contains(configKey.getKey()));
-        }
-
         @SuppressWarnings("unused")
         Set<String> ConfigFileKeys() {
             return config.getKeys(false);
@@ -146,6 +138,12 @@ public class PluginMainTests {
             Assertions.assertNotNull(key);
             Assertions.assertTrue(enumConfigKeyStrings.contains(key));
         }
-    }
 
+        @ParameterizedTest
+        @EnumSource(ConfigSetting.class)
+        @DisplayName("ConfigSetting enum matches config file key/value pairs.")
+        void ConfigFileKeysContainsEnumKey(ConfigSetting configSetting) {
+            Assertions.assertEquals(configSetting.getValue(), plugin.getConfig().getString(configSetting.getKey()));
+        }
+    }
 }
