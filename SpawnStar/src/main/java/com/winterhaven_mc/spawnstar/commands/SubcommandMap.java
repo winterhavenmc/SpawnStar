@@ -46,7 +46,7 @@ public class SubcommandMap {
 	 * Get list of keys (subcommand names) from the subcommand map
 	 * @return List of String - keys of the subcommand map
 	 */
-	List<String> getNames() {
+	List<String> getKeys() {
 		return new ArrayList<>(subcommandMap.keySet());
 	}
 
