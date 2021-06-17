@@ -10,10 +10,10 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -35,8 +35,6 @@ public class SoundsTests {
 
         // start the mock plugin
         plugin = MockBukkit.load(PluginMain.class);
-
-        Collection<String> configSoundNames = plugin.soundConfig.getSoundNames();
     }
 
     @AfterAll
@@ -45,12 +43,21 @@ public class SoundsTests {
         MockBukkit.unmock();
     }
 
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     @Nested
     @DisplayName("Test Sounds config.")
     class Sounds {
 
+        // collection of enum sound name strings
+        Collection<String> enumSoundNames = new HashSet<>();
 
-        private final Collection<String> configSoundNames = plugin.soundConfig.getSoundNames();
+        // class constructor
+        Sounds() {
+            // add all SoundId enum values to collection
+            for (SoundId soundId : SoundId.values()) {
+                enumSoundNames.add(soundId.name());
+            }
+        }
 
         @Test
         @DisplayName("Sounds config is not null.")
@@ -58,36 +65,23 @@ public class SoundsTests {
             Assertions.assertNotNull(plugin.soundConfig);
         }
 
-        @Test
-        @DisplayName("get enum member names of SoundId as list of string")
-        void SoundEnumContainsAllConfigSounds() {
-
-            // get enum sound names
-            Set<String> enumSoundNames = new HashSet<>();
-            for (SoundId soundId : SoundId.values()) {
-                enumSoundNames.add(soundId.toString());
-            }
-
-            // get config sound names
-            Collection<String> configSoundNames = plugin.soundConfig.getSoundNames();
-
-            for (String configSoundName : configSoundNames) {
-                Assertions.assertTrue(enumSoundNames.contains(configSoundName));
-            }
+        @SuppressWarnings("unused")
+        Collection<String> GetConfigFileKeys() {
+            return plugin.soundConfig.getSoundNames();
         }
 
-
-//        @ParameterizedTest
-//        @ArgumentsSources(strings = configSoundNames)
-//        @DisplayName("all sound config file keys have matching SoundId enum members")
-//        void soundEnumContainsAllConfigFileSounds(String soundName) {
-//        }
+        @ParameterizedTest
+        @MethodSource("GetConfigFileKeys")
+        @DisplayName("get enum member names of SoundId as list of string")
+        void SoundConfigTest12(String soundName) {
+            Assertions.assertTrue(enumSoundNames.contains(soundName));
+        }
 
         @ParameterizedTest
         @EnumSource(SoundId.class)
         @DisplayName("all SoundId enum members have matching key in sound config file")
         void SoundConfigContainsAllEnumSounds(SoundId soundId) {
-            Assertions.assertTrue(plugin.soundConfig.getSoundNames().contains(soundId.toString()));
+            Assertions.assertTrue(plugin.soundConfig.getSoundNames().contains(soundId.name()));
         }
 
         @ParameterizedTest
