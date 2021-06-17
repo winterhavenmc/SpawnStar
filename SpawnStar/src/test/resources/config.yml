@@ -5,7 +5,8 @@ language: en-US
 
 # Note: use only one enabled/disabled list, and comment out or remove the other
 # enabled worlds list (use this list for a default-deny world policy)
-#enabled-worlds:
+# note: specifically set to empty list for testing
+enabled-worlds: []
 #  - enabled_world1
 #  - enabled_world2
 
