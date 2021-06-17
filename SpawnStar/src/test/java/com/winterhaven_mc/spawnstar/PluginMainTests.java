@@ -135,13 +135,13 @@ public class PluginMainTests {
         }
 
         @SuppressWarnings("unused")
-        Set<String> GetConfigFileKeys() {
+        Set<String> ConfigFileKeys() {
             return config.getKeys(false);
         }
 
         @ParameterizedTest
         @DisplayName("file config key is contained in enum.")
-        @MethodSource("GetConfigFileKeys")
+        @MethodSource("ConfigFileKeys")
         void ConfigFileKeyNotNull(String key) {
             Assertions.assertNotNull(key);
             Assertions.assertTrue(enumConfigKeyStrings.contains(key));
