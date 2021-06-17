@@ -69,14 +69,14 @@
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>sound-config-lib</artifactId>
-			<version>1.0.6</version>
+			<version>1.16.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- WorldManagerLib -->
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>world-manager-lib</artifactId>
-			<version>1.16.1</version>
+			<version>1.16.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Unit Testing Dependencies -->
@@ -85,13 +85,6 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>junit</groupId>-->
-<!--			<artifactId>junit</artifactId>-->
-<!--			<version>4.12</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
 
 		<!-- Mock Bukkit Framework -->
 		<dependency>
