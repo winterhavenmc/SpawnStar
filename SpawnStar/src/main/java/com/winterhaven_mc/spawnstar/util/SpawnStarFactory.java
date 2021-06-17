@@ -43,9 +43,29 @@ public final class SpawnStarFactory {
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
 
 		this.quantity = 1;
-		this.material = getConfigItemMaterial();
 		this.itemStackName = plugin.languageHandler.getItemName();
 		this.itemStackLore = plugin.languageHandler.getItemLore();
+
+		// get default material string from configuration file
+		String configMaterialString = plugin.getConfig().getString("item-material");
+
+		// if config material string is null, return default material
+		if (configMaterialString == null) {
+			material = defaultMaterial;
+		}
+		else {
+			// try to match material
+			Material matchedMaterial = Material.matchMaterial(configMaterialString);
+
+			// if no match, return default material
+			if (matchedMaterial == null) {
+				material = defaultMaterial;
+			}
+			else {
+				// return matched material
+				material = matchedMaterial;
+			}
+		}
 
 		this.protoItem = new ItemStack(material, quantity);
 
@@ -88,8 +108,9 @@ public final class SpawnStarFactory {
 		// get clone of proto item
 		ItemStack clonedItem = this.protoItem.clone();
 
-		// validate passed quantity
-		int quantity = Math.max(passedQuantity, 1);
+		// validate passed quantity (between 1 and material max stack size)
+		int quantity = Math.max(1, passedQuantity);
+		quantity = Math.min(material.getMaxStackSize(), quantity);
 
 		// set quantity
 		clonedItem.setAmount(quantity);
@@ -120,34 +141,6 @@ public final class SpawnStarFactory {
 		// if item stack has persistent data tag, return true; otherwise return false
 		//noinspection ConstantConditions
 		return itemStack.getItemMeta().getPersistentDataContainer().has(PERSISTENT_KEY, PersistentDataType.BYTE);
-	}
-
-
-	/**
-	 * Get material defined in config, or default material defined in class field
-	 *
-	 * @return Material
-	 */
-	protected final Material getConfigItemMaterial() {
-
-		// get default material string from configuration file
-		String configMaterialString = plugin.getConfig().getString("item-material");
-
-		// if config material string is null, return default material
-		if (configMaterialString == null) {
-			return defaultMaterial;
-		}
-
-		// try to match material
-		Material configMaterial = Material.matchMaterial(configMaterialString);
-
-		// if no match, return default material
-		if (configMaterial == null) {
-			return defaultMaterial;
-		}
-
-		// return material
-		return configMaterial;
 	}
 
 
