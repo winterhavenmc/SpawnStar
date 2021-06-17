@@ -90,7 +90,7 @@ public class StatusCommand extends AbstractSubcommand {
 		sender.sendMessage(ChatColor.GREEN + "Lightning: "
 				+ ChatColor.RESET + plugin.getConfig().getBoolean("lightning"));
 
-		sender.sendMessage(ChatColor.GREEN + "Enabled Words: "
+		sender.sendMessage(ChatColor.GREEN + "Enabled Worlds: "
 				+ ChatColor.RESET + plugin.worldManager.getEnabledWorldNames().toString());
 
 		return true;
