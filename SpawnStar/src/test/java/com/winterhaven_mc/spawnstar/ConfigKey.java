@@ -2,9 +2,8 @@ package com.winterhaven_mc.spawnstar;
 
 public enum ConfigKey {
 
-
     LANGUAGE("language"),
-//    ENABLED_WORLDS("enabled-worlds"),
+    ENABLED_WORLDS("enabled-worlds"),
     DISABLED_WORLDS("disabled-worlds"),
     ITEM_MATERIAL("item-material"),
     MINIMUM_DISTANCE("minimum-distance"),
@@ -31,13 +30,7 @@ public enum ConfigKey {
         this.key = key;
     }
 
-    @Override
-    public String toString() {
-        return this.key;
-    }
-
     public String getKey() {
         return this.key;
     }
 }
-
