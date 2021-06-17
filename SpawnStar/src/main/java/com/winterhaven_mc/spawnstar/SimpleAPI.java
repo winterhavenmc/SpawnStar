@@ -32,10 +32,10 @@ public final class SimpleAPI {
 	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
 	 *
 	 * @return ItemStack of SpawnStar items
-	 * @deprecated use SpawnStar.create(quantity) method
+	 * @deprecated use plugin.spawnStarFactory.create() method
 	 */
 	public static ItemStack createItem() {
-		return plugin.spawnStarFactory.create(1);
+		return plugin.spawnStarFactory.create();
 	}
 
 
@@ -145,6 +145,7 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player to check for pending teleport
 	 * @return boolean true if player is pending teleport, false if not
+	 * @deprecated Use plugin.teleportManager.isWarmingUp(player)
 	 */
 	public static boolean isWarmingUp(Player player) {
 		return plugin.teleportManager.isWarmingUp(player);
@@ -157,9 +158,10 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player to check for cooldown
 	 * @return boolean true if player is cooling down, false if ready to use SpawnStar item
+	 * @deprecated use plugin.teleportManager.isCoolingDown(player)
 	 */
 	public static boolean isCoolingDown(final Player player) {
-		return plugin.teleportManager.getCooldownTimeRemaining(player) > 0;
+		return plugin.teleportManager.isCoolingDown(player);
 	}
 
 
@@ -168,6 +170,7 @@ public final class SimpleAPI {
 	 *
 	 * @param player the player for which to fetch cooldown time
 	 * @return long the time remaining before SpawnStar use will be allowed
+	 * @deprecated use plugin.teleportManager.getCooldownTimeRemaining(player)
 	 */
 	public static long cooldownTimeRemaining(final Player player) {
 		return plugin.teleportManager.getCooldownTimeRemaining(player);
@@ -188,6 +191,7 @@ public final class SimpleAPI {
 	 * Cancel a pending teleport for player
 	 *
 	 * @param player the player to cancel pending teleport
+	 * @deprecated use teleportManager.cancelTeleport(player)
 	 */
 	public static void cancelTeleport(final Player player) {
 		plugin.teleportManager.cancelTeleport(player);
@@ -201,7 +205,7 @@ public final class SimpleAPI {
 	 * @deprecated use SpawnStar.getDefaultItem() method
 	 */
 	public static ItemStack getDefaultItem() {
-		return plugin.spawnStarFactory.getDefaultItemStack();
+		return plugin.spawnStarFactory.create();
 	}
 
 
@@ -212,7 +216,7 @@ public final class SimpleAPI {
 	 * @deprecated use SpawnStar.getItemName() method
 	 */
 	public static String getItemName() {
-		return plugin.spawnStarFactory.getItemName();
+		return plugin.languageHandler.getItemName();
 	}
 
 
