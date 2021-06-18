@@ -55,8 +55,8 @@ public class SoundsTests {
         // class constructor
         Sounds() {
             // add all SoundId enum values to collection
-            for (ExtSoundId extSoundId : ExtSoundId.values()) {
-                enumSoundNames.add(extSoundId.name());
+            for (SoundId SoundId : SoundId.values()) {
+                enumSoundNames.add(SoundId.name());
             }
         }
 
@@ -79,17 +79,11 @@ public class SoundsTests {
         }
 
         @ParameterizedTest
-        @EnumSource(ExtSoundId.class)
-        @DisplayName("Test sound in TestSoundId enum maps to valid bukkit sound name")
-        void SoundConfigFileContainsAllEnumSounds(ExtSoundId extSoundId) {
-            Assertions.assertTrue(plugin.soundConfig.getValidSoundNames().contains(extSoundId.getBukkitSoundName()));
-        }
-
-        @ParameterizedTest
         @MethodSource("GetConfigFileKeys")
         @DisplayName("Test sound file key has valid bukkit sound name")
         void SoundConfigFileHasValidBukkitSound(String key) {
             Assertions.assertTrue(plugin.soundConfig.getValidSoundNames().contains(plugin.soundConfig.getBukkitSoundName(key)));
+            System.out.println("File key: " + key + " has valid bukkit sound name: " + plugin.soundConfig.getBukkitSoundName(key));
         }
 
         @Nested
@@ -100,15 +94,15 @@ public class SoundsTests {
             @DisplayName("Play all sounds in SoundId for player")
             class PlayerSounds {
 
-                private final EnumMap<ExtSoundId, Boolean> soundsPlayed = new EnumMap<>(ExtSoundId.class);
+                private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
 
                 @ParameterizedTest
-                @EnumSource(ExtSoundId.class)
+                @EnumSource(SoundId.class)
                 @DisplayName("play sound for player")
-                void SoundConfigPlaySoundForPlayer(ExtSoundId extSoundId) {
-                    plugin.soundConfig.playSound(player, extSoundId);
-                    soundsPlayed.put(extSoundId, true);
-                    Assertions.assertTrue(soundsPlayed.containsKey(extSoundId));
+                void SoundConfigPlaySoundForPlayer(SoundId SoundId) {
+                    plugin.soundConfig.playSound(player, SoundId);
+                    soundsPlayed.put(SoundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(SoundId));
                 }
             }
 
@@ -116,15 +110,15 @@ public class SoundsTests {
             @DisplayName("Play all sounds in SoundId at world location")
             class WorldSounds {
 
-                private final EnumMap<ExtSoundId, Boolean> soundsPlayed = new EnumMap<>(ExtSoundId.class);
+                private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
 
                 @ParameterizedTest
-                @EnumSource(ExtSoundId.class)
+                @EnumSource(SoundId.class)
                 @DisplayName("play sound for location")
-                void SoundConfigPlaySoundForPlayer(ExtSoundId extSoundId) {
-                    plugin.soundConfig.playSound(world.getSpawnLocation(), extSoundId);
-                    soundsPlayed.put(extSoundId, true);
-                    Assertions.assertTrue(soundsPlayed.containsKey(extSoundId));
+                void SoundConfigPlaySoundForPlayer(SoundId SoundId) {
+                    plugin.soundConfig.playSound(world.getSpawnLocation(), SoundId);
+                    soundsPlayed.put(SoundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(SoundId));
                 }
             }
         }
