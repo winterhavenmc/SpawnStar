@@ -55,8 +55,8 @@ public class SoundsTests {
         // class constructor
         Sounds() {
             // add all SoundId enum values to collection
-            for (SoundId soundId : SoundId.values()) {
-                enumSoundNames.add(soundId.name());
+            for (ExtSoundId extSoundId : ExtSoundId.values()) {
+                enumSoundNames.add(extSoundId.name());
             }
         }
 
@@ -73,16 +73,23 @@ public class SoundsTests {
 
         @ParameterizedTest
         @MethodSource("GetConfigFileKeys")
-        @DisplayName("config file key is contained in enum sound names")
+        @DisplayName("all config file keys have matching key in enum sound names")
         void SoundConfigEnumContainsAllFileSounds(String soundName) {
             Assertions.assertTrue(enumSoundNames.contains(soundName));
         }
 
         @ParameterizedTest
-        @EnumSource(SoundId.class)
-        @DisplayName("all SoundId enum members have matching key in sound config file")
-        void SoundConfigFileContainsAllEnumSounds(SoundId soundId) {
-            Assertions.assertTrue(plugin.soundConfig.getSoundNames().contains(soundId.name()));
+        @EnumSource(ExtSoundId.class)
+        @DisplayName("Test sound in TestSoundId enum maps to valid bukkit sound name")
+        void SoundConfigFileContainsAllEnumSounds(ExtSoundId extSoundId) {
+            Assertions.assertTrue(plugin.soundConfig.getValidSoundNames().contains(extSoundId.getBukkitSoundName()));
+        }
+
+        @ParameterizedTest
+        @MethodSource("GetConfigFileKeys")
+        @DisplayName("Test sound file key has valid bukkit sound name")
+        void SoundConfigFileHasValidBukkitSound(String key) {
+            Assertions.assertTrue(plugin.soundConfig.getValidSoundNames().contains(plugin.soundConfig.getBukkitSoundName(key)));
         }
 
         @Nested
@@ -93,15 +100,15 @@ public class SoundsTests {
             @DisplayName("Play all sounds in SoundId for player")
             class PlayerSounds {
 
-                private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
+                private final EnumMap<ExtSoundId, Boolean> soundsPlayed = new EnumMap<>(ExtSoundId.class);
 
                 @ParameterizedTest
-                @EnumSource(SoundId.class)
+                @EnumSource(ExtSoundId.class)
                 @DisplayName("play sound for player")
-                void SoundConfigPlaySoundForPlayer(SoundId soundId) {
-                    plugin.soundConfig.playSound(player, soundId);
-                    soundsPlayed.put(soundId, true);
-                    Assertions.assertTrue(soundsPlayed.containsKey(soundId));
+                void SoundConfigPlaySoundForPlayer(ExtSoundId extSoundId) {
+                    plugin.soundConfig.playSound(player, extSoundId);
+                    soundsPlayed.put(extSoundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(extSoundId));
                 }
             }
 
@@ -109,15 +116,15 @@ public class SoundsTests {
             @DisplayName("Play all sounds in SoundId at world location")
             class WorldSounds {
 
-                private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
+                private final EnumMap<ExtSoundId, Boolean> soundsPlayed = new EnumMap<>(ExtSoundId.class);
 
                 @ParameterizedTest
-                @EnumSource(SoundId.class)
+                @EnumSource(ExtSoundId.class)
                 @DisplayName("play sound for location")
-                void SoundConfigPlaySoundForPlayer(SoundId soundId) {
-                    plugin.soundConfig.playSound(world.getSpawnLocation(), soundId);
-                    soundsPlayed.put(soundId, true);
-                    Assertions.assertTrue(soundsPlayed.containsKey(soundId));
+                void SoundConfigPlaySoundForPlayer(ExtSoundId extSoundId) {
+                    plugin.soundConfig.playSound(world.getSpawnLocation(), extSoundId);
+                    soundsPlayed.put(extSoundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(extSoundId));
                 }
             }
         }
