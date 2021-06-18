@@ -88,5 +88,11 @@ public class SpawnStarFactoryTests {
         void CreateAndTestValidItem() {
             Assertions.assertTrue(plugin.spawnStarFactory.isItem(spawnStarItem));
         }
+
+        @Test
+        void ReloadSpawnStarFactory() {
+            plugin.spawnStarFactory.reload();
+            Assertions.assertNotNull(plugin.spawnStarFactory);
+        }
     }
 }
