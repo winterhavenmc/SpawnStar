@@ -30,8 +30,10 @@ public class SoundsTests {
         // Start the mock server
         server = MockBukkit.mock();
 
+        // create mock player
         player = server.addPlayer("testy");
 
+        // create mock world
         world = MockBukkit.getMock().addSimpleWorld("world");
 
         // start the mock plugin
@@ -73,14 +75,14 @@ public class SoundsTests {
 
         @ParameterizedTest
         @MethodSource("GetConfigFileKeys")
-        @DisplayName("all config file keys have matching key in enum sound names")
+        @DisplayName("config file key has matching key in enum sound names")
         void SoundConfigEnumContainsAllFileSounds(String soundName) {
             Assertions.assertTrue(enumSoundNames.contains(soundName));
         }
 
         @ParameterizedTest
         @MethodSource("GetConfigFileKeys")
-        @DisplayName("Test sound file key has valid bukkit sound name")
+        @DisplayName("sound file key has valid bukkit sound name")
         void SoundConfigFileHasValidBukkitSound(String key) {
             Assertions.assertTrue(plugin.soundConfig.getValidSoundNames().contains(plugin.soundConfig.getBukkitSoundName(key)));
             System.out.println("File key: " + key + " has valid bukkit sound name: " + plugin.soundConfig.getBukkitSoundName(key));
