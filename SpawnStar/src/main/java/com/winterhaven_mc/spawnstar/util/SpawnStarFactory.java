@@ -149,7 +149,7 @@ public final class SpawnStarFactory {
 	 */
 	public final void reload() {
 		plugin.spawnStarFactory = new SpawnStarFactory(plugin);
-		plugin.getLogger().info("SpawnStar Factory reloaded.");
+		plugin.getLogger().info("SpawnStarFactory reloaded.");
 	}
 
 }
