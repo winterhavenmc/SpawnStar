@@ -58,6 +58,7 @@ public class TeleportManagerTests {
         @Test
         @DisplayName("teleport testy somewhere.")
         void TeleportTesty() {
+            player.teleport(player.getLocation().add(100, 0, 0));
             server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy");
         }
     }
