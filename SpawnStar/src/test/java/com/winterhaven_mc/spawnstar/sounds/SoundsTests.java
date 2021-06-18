@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashSet;
 
 
@@ -72,32 +73,53 @@ public class SoundsTests {
 
         @ParameterizedTest
         @MethodSource("GetConfigFileKeys")
-        @DisplayName("get enum member names of SoundId as list of string")
-        void SoundConfigTest12(String soundName) {
+        @DisplayName("config file key is contained in enum sound names")
+        void SoundConfigEnumContainsAllFileSounds(String soundName) {
             Assertions.assertTrue(enumSoundNames.contains(soundName));
         }
 
         @ParameterizedTest
         @EnumSource(SoundId.class)
         @DisplayName("all SoundId enum members have matching key in sound config file")
-        void SoundConfigContainsAllEnumSounds(SoundId soundId) {
+        void SoundConfigFileContainsAllEnumSounds(SoundId soundId) {
             Assertions.assertTrue(plugin.soundConfig.getSoundNames().contains(soundId.name()));
         }
 
-        @ParameterizedTest
-        @EnumSource(SoundId.class)
-        @DisplayName("play each sound for player")
-        void SoundConfigPlaySoundForPlayer(SoundId soundId) {
-            plugin.soundConfig.playSound(player, soundId);
-        }
+        @Nested
+        @DisplayName("Play all sounds.")
+        class PlaySounds {
 
-        @ParameterizedTest
-        @EnumSource(SoundId.class)
-        @DisplayName("play each sound for location")
-        void SoundConfigPlaySoundForLocation(SoundId soundId) {
-            plugin.soundConfig.playSound(world.getSpawnLocation(), soundId);
-        }
+            @Nested
+            @DisplayName("Play all sounds in SoundId for player")
+            class PlayerSounds {
 
+                private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
+
+                @ParameterizedTest
+                @EnumSource(SoundId.class)
+                @DisplayName("play sound for player")
+                void SoundConfigPlaySoundForPlayer(SoundId soundId) {
+                    plugin.soundConfig.playSound(player, soundId);
+                    soundsPlayed.put(soundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(soundId));
+                }
+            }
+
+            @Nested
+            @DisplayName("Play all sounds in SoundId at world location")
+            class WorldSounds {
+
+                private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
+
+                @ParameterizedTest
+                @EnumSource(SoundId.class)
+                @DisplayName("play sound for location")
+                void SoundConfigPlaySoundForPlayer(SoundId soundId) {
+                    plugin.soundConfig.playSound(world.getSpawnLocation(), soundId);
+                    soundsPlayed.put(soundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(soundId));
+                }
+            }
+        }
     }
-
 }
