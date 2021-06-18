@@ -3,7 +3,6 @@ package com.winterhaven_mc.spawnstar.commands;
 import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
-import com.winterhaven_mc.spawnstar.util.SpawnStarFactory;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
