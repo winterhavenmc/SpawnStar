@@ -18,7 +18,7 @@ import java.util.HashSet;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SoundsTests {
+public class SoundTests {
     private PluginMain plugin;
     @SuppressWarnings("FieldCanBeLocal")
     private ServerMock server;
