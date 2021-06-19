@@ -18,7 +18,7 @@ import java.util.HashSet;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SoundTests {
+public class SoundConfigTests {
     private PluginMain plugin;
     @SuppressWarnings("FieldCanBeLocal")
     private ServerMock server;
@@ -70,7 +70,7 @@ public class SoundTests {
 
         @SuppressWarnings("unused")
         Collection<String> GetConfigFileKeys() {
-            return plugin.soundConfig.getConfigSounds();
+            return plugin.soundConfig.getSoundConfigKeys();
         }
 
         @ParameterizedTest
