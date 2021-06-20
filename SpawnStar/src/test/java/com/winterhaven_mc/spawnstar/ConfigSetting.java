@@ -1,6 +1,5 @@
 package com.winterhaven_mc.spawnstar;
 
-import java.util.Locale;
 
 public enum ConfigSetting {
 
