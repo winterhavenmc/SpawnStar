@@ -137,7 +137,6 @@ public class PluginMainTests {
         void ConfigFileKeyNotNull(String key) {
             Assertions.assertNotNull(key);
             Assertions.assertTrue(enumConfigKeyStrings.contains(key));
-            System.out.println("key '" + key + "' is contained in enum.");
         }
 
         @ParameterizedTest
