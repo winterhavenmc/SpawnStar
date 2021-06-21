@@ -39,15 +39,21 @@ public class PluginMainTests {
 	class Mocking {
 
 		@Test
-		@DisplayName("mock server is not null.")
-		void MockServerNotNull() {
+		@DisplayName("server is not null.")
+		void ServerNotNull() {
 			Assertions.assertNotNull(server, "server is null.");
 		}
 
 		@Test
-		@DisplayName("mock plugin is not null.")
-		void MockPluginNotNull() {
+		@DisplayName("plugin is not null.")
+		void PluginNotNull() {
 			Assertions.assertNotNull(plugin, "plugin is null.");
+		}
+
+		@Test
+		@DisplayName("plugin is enabled.")
+		void PluginEnabled() {
+			Assertions.assertTrue(plugin.isEnabled(),"plugin is not enabled.");
 		}
 	}
 
