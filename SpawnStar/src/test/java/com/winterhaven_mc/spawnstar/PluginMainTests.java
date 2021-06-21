@@ -3,14 +3,14 @@ package com.winterhaven_mc.spawnstar;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
-import org.bukkit.configuration.Configuration;
-
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.HashSet;
 import java.util.Set;
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PluginMainTests {
@@ -105,7 +105,6 @@ public class PluginMainTests {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class Config {
 
-        Configuration config = plugin.getConfig();
         Set<String> enumConfigKeyStrings = new HashSet<>();
 
         public Config() {
@@ -117,18 +116,18 @@ public class PluginMainTests {
         @Test
         @DisplayName("config not null.")
         void ConfigNotNull() {
-            Assertions.assertNotNull(config);
+            Assertions.assertNotNull(plugin.getConfig());
         }
 
         @Test
         @DisplayName("test configured language.")
         void GetLanguage() {
-            Assertions.assertEquals("en-US", config.getString("language"));
+            Assertions.assertEquals("en-US", plugin.getConfig().getString("language"));
         }
 
         @SuppressWarnings("unused")
         Set<String> ConfigFileKeys() {
-            return config.getKeys(false);
+            return plugin.getConfig().getKeys(false);
         }
 
         @ParameterizedTest

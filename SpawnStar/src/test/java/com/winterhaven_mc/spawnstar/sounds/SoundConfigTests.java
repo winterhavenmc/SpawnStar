@@ -75,18 +75,18 @@ public class SoundConfigTests {
 
         @ParameterizedTest
         @EnumSource(SoundId.class)
-        @DisplayName("enum member soundId is contained in getConfig() keys.")
+        @DisplayName("enum member soundId is contained in config file keys.")
         void FileKeysContainsEnumValue(SoundId soundId) {
-            Assertions.assertTrue(plugin.soundConfig.isValidSoundConfigKey(soundId.name()));
-            System.out.println("Enum value '" + soundId.name() + "' has matching config key in sounds.yml");
+            Assertions.assertTrue(plugin.soundConfig.isValidSoundConfigKey(soundId.name()),
+                    "Enum value soundId is not in config file keys.");
         }
 
         @ParameterizedTest
         @MethodSource("GetConfigFileKeys")
         @DisplayName("config file key has matching key in enum sound names")
         void SoundConfigEnumContainsAllFileSounds(String key) {
-            Assertions.assertTrue(enumSoundNames.contains(key));
-            System.out.println("File key '" + key + "' has matching SoundId enum value");
+            Assertions.assertTrue(enumSoundNames.contains(key),
+                    "Enum SoundId does not contain config file key: " + key);
         }
 
         @ParameterizedTest
@@ -94,7 +94,8 @@ public class SoundConfigTests {
         @DisplayName("sound file key has valid bukkit sound name")
         void SoundConfigFileHasValidBukkitSound(String key) {
             String bukkitSoundName = plugin.soundConfig.getBukkitSoundName(key);
-            Assertions.assertTrue(plugin.soundConfig.isValidBukkitSoundName(bukkitSoundName));
+            Assertions.assertTrue(plugin.soundConfig.isValidBukkitSoundName(bukkitSoundName),
+                    "file key '" + key + "' has invalid bukkit sound name: " + bukkitSoundName);
             System.out.println("File key '" + key + "' has valid bukkit sound name: " + bukkitSoundName);
         }
 
@@ -103,7 +104,7 @@ public class SoundConfigTests {
         class PlaySounds {
 
             @Nested
-            @DisplayName("Play all sounds in SoundId for player")
+            @DisplayName("Play all sounds in SoundId enum for player")
             class PlayerSounds {
 
                 private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
@@ -111,15 +112,16 @@ public class SoundConfigTests {
                 @ParameterizedTest
                 @EnumSource(SoundId.class)
                 @DisplayName("play sound for player")
-                void SoundConfigPlaySoundForPlayer(SoundId SoundId) {
-                    plugin.soundConfig.playSound(player, SoundId);
-                    soundsPlayed.put(SoundId, true);
-                    Assertions.assertTrue(soundsPlayed.containsKey(SoundId));
+                void SoundConfigPlaySoundForPlayer(SoundId soundId) {
+                    plugin.soundConfig.playSound(player, soundId);
+                    soundsPlayed.put(soundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(soundId),
+                            "Sound " + soundId.name() + " did not play for player.");
                 }
             }
 
             @Nested
-            @DisplayName("Play all sounds in SoundId at world location")
+            @DisplayName("Play all sounds in SoundId enum at world location")
             class WorldSounds {
 
                 private final EnumMap<SoundId, Boolean> soundsPlayed = new EnumMap<>(SoundId.class);
@@ -127,10 +129,11 @@ public class SoundConfigTests {
                 @ParameterizedTest
                 @EnumSource(SoundId.class)
                 @DisplayName("play sound for location")
-                void SoundConfigPlaySoundForPlayer(SoundId SoundId) {
-                    plugin.soundConfig.playSound(world.getSpawnLocation(), SoundId);
-                    soundsPlayed.put(SoundId, true);
-                    Assertions.assertTrue(soundsPlayed.containsKey(SoundId));
+                void SoundConfigPlaySoundForPlayer(SoundId soundId) {
+                    plugin.soundConfig.playSound(world.getSpawnLocation(), soundId);
+                    soundsPlayed.put(soundId, true);
+                    Assertions.assertTrue(soundsPlayed.containsKey(soundId),
+                            "Sound " + soundId.name() + " did not play for location.");
                 }
             }
         }
