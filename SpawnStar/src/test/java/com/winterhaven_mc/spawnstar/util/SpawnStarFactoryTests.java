@@ -43,13 +43,13 @@ public class SpawnStarFactoryTests {
 		@Test
 		@DisplayName("mock server is not null.")
 		void MockServerNotNull() {
-			Assertions.assertNotNull(server);
+			Assertions.assertNotNull(server, "server is null.");
 		}
 
 		@Test
 		@DisplayName("mock plugin is not null.")
 		void MockPluginNotNull() {
-			Assertions.assertNotNull(plugin);
+			Assertions.assertNotNull(plugin, "plugin is null");
 		}
 	}
 
@@ -62,16 +62,19 @@ public class SpawnStarFactoryTests {
 		@Test
 		@DisplayName("new item type is nether star.")
 		void ItemSetDefaultType() {
-			Assertions.assertEquals(Material.NETHER_STAR, spawnStarItem.getType());
+			Assertions.assertEquals(Material.NETHER_STAR, spawnStarItem.getType(),
+					"new item type is not nether star.");
 		}
 
 		@Test
 		@DisplayName("new item name is SpawnStar.")
 		void NewItemHasDefaultName() {
-			Assertions.assertNotNull(spawnStarItem.getItemMeta());
-			Assertions.assertNotNull(spawnStarItem.getItemMeta().getDisplayName());
+			Assertions.assertNotNull(spawnStarItem.getItemMeta(), "new item stack meta data is null.");
+			Assertions.assertNotNull(spawnStarItem.getItemMeta().getDisplayName(),
+					"new item stack display name meta data is null.");
 			Assertions.assertEquals("SpawnStar",
-					ChatColor.stripColor(spawnStarItem.getItemMeta().getDisplayName()));
+					ChatColor.stripColor(spawnStarItem.getItemMeta().getDisplayName()),
+					"new item display name is not SpawnStar.");
 		}
 
 		@Test
@@ -81,18 +84,22 @@ public class SpawnStarFactoryTests {
 			Assertions.assertNotNull(spawnStarItem.getItemMeta().getLore());
 			Assertions.assertEquals("Use to Return to World Spawn",
 					ChatColor.stripColor(String.join(" ",
-							spawnStarItem.getItemMeta().getLore())));
+							spawnStarItem.getItemMeta().getLore())),"" +
+							"new item stack lore does not match default lore.");
 		}
 
 		@Test
+		@DisplayName("new item is valid spawn star item.")
 		void CreateAndTestValidItem() {
-			Assertions.assertTrue(plugin.spawnStarFactory.isItem(spawnStarItem));
+			Assertions.assertTrue(plugin.spawnStarFactory.isItem(spawnStarItem),
+					"new item stack is not a valid spawn star item.");
 		}
 
 		@Test
+		@DisplayName("spawn star factory is not null after reload.")
 		void ReloadSpawnStarFactory() {
 			plugin.spawnStarFactory.reload();
-			Assertions.assertNotNull(plugin.spawnStarFactory);
+			Assertions.assertNotNull(plugin.spawnStarFactory, "spawn star factory is null after reload.");
 		}
 	}
 }
