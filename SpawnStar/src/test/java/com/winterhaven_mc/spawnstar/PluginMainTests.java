@@ -41,13 +41,13 @@ public class PluginMainTests {
 		@Test
 		@DisplayName("mock server is not null.")
 		void MockServerNotNull() {
-			Assertions.assertNotNull(server);
+			Assertions.assertNotNull(server, "server is null.");
 		}
 
 		@Test
 		@DisplayName("mock plugin is not null.")
 		void MockPluginNotNull() {
-			Assertions.assertNotNull(plugin);
+			Assertions.assertNotNull(plugin, "plugin is null.");
 		}
 	}
 
@@ -59,43 +59,50 @@ public class PluginMainTests {
 		@Test
 		@DisplayName("language handler not null.")
 		void LanguageHandlerNotNull() {
-			Assertions.assertNotNull(plugin.languageHandler);
+			Assertions.assertNotNull(plugin.languageHandler,
+					"language handler is null.");
 		}
 
 		@Test
 		@DisplayName("sound config not null.")
 		void SoundConfigNotNull() {
-			Assertions.assertNotNull(plugin.soundConfig);
+			Assertions.assertNotNull(plugin.soundConfig,
+					"sound config is null.");
 		}
 
 		@Test
 		@DisplayName("teleport manager not null.")
 		void TeleportManagerNotNull() {
-			Assertions.assertNotNull(plugin.teleportManager);
+			Assertions.assertNotNull(plugin.teleportManager,
+					"teleport manager is null.");
 		}
 
 		@Test
 		@DisplayName("world manager not null.")
 		void WorldManagerNotNull() {
-			Assertions.assertNotNull(plugin.worldManager);
+			Assertions.assertNotNull(plugin.worldManager,
+					"world manager is null.");
 		}
 
 		@Test
 		@DisplayName("command manager not null.")
 		void commandManagerNotNull() {
-			Assertions.assertNotNull(plugin.commandManager);
+			Assertions.assertNotNull(plugin.commandManager,
+					"command manager is null.");
 		}
 
 		@Test
 		@DisplayName("player event listener not null.")
 		void PlayerEventListenerNotNull() {
-			Assertions.assertNotNull(plugin.playerEventListener);
+			Assertions.assertNotNull(plugin.playerEventListener,
+					"player event listener is null.");
 		}
 
 		@Test
 		@DisplayName("spawn star factory not null.")
 		void SpawnStarFactoryNotNull() {
-			Assertions.assertNotNull(plugin.spawnStarFactory);
+			Assertions.assertNotNull(plugin.spawnStarFactory,
+					"spawn star factory is null.");
 		}
 	}
 
@@ -116,13 +123,15 @@ public class PluginMainTests {
 		@Test
 		@DisplayName("config not null.")
 		void ConfigNotNull() {
-			Assertions.assertNotNull(plugin.getConfig());
+			Assertions.assertNotNull(plugin.getConfig(),
+					"plugin config is null.");
 		}
 
 		@Test
 		@DisplayName("test configured language.")
 		void GetLanguage() {
-			Assertions.assertEquals("en-US", plugin.getConfig().getString("language"));
+			Assertions.assertEquals("en-US", plugin.getConfig().getString("language"),
+					"language does not equal 'en-US'");
 		}
 
 		@SuppressWarnings("unused")
@@ -131,18 +140,20 @@ public class PluginMainTests {
 		}
 
 		@ParameterizedTest
-		@DisplayName("file config key is contained in enum.")
+		@DisplayName("file config key is contained in ConfigSetting enum.")
 		@MethodSource("ConfigFileKeys")
 		void ConfigFileKeyNotNull(String key) {
 			Assertions.assertNotNull(key);
-			Assertions.assertTrue(enumConfigKeyStrings.contains(key));
+			Assertions.assertTrue(enumConfigKeyStrings.contains(key),
+					"file config key is not contained in ConfigSetting enum.");
 		}
 
 		@ParameterizedTest
 		@EnumSource(ConfigSetting.class)
 		@DisplayName("ConfigSetting enum matches config file key/value pairs.")
 		void ConfigFileKeysContainsEnumKey(ConfigSetting configSetting) {
-			Assertions.assertEquals(configSetting.getValue(), plugin.getConfig().getString(configSetting.getKey()));
+			Assertions.assertEquals(configSetting.getValue(), plugin.getConfig().getString(configSetting.getKey()),
+					"ConfigSetting enum value matches config file key/value pair.");
 		}
 	}
 }
