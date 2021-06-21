@@ -62,12 +62,6 @@ public class SoundConfigTests {
 			}
 		}
 
-		@Test
-		@DisplayName("Sounds config is not null.")
-		void SoundConfigNotNull() {
-			Assertions.assertNotNull(plugin.soundConfig);
-		}
-
 		@SuppressWarnings("unused")
 		Collection<String> GetConfigFileKeys() {
 			return plugin.soundConfig.getSoundConfigKeys();
