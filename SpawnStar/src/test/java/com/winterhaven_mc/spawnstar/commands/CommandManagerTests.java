@@ -33,22 +33,26 @@ public class CommandManagerTests {
 
 	@Test
 	void HelpCommandTest() {
-		server.dispatchCommand(server.getConsoleSender(), "/spawnstar help");
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar help"),
+				"help command returned true.");
 	}
 
 	@Test
 	void StatusCommandTest() {
-		server.dispatchCommand(server.getConsoleSender(), "/spawnstar status");
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar status"),
+				"status command returned true.");
 	}
 
 	@Test
 	void GiveCommandTest() {
-		server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy");
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy"),
+				"give command returned true.");
 	}
 
 	@Test
 	void ReloadCommandTest() {
-		server.dispatchCommand(server.getConsoleSender(), "/spawnstar reload");
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar reload"),
+				"reload command returned true.");
 	}
 
 }
