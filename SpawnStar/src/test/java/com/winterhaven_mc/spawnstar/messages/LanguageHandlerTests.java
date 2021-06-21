@@ -34,31 +34,27 @@ public class LanguageHandlerTests {
 	}
 
 	@Nested
-	@DisplayName("test language handler")
+	@DisplayName("test language handler.")
 	class LanguageHandler {
 
 		@Test
-		@DisplayName("language handler is not null")
-		void LanguageHandlerNotNull() {
-			Assertions.assertNotNull(plugin.languageHandler);
-		}
-
-		@Test
-		@DisplayName("item name is not null")
+		@DisplayName("item name is not null.")
 		void ItemNameNotNull() {
-			Assertions.assertNotNull(plugin.languageHandler.getItemName());
+			Assertions.assertNotNull(plugin.languageHandler.getItemName(),
+					"item name is null.");
 		}
 
 		@Test
-		@DisplayName("item lore is not null")
+		@DisplayName("item lore is not null.")
 		void ItemLoreNotNull() {
-			Assertions.assertNotNull(plugin.languageHandler.getItemLore());
+			Assertions.assertNotNull(plugin.languageHandler.getItemLore(),
+					"item lore is null.");
 		}
 	}
 
 	@Nested
 	@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-	@DisplayName("Test messages:")
+	@DisplayName("Test messages.")
 	class Messages {
 
 		// collection of enum sound name strings
@@ -77,7 +73,8 @@ public class LanguageHandlerTests {
 		@DisplayName("enum member MessageId is contained in getConfig() keys.")
 		void FileKeysContainsEnumValue(MessageId messageId) {
 			Assertions.assertNotNull(messageId);
-			Assertions.assertNotNull(plugin.languageHandler.getMessage(messageId));
+			Assertions.assertNotNull(plugin.languageHandler.getMessage(messageId),
+					"config file message is null.");
 		}
 
 //        @ParameterizedTest
