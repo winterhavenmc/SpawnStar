@@ -153,7 +153,7 @@ public class PluginMainTests {
 		@DisplayName("ConfigSetting enum matches config file key/value pairs.")
 		void ConfigFileKeysContainsEnumKey(ConfigSetting configSetting) {
 			Assertions.assertEquals(configSetting.getValue(), plugin.getConfig().getString(configSetting.getKey()),
-					"ConfigSetting enum value matches config file key/value pair.");
+					"ConfigSetting enum value does not match config file key/value pair.");
 		}
 	}
 }
