@@ -9,46 +9,46 @@ import org.junit.jupiter.api.*;
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CommandManagerTests {
-    private ServerMock server;
-    private PlayerMock player;
-    private PluginMain plugin;
+	private ServerMock server;
+	private PlayerMock player;
+	private PluginMain plugin;
 
-    @BeforeAll
-    public void setUp() {
-        // Start the mock server
-        server = MockBukkit.mock();
+	@BeforeAll
+	public void setUp() {
+		// Start the mock server
+		server = MockBukkit.mock();
 
-        player = server.addPlayer("testy");
+		player = server.addPlayer("testy");
 
-        // start the mock plugin
-        plugin = MockBukkit.load(PluginMain.class);
+		// start the mock plugin
+		plugin = MockBukkit.load(PluginMain.class);
 
-    }
+	}
 
-    @AfterAll
-    public void tearDown() {
-        // Stop the mock server
-        MockBukkit.unmock();
-    }
+	@AfterAll
+	public void tearDown() {
+		// Stop the mock server
+		MockBukkit.unmock();
+	}
 
-    @Test
-    void HelpCommandTest() {
-        server.dispatchCommand(server.getConsoleSender(), "/spawnstar help");
-    }
+	@Test
+	void HelpCommandTest() {
+		server.dispatchCommand(server.getConsoleSender(), "/spawnstar help");
+	}
 
-    @Test
-    void StatusCommandTest() {
-        server.dispatchCommand(server.getConsoleSender(), "/spawnstar status");
-    }
+	@Test
+	void StatusCommandTest() {
+		server.dispatchCommand(server.getConsoleSender(), "/spawnstar status");
+	}
 
-    @Test
-    void GiveCommandTest() {
-        server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy");
-    }
+	@Test
+	void GiveCommandTest() {
+		server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy");
+	}
 
-    @Test
-    void ReloadCommandTest() {
-        server.dispatchCommand(server.getConsoleSender(), "/spawnstar reload");
-    }
+	@Test
+	void ReloadCommandTest() {
+		server.dispatchCommand(server.getConsoleSender(), "/spawnstar reload");
+	}
 
 }

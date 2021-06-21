@@ -25,6 +25,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	/**
 	 * Class constructor
+	 *
 	 * @param plugin reference to plugin main class instance
 	 */
 	HelpCommand(final PluginMain plugin) {
@@ -39,7 +40,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final Command command,
-									  final String alias, final String[] args) {
+	                                  final String alias, final String[] args) {
 
 		List<String> returnList = new ArrayList<>();
 
@@ -92,7 +93,8 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	/**
 	 * Display help message and usage for a command
-	 * @param sender the command sender
+	 *
+	 * @param sender      the command sender
 	 * @param commandName the name of the command for which to show help and usage
 	 */
 	void displayHelp(final CommandSender sender, final String commandName) {
@@ -117,6 +119,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	/**
 	 * Display usage message for all commands
+	 *
 	 * @param sender the command sender
 	 */
 	void displayUsageAll(CommandSender sender) {

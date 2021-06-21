@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 /**
  * Class extends AbstractMessage in order to provide a static constructor
  */
-public class Message extends AbstractMessage<MessageId,Macro> {
+public class Message extends AbstractMessage<MessageId, Macro> {
 
 
 	/**

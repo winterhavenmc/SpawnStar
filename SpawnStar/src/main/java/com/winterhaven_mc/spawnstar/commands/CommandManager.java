@@ -51,7 +51,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	@Override
 	public final List<String> onTabComplete(final CommandSender sender, final Command command,
-											final String alias, final String[] args) {
+	                                        final String alias, final String[] args) {
 
 		// if more than one argument, use tab completer of subcommand
 		if (args.length > 1) {
@@ -78,7 +78,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 */
 	@Override
 	public final boolean onCommand(final CommandSender sender, final Command cmd,
-								   final String label, final String[] args) {
+	                               final String label, final String[] args) {
 
 		// convert args array to list
 		List<String> argsList = new ArrayList<>(Arrays.asList(args));
@@ -112,7 +112,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	/**
 	 * Get matching list of subcommands for which sender has permission
-	 * @param sender the command sender
+	 *
+	 * @param sender      the command sender
 	 * @param matchString the string prefix to match against command names
 	 * @return List of String - command names that match prefix and sender has permission
 	 */

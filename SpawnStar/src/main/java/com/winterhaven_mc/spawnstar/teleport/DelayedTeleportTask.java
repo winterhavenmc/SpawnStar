@@ -43,15 +43,15 @@ final class DelayedTeleportTask extends BukkitRunnable {
 	/**
 	 * Class constructor
 	 *
-	 * @param plugin reference to plugin main class
-	 * @param player the player to be teleported
+	 * @param plugin      reference to plugin main class
+	 * @param player      the player to be teleported
 	 * @param destination the world spawn location
-	 * @param playerItem the player item used to initiate teleport
+	 * @param playerItem  the player item used to initiate teleport
 	 */
 	DelayedTeleportTask(final PluginMain plugin,
-						final Player player,
-						final Location destination,
-						final ItemStack playerItem) {
+	                    final Player player,
+	                    final Location destination,
+	                    final ItemStack playerItem) {
 
 		// check for null parameters
 		this.plugin = Objects.requireNonNull(plugin);

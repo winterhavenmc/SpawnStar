@@ -11,6 +11,7 @@ public class SubcommandMap {
 
 	/**
 	 * Register a subcommand in the map by name.
+	 *
 	 * @param subcommand an instance of the command
 	 */
 	void register(final Subcommand subcommand) {
@@ -27,6 +28,7 @@ public class SubcommandMap {
 
 	/**
 	 * Get command instance from map by name
+	 *
 	 * @param name the command to retrieve from the map
 	 * @return Subcommand - the subcommand instance, or null if no matching name
 	 */
@@ -44,6 +46,7 @@ public class SubcommandMap {
 
 	/**
 	 * Get list of keys (subcommand names) from the subcommand map
+	 *
 	 * @return List of String - keys of the subcommand map
 	 */
 	List<String> getKeys() {

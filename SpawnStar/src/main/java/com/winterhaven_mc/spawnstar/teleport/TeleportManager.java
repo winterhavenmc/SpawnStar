@@ -154,7 +154,7 @@ public final class TeleportManager {
 	 * @param player the player whose uuid will be used as the key in the warmup map
 	 * @param taskId the warmup task Id to be placed in the warmup map
 	 */
-    final protected void putWarmup(final Player player, final int taskId) {
+	final protected void putWarmup(final Player player, final int taskId) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -312,7 +312,7 @@ public final class TeleportManager {
 
 				// check if normal world matches passed world minus nether/end suffix
 				if (checkWorld.getName().equals(passedWorld.getName()
-						.replaceFirst("(_nether$|_the_end$)",""))) {
+						.replaceFirst("(_nether$|_the_end$)", ""))) {
 					return checkWorld;
 				}
 

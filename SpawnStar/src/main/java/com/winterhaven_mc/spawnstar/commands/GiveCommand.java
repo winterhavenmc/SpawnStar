@@ -34,7 +34,7 @@ public class GiveCommand extends AbstractSubcommand {
 
 	@Override
 	public final List<String> onTabComplete(final CommandSender sender, final Command command,
-											final String alias, final String[] args) {
+	                                        final String alias, final String[] args) {
 
 		// initialize return list
 		final List<String> returnList = new ArrayList<>();
@@ -103,8 +103,7 @@ public class GiveCommand extends AbstractSubcommand {
 		if (args.size() == 2) {
 			try {
 				quantity = Integer.parseInt(args.get(1));
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				Message.create(sender, COMMAND_FAIL_GIVE_QUANTITY_INVALID).send(plugin.languageHandler);
 				plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
@@ -156,8 +155,7 @@ public class GiveCommand extends AbstractSubcommand {
 					.setMacro(ITEM_QUANTITY, quantity)
 					.setMacro(TARGET_PLAYER, sender)
 					.send(plugin.languageHandler);
-		}
-		else {
+		} else {
 			// send message when giving to self
 			Message.create(sender, COMMAND_SUCCESS_GIVE_SELF)
 					.setMacro(ITEM_QUANTITY, quantity)
@@ -173,9 +171,8 @@ public class GiveCommand extends AbstractSubcommand {
 	/**
 	 * Match online player; sends appropriate message for offline or unknown players
 	 *
-	 * @param sender the command sender
+	 * @param sender           the command sender
 	 * @param targetPlayerName the player name to match
-	 *
 	 * @return Player - a matching player object, or null if no match
 	 */
 	private Player matchPlayer(final CommandSender sender, final String targetPlayerName) {
@@ -213,8 +210,7 @@ public class GiveCommand extends AbstractSubcommand {
 		}
 		if (matchedPlayers.isEmpty()) {
 			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send(plugin.languageHandler);
-		}
-		else {
+		} else {
 			Message.create(sender, COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE).send(plugin.languageHandler);
 		}
 		plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);

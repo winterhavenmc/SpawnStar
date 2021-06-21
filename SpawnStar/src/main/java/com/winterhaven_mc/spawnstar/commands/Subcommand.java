@@ -12,7 +12,7 @@ public interface Subcommand {
 	boolean onCommand(CommandSender sender, List<String> argsList);
 
 	List<String> onTabComplete(final CommandSender sender, final Command command,
-							   final String alias, final String[] args);
+	                           final String alias, final String[] args);
 
 	String getName();
 

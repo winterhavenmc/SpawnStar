@@ -8,59 +8,59 @@ import org.junit.jupiter.api.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TeleportManagerTests {
-    @SuppressWarnings("FieldCanBeLocal")
-    private ServerMock server;
-    private PlayerMock player;
-    private PluginMain plugin;
+	@SuppressWarnings("FieldCanBeLocal")
+	private ServerMock server;
+	private PlayerMock player;
+	private PluginMain plugin;
 
-    @BeforeAll
-    public void setUp() {
-        // Start the mock server
-        server = MockBukkit.mock();
+	@BeforeAll
+	public void setUp() {
+		// Start the mock server
+		server = MockBukkit.mock();
 
-        player = server.addPlayer("testy");
+		player = server.addPlayer("testy");
 
-        // start the mock plugin
-        plugin = MockBukkit.load(PluginMain.class);
+		// start the mock plugin
+		plugin = MockBukkit.load(PluginMain.class);
 
-    }
+	}
 
-    @AfterAll
-    public void tearDown() {
-        // Stop the mock server
-        MockBukkit.unmock();
-    }
+	@AfterAll
+	public void tearDown() {
+		// Stop the mock server
+		MockBukkit.unmock();
+	}
 
-    @Nested
-    @DisplayName("Test Teleport Manager.")
-    class TeleportManager {
+	@Nested
+	@DisplayName("Test Teleport Manager.")
+	class TeleportManager {
 
-        @Test
-        @DisplayName("teleport manager is not null.")
-        void TeleportManagerNotNull() {
-            Assertions.assertNotNull(plugin.teleportManager);
-        }
+		@Test
+		@DisplayName("teleport manager is not null.")
+		void TeleportManagerNotNull() {
+			Assertions.assertNotNull(plugin.teleportManager);
+		}
 
-        @Test
-        @DisplayName("player is not warming up.")
-        void PlayerIsNotWarmingUp() {
-            Assertions.assertFalse(plugin.teleportManager.isWarmingUp(player));
-        }
+		@Test
+		@DisplayName("player is not warming up.")
+		void PlayerIsNotWarmingUp() {
+			Assertions.assertFalse(plugin.teleportManager.isWarmingUp(player));
+		}
 
-        @Test
-        @DisplayName("player is warming up.")
-        void PlayerIsWarmingUp() {
-            plugin.teleportManager.putWarmup(player, 1234);
-            Assertions.assertTrue(plugin.teleportManager.isWarmingUp(player));
-            plugin.teleportManager.cancelTeleport(player);
-        }
+		@Test
+		@DisplayName("player is warming up.")
+		void PlayerIsWarmingUp() {
+			plugin.teleportManager.putWarmup(player, 1234);
+			Assertions.assertTrue(plugin.teleportManager.isWarmingUp(player));
+			plugin.teleportManager.cancelTeleport(player);
+		}
 
-        @Test
-        @DisplayName("teleport testy somewhere.")
-        void TeleportTesty() {
-            player.teleport(player.getLocation().add(100, 0, 0));
-            server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy");
-        }
-    }
+		@Test
+		@DisplayName("teleport testy somewhere.")
+		void TeleportTesty() {
+			player.teleport(player.getLocation().add(100, 0, 0));
+			server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy");
+		}
+	}
 }
 

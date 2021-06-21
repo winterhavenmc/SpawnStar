@@ -52,16 +52,14 @@ public final class SpawnStarFactory {
 		// if config material string is null, return default material
 		if (configMaterialString == null) {
 			material = defaultMaterial;
-		}
-		else {
+		} else {
 			// try to match material
 			Material matchedMaterial = Material.matchMaterial(configMaterialString);
 
 			// if no match, return default material
 			if (matchedMaterial == null) {
 				material = defaultMaterial;
-			}
-			else {
+			} else {
 				// return matched material
 				material = matchedMaterial;
 			}
@@ -93,7 +91,7 @@ public final class SpawnStarFactory {
 	 * @return ItemStack of SpawnStar items
 	 */
 	public final ItemStack create() {
-		return  this.protoItem.clone();
+		return this.protoItem.clone();
 	}
 
 
