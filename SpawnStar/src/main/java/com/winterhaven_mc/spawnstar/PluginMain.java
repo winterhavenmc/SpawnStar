@@ -33,7 +33,7 @@ public final class PluginMain extends JavaPlugin {
 	public SpawnStarFactory spawnStarFactory;
 
 	/**
-	 * Constructor for testing
+	 * Constructor for mocking
 	 */
 	@SuppressWarnings("unused")
 	public PluginMain() {
@@ -42,7 +42,7 @@ public final class PluginMain extends JavaPlugin {
 
 
 	/**
-	 * Constructor for testing
+	 * Constructor for mocking
 	 */
 	@SuppressWarnings("unused")
 	protected PluginMain(JavaPluginLoader loader, PluginDescriptionFile descriptionFile, File dataFolder, File file) {
