@@ -36,12 +36,6 @@ public class TeleportManagerTests {
 	class TeleportManager {
 
 		@Test
-		@DisplayName("teleport manager is not null.")
-		void TeleportManagerNotNull() {
-			Assertions.assertNotNull(plugin.teleportManager);
-		}
-
-		@Test
 		@DisplayName("player is not warming up.")
 		void PlayerIsNotWarmingUp() {
 			Assertions.assertFalse(plugin.teleportManager.isWarmingUp(player));
