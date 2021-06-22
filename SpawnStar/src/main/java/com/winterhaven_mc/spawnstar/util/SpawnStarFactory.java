@@ -59,8 +59,8 @@ public final class SpawnStarFactory {
 			// try to match material
 			Material matchedMaterial = Material.matchMaterial(configMaterialString);
 
-			// if no match, set material to default material
-			if (matchedMaterial == null) {
+			// if no match or unobtainable item material, set material to default material
+			if (matchedMaterial == null || !matchedMaterial.isItem()) {
 				material = defaultMaterial;
 			} else {
 				// set material to matched material
