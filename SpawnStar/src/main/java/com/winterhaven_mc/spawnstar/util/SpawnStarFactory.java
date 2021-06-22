@@ -115,7 +115,8 @@ public final class SpawnStarFactory {
 		ItemStack clonedItem = this.protoItem.clone();
 
 		// validate passed quantity (between 1 and material max stack size)
-		int quantity = Math.max(1, passedQuantity);
+		int quantity = passedQuantity;
+		quantity = Math.max(1, quantity);
 		quantity = Math.min(material.getMaxStackSize(), quantity);
 
 		// set quantity
