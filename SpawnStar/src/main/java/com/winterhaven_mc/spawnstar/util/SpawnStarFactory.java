@@ -30,15 +30,16 @@ public final class SpawnStarFactory {
 	protected final String itemStackName;
 	protected final List<String> itemStackLore;
 
-	// the proto item
-	protected final ItemStack protoItem;
-
+	// item metadata flags
 	private static final Set<ItemFlag> itemFlagSet =
 			Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
 					ItemFlag.HIDE_ATTRIBUTES,
 					ItemFlag.HIDE_ENCHANTS,
 					ItemFlag.HIDE_UNBREAKABLE
 			)));
+
+	// the proto item
+	protected final ItemStack protoItem;
 
 	/**
 	 * Class constructor
