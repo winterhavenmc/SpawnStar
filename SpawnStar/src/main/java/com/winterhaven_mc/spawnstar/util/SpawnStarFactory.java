@@ -4,6 +4,7 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -79,6 +80,11 @@ public final class SpawnStarFactory {
 
 		// set persistent data in item metadata
 		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
+
+		// set metadata flags in item metadata
+		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 
 		// save new item metadata
 		protoItem.setItemMeta(itemMeta);
