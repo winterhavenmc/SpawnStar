@@ -68,9 +68,10 @@ public final class SpawnStarFactory {
 			}
 		}
 
+		// assign new item stack of specified material and quantity to proto item
 		this.protoItem = new ItemStack(material, quantity);
 
-		// get item metadata object
+		// get item metadata for proto item
 		final ItemMeta itemMeta = protoItem.getItemMeta();
 
 		// set item metadata display name to value from language file
@@ -88,7 +89,7 @@ public final class SpawnStarFactory {
 		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 
-		// save new item metadata
+		// save new proto item metadata
 		protoItem.setItemMeta(itemMeta);
 	}
 
