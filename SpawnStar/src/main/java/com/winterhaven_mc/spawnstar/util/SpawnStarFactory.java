@@ -86,7 +86,7 @@ public final class SpawnStarFactory {
 
 
 	/**
-	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
+	 * Create a SpawnStar item stack with custom display name and lore
 	 *
 	 * @return ItemStack of SpawnStar items
 	 */
