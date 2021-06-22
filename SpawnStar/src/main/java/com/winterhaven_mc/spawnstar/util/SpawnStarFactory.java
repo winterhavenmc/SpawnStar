@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -33,6 +33,12 @@ public final class SpawnStarFactory {
 	// the proto item
 	protected final ItemStack protoItem;
 
+	private static final Set<ItemFlag> itemFlagSet =
+			Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+					ItemFlag.HIDE_ATTRIBUTES,
+					ItemFlag.HIDE_ENCHANTS,
+					ItemFlag.HIDE_UNBREAKABLE
+			)));
 
 	/**
 	 * Class constructor
@@ -85,9 +91,9 @@ public final class SpawnStarFactory {
 		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
 
 		// set metadata flags in item metadata
-		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		for (ItemFlag itemFlag : itemFlagSet) {
+			itemMeta.addItemFlags(itemFlag);
+		}
 
 		// save new proto item metadata
 		protoItem.setItemMeta(itemMeta);
