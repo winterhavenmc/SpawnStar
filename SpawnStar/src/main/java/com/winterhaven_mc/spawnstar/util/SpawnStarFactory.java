@@ -52,18 +52,18 @@ public final class SpawnStarFactory {
 		// get default material string from configuration file
 		String configMaterialString = plugin.getConfig().getString("item-material");
 
-		// if config material string is null, return default material
+		// if config material string is null, set material to default material
 		if (configMaterialString == null) {
 			material = defaultMaterial;
 		} else {
 			// try to match material
 			Material matchedMaterial = Material.matchMaterial(configMaterialString);
 
-			// if no match, return default material
+			// if no match, set material to default material
 			if (matchedMaterial == null) {
 				material = defaultMaterial;
 			} else {
-				// return matched material
+				// set material to matched material
 				material = matchedMaterial;
 			}
 		}
