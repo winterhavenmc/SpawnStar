@@ -27,9 +27,11 @@ public final class SpawnStarFactory {
 	protected final Material defaultMaterial = Material.NETHER_STAR;
 	protected final Material material;
 	protected final int quantity;
-	protected final ItemStack protoItem;
 	protected final String itemStackName;
 	protected final List<String> itemStackLore;
+
+	// the proto item
+	protected final ItemStack protoItem;
 
 
 	/**
