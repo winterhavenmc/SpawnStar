@@ -41,6 +41,7 @@ public final class SpawnStarFactory {
 	// the proto item
 	protected final ItemStack protoItem;
 
+
 	/**
 	 * Class constructor
 	 *
