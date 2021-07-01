@@ -35,8 +35,7 @@ public final class SpawnStarFactory {
 			Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
 					ItemFlag.HIDE_ATTRIBUTES,
 					ItemFlag.HIDE_ENCHANTS,
-					ItemFlag.HIDE_UNBREAKABLE
-			)));
+					ItemFlag.HIDE_UNBREAKABLE)));
 
 	// the proto item
 	protected final ItemStack protoItem;
