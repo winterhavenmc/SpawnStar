@@ -37,7 +37,7 @@ final class ParticleTask extends BukkitRunnable {
 
 
 	@Override
-	public final void run() {
+	public void run() {
 
 		// if player is in the warmup hashmap, display the particle effect at their location
 		if (plugin.teleportManager.isWarmingUp(player)) {

@@ -15,20 +15,21 @@ import java.util.*;
 /**
  * Factory class for creating and testing SpawnStar item stacks
  */
+@SuppressWarnings("FieldCanBeLocal")
 public final class SpawnStarFactory {
 
 	// reference to main class
 	private final PluginMain plugin;
 
 	// name spaced key for persistent data
-	protected final NamespacedKey PERSISTENT_KEY;
+	private final NamespacedKey PERSISTENT_KEY;
 
 	// item metadata fields
-	protected final Material defaultMaterial = Material.NETHER_STAR;
-	protected final Material material;
-	protected final int quantity;
-	protected final String itemStackName;
-	protected final List<String> itemStackLore;
+	private final Material defaultMaterial = Material.NETHER_STAR;
+	private final Material material;
+	private final int quantity;
+	private final String itemStackName;
+	private final List<String> itemStackLore;
 
 	// item metadata flags
 	private static final Set<ItemFlag> itemFlagSet =
@@ -38,7 +39,7 @@ public final class SpawnStarFactory {
 					ItemFlag.HIDE_UNBREAKABLE)));
 
 	// the proto item
-	protected final ItemStack protoItem;
+	private final ItemStack protoItem;
 
 
 	/**
@@ -106,7 +107,7 @@ public final class SpawnStarFactory {
 	 *
 	 * @return ItemStack of SpawnStar items
 	 */
-	public final ItemStack create() {
+	public ItemStack create() {
 		return this.protoItem.clone();
 	}
 
@@ -117,7 +118,7 @@ public final class SpawnStarFactory {
 	 * @param passedQuantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
 	 */
-	public final ItemStack create(final int passedQuantity) {
+	public ItemStack create(final int passedQuantity) {
 
 		// get clone of proto item
 		ItemStack clonedItem = this.protoItem.clone();
@@ -141,7 +142,7 @@ public final class SpawnStarFactory {
 	 * @param itemStack the ItemStack to check
 	 * @return {@code true} if itemStack is a SpawnStar item, {@code false} if not
 	 */
-	public final boolean isItem(final ItemStack itemStack) {
+	public boolean isItem(final ItemStack itemStack) {
 
 		// if item stack is empty (null or air) return false
 		if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
@@ -162,7 +163,7 @@ public final class SpawnStarFactory {
 	/**
 	 * Reload plugin's SpawnStarFactory. Replaces existing plugin.spawnStarFactory with new instance.
 	 */
-	public final void reload() {
+	public void reload() {
 		plugin.spawnStarFactory = new SpawnStarFactory(plugin);
 		plugin.getLogger().info("SpawnStarFactory reloaded.");
 	}

@@ -67,7 +67,7 @@ public final class PlayerEventListener implements Listener {
 	 * @param event PlayerInteractEvent handled by this method
 	 */
 	@EventHandler
-	final void onPlayerInteract(final PlayerInteractEvent event) {
+	void onPlayerInteract(final PlayerInteractEvent event) {
 
 		// get player
 		final Player player = event.getPlayer();
@@ -192,7 +192,7 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	final void onPlayerDeath(final PlayerDeathEvent event) {
+	void onPlayerDeath(final PlayerDeathEvent event) {
 
 		// get event player
 		Player player = event.getEntity();
@@ -208,7 +208,7 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	final void onPlayerQuit(final PlayerQuitEvent event) {
+	void onPlayerQuit(final PlayerQuitEvent event) {
 
 		// get event player
 		Player player = event.getPlayer();
@@ -225,7 +225,7 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	final void onCraftPrepare(final PrepareItemCraftEvent event) {
+	void onCraftPrepare(final PrepareItemCraftEvent event) {
 
 		// if allow-in-recipes is true in configuration, do nothing and return
 		if (plugin.getConfig().getBoolean("allow-in-recipes")) {
@@ -247,7 +247,7 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	final void onEntityDamage(final EntityDamageEvent event) {
+	void onEntityDamage(final EntityDamageEvent event) {
 
 		// if event is already cancelled, do nothing and return
 		if (event.isCancelled()) {
@@ -280,7 +280,7 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	final void onPlayerMovement(final PlayerMoveEvent event) {
+	void onPlayerMovement(final PlayerMoveEvent event) {
 
 		// if cancel-on-movement configuration is false, do nothing and return
 		if (!plugin.getConfig().getBoolean("cancel-on-movement")) {

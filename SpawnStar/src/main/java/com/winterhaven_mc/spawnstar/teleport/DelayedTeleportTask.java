@@ -69,7 +69,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 
 	@Override
-	public final void run() {
+	public void run() {
 
 		// cancel particles task
 		particleTask.cancel();

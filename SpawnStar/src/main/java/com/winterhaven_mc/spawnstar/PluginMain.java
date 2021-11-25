@@ -45,7 +45,7 @@ public final class PluginMain extends JavaPlugin {
 	 * Constructor for mocking
 	 */
 	@SuppressWarnings("unused")
-	protected PluginMain(JavaPluginLoader loader, PluginDescriptionFile descriptionFile, File dataFolder, File file) {
+	private PluginMain(JavaPluginLoader loader, PluginDescriptionFile descriptionFile, File dataFolder, File file) {
 		super(loader, descriptionFile, dataFolder, file);
 	}
 

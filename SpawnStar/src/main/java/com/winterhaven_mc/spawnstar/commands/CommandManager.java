@@ -17,6 +17,7 @@ import static com.winterhaven_mc.spawnstar.sounds.SoundId.COMMAND_INVALID;
 /**
  * Implements command executor and tab completer for SpawnStar commands.
  */
+@SuppressWarnings("NullableProblems")
 public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	// reference to main class
@@ -50,8 +51,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * Tab completer for SpawnStar
 	 */
 	@Override
-	public final List<String> onTabComplete(final CommandSender sender, final Command command,
-	                                        final String alias, final String[] args) {
+	public List<String> onTabComplete(final CommandSender sender, final Command command,
+	                                  final String alias, final String[] args) {
 
 		// if more than one argument, use tab completer of subcommand
 		if (args.length > 1) {
@@ -77,8 +78,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * command executor method for SpawnStar
 	 */
 	@Override
-	public final boolean onCommand(final CommandSender sender, final Command cmd,
-	                               final String label, final String[] args) {
+	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
 
 		// convert args array to list
 		List<String> argsList = new ArrayList<>(Arrays.asList(args));
