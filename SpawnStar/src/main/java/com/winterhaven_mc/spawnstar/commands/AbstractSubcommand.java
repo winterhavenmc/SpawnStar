@@ -52,15 +52,19 @@ public abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public final int getMinArgs() { return minArgs; }
+	public final int getMinArgs() {
+		return minArgs;
+	}
 
 	@Override
-	public final int getMaxArgs() { return maxArgs; }
+	public final int getMaxArgs() {
+		return maxArgs;
+	}
 
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final Command command,
-									  final String alias, final String[] args) {
+	                                  final String alias, final String[] args) {
 
 		return Collections.emptyList();
 	}

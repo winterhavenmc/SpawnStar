@@ -4,7 +4,6 @@ import com.winterhaven_mc.spawnstar.PluginMain;
 import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
-import com.winterhaven_mc.util.LanguageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -65,7 +64,7 @@ public final class TeleportManager {
 	 *
 	 * @param player the player being teleported
 	 */
-	public final void initiateTeleport(final Player player) {
+	public void initiateTeleport(final Player player) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -77,7 +76,7 @@ public final class TeleportManager {
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
 			Message.create(player, TELEPORT_COOLDOWN)
 					.setMacro(DURATION, getCooldownTimeRemaining(player))
-					.send();
+					.send(plugin.languageHandler);
 			return;
 		}
 
@@ -108,7 +107,7 @@ public final class TeleportManager {
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
 			Message.create(player, TELEPORT_FAIL_MIN_DISTANCE)
 					.setMacro(WORLD, destination.getWorld())
-					.send();
+					.send(plugin.languageHandler);
 			return;
 		}
 
@@ -124,7 +123,7 @@ public final class TeleportManager {
 			Message.create(player, TELEPORT_WARMUP)
 					.setMacro(WORLD, destination.getWorld())
 					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
-					.send();
+					.send(plugin.languageHandler);
 
 			// if enabled, play sound effect
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
@@ -133,7 +132,7 @@ public final class TeleportManager {
 		// initiate delayed teleport for player to destination
 		BukkitTask teleportTask =
 				new DelayedTeleportTask(plugin, player, destination, playerItem.clone())
-						.runTaskLater(plugin, plugin.getConfig().getInt("teleport-warmup") * 20);
+						.runTaskLater(plugin, plugin.getConfig().getLong("teleport-warmup") * 20);
 
 		// insert player and taskId into warmup hashmap
 		putWarmup(player, teleportTask.getTaskId());
@@ -143,7 +142,7 @@ public final class TeleportManager {
 
 			// write message to log
 			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ LanguageManager.getInstance().getItemName() + ChatColor.RESET + " in "
+					+ plugin.languageHandler.getItemName() + ChatColor.RESET + " in "
 					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}
@@ -155,7 +154,7 @@ public final class TeleportManager {
 	 * @param player the player whose uuid will be used as the key in the warmup map
 	 * @param taskId the warmup task Id to be placed in the warmup map
 	 */
-	private void putWarmup(final Player player, final int taskId) {
+	void putWarmup(final Player player, final int taskId) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -182,7 +181,7 @@ public final class TeleportManager {
 	 *
 	 * @param player the player whose uuid will be removed from the warmup map
 	 */
-	final void removeWarmup(final Player player) {
+	void removeWarmup(final Player player) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -198,7 +197,7 @@ public final class TeleportManager {
 	 * @param player the player whose uuid is to be checked for existence in the warmup map
 	 * @return {@code true} if player uuid is in the warmup map, {@code false} if it is not
 	 */
-	public final boolean isWarmingUp(final Player player) {
+	public boolean isWarmingUp(final Player player) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -212,7 +211,7 @@ public final class TeleportManager {
 	 *
 	 * @param player the player whose teleport will be cancelled
 	 */
-	public final void cancelTeleport(final Player player) {
+	public void cancelTeleport(final Player player) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -240,16 +239,16 @@ public final class TeleportManager {
 	 *
 	 * @param player the player whose uuid will be added to the cooldown map
 	 */
-	final void startCooldown(final Player player) {
+	void startCooldown(final Player player) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
 
 		// get cooldown time in seconds from config
-		final int cooldownSeconds = plugin.getConfig().getInt("teleport-cooldown");
+		final long cooldownSeconds = plugin.getConfig().getLong("teleport-cooldown");
 
 		// set expireTime to current time + configured cooldown period, in milliseconds
-		final Long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
+		final long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
 
 		// put in cooldown map with player UUID as key and expireTime as value
 		cooldownMap.put(player.getUniqueId(), expireTime);
@@ -259,7 +258,12 @@ public final class TeleportManager {
 			public void run() {
 				cooldownMap.remove(player.getUniqueId());
 			}
-		}.runTaskLater(plugin, (cooldownSeconds * 20));
+		}.runTaskLater(plugin, (cooldownSeconds * 20L));
+	}
+
+
+	public boolean isCoolingDown(final Player player) {
+		return getCooldownTimeRemaining(player) > 0;
 	}
 
 
@@ -269,7 +273,7 @@ public final class TeleportManager {
 	 * @param player the player whose cooldown time remaining to retrieve
 	 * @return long remainingTime in milliseconds
 	 */
-	public final long getCooldownTimeRemaining(final Player player) {
+	public long getCooldownTimeRemaining(final Player player) {
 
 		// check for null parameter
 		Objects.requireNonNull(player);
@@ -308,7 +312,7 @@ public final class TeleportManager {
 
 				// check if normal world matches passed world minus nether/end suffix
 				if (checkWorld.getName().equals(passedWorld.getName()
-						.replaceFirst("(_nether$|_the_end$)",""))) {
+						.replaceFirst("(_nether$|_the_end$)", ""))) {
 					return checkWorld;
 				}
 
@@ -333,7 +337,7 @@ public final class TeleportManager {
 	 * @param player the player to check if teleport is initiated
 	 * @return {@code true} if teleport been initiated, {@code false} if it has not
 	 */
-	public final boolean isInitiated(final Player player) {
+	public boolean isInitiated(final Player player) {
 
 		// check for null parameter
 		if (player == null) {

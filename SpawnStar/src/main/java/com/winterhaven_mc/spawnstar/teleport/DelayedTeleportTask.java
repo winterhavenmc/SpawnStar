@@ -43,15 +43,15 @@ final class DelayedTeleportTask extends BukkitRunnable {
 	/**
 	 * Class constructor
 	 *
-	 * @param plugin reference to plugin main class
-	 * @param player the player to be teleported
+	 * @param plugin      reference to plugin main class
+	 * @param player      the player to be teleported
 	 * @param destination the world spawn location
-	 * @param playerItem the player item used to initiate teleport
+	 * @param playerItem  the player item used to initiate teleport
 	 */
 	DelayedTeleportTask(final PluginMain plugin,
-						final Player player,
-						final Location destination,
-						final ItemStack playerItem) {
+	                    final Player player,
+	                    final Location destination,
+	                    final ItemStack playerItem) {
 
 		// check for null parameters
 		this.plugin = Objects.requireNonNull(plugin);
@@ -69,7 +69,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 
 	@Override
-	public final void run() {
+	public void run() {
 
 		// cancel particles task
 		particleTask.cancel();
@@ -97,7 +97,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
 				if (notRemoved) {
-					Message.create(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
+					Message.create(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send(plugin.languageHandler);
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
 					plugin.teleportManager.startCooldown(player);
 					return;
@@ -113,7 +113,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			// send player respawn message
 			Message.create(player, TELEPORT_SUCCESS)
 					.setMacro(WORLD, destination.getWorld())
-					.send();
+					.send(plugin.languageHandler);
 
 			// play post-teleport sound if sound effects are enabled
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);

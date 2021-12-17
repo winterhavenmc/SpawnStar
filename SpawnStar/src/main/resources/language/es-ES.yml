@@ -10,8 +10,8 @@ ITEM_INFO:
 
   # Item Lore
   ITEM_LORE:
-  - '&eSe utiliza para volver'
-  - '&eal origen del mundo'
+    - '&eSe utiliza para volver'
+    - '&eal origen del mundo'
 
   # Spawn Display Name
   SPAWN_DISPLAY_NAME: 'spawn'
