@@ -4,7 +4,13 @@
 	<artifactId>SpawnStar</artifactId>
 	<version>1.15.0</version>
 	<name>SpawnStar</name>
+
 	<url>https://github.com/tim-savage/SpawnStar</url>
+
+	<description>
+		A minecraft plugin that provides configurable items to be used to teleport
+		a player to the world spawn location, in place of the /spawn command.
+	</description>
 
 	<properties>
 		<project.author>Tim Savage</project.author>
