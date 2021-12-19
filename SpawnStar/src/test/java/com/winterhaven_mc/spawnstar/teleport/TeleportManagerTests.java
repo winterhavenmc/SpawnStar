@@ -27,13 +27,16 @@ public class TeleportManagerTests {
 
 	@AfterAll
 	public void tearDown() {
+		// cancel all tasks for plugin
+		server.getScheduler().cancelTasks(plugin);
+
 		// Stop the mock server
 		MockBukkit.unmock();
 	}
 
 	@Nested
 	@DisplayName("Test Teleport Manager.")
-	class TeleportManager {
+	class TeleportManagerTest {
 
 		@Test
 		@DisplayName("player is not warming up.")
