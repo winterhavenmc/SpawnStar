@@ -1,7 +1,6 @@
 package com.winterhaven_mc.spawnstar.commands;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,20 +33,20 @@ public class DestroyCommand extends AbstractSubcommand {
 
 		// sender must be in game player
 		if (!(sender instanceof Player)) {
-			Message.create(sender, COMMAND_FAIL_DESTROY_CONSOLE).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_DESTROY_CONSOLE).send(plugin.languageHandler);
 			return true;
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission(permission)) {
-			Message.create(sender, COMMAND_FAIL_DESTROY_PERMISSION).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_DESTROY_PERMISSION).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -61,7 +60,7 @@ public class DestroyCommand extends AbstractSubcommand {
 
 		// check that player held item is a spawnstar stack
 		if (!plugin.spawnStarFactory.isItem(playerItem)) {
-			Message.create(sender, COMMAND_FAIL_DESTROY_NO_MATCH).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_DESTROY_NO_MATCH).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -77,7 +76,7 @@ public class DestroyCommand extends AbstractSubcommand {
 		player.getInventory().setItemInHand(playerItem);
 
 		// send success message
-		Message.create(sender, COMMAND_SUCCESS_DESTROY)
+		plugin.messageBuilder.build(sender, COMMAND_SUCCESS_DESTROY)
 				.setMacro(ITEM_QUANTITY, quantity)
 				.send(plugin.languageHandler);
 

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.winterhaven-mc</groupId>
 	<artifactId>SpawnStar</artifactId>
-	<version>1.18.2</version>
+	<version>1.18.3-SNAPSHOT</version>
 	<name>SpawnStar</name>
 
 	<url>https://github.com/tim-savage/SpawnStar</url>
@@ -66,8 +66,8 @@
 		<!-- MessengerLib -->
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>messenger-lib</artifactId>
-			<version>1.16.2</version>
+			<artifactId>message-builder</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<!-- SoundConfigLib -->
@@ -176,7 +176,7 @@
 							<minimizeJar>true</minimizeJar>
 							<artifactSet>
 								<includes>
-									<include>com.winterhaven-mc:messenger-lib</include>
+									<include>com.winterhaven-mc:message-builder</include>
 									<include>com.winterhaven-mc:sound-config-lib</include>
 									<include>com.winterhaven-mc:world-manager-lib</include>
 								</includes>

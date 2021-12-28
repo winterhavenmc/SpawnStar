@@ -1,7 +1,6 @@
 package com.winterhaven_mc.spawnstar.commands;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.messages.MessageId;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 import org.bukkit.ChatColor;
@@ -34,14 +33,14 @@ public class StatusCommand extends AbstractSubcommand {
 
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission(permission)) {
-			Message.create(sender, COMMAND_FAIL_STATUS_PERMISSION).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_STATUS_PERMISSION).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			Message.create(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
