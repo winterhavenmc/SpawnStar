@@ -49,9 +49,6 @@ public class ReloadCommand extends AbstractSubcommand {
 		// reload main configuration
 		plugin.reloadConfig();
 
-		// reload debug global
-		plugin.debug = plugin.getConfig().getBoolean("debug");
-
 		// update enabledWorlds list
 		plugin.worldManager.reload();
 

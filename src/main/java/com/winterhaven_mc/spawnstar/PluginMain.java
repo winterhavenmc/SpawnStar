@@ -26,8 +26,6 @@ import java.io.File;
  */
 public final class PluginMain extends JavaPlugin {
 
-	public boolean debug;
-
 	public LanguageHandler languageHandler;
 	public MessageBuilder<MessageId, Macro> messageBuilder;
 	public SoundConfiguration soundConfig;
@@ -36,6 +34,7 @@ public final class PluginMain extends JavaPlugin {
 	public CommandManager commandManager;
 	public PlayerEventListener playerEventListener;
 	public SpawnStarFactory spawnStarFactory;
+
 
 	/**
 	 * Constructor for mocking
@@ -60,9 +59,6 @@ public final class PluginMain extends JavaPlugin {
 
 		// install default configuration file if not already present
 		saveDefaultConfig();
-
-		// get debug setting
-		debug = this.getConfig().getBoolean("debug");
 
 		// instantiate language manager
 		languageHandler = new LanguageHandler(this);
