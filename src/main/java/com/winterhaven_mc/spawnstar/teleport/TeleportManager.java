@@ -1,7 +1,6 @@
 package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
-import com.winterhaven_mc.spawnstar.messages.Message;
 import com.winterhaven_mc.spawnstar.sounds.SoundId;
 
 import org.bukkit.ChatColor;
@@ -74,7 +73,7 @@ public final class TeleportManager {
 
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
-			Message.create(player, TELEPORT_COOLDOWN)
+			plugin.messageBuilder.build(player, TELEPORT_COOLDOWN)
 					.setMacro(DURATION, getCooldownTimeRemaining(player))
 					.send(plugin.languageHandler);
 			return;
@@ -105,7 +104,7 @@ public final class TeleportManager {
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (player.getWorld().equals(destination.getWorld())
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
-			Message.create(player, TELEPORT_FAIL_MIN_DISTANCE)
+			plugin.messageBuilder.build(player, TELEPORT_FAIL_MIN_DISTANCE)
 					.setMacro(WORLD, destination.getWorld())
 					.send(plugin.languageHandler);
 			return;
@@ -120,7 +119,7 @@ public final class TeleportManager {
 		// if warmup setting is greater than zero, send warmup message
 		long warmupTime = plugin.getConfig().getLong("teleport-warmup");
 		if (warmupTime > 0) {
-			Message.create(player, TELEPORT_WARMUP)
+			plugin.messageBuilder.build(player, TELEPORT_WARMUP)
 					.setMacro(WORLD, destination.getWorld())
 					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
 					.send(plugin.languageHandler);

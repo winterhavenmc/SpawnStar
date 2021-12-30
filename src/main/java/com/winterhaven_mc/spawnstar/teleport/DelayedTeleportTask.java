@@ -2,7 +2,6 @@ package com.winterhaven_mc.spawnstar.teleport;
 
 import com.winterhaven_mc.spawnstar.PluginMain;
 
-import com.winterhaven_mc.spawnstar.messages.Message;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -97,7 +96,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
 				if (notRemoved) {
-					Message.create(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send(plugin.languageHandler);
+					plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send(plugin.languageHandler);
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
 					plugin.teleportManager.startCooldown(player);
 					return;
@@ -111,7 +110,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			player.teleport(destination);
 
 			// send player respawn message
-			Message.create(player, TELEPORT_SUCCESS)
+			plugin.messageBuilder.build(player, TELEPORT_SUCCESS)
 					.setMacro(WORLD, destination.getWorld())
 					.send(plugin.languageHandler);
 
