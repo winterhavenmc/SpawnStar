@@ -54,8 +54,8 @@ public final class SpawnStarFactory {
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
 
 		this.quantity = 1;
-		this.itemStackName = plugin.languageHandler.getItemName();
-		this.itemStackLore = plugin.languageHandler.getItemLore();
+		this.itemStackName = plugin.messageBuilder.getItemName();
+		this.itemStackLore = plugin.messageBuilder.getItemLore();
 
 		// get default material string from configuration file
 		String configMaterialString = plugin.getConfig().getString("item-material");
@@ -105,7 +105,7 @@ public final class SpawnStarFactory {
 	/**
 	 * Create a SpawnStar item stack with custom display name and lore
 	 *
-	 * @return ItemStack of SpawnStar items
+	 * @return ItemStack of single SpawnStar item
 	 */
 	public ItemStack create() {
 		return this.protoItem.clone();

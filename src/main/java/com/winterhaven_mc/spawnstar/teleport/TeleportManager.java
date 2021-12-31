@@ -75,7 +75,7 @@ public final class TeleportManager {
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
 			plugin.messageBuilder.build(player, TELEPORT_COOLDOWN)
 					.setMacro(DURATION, getCooldownTimeRemaining(player))
-					.send(plugin.languageHandler);
+					.send();
 			return;
 		}
 
@@ -106,7 +106,7 @@ public final class TeleportManager {
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
 			plugin.messageBuilder.build(player, TELEPORT_FAIL_MIN_DISTANCE)
 					.setMacro(WORLD, destination.getWorld())
-					.send(plugin.languageHandler);
+					.send();
 			return;
 		}
 
@@ -122,7 +122,7 @@ public final class TeleportManager {
 			plugin.messageBuilder.build(player, TELEPORT_WARMUP)
 					.setMacro(WORLD, destination.getWorld())
 					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
-					.send(plugin.languageHandler);
+					.send();
 
 			// if enabled, play sound effect
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
@@ -141,7 +141,7 @@ public final class TeleportManager {
 
 			// write message to log
 			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ plugin.languageHandler.getItemName() + ChatColor.RESET + " in "
+					+ plugin.messageBuilder.getItemName() + ChatColor.RESET + " in "
 					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
 		}
 	}

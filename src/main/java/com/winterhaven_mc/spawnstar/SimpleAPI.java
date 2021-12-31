@@ -216,7 +216,7 @@ public final class SimpleAPI {
 	 * @deprecated use {@code plugin.languageHandler.getItemName()} method
 	 */
 	public static String getItemName() {
-		return plugin.languageHandler.getItemName();
+		return plugin.messageBuilder.getItemName();
 	}
 
 
@@ -227,7 +227,7 @@ public final class SimpleAPI {
 	 * @deprecated use {@code plugin.languageHandler.getItemNamePlural()} method
 	 */
 	public static String getItemNamePlural() {
-		return plugin.languageHandler.getItemNamePlural();
+		return plugin.messageBuilder.getItemNamePlural();
 	}
 
 }
