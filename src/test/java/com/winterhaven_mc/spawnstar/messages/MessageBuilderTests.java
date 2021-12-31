@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class LanguageHandlerTests {
+public class MessageBuilderTests {
 
 	@SuppressWarnings({"FieldCanBeLocal", "unused"})
 	private ServerMock server;
@@ -35,19 +35,19 @@ public class LanguageHandlerTests {
 
 	@Nested
 	@DisplayName("test language handler.")
-	class LanguageHandler {
+	class LanguageHandlerTests {
 
 		@Test
 		@DisplayName("item name is not null.")
 		void ItemNameNotNull() {
-			Assertions.assertNotNull(plugin.languageHandler.getItemName(),
+			Assertions.assertNotNull(plugin.messageBuilder.getItemName(),
 					"item name is null.");
 		}
 
 		@Test
 		@DisplayName("item lore is not null.")
 		void ItemLoreNotNull() {
-			Assertions.assertNotNull(plugin.languageHandler.getItemLore(),
+			Assertions.assertNotNull(plugin.messageBuilder.getItemLore(),
 					"item lore is null.");
 		}
 	}
@@ -55,13 +55,13 @@ public class LanguageHandlerTests {
 	@Nested
 	@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 	@DisplayName("Test messages.")
-	class Messages {
+	class MessageTests {
 
 		// collection of enum sound name strings
 		Collection<String> enumMessageNames = new HashSet<>();
 
 		// class constructor
-		Messages() {
+		MessageTests() {
 			// add all MessageId enum values to collection
 			for (MessageId MessageId : MessageId.values()) {
 				enumMessageNames.add(MessageId.name());
@@ -73,7 +73,7 @@ public class LanguageHandlerTests {
 		@DisplayName("enum member MessageId is contained in getConfig() keys.")
 		void FileKeysContainsEnumValue(MessageId messageId) {
 			Assertions.assertNotNull(messageId);
-			Assertions.assertNotNull(plugin.languageHandler.getMessage(messageId),
+			Assertions.assertNotNull(plugin.messageBuilder.getMessage(messageId),
 					"config file message is null.");
 		}
 

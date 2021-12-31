@@ -64,14 +64,14 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission(permission)) {
-			plugin.messageBuilder.build(sender, COMMAND_FAIL_HELP_PERMISSION).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			plugin.messageBuilder.build(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -103,13 +103,13 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		// if subcommand found in map, display help message and usage
 		if (subcommand != null) {
-			plugin.messageBuilder.build(sender, subcommand.getDescription()).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, subcommand.getDescription()).send();
 			subcommand.displayUsage(sender);
 		}
 
 		// else display invalid command help message and usage for all commands
 		else {
-			plugin.messageBuilder.build(sender, COMMAND_HELP_INVALID).send(plugin.languageHandler);
+			plugin.messageBuilder.build(sender, COMMAND_HELP_INVALID).send();
 			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
 			displayUsageAll(sender);
 		}
@@ -123,7 +123,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 	 */
 	void displayUsageAll(CommandSender sender) {
 
-		plugin.messageBuilder.build(sender, COMMAND_HELP_USAGE_HEADER).send(plugin.languageHandler);
+		plugin.messageBuilder.build(sender, COMMAND_HELP_USAGE_HEADER).send();
 
 		for (String subcommandName : subcommandMap.getKeys()) {
 			if (subcommandMap.getCommand(subcommandName) != null) {
