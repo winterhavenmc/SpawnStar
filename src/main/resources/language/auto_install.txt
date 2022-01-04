@@ -1,0 +1,4 @@
+# list of language files to be automatically installed
+en-US.yml
+de-DE.yml
+es-ES.yml
