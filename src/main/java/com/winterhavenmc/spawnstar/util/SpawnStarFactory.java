@@ -47,7 +47,7 @@ public final class SpawnStarFactory {
 	 *
 	 * @param plugin reference to the plugin main class instance
 	 */
-	public SpawnStarFactory(PluginMain plugin) {
+	public SpawnStarFactory(final PluginMain plugin) {
 
 		this.plugin = plugin;
 

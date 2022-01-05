@@ -60,7 +60,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 
 	@Override
-	public boolean onCommand(CommandSender sender, List<String> args) {
+	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission(permission)) {
@@ -121,7 +121,7 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 	 *
 	 * @param sender the command sender
 	 */
-	void displayUsageAll(CommandSender sender) {
+	void displayUsageAll(final CommandSender sender) {
 
 		plugin.messageBuilder.build(sender, COMMAND_HELP_USAGE_HEADER).send();
 
