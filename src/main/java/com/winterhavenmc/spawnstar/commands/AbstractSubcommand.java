@@ -37,7 +37,7 @@ public abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public final void displayUsage(CommandSender sender) {
+	public final void displayUsage(final CommandSender sender) {
 		sender.sendMessage(usage);
 	}
 
@@ -70,7 +70,7 @@ public abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public void register(SubcommandMap subcommandMap) {
+	public void register(final SubcommandMap subcommandMap) {
 		this.subcommandMap = subcommandMap;
 		subcommandMap.register(this);
 	}

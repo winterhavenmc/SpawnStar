@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface Subcommand {
 
-	boolean onCommand(CommandSender sender, List<String> argsList);
+	boolean onCommand(final CommandSender sender, final List<String> argsList);
 
 	List<String> onTabComplete(final CommandSender sender, final Command command,
 	                           final String alias, final String[] args);
@@ -20,7 +20,7 @@ public interface Subcommand {
 
 	String getUsage();
 
-	void displayUsage(CommandSender sender);
+	void displayUsage(final CommandSender sender);
 
 	MessageId getDescription();
 
@@ -30,6 +30,6 @@ public interface Subcommand {
 
 	int getMaxArgs();
 
-	void register(SubcommandMap subcommandMap);
+	void register(final SubcommandMap subcommandMap);
 
 }

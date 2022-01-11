@@ -3,11 +3,17 @@ package com.winterhavenmc.spawnstar;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
+import com.winterhavenmc.spawnstar.messages.MessageId;
+import com.winterhavenmc.spawnstar.sounds.SoundId;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,8 +24,18 @@ public class PluginMainTests {
 	private ServerMock server;
 	private PluginMain plugin;
 
+	// collection of enum sound name strings
+	Collection<String> enumSoundNames = new HashSet<>();
+
+
 	@BeforeAll
 	public void setUp() {
+
+		// add all SoundId enum values to collection
+		for (SoundId SoundId : SoundId.values()) {
+			enumSoundNames.add(SoundId.name());
+		}
+
 		// Start the mock server
 		server = MockBukkit.mock();
 
@@ -162,4 +178,142 @@ public class PluginMainTests {
 					"ConfigSetting enum value does not match config file key/value pair.");
 		}
 	}
+
+
+	@Test
+	void HelpCommandTest() {
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar help"),
+				"help command returned true.");
+	}
+
+	@Test
+	void StatusCommandTest() {
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar status"),
+				"status command returned true.");
+	}
+
+	@Test
+	void GiveCommandTest() {
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar give testy"),
+				"give command returned true.");
+	}
+
+	@Test
+	void ReloadCommandTest() {
+		Assertions.assertFalse(server.dispatchCommand(server.getConsoleSender(), "/spawnstar reload"),
+				"reload command returned true.");
+	}
+
+
+	@Nested
+	@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+	@DisplayName("Test messages.")
+	class MessageTests {
+
+		// collection of enum sound name strings
+		Collection<String> enumMessageNames = new HashSet<>();
+
+		// class constructor
+		MessageTests() {
+			// add all MessageId enum values to collection
+			for (com.winterhavenmc.spawnstar.messages.MessageId MessageId : MessageId.values()) {
+				enumMessageNames.add(MessageId.name());
+			}
+		}
+
+		@ParameterizedTest
+		@EnumSource(MessageId.class)
+		@DisplayName("enum member MessageId is contained in getConfig() keys.")
+		void FileKeysContainsEnumValue(MessageId messageId) {
+			Assertions.assertNotNull(messageId);
+			Assertions.assertNotNull(plugin.messageBuilder.getMessage(messageId),
+					"config file message is null.");
+		}
+	}
+
+
+	@ParameterizedTest
+	@EnumSource(SoundId.class)
+	@DisplayName("enum member soundId is contained in config file keys.")
+	void FileKeysContainsEnumValue(SoundId soundId) {
+		Assertions.assertTrue(plugin.soundConfig.isValidSoundConfigKey(soundId.name()),
+				"Enum value soundId is not in config file keys.");
+	}
+
+
+	@SuppressWarnings("unused")
+	Collection<String> GetConfigFileKeys() {
+		return plugin.soundConfig.getSoundConfigKeys();
+	}
+
+
+	@ParameterizedTest
+	@MethodSource("GetConfigFileKeys")
+	@DisplayName("config file key has matching key in enum sound names")
+	void SoundConfigEnumContainsAllFileSounds(String key) {
+		Assertions.assertTrue(enumSoundNames.contains(key),
+				"Enum SoundId does not contain config file key: " + key);
+	}
+
+	@ParameterizedTest
+	@MethodSource("GetConfigFileKeys")
+	@DisplayName("sound file key has valid bukkit sound name")
+	void SoundConfigFileHasValidBukkitSound(String key) {
+		String bukkitSoundName = plugin.soundConfig.getBukkitSoundName(key);
+		Assertions.assertTrue(plugin.soundConfig.isValidBukkitSoundName(bukkitSoundName),
+				"file key '" + key + "' has invalid bukkit sound name: " + bukkitSoundName);
+		System.out.println("File key '" + key + "' has valid bukkit sound name: " + bukkitSoundName);
+	}
+
+
+	@Nested
+	@DisplayName("Test spawn star factory methods.")
+	class SpawnStarFactoryMethodTests {
+
+		ItemStack spawnStarItem = plugin.spawnStarFactory.create();
+
+		@Test
+		@DisplayName("new item type is nether star.")
+		void ItemSetDefaultType() {
+			Assertions.assertEquals(Material.NETHER_STAR, spawnStarItem.getType(),
+					"new item type is not nether star.");
+		}
+
+		@Test
+		@DisplayName("new item name is SpawnStar.")
+		void NewItemHasDefaultName() {
+			Assertions.assertNotNull(spawnStarItem.getItemMeta(), "new item stack meta data is null.");
+			Assertions.assertNotNull(spawnStarItem.getItemMeta().getDisplayName(),
+					"new item stack display name meta data is null.");
+			Assertions.assertEquals("SpawnStar",
+					ChatColor.stripColor(spawnStarItem.getItemMeta().getDisplayName()),
+					"new item display name is not SpawnStar.");
+		}
+
+		@Test
+		@DisplayName("new item has lore.")
+		void NewItemHasDefaultLore() {
+			Assertions.assertNotNull(spawnStarItem.getItemMeta());
+			Assertions.assertNotNull(spawnStarItem.getItemMeta().getLore());
+			Assertions.assertEquals("Use to Return to World Spawn",
+					ChatColor.stripColor(String.join(" ",
+							spawnStarItem.getItemMeta().getLore())),"" +
+							"new item stack lore does not match default lore.");
+		}
+
+		@Test
+		@DisplayName("new item is valid spawn star item.")
+		void CreateAndTestValidItem() {
+			Assertions.assertTrue(plugin.spawnStarFactory.isItem(spawnStarItem),
+					"new item stack is not a valid spawn star item.");
+		}
+
+		@Test
+		@DisplayName("spawn star factory is not null after reload.")
+		void ReloadSpawnStarFactory() {
+			plugin.spawnStarFactory.reload();
+			Assertions.assertNotNull(plugin.spawnStarFactory, "spawn star factory is null after reload.");
+		}
+	}
+
 }

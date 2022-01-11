@@ -157,7 +157,7 @@ public final class PlayerEventListener implements Listener {
 			// cancel event
 			event.setCancelled(true);
 
-			// if players current world is not enabled in config, do nothing and return
+			// if players current world is not enabled in config, send message and return
 			if (!plugin.worldManager.isEnabled(player.getWorld())) {
 				plugin.messageBuilder.build(player, TELEPORT_FAIL_WORLD_DISABLED).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
@@ -171,8 +171,7 @@ public final class PlayerEventListener implements Listener {
 				return;
 			}
 
-			// if shift-click configured and player is not sneaking,
-			// send teleport fail shift-click message, cancel event and return
+			// if shift-click configured and player is not sneaking, send message and return
 			if (plugin.getConfig().getBoolean("shift-click")
 					&& !player.isSneaking()) {
 				plugin.messageBuilder.build(player, TELEPORT_FAIL_SHIFT_CLICK).send();

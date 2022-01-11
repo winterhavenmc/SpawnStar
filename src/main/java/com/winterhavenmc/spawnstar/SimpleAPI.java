@@ -157,7 +157,7 @@ public final class SimpleAPI {
 	 * @return boolean true if player is pending teleport, false if not
 	 * @deprecated Use {@code plugin.teleportManager.isWarmingUp(player)} method
 	 */
-	public static boolean isWarmingUp(Player player) {
+	public static boolean isWarmingUp(final Player player) {
 		return plugin.teleportManager.isWarmingUp(player);
 	}
 
