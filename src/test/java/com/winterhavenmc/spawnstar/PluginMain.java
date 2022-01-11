@@ -6,13 +6,10 @@ import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.teleport.TeleportManager;
 import com.winterhavenmc.spawnstar.util.SpawnStarFactory;
-
 import com.winterhavenmc.util.messagebuilder.MessageBuilder;
 import com.winterhavenmc.util.soundconfig.SoundConfiguration;
 import com.winterhavenmc.util.soundconfig.YamlSoundConfiguration;
 import com.winterhavenmc.util.worldmanager.WorldManager;
-
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
@@ -61,11 +58,6 @@ public final class PluginMain extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-
-		// bStats
-		final int pluginId = 13926;
-		@SuppressWarnings("unused")
-		Metrics metrics = new Metrics(this, pluginId);
 
 		// install default configuration file if not already present
 		saveDefaultConfig();
