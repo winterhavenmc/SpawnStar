@@ -18,7 +18,6 @@ public abstract class AbstractSubcommand implements Subcommand {
 	protected String permission;
 	protected int minArgs;
 	protected int maxArgs;
-	protected SubcommandRegistry subcommandRegistry;
 
 
 	@Override
@@ -67,12 +66,6 @@ public abstract class AbstractSubcommand implements Subcommand {
 	                                  final String alias, final String[] args) {
 
 		return Collections.emptyList();
-	}
-
-	@Override
-	public void register(final SubcommandRegistry subcommandRegistry) {
-		this.subcommandRegistry = subcommandRegistry;
-		subcommandRegistry.register(this);
 	}
 
 }

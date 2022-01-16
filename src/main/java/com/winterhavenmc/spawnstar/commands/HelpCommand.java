@@ -20,6 +20,7 @@ import static com.winterhavenmc.spawnstar.sounds.SoundId.*;
 public class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 	private final PluginMain plugin;
+	private final SubcommandRegistry subcommandRegistry;
 
 
 	/**
@@ -27,8 +28,9 @@ public class HelpCommand extends AbstractSubcommand implements Subcommand {
 	 *
 	 * @param plugin reference to plugin main class instance
 	 */
-	HelpCommand(final PluginMain plugin) {
+	HelpCommand(final PluginMain plugin, SubcommandRegistry subcommandRegistry) {
 		this.plugin = Objects.requireNonNull(plugin);
+		this.subcommandRegistry = subcommandRegistry;
 		this.name = "help";
 		this.usage = "/spawnstar help [command]";
 		this.description = COMMAND_HELP_HELP;
