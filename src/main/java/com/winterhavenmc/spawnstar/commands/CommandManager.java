@@ -23,7 +23,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	private final PluginMain plugin;
 
 	// instantiate subcommand map
-	private final SubcommandMap subcommandMap = new SubcommandMap();
+	private final SubcommandRegistry subcommandRegistry = new SubcommandRegistry();
 
 
 	/**
@@ -41,7 +41,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// register subcommands
 		for (SubcommandType subcommandType : SubcommandType.values()) {
-			subcommandType.register(plugin, subcommandMap);
+			subcommandType.register(plugin, subcommandRegistry);
 		}
 	}
 
@@ -57,7 +57,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		if (args.length > 1) {
 
 			// get subcommand from map
-			Subcommand subcommand = subcommandMap.getCommand(args[0]);
+			Subcommand subcommand = subcommandRegistry.getCommand(args[0]);
 
 			// if no subcommand returned from map, return empty list
 			if (subcommand == null) {
@@ -95,11 +95,11 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// get subcommand from map by name
-		Subcommand subcommand = subcommandMap.getCommand(subcommandName);
+		Subcommand subcommand = subcommandRegistry.getCommand(subcommandName);
 
 		// if subcommand is null, get help command from map
 		if (subcommand == null) {
-			subcommand = subcommandMap.getCommand("help");
+			subcommand = subcommandRegistry.getCommand("help");
 			plugin.messageBuilder.build(sender, COMMAND_FAIL_INVALID_COMMAND).send();
 			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
 		}
@@ -122,7 +122,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		List<String> returnList = new ArrayList<>();
 
 		// iterate over each subcommand entry in map
-		for (Map.Entry<String, Subcommand> entry : subcommandMap.getEntries()) {
+		for (Map.Entry<String, Subcommand> entry : subcommandRegistry.getEntries()) {
 
 			// if sender has permission and command begins with match string, add to return list
 			if (sender.hasPermission(entry.getValue().getPermission())

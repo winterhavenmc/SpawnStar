@@ -30,6 +30,6 @@ public interface Subcommand {
 
 	int getMaxArgs();
 
-	void register(final SubcommandMap subcommandMap);
+	void register(final SubcommandRegistry subcommandRegistry);
 
 }

@@ -18,7 +18,7 @@ public abstract class AbstractSubcommand implements Subcommand {
 	protected String permission;
 	protected int minArgs;
 	protected int maxArgs;
-	protected SubcommandMap subcommandMap;
+	protected SubcommandRegistry subcommandRegistry;
 
 
 	@Override
@@ -70,9 +70,9 @@ public abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public void register(final SubcommandMap subcommandMap) {
-		this.subcommandMap = subcommandMap;
-		subcommandMap.register(this);
+	public void register(final SubcommandRegistry subcommandRegistry) {
+		this.subcommandRegistry = subcommandRegistry;
+		subcommandRegistry.register(this);
 	}
 
 }

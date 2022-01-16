@@ -7,40 +7,40 @@ public enum SubcommandType {
 
 	DESTROY() {
 		@Override
-		void register(final PluginMain plugin, final SubcommandMap subcommandMap) {
-			new DestroyCommand(plugin).register(subcommandMap);
+		void register(final PluginMain plugin, final SubcommandRegistry subcommandRegistry) {
+			new DestroyCommand(plugin).register(subcommandRegistry);
 		}
 	},
 
 	GIVE() {
 		@Override
-		void register(final PluginMain plugin, final SubcommandMap subcommandMap) {
-			new GiveCommand(plugin).register(subcommandMap);
+		void register(final PluginMain plugin, final SubcommandRegistry subcommandRegistry) {
+			new GiveCommand(plugin).register(subcommandRegistry);
 		}
 	},
 
 	HELP() {
 		@Override
-		void register(final PluginMain plugin, final SubcommandMap subcommandMap) {
-			new HelpCommand(plugin).register(subcommandMap);
+		void register(final PluginMain plugin, final SubcommandRegistry subcommandRegistry) {
+			new HelpCommand(plugin).register(subcommandRegistry);
 		}
 	},
 
 	RELOAD() {
 		@Override
-		void register(final PluginMain plugin, final SubcommandMap subcommandMap) {
-			new ReloadCommand(plugin).register(subcommandMap);
+		void register(final PluginMain plugin, final SubcommandRegistry subcommandRegistry) {
+			new ReloadCommand(plugin).register(subcommandRegistry);
 		}
 	},
 
 	STATUS() {
 		@Override
-		void register(final PluginMain plugin, final SubcommandMap subcommandMap) {
-			new StatusCommand(plugin).register(subcommandMap);
+		void register(final PluginMain plugin, final SubcommandRegistry subcommandRegistry) {
+			new StatusCommand(plugin).register(subcommandRegistry);
 		}
 	};
 
 
-	abstract void register(PluginMain plugin, SubcommandMap subcommandMap);
+	abstract void register(PluginMain plugin, SubcommandRegistry subcommandRegistry);
 
 }
