@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public abstract class AbstractSubcommand implements Subcommand {
+abstract class AbstractSubcommand implements Subcommand {
 
 	protected String name;
 	protected List<String> aliases = new ArrayList<>();

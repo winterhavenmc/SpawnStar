@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class DestroyCommand extends AbstractSubcommand {
+final class DestroyCommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 

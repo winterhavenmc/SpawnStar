@@ -3,7 +3,7 @@ package com.winterhavenmc.spawnstar.commands;
 import com.winterhavenmc.spawnstar.PluginMain;
 
 
-public enum SubcommandType {
+enum SubcommandType {
 
 	DESTROY() {
 		@Override

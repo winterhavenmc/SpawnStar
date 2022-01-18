@@ -15,7 +15,7 @@ import static com.winterhavenmc.spawnstar.messages.Macro.TARGET_PLAYER;
 import static com.winterhavenmc.spawnstar.messages.MessageId.*;
 
 
-public class GiveCommand extends AbstractSubcommand {
+final class GiveCommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 
@@ -32,7 +32,7 @@ public class GiveCommand extends AbstractSubcommand {
 
 
 	@Override
-	public final List<String> onTabComplete(final CommandSender sender, final Command command,
+	public List<String> onTabComplete(final CommandSender sender, final Command command,
 	                                        final String alias, final String[] args) {
 
 		// initialize return list
