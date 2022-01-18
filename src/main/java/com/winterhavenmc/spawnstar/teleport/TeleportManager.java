@@ -136,14 +136,8 @@ public final class TeleportManager {
 		// insert player and taskId into warmup hashmap
 		putWarmup(player, teleportTask.getTaskId());
 
-		// if log-use is enabled in config, write log entry
-		if (plugin.getConfig().getBoolean("log-use")) {
-
-			// write message to log
-			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
-					+ plugin.messageBuilder.getItemName() + ChatColor.RESET + " in "
-					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
-		}
+		// write log entry if configured
+		logUsage(player);
 	}
 
 
@@ -344,6 +338,22 @@ public final class TeleportManager {
 		}
 
 		return !teleportInitiated.contains(player.getUniqueId());
+	}
+
+
+	/**
+	 * Log usage of SpawnStar item if configured
+	 *
+	 * @param player the player being logged using a SpawnStar item
+	 */
+	private void logUsage(final Player player) {
+		if (plugin.getConfig().getBoolean("log-use")) {
+
+			// write message to log
+			plugin.getLogger().info(player.getName() + ChatColor.RESET + " used a "
+					+ plugin.messageBuilder.getItemName() + ChatColor.RESET + " in "
+					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
+		}
 	}
 
 }
