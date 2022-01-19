@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 abstract class AbstractSubcommand implements Subcommand {
 
 	protected String name;
-	protected List<String> aliases = new ArrayList<>();
+	protected Collection<String> aliases = new ArrayList<>();
 	protected String usage;
 	protected MessageId description;
 	protected String permission;
@@ -26,7 +27,7 @@ abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public final List<String> getAliases() {
+	public final Collection<String> getAliases() {
 		return aliases;
 	}
 

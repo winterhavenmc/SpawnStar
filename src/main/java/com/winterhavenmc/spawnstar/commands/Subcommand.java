@@ -4,6 +4,7 @@ import com.winterhavenmc.spawnstar.messages.MessageId;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -16,7 +17,7 @@ interface Subcommand {
 
 	String getName();
 
-	List<String> getAliases();
+	Collection<String> getAliases();
 
 	String getUsage();
 
