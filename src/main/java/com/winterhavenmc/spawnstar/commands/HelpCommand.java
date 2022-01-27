@@ -1,16 +1,15 @@
 package com.winterhavenmc.spawnstar.commands;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static com.winterhavenmc.spawnstar.messages.MessageId.*;
-import static com.winterhavenmc.spawnstar.sounds.SoundId.*;
 
 
 /**
@@ -33,7 +32,7 @@ final class HelpCommand extends AbstractSubcommand implements Subcommand {
 		this.subcommandRegistry = subcommandRegistry;
 		this.name = "help";
 		this.usage = "/spawnstar help [command]";
-		this.description = COMMAND_HELP_HELP;
+		this.description = MessageId.COMMAND_HELP_HELP;
 		this.permission = "spawnstar.help";
 		this.maxArgs = 1;
 	}
@@ -66,14 +65,14 @@ final class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission(permission)) {
-			plugin.messageBuilder.build(sender, COMMAND_FAIL_HELP_PERMISSION).send();
+			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			plugin.messageBuilder.build(sender, COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -111,8 +110,8 @@ final class HelpCommand extends AbstractSubcommand implements Subcommand {
 
 		// else display invalid command help message and usage for all commands
 		else {
-			plugin.messageBuilder.build(sender, COMMAND_HELP_INVALID).send();
-			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
+			plugin.messageBuilder.build(sender, MessageId.COMMAND_HELP_INVALID).send();
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_INVALID);
 			displayUsageAll(sender);
 		}
 	}
@@ -125,7 +124,7 @@ final class HelpCommand extends AbstractSubcommand implements Subcommand {
 	 */
 	void displayUsageAll(final CommandSender sender) {
 
-		plugin.messageBuilder.build(sender, COMMAND_HELP_USAGE_HEADER).send();
+		plugin.messageBuilder.build(sender, MessageId.COMMAND_HELP_USAGE_HEADER).send();
 
 		for (String subcommandName : subcommandRegistry.getKeys()) {
 			if (subcommandRegistry.getCommand(subcommandName) != null) {

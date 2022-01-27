@@ -1,6 +1,8 @@
 package com.winterhavenmc.spawnstar.teleport;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.Macro;
+import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
 
 import org.bukkit.ChatColor;
@@ -14,9 +16,6 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-
-import static com.winterhavenmc.spawnstar.messages.Macro.*;
-import static com.winterhavenmc.spawnstar.messages.MessageId.*;
 
 
 /**
@@ -73,8 +72,8 @@ public final class TeleportManager {
 
 		// if player cooldown has not expired, send player cooldown message and return
 		if (plugin.teleportManager.getCooldownTimeRemaining(player) > 0) {
-			plugin.messageBuilder.build(player, TELEPORT_COOLDOWN)
-					.setMacro(DURATION, getCooldownTimeRemaining(player))
+			plugin.messageBuilder.build(player, MessageId.TELEPORT_COOLDOWN)
+					.setMacro(Macro.DURATION, getCooldownTimeRemaining(player))
 					.send();
 			return;
 		}
@@ -104,8 +103,8 @@ public final class TeleportManager {
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (player.getWorld().equals(destination.getWorld())
 				&& destination.distance(player.getLocation()) < plugin.getConfig().getInt("minimum-distance")) {
-			plugin.messageBuilder.build(player, TELEPORT_FAIL_MIN_DISTANCE)
-					.setMacro(WORLD, destination.getWorld())
+			plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE)
+					.setMacro(Macro.WORLD, destination.getWorld())
 					.send();
 			return;
 		}
@@ -119,9 +118,9 @@ public final class TeleportManager {
 		// if warmup setting is greater than zero, send warmup message
 		long warmupTime = plugin.getConfig().getLong("teleport-warmup");
 		if (warmupTime > 0) {
-			plugin.messageBuilder.build(player, TELEPORT_WARMUP)
-					.setMacro(WORLD, destination.getWorld())
-					.setMacro(DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
+			plugin.messageBuilder.build(player, MessageId.TELEPORT_WARMUP)
+					.setMacro(Macro.WORLD, destination.getWorld())
+					.setMacro(Macro.DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
 					.send();
 
 			// if enabled, play sound effect

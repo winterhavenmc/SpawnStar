@@ -1,6 +1,8 @@
 package com.winterhavenmc.spawnstar.commands;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.MessageId;
+import com.winterhavenmc.spawnstar.sounds.SoundId;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,9 +11,6 @@ import org.bukkit.command.TabCompleter;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-
-import static com.winterhavenmc.spawnstar.messages.MessageId.COMMAND_FAIL_INVALID_COMMAND;
-import static com.winterhavenmc.spawnstar.sounds.SoundId.COMMAND_INVALID;
 
 
 /**
@@ -108,8 +107,8 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		// if subcommand is null, get help command from map
 		if (subcommand == null) {
 			subcommand = subcommandRegistry.getCommand("help");
-			plugin.messageBuilder.build(sender, COMMAND_FAIL_INVALID_COMMAND).send();
-			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
+			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_INVALID);
 		}
 
 		// execute subcommand
