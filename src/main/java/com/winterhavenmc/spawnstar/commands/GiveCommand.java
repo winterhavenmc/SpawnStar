@@ -14,7 +14,7 @@ import org.bukkit.OfflinePlayer;
 import java.util.*;
 
 
-final class GiveCommand extends AbstractSubcommand {
+final class GiveCommand extends SubcommandAbstract {
 
 	private final PluginMain plugin;
 
