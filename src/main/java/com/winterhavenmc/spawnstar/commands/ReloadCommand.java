@@ -21,7 +21,6 @@ final class ReloadCommand extends SubcommandAbstract {
 		this.usage = "/spawnstar reload";
 		this.description = MessageId.COMMAND_HELP_RELOAD;
 		this.permission = "spawnstar.reload";
-		this.maxArgs = 0;
 	}
 
 

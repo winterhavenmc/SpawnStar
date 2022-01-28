@@ -6,7 +6,6 @@ import java.util.*;
 final class SubcommandRegistry {
 
 	Map<String, Subcommand> subcommandMap = new LinkedHashMap<>();
-	Map<String, String> aliasMap = new HashMap<>();
 
 
 	/**
@@ -15,14 +14,7 @@ final class SubcommandRegistry {
 	 * @param subcommand an instance of the command
 	 */
 	void register(final Subcommand subcommand) {
-
-		String name = subcommand.getName();
-
-		subcommandMap.put(name.toLowerCase(), subcommand);
-
-		for (String alias : subcommand.getAliases()) {
-			aliasMap.put(alias.toLowerCase(), name.toLowerCase());
-		}
+		subcommandMap.put(subcommand.getName().toLowerCase(), subcommand);
 	}
 
 
@@ -33,14 +25,7 @@ final class SubcommandRegistry {
 	 * @return Subcommand - the subcommand instance, or null if no matching name
 	 */
 	Subcommand getCommand(final String name) {
-
-		String key = name.toLowerCase();
-
-		if (aliasMap.containsKey(key)) {
-			key = aliasMap.get(key);
-		}
-
-		return (subcommandMap.get(key));
+		return (subcommandMap.get(name.toLowerCase()));
 	}
 
 

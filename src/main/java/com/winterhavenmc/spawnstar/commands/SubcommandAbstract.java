@@ -27,11 +27,6 @@ abstract class SubcommandAbstract implements Subcommand {
 	}
 
 	@Override
-	public final Collection<String> getAliases() {
-		return aliases;
-	}
-
-	@Override
 	public final String getUsage() {
 		return usage;
 	}

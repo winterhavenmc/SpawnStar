@@ -22,7 +22,6 @@ final class StatusCommand extends SubcommandAbstract {
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
 		this.permission = "spawnstar.status";
-		this.maxArgs = 0;
 	}
 
 

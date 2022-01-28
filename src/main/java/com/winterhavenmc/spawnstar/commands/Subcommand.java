@@ -17,8 +17,6 @@ interface Subcommand {
 
 	String getName();
 
-	Collection<String> getAliases();
-
 	String getUsage();
 
 	void displayUsage(final CommandSender sender);

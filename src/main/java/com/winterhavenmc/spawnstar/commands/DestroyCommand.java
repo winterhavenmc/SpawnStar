@@ -23,7 +23,6 @@ final class DestroyCommand extends SubcommandAbstract {
 		this.usage = "/spawnstar destroy";
 		this.permission = "spawnstar.destroy";
 		this.description = MessageId.COMMAND_HELP_DESTROY;
-		this.maxArgs = 0;
 	}
 
 
