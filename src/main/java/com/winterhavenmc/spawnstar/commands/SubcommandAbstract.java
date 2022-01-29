@@ -5,30 +5,25 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 
-public abstract class AbstractSubcommand implements Subcommand {
+abstract class SubcommandAbstract implements Subcommand {
 
 	protected String name;
-	protected List<String> aliases = new ArrayList<>();
+	protected Collection<String> aliases = new ArrayList<>();
 	protected String usage;
 	protected MessageId description;
 	protected String permission;
 	protected int minArgs;
 	protected int maxArgs;
-	protected SubcommandMap subcommandMap;
 
 
 	@Override
 	public final String getName() {
 		return name;
-	}
-
-	@Override
-	public final List<String> getAliases() {
-		return aliases;
 	}
 
 	@Override
@@ -67,12 +62,6 @@ public abstract class AbstractSubcommand implements Subcommand {
 	                                  final String alias, final String[] args) {
 
 		return Collections.emptyList();
-	}
-
-	@Override
-	public void register(final SubcommandMap subcommandMap) {
-		this.subcommandMap = subcommandMap;
-		subcommandMap.register(this);
 	}
 
 }

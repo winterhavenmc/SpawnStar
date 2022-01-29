@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -34,6 +36,26 @@ public final class SimpleAPI {
 	 * @return List of String - enabled world names
 	 */
 	public static List<String> getEnabledWorldNames() {
+		return getEnabledWorldNamesList();
+	}
+
+
+	/**
+	 * Get list of enabled worlds configured
+	 *
+	 * @return List of String - enabled world names
+	 */
+	public static List<String> getEnabledWorldNamesList() {
+		return new ArrayList<>(plugin.worldManager.getEnabledWorldNames());
+	}
+
+
+	/**
+	 * Get list of enabled worlds configured
+	 *
+	 * @return List of String - enabled world names
+	 */
+	public static Collection<String> getEnabledWorldNamesCollection() {
 		return plugin.worldManager.getEnabledWorldNames();
 	}
 

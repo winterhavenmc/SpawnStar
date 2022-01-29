@@ -1,6 +1,9 @@
 package com.winterhavenmc.spawnstar.teleport;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.Macro;
+import com.winterhavenmc.spawnstar.messages.MessageId;
+import com.winterhavenmc.spawnstar.sounds.SoundId;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -8,13 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
-
 import java.util.Objects;
-
-import static com.winterhavenmc.spawnstar.messages.Macro.WORLD;
-import static com.winterhavenmc.spawnstar.messages.MessageId.TELEPORT_SUCCESS;
 
 
 /**
@@ -110,8 +107,8 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			player.teleport(destination);
 
 			// send player respawn message
-			plugin.messageBuilder.build(player, TELEPORT_SUCCESS)
-					.setMacro(WORLD, destination.getWorld())
+			plugin.messageBuilder.build(player, MessageId.TELEPORT_SUCCESS)
+					.setMacro(Macro.WORLD, destination.getWorld())
 					.send();
 
 			// play post-teleport sound if sound effects are enabled

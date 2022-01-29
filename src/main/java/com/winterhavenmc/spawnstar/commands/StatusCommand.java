@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
-public class StatusCommand extends AbstractSubcommand {
+final class StatusCommand extends SubcommandAbstract {
 
 	private final PluginMain plugin;
 
@@ -22,7 +22,6 @@ public class StatusCommand extends AbstractSubcommand {
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
 		this.permission = "spawnstar.status";
-		this.maxArgs = 0;
 	}
 
 

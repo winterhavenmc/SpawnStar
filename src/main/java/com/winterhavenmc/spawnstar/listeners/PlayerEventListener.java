@@ -1,6 +1,7 @@
 package com.winterhavenmc.spawnstar.listeners;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
 
 import org.bukkit.Material;
@@ -23,8 +24,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-import static com.winterhavenmc.spawnstar.messages.MessageId.*;
-
 
 /**
  * Implements player event listener for SpawnStar events
@@ -35,14 +34,13 @@ public final class PlayerEventListener implements Listener {
 	private final PluginMain plugin;
 
 	// set to hold craft table materials
-	private final Set<Material> craftTables = Collections.unmodifiableSet(
-			new HashSet<>(Arrays.asList(
-					Material.CARTOGRAPHY_TABLE,
-					Material.CRAFTING_TABLE,
-					Material.FLETCHING_TABLE,
-					Material.SMITHING_TABLE,
-					Material.LOOM,
-					Material.STONECUTTER)));
+	private final Set<Material> craftTables = Set.of(
+			Material.CARTOGRAPHY_TABLE,
+			Material.CRAFTING_TABLE,
+			Material.FLETCHING_TABLE,
+			Material.SMITHING_TABLE,
+			Material.LOOM,
+			Material.STONECUTTER );
 
 
 	/**
@@ -91,7 +89,7 @@ public final class PlayerEventListener implements Listener {
 					plugin.teleportManager.cancelTeleport(player);
 
 					// send cancelled teleport message
-					plugin.messageBuilder.build(player, TELEPORT_CANCELLED_INTERACTION).send();
+					plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 
 					// play cancelled teleport sound
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
@@ -108,7 +106,7 @@ public final class PlayerEventListener implements Listener {
 		// get event action
 		Action action = event.getAction();
 
-		// if event action is PHYSICAL (not left click or right click), do nothing and return
+		// if event action is PHYSICAL (not left-click or right click), do nothing and return
 		if (action.equals(Action.PHYSICAL)) {
 			return;
 		}
@@ -159,14 +157,14 @@ public final class PlayerEventListener implements Listener {
 
 			// if players current world is not enabled in config, send message and return
 			if (!plugin.worldManager.isEnabled(player.getWorld())) {
-				plugin.messageBuilder.build(player, TELEPORT_FAIL_WORLD_DISABLED).send();
+				plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use")) {
-				plugin.messageBuilder.build(player, TELEPORT_FAIL_PERMISSION).send();
+				plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 				return;
 			}
@@ -174,7 +172,7 @@ public final class PlayerEventListener implements Listener {
 			// if shift-click configured and player is not sneaking, send message and return
 			if (plugin.getConfig().getBoolean("shift-click")
 					&& !player.isSneaking()) {
-				plugin.messageBuilder.build(player, TELEPORT_FAIL_SHIFT_CLICK).send();
+				plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
 				return;
 			}
 
@@ -244,13 +242,8 @@ public final class PlayerEventListener implements Listener {
 	 *
 	 * @param event the event handled by this method
 	 */
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	void onEntityDamage(final EntityDamageEvent event) {
-
-		// if event is already cancelled, do nothing and return
-		if (event.isCancelled()) {
-			return;
-		}
 
 		// if cancel-on-damage configuration is true, check if damaged entity is player
 		if (plugin.getConfig().getBoolean("cancel-on-damage")) {
@@ -264,7 +257,7 @@ public final class PlayerEventListener implements Listener {
 				// if player is in warmup hashmap, cancel teleport and send player message
 				if (plugin.teleportManager.isWarmingUp(player)) {
 					plugin.teleportManager.cancelTeleport(player);
-					plugin.messageBuilder.build(player, TELEPORT_CANCELLED_DAMAGE).send();
+					plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
@@ -294,7 +287,7 @@ public final class PlayerEventListener implements Listener {
 			// check for player movement other than head turning
 			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportManager.cancelTeleport(player);
-				plugin.messageBuilder.build(player, TELEPORT_CANCELLED_MOVEMENT).send();
+				plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}

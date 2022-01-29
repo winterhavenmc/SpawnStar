@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class DestroyCommand extends AbstractSubcommand {
+final class DestroyCommand extends SubcommandAbstract {
 
 	private final PluginMain plugin;
 
@@ -23,7 +23,6 @@ public class DestroyCommand extends AbstractSubcommand {
 		this.usage = "/spawnstar destroy";
 		this.permission = "spawnstar.destroy";
 		this.description = MessageId.COMMAND_HELP_DESTROY;
-		this.maxArgs = 0;
 	}
 
 

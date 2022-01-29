@@ -13,11 +13,7 @@ import com.winterhavenmc.util.soundconfig.YamlSoundConfiguration;
 import com.winterhavenmc.util.worldmanager.WorldManager;
 
 import org.bstats.bukkit.Metrics;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
-
-import java.io.File;
 
 
 /**
@@ -38,34 +34,11 @@ public final class PluginMain extends JavaPlugin {
 	public SpawnStarFactory spawnStarFactory;
 
 
-	/**
-	 * Constructor for mocking
-	 */
-	@SuppressWarnings("unused")
-	public PluginMain() {
-		super();
-	}
-
-
-	/**
-	 * Constructor for mocking
-	 */
-	@SuppressWarnings("unused")
-	private PluginMain(final JavaPluginLoader loader,
-	                   final PluginDescriptionFile descriptionFile,
-	                   final File dataFolder,
-	                   final File file) {
-		super(loader, descriptionFile, dataFolder, file);
-	}
-
-
 	@Override
 	public void onEnable() {
 
 		// bStats
-		final int pluginId = 13926;
-		@SuppressWarnings("unused")
-		Metrics metrics = new Metrics(this, pluginId);
+		new Metrics(this, 13926);
 
 		// install default configuration file if not already present
 		saveDefaultConfig();

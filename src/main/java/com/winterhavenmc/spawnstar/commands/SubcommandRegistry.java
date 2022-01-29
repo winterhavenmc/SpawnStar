@@ -3,10 +3,9 @@ package com.winterhavenmc.spawnstar.commands;
 import java.util.*;
 
 
-public class SubcommandMap {
+final class SubcommandRegistry {
 
-	SortedMap<String, Subcommand> subcommandMap = new TreeMap<>();
-	Map<String, String> aliasMap = new HashMap<>();
+	Map<String, Subcommand> subcommandMap = new LinkedHashMap<>();
 
 
 	/**
@@ -15,14 +14,7 @@ public class SubcommandMap {
 	 * @param subcommand an instance of the command
 	 */
 	void register(final Subcommand subcommand) {
-
-		String name = subcommand.getName();
-
-		subcommandMap.put(name.toLowerCase(), subcommand);
-
-		for (String alias : subcommand.getAliases()) {
-			aliasMap.put(alias.toLowerCase(), name.toLowerCase());
-		}
+		subcommandMap.put(subcommand.getName().toLowerCase(), subcommand);
 	}
 
 
@@ -33,14 +25,7 @@ public class SubcommandMap {
 	 * @return Subcommand - the subcommand instance, or null if no matching name
 	 */
 	Subcommand getCommand(final String name) {
-
-		String key = name.toLowerCase();
-
-		if (aliasMap.containsKey(key)) {
-			key = aliasMap.get(key);
-		}
-
-		return (subcommandMap.get(key));
+		return (subcommandMap.get(name.toLowerCase()));
 	}
 
 
@@ -49,8 +34,8 @@ public class SubcommandMap {
 	 *
 	 * @return List of String - keys of the subcommand map
 	 */
-	List<String> getKeys() {
-		return new ArrayList<>(subcommandMap.keySet());
+	Collection<String> getKeys() {
+		return new LinkedHashSet<>(subcommandMap.keySet());
 	}
 
 

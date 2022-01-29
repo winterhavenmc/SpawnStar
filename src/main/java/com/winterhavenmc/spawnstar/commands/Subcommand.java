@@ -4,10 +4,11 @@ import com.winterhavenmc.spawnstar.messages.MessageId;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
 import java.util.List;
 
 
-public interface Subcommand {
+interface Subcommand {
 
 	boolean onCommand(final CommandSender sender, final List<String> argsList);
 
@@ -15,8 +16,6 @@ public interface Subcommand {
 	                           final String alias, final String[] args);
 
 	String getName();
-
-	List<String> getAliases();
 
 	String getUsage();
 
@@ -29,7 +28,5 @@ public interface Subcommand {
 	int getMinArgs();
 
 	int getMaxArgs();
-
-	void register(final SubcommandMap subcommandMap);
 
 }

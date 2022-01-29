@@ -1,29 +1,28 @@
 package com.winterhavenmc.spawnstar.commands;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.MessageId;
+import com.winterhavenmc.spawnstar.sounds.SoundId;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import javax.annotation.Nonnull;
 import java.util.*;
-
-import static com.winterhavenmc.spawnstar.messages.MessageId.COMMAND_FAIL_INVALID_COMMAND;
-import static com.winterhavenmc.spawnstar.sounds.SoundId.COMMAND_INVALID;
 
 
 /**
  * Implements command executor and tab completer for SpawnStar commands.
  */
-@SuppressWarnings("NullableProblems")
 public final class CommandManager implements CommandExecutor, TabCompleter {
 
 	// reference to main class
 	private final PluginMain plugin;
 
 	// instantiate subcommand map
-	private final SubcommandMap subcommandMap = new SubcommandMap();
+	private final SubcommandRegistry subcommandRegistry = new SubcommandRegistry();
 
 
 	/**
@@ -41,8 +40,11 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
 		// register subcommands
 		for (SubcommandType subcommandType : SubcommandType.values()) {
-			subcommandType.register(plugin, subcommandMap);
+			subcommandRegistry.register(subcommandType.create(plugin));
 		}
+
+		// register help command
+		subcommandRegistry.register(new HelpCommand(plugin, subcommandRegistry));
 	}
 
 
@@ -50,14 +52,16 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * Tab completer for SpawnStar
 	 */
 	@Override
-	public List<String> onTabComplete(final CommandSender sender, final Command command,
-	                                  final String alias, final String[] args) {
+	public List<String> onTabComplete(final @Nonnull CommandSender sender,
+	                                  final @Nonnull Command command,
+	                                  final @Nonnull String alias,
+	                                  final String[] args) {
 
 		// if more than one argument, use tab completer of subcommand
 		if (args.length > 1) {
 
 			// get subcommand from map
-			Subcommand subcommand = subcommandMap.getCommand(args[0]);
+			Subcommand subcommand = subcommandRegistry.getCommand(args[0]);
 
 			// if no subcommand returned from map, return empty list
 			if (subcommand == null) {
@@ -77,7 +81,10 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 	 * command executor method for SpawnStar
 	 */
 	@Override
-	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+	public boolean onCommand(final @Nonnull CommandSender sender,
+	                         final @Nonnull Command cmd,
+	                         final @Nonnull String label,
+	                         final String[] args) {
 
 		// convert args array to list
 		List<String> argsList = new ArrayList<>(Arrays.asList(args));
@@ -95,13 +102,13 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		}
 
 		// get subcommand from map by name
-		Subcommand subcommand = subcommandMap.getCommand(subcommandName);
+		Subcommand subcommand = subcommandRegistry.getCommand(subcommandName);
 
 		// if subcommand is null, get help command from map
 		if (subcommand == null) {
-			subcommand = subcommandMap.getCommand("help");
-			plugin.messageBuilder.build(sender, COMMAND_FAIL_INVALID_COMMAND).send();
-			plugin.soundConfig.playSound(sender, COMMAND_INVALID);
+			subcommand = subcommandRegistry.getCommand("help");
+			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
+			plugin.soundConfig.playSound(sender, SoundId.COMMAND_INVALID);
 		}
 
 		// execute subcommand
@@ -122,7 +129,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 		List<String> returnList = new ArrayList<>();
 
 		// iterate over each subcommand entry in map
-		for (Map.Entry<String, Subcommand> entry : subcommandMap.getEntries()) {
+		for (Map.Entry<String, Subcommand> entry : subcommandRegistry.getEntries()) {
 
 			// if sender has permission and command begins with match string, add to return list
 			if (sender.hasPermission(entry.getValue().getPermission())
