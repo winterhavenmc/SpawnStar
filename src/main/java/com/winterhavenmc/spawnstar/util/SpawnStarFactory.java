@@ -19,6 +19,7 @@ package com.winterhavenmc.spawnstar.util;
 
 import com.winterhavenmc.spawnstar.PluginMain;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFlag;
@@ -41,13 +42,6 @@ public final class SpawnStarFactory {
 	// name spaced key for persistent data
 	private final NamespacedKey PERSISTENT_KEY;
 
-	// item metadata fields
-	private final Material defaultMaterial = Material.NETHER_STAR;
-	private final Material material;
-	private final int quantity;
-	private final String itemStackName;
-	private final List<String> itemStackLore;
-
 	// item metadata flags
 	private static final Set<ItemFlag> itemFlagSet = Set.of(
 					ItemFlag.HIDE_ATTRIBUTES,
@@ -55,7 +49,7 @@ public final class SpawnStarFactory {
 					ItemFlag.HIDE_UNBREAKABLE );
 
 	// the proto item
-	private final ItemStack protoItem;
+	private ItemStack protoItem;
 
 
 	/**
@@ -64,57 +58,10 @@ public final class SpawnStarFactory {
 	 * @param plugin reference to the plugin main class instance
 	 */
 	public SpawnStarFactory(final PluginMain plugin) {
-
 		this.plugin = plugin;
-
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
-
-		this.quantity = 1;
-		this.itemStackName = plugin.messageBuilder.getItemName();
-		this.itemStackLore = plugin.messageBuilder.getItemLore();
-
-		// get default material string from configuration file
-		String configMaterialString = plugin.getConfig().getString("item-material");
-
-		// if config material string is null, set material to default material
-		if (configMaterialString == null) {
-			material = defaultMaterial;
-		} else {
-			// try to match material
-			Material matchedMaterial = Material.matchMaterial(configMaterialString);
-
-			// if no match or unobtainable item material, set material to default material
-			if (matchedMaterial == null || !matchedMaterial.isItem()) {
-				material = defaultMaterial;
-			} else {
-				// set material to matched material
-				material = matchedMaterial;
-			}
-		}
-
-		// assign new item stack of specified material and quantity to proto item
-		this.protoItem = new ItemStack(material, quantity);
-
-		// get item metadata for proto item
-		final ItemMeta itemMeta = protoItem.getItemMeta();
-
-		// set item metadata display name to value from language file
-		//noinspection ConstantConditions
-		itemMeta.setDisplayName(itemStackName);
-
-		// set item metadata Lore to value from language file
-		itemMeta.setLore(itemStackLore);
-
-		// set persistent data in item metadata
-		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
-
-		// set metadata flags in item metadata
-		for (ItemFlag itemFlag : itemFlagSet) {
-			itemMeta.addItemFlags(itemFlag);
-		}
-
-		// save new proto item metadata
-		protoItem.setItemMeta(itemMeta);
+		this.protoItem = getDefaultItemStack();
+		setMetaData(this.protoItem);
 	}
 
 
@@ -142,7 +89,7 @@ public final class SpawnStarFactory {
 		// validate passed quantity (between 1 and material max stack size)
 		int quantity = passedQuantity;
 		quantity = Math.max(1, quantity);
-		quantity = Math.min(material.getMaxStackSize(), quantity);
+		quantity = Math.min(quantity, clonedItem.getType().getMaxStackSize());
 
 		// set quantity
 		clonedItem.setAmount(quantity);
@@ -177,11 +124,76 @@ public final class SpawnStarFactory {
 
 
 	/**
+	 * Create an itemStack with default material and data from config
+	 *
+	 * @return ItemStack
+	 */
+	public ItemStack getDefaultItemStack() {
+
+		// try to match material
+		Material configMaterial = Material.matchMaterial(
+				Objects.requireNonNull(plugin.getConfig().getString("item-material")));
+
+		// if no match default to nether star
+		if (configMaterial == null) {
+			configMaterial = Material.NETHER_STAR;
+		}
+
+		// return item stack with configured material
+		return new ItemStack(configMaterial, 1);
+	}
+
+
+	/**
+	 * Set ItemMetaData on ItemStack using custom display name and lore from language file.<br>
+	 * Display name additionally has hidden itemTag to make it identifiable as a HomeStar item.
+	 *
+	 * @param itemStack the ItemStack on which to set HomeStar MetaData
+	 */
+	public void setMetaData(final ItemStack itemStack) {
+
+		// retrieve item name and lore from language file
+		String itemName = plugin.messageBuilder.getItemName();
+		List<String> configLore = plugin.messageBuilder.getItemLore();
+
+		// allow for '&' character for color codes in name and lore
+		itemName = ChatColor.translateAlternateColorCodes('&', itemName);
+
+		ArrayList<String> coloredLore = new ArrayList<>();
+
+		for (String line : configLore) {
+			coloredLore.add(ChatColor.translateAlternateColorCodes('&', line));
+		}
+
+		// get item metadata object
+		final ItemMeta itemMeta = itemStack.getItemMeta();
+
+		// set item metadata display name to value from config file
+		//noinspection ConstantConditions
+		itemMeta.setDisplayName(itemName);
+
+		// set item metadata Lore to value from config file
+		itemMeta.setLore(coloredLore);
+
+		// set persistent data in item metadata
+		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
+
+		// set item metadata flags
+		for (ItemFlag itemFlag : itemFlagSet) {
+			itemMeta.addItemFlags(itemFlag);
+		}
+
+		// save new item metadata
+		itemStack.setItemMeta(itemMeta);
+	}
+
+
+	/**
 	 * Reload plugin's SpawnStarFactory. Replaces existing plugin.spawnStarFactory with new instance.
 	 */
 	public void reload() {
-		plugin.spawnStarFactory = new SpawnStarFactory(plugin);
-		plugin.getLogger().info("SpawnStarFactory reloaded.");
+		this.protoItem = getDefaultItemStack();
+		setMetaData(this.protoItem);
 	}
 
 }
