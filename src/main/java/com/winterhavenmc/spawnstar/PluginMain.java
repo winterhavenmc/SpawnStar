@@ -22,6 +22,7 @@ import com.winterhavenmc.spawnstar.listeners.PlayerEventListener;
 import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.teleport.TeleportManager;
+import com.winterhavenmc.spawnstar.util.MetricsHandler;
 import com.winterhavenmc.spawnstar.util.SpawnStarFactory;
 
 import com.winterhavenmc.util.messagebuilder.MessageBuilder;
@@ -54,9 +55,6 @@ public final class PluginMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		// bStats
-		new Metrics(this, 13926);
-
 		// install default configuration file if not already present
 		saveDefaultConfig();
 
@@ -80,6 +78,10 @@ public final class PluginMain extends JavaPlugin {
 
 		// instantiate SpawnStar item factory
 		spawnStarFactory = new SpawnStarFactory(this);
+
+		// instantiate metrics handler
+		new MetricsHandler(this);
+
 	}
 
 }
