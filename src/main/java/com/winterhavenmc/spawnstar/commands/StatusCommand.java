@@ -25,7 +25,8 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+
+import static com.winterhavenmc.spawnstar.util.BukkitTime.SECONDS;
 
 
 final class StatusCommand extends SubcommandAbstract {
@@ -80,13 +81,11 @@ final class StatusCommand extends SubcommandAbstract {
 
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
-				+ plugin.messageBuilder.getTimeString(TimeUnit.SECONDS.toMillis(
-				plugin.getConfig().getInt("teleport-warmup"))));
+				+ plugin.messageBuilder.getTimeString(SECONDS.toMillis(plugin.getConfig().getInt("teleport-warmup"))));
 
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
-				+ plugin.messageBuilder.getTimeString(TimeUnit.SECONDS.toMillis(
-				plugin.getConfig().getInt("teleport-cooldown"))));
+				+ plugin.messageBuilder.getTimeString(SECONDS.toMillis(plugin.getConfig().getInt("teleport-cooldown"))));
 
 		sender.sendMessage(ChatColor.GREEN
 				+ "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "

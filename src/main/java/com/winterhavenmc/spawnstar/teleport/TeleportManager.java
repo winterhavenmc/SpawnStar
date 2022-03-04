@@ -32,7 +32,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
+
+import static com.winterhavenmc.spawnstar.util.BukkitTime.SECONDS;
 
 
 /**
@@ -137,7 +138,7 @@ public final class TeleportManager {
 		if (warmupTime > 0) {
 			plugin.messageBuilder.build(player, MessageId.TELEPORT_WARMUP)
 					.setMacro(Macro.WORLD, destination.getWorld())
-					.setMacro(Macro.DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
+					.setMacro(Macro.DURATION, SECONDS.toMillis(warmupTime))
 					.send();
 
 			// if enabled, play sound effect
@@ -147,7 +148,7 @@ public final class TeleportManager {
 		// initiate delayed teleport for player to destination
 		BukkitTask teleportTask =
 				new DelayedTeleportTask(plugin, player, destination, playerItem.clone())
-						.runTaskLater(plugin, plugin.getConfig().getLong("teleport-warmup") * 20);
+						.runTaskLater(plugin, SECONDS.toTicks(plugin.getConfig().getLong("teleport-warmup")));
 
 		// insert player and taskId into warmup hashmap
 		putWarmup(player, teleportTask.getTaskId());
@@ -180,7 +181,7 @@ public final class TeleportManager {
 			public void run() {
 				teleportInitiated.remove(player.getUniqueId());
 			}
-		}.runTaskLater(plugin, plugin.getConfig().getInt("interact-delay", 2));
+		}.runTaskLater(plugin, plugin.getConfig().getLong("interact-delay"));
 
 	}
 
@@ -257,7 +258,7 @@ public final class TeleportManager {
 		final long cooldownSeconds = plugin.getConfig().getLong("teleport-cooldown");
 
 		// set expireTime to current time + configured cooldown period, in milliseconds
-		final long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
+		final long expireTime = System.currentTimeMillis() + (SECONDS.toMillis(cooldownSeconds));
 
 		// put in cooldown map with player UUID as key and expireTime as value
 		cooldownMap.put(player.getUniqueId(), expireTime);
@@ -267,7 +268,7 @@ public final class TeleportManager {
 			public void run() {
 				cooldownMap.remove(player.getUniqueId());
 			}
-		}.runTaskLater(plugin, (cooldownSeconds * 20L));
+		}.runTaskLater(plugin, SECONDS.toTicks(cooldownSeconds));
 	}
 
 
