@@ -33,7 +33,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.winterhavenmc.spawnstar.util.BukkitTime.SECONDS;
+import static com.winterhavenmc.util.TimeUnit.SECONDS;
 
 
 /**
