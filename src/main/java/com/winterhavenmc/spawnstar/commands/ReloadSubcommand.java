@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Objects;
 
 
-final class ReloadCommand extends SubcommandAbstract {
+final class ReloadSubcommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 
 
-	ReloadCommand(final PluginMain plugin) {
+	ReloadSubcommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
 		this.name = "reload";
 		this.usage = "/spawnstar reload";
@@ -73,9 +73,6 @@ final class ReloadCommand extends SubcommandAbstract {
 
 		// reload sounds
 		plugin.soundConfig.reload();
-
-		// reload item factory
-		plugin.spawnStarFactory.reload();
 
 		// send reloaded message
 		plugin.messageBuilder.build(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();

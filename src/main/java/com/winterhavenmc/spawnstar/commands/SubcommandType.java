@@ -25,28 +25,28 @@ enum SubcommandType {
 	DESTROY() {
 		@Override
 		Subcommand create(final PluginMain plugin) {
-			return new DestroyCommand(plugin);
+			return new DestroySubcommand(plugin);
 		}
 	},
 
 	GIVE() {
 		@Override
 		Subcommand create(final PluginMain plugin) {
-			return new GiveCommand(plugin);
+			return new GiveSubcommand(plugin);
 		}
 	},
 
 	RELOAD() {
 		@Override
 		Subcommand create(final PluginMain plugin) {
-			return new ReloadCommand(plugin);
+			return new ReloadSubcommand(plugin);
 		}
 	},
 
 	STATUS() {
 		@Override
 		Subcommand create(final PluginMain plugin) {
-			return new StatusCommand(plugin);
+			return new StatusSubcommand(plugin);
 		}
 	};
 

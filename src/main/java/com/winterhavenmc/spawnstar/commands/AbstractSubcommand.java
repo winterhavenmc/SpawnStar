@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-abstract class SubcommandAbstract implements Subcommand {
+abstract class AbstractSubcommand implements Subcommand {
 
 	protected String name;
 	protected Collection<String> aliases = new ArrayList<>();
