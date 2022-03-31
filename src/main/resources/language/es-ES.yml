@@ -45,139 +45,139 @@ TIME_STRINGS:
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar]&c ¡%ITEM% destruida!'
+    message: '&3[SpawnStar]&c ¡%ITEM% destruida!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
-    string: '&3Usted diste %ITEM_QUANTITY% %ITEM% a %PLAYER%.'
+    message: '&3Usted diste %ITEM_QUANTITY% %ITEM% a %PLAYER%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
-    string: '&3[SpawnStar] configuración vuelve a cargar.'
+    message: '&3[SpawnStar] configuración vuelve a cargar.'
 
 
   COMMAND_HELP_INVALID:
     enabled: true
-    string: '&3[SpawnStar]&c That is not a valid command!'
+    message: '&3[SpawnStar]&c That is not a valid command!'
 
   COMMAND_HELP_DESTROY:
     enabled: true
-    string: '&eDestroys the stack of HomeStars you are holding.'
+    message: '&eDestroys the stack of HomeStars you are holding.'
 
   COMMAND_HELP_GIVE:
     enabled: true
-    string: '&eGives a HomeStar to a player.'
+    message: '&eGives a HomeStar to a player.'
 
   COMMAND_HELP_HELP:
     enabled: true
-    string: '&eDisplays help for HomeStar commands.'
+    message: '&eDisplays help for HomeStar commands.'
 
   COMMAND_HELP_RELOAD:
     enabled: true
-    string: '&eReloads the configuration without needing to restart the server.'
+    message: '&eReloads the configuration without needing to restart the server.'
 
   COMMAND_HELP_STATUS:
     enabled: true
-    string: '&eDisplays plugin configuration settings.'
+    message: '&eDisplays plugin configuration settings.'
 
   COMMAND_HELP_USAGE_HEADER:
     enabled: true
-    string: '&eCommand usage:'
+    message: '&eCommand usage:'
 
 
   COMMAND_FAIL_ARGS_COUNT_OVER:
     enabled: true
-    string: '&3[SpawnStar]&c ¡Demasiados parámetros!'
+    message: '&3[SpawnStar]&c ¡Demasiados parámetros!'
 
   COMMAND_FAIL_ARGS_COUNT_UNDER:
     enabled: true
-    string: '&3[SpawnStar]&c ¡No hay suficientes parámetros!'
+    message: '&3[SpawnStar]&c ¡No hay suficientes parámetros!'
 
   COMMAND_FAIL_DESTROY_CONSOLE:
     enabled: true
-    string: '&3[SpawnStar]&c ¡Usted debe estar en juego para destruir elementos SpawnStar!'
+    message: '&3[SpawnStar]&c ¡Usted debe estar en juego para destruir elementos SpawnStar!'
 
   COMMAND_FAIL_DESTROY_NO_MATCH:
     enabled: true
-    string: '&3[SpawnStar]&c ¡El artículo que usted está sosteniendo, no es un elemento SpawnStar!'
+    message: '&3[SpawnStar]&c ¡El artículo que usted está sosteniendo, no es un elemento SpawnStar!'
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3No se pudo dar %ITEM% para %PLAYER% porque sus inventario está lleno.'
+    message: '&3No se pudo dar %ITEM% para %PLAYER% porque sus inventario está lleno.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
-    string: '&3Ese jugador no pudo ser encontrado.'
+    message: '&3Ese jugador no pudo ser encontrado.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE:
     enabled: true
-    string: '&3Ese jugador no está conectado.'
+    message: '&3Ese jugador no está conectado.'
 
   COMMAND_FAIL_GIVE_QUANTITY_INVALID:
     enabled: true
-    string: '&3[SpawnStar]&c ¡Cantidad no válida!'
+    message: '&3[SpawnStar]&c ¡Cantidad no válida!'
 
   COMMAND_FAIL_DESTROY_PERMISSION:
     enabled: true
-    string: '&c¡Usted no tiene permiso para destruir elementos SpawnStar!'
+    message: '&c¡Usted no tiene permiso para destruir elementos SpawnStar!'
 
   COMMAND_FAIL_GIVE_PERMISSION:
     enabled: true
-    string: '&c¡Usted no tiene permiso para dar elementos SpawnStar!'
+    message: '&c¡Usted no tiene permiso para dar elementos SpawnStar!'
 
   COMMAND_FAIL_RELOAD_PERMISSION:
     enabled: true
-    string: '&c¡Usted no tiene permiso para recargar la configuración!'
+    message: '&c¡Usted no tiene permiso para recargar la configuración!'
 
   COMMAND_FAIL_STATUS_PERMISSION:
     enabled: true
-    string: '&c¡Usted no tiene permiso para ver los ajustes SpawnStar!'
+    message: '&c¡Usted no tiene permiso para ver los ajustes SpawnStar!'
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Volviendo a desovar de &b%WORLD%.'
+    message: '&3Volviendo a desovar de &b%WORLD%.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cUsted no tiene permiso para usar %ITEM% en %WORLD%.'
+    message: '&cUsted no tiene permiso para usar %ITEM% en %WORLD%.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3Usted está demasiado cerca para desovar utilizar %ITEM%.'
+    message: '&3Usted está demasiado cerca para desovar utilizar %ITEM%.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %ITEM%.'
+    message: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %ITEM%.'
 
   TELEPORT_FAIL_WORLD_DISABLED:
     enabled: true
     repeat-delay: 1
-    string: '&3Las estrellas de origen no están habilitadas en este mundo.'
+    message: '&3Las estrellas de origen no están habilitadas en este mundo.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
-    string: '&c¡teletransporte cancelado por daños!'
+    message: '&c¡teletransporte cancelado por daños!'
 
   TELEPORT_CANCELLED_INTERACTION:
     enabled: true
-    string: '&c¡teletransporte cancelado por la interacción!'
+    message: '&c¡teletransporte cancelado por la interacción!'
 
   TELEPORT_CANCELLED_MOVEMENT:
     enabled: true
-    string: '&c¡teletransporte cancelado por el movimiento!'
+    message: '&c¡teletransporte cancelado por el movimiento!'
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    string: '&c¡Ya no tiene un %ITEM%!'
+    message: '&c¡Ya no tiene un %ITEM%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3Tienes que esperar &b%DURATION%&3 segundos para utilizar otro %ITEM_NAME%.'
+    message: '&3Tienes que esperar &b%DURATION%&3 segundos para utilizar otro %ITEM_NAME%.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teletransportarse a desovar en &b%DURATION%&3...'
+    message: '&3Teletransportarse a desovar en &b%DURATION%&3...'

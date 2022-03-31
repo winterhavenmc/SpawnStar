@@ -45,139 +45,139 @@ TIME_STRINGS:
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    string: '&3[SpawnStar]&c %ITEM% zerstört!'
+    message: '&3[SpawnStar]&c %ITEM% zerstört!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
-    string: '&3Du hast %ITEM_QUANTITY% %ITEM_NAME%, um %TARGET_PLAYER%.'
+    message: '&3Du hast %ITEM_QUANTITY% %ITEM_NAME%, um %TARGET_PLAYER%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
-    string: '&3[SpawnStar]&b Konfiguration neu geladen.'
+    message: '&3[SpawnStar]&b Konfiguration neu geladen.'
 
 
   COMMAND_HELP_INVALID:
     enabled: true
-    string: '&3[SpawnStar]&c That is not a valid command!'
+    message: '&3[SpawnStar]&c That is not a valid command!'
 
   COMMAND_HELP_DESTROY:
     enabled: true
-    string: '&eDestroys the stack of HomeStars you are holding.'
+    message: '&eDestroys the stack of HomeStars you are holding.'
 
   COMMAND_HELP_GIVE:
     enabled: true
-    string: '&eGives a HomeStar to a player.'
+    message: '&eGives a HomeStar to a player.'
 
   COMMAND_HELP_HELP:
     enabled: true
-    string: '&eDisplays help for HomeStar commands.'
+    message: '&eDisplays help for HomeStar commands.'
 
   COMMAND_HELP_RELOAD:
     enabled: true
-    string: '&eReloads the configuration without needing to restart the server.'
+    message: '&eReloads the configuration without needing to restart the server.'
 
   COMMAND_HELP_STATUS:
     enabled: true
-    string: '&eDisplays plugin configuration settings.'
+    message: '&eDisplays plugin configuration settings.'
 
   COMMAND_HELP_USAGE_HEADER:
     enabled: true
-    string: '&eCommand usage:'
+    message: '&eCommand usage:'
 
 
   COMMAND_FAIL_ARGS_COUNT_OVER:
     enabled: true
-    string: '&3[SpawnStar]&c Zu viele Parameter!'
+    message: '&3[SpawnStar]&c Zu viele Parameter!'
 
   COMMAND_FAIL_ARGS_COUNT_UNDER:
     enabled: true
-    string: '&3[SpawnStar]&c Zu wenig Parameter!'
+    message: '&3[SpawnStar]&c Zu wenig Parameter!'
 
   COMMAND_FAIL_DESTROY_CONSOLE:
     enabled: true
-    string: '&3[SpawnStar]&c Du musst Spiel SpawnStar Elemente zu zerstören!'
+    message: '&3[SpawnStar]&c Du musst Spiel SpawnStar Elemente zu zerstören!'
 
   COMMAND_FAIL_DESTROY_PERMISSION:
     enabled: true
-    string: '&3[SpawnStar]&c Sie haben keine Berechtigung Laichen Stern zu zerstören!'
+    message: '&3[SpawnStar]&c Sie haben keine Berechtigung Laichen Stern zu zerstören!'
 
   COMMAND_FAIL_DESTROY_NO_MATCH:
     enabled: true
-    string: '&3[SpawnStar]&c Der Artikel Sie halten ist kein SpawnStar Artikel!'
+    message: '&3[SpawnStar]&c Der Artikel Sie halten ist kein SpawnStar Artikel!'
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    string: '&3Nicht geben konnte %ITEM_NAME% zu %TARGET_PLAYER% weil ihr Inventar voll ist.'
+    message: '&3Nicht geben konnte %ITEM_NAME% zu %TARGET_PLAYER% weil ihr Inventar voll ist.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
-    string: '&3Dieser Spieler konnte nicht gefunden werden.'
+    message: '&3Dieser Spieler konnte nicht gefunden werden.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE:
     enabled: true
-    string: '&3Dieser Spieler ist nicht online.'
+    message: '&3Dieser Spieler ist nicht online.'
 
   COMMAND_FAIL_GIVE_QUANTITY_INVALID:
     enabled: true
-    string: '&3[SpawnStar]&c &cUngültige Anzahl!'
+    message: '&3[SpawnStar]&c &cUngültige Anzahl!'
 
   COMMAND_FAIL_GIVE_PERMISSION:
     enabled: true
-    string: '&cSie sind nicht berechtigt, Laichen Sterne geben!'
+    message: '&cSie sind nicht berechtigt, Laichen Sterne geben!'
 
   COMMAND_FAIL_RELOAD_PERMISSION:
     enabled: true
-    string: '&cSie haben keine Berechtigung, die Konfiguration neu zu laden!'
+    message: '&cSie haben keine Berechtigung, die Konfiguration neu zu laden!'
 
   COMMAND_FAIL_STATUS_PERMISSION:
     enabled: true
-    string: '&cSie haben keine Berechtigung, um die Einstellungen zu sehen!'
+    message: '&cSie haben keine Berechtigung, um die Einstellungen zu sehen!'
 
   TELEPORT_SUCCESS:
     enabled: true
-    string: '&3Rückkehr zu laichen &b%WORLD%&3.'
+    message: '&3Rückkehr zu laichen &b%WORLD%&3.'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    string: '&cSie haben nicht die Erlaubnis, eine &b%ITEM%&3 in %WORLD% verwenden.'
+    message: '&cSie haben nicht die Erlaubnis, eine &b%ITEM%&3 in %WORLD% verwenden.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie sind zu nahe für die Verwendung einer %ITEM% laichen.'
+    message: '&3Sie sind zu nahe für die Verwendung einer %ITEM% laichen.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM% verwenden.'
+    message: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM% verwenden.'
 
   TELEPORT_FAIL_WORLD_DISABLED:
     enabled: true
     repeat-delay: 1
-    string: '&Laichen Sterne sind in dieser Welt nicht aktiviert.'
+    message: '&Laichen Sterne sind in dieser Welt nicht aktiviert.'
 
   TELEPORT_CANCELLED_DAMAGE:
     enabled: true
-    string: '&cTeleportation durch Beschädigung aufgehoben!'
+    message: '&cTeleportation durch Beschädigung aufgehoben!'
 
   TELEPORT_CANCELLED_INTERACTION:
     enabled: true
-    string: '&cTeleportation unterbrochen durch Interaktion!'
+    message: '&cTeleportation unterbrochen durch Interaktion!'
 
   TELEPORT_CANCELLED_MOVEMENT:
     enabled: true
-    string: '&cTeleportation durch Bewegung abgebrochen!'
+    message: '&cTeleportation durch Bewegung abgebrochen!'
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    string: '&cSie müssen nicht mehr eine %ITEM%!'
+    message: '&cSie müssen nicht mehr eine %ITEM%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    string: '&3Sie müssen bis &b%DURATION%&3 Sekunden warten, um einen anderen %ITEM% verwenden.'
+    message: '&3Sie müssen bis &b%DURATION%&3 Sekunden warten, um einen anderen %ITEM% verwenden.'
 
   TELEPORT_WARMUP:
     enabled: true
-    string: '&3Teleportieren, um in &b%DURATION%&3...'
+    message: '&3Teleportieren, um in &b%DURATION%&3...'

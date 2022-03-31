@@ -4,7 +4,7 @@ import com.winterhavenmc.spawnstar.commands.CommandManager;
 import com.winterhavenmc.spawnstar.listeners.PlayerEventListener;
 import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.teleport.TeleportManager;
+import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.util.SpawnStarFactory;
 import com.winterhavenmc.util.messagebuilder.MessageBuilder;
 import com.winterhavenmc.util.soundconfig.SoundConfiguration;
@@ -28,7 +28,7 @@ public final class PluginMain extends JavaPlugin {
 
 	public MessageBuilder<MessageId, Macro> messageBuilder;
 	public SoundConfiguration soundConfig;
-	public TeleportManager teleportManager;
+	public TeleportHandler teleportHandler;
 	public WorldManager worldManager;
 	public CommandManager commandManager;
 	public PlayerEventListener playerEventListener;
@@ -69,7 +69,7 @@ public final class PluginMain extends JavaPlugin {
 		soundConfig = new YamlSoundConfiguration(this);
 
 		// instantiate teleport manager
-		teleportManager = new TeleportManager(this);
+		teleportHandler = new TeleportHandler(this);
 
 		// instantiate world manager
 		worldManager = new WorldManager(this);
