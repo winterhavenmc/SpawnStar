@@ -88,10 +88,10 @@ final class DelayedTeleportTask extends BukkitRunnable {
 		particleTask.cancel();
 
 		// if player is in warmup map
-		if (plugin.teleportManager.isWarmingUp(player)) {
+		if (plugin.teleportHandler.isWarmingUp(player)) {
 
 			// remove player from warmup map
-			plugin.teleportManager.removeWarmup(player);
+			plugin.teleportHandler.removeWarmingUpPlayer(player);
 
 			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
 			if ("on-success".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory"))) {
@@ -112,7 +112,7 @@ final class DelayedTeleportTask extends BukkitRunnable {
 				if (notRemoved) {
 					plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
-					plugin.teleportManager.startCooldown(player);
+					plugin.teleportHandler.startPlayerCooldown(player);
 					return;
 				}
 			}
@@ -136,8 +136,8 @@ final class DelayedTeleportTask extends BukkitRunnable {
 				player.getWorld().strikeLightningEffect(destination);
 			}
 
-			// set player cooldown
-			plugin.teleportManager.startCooldown(player);
+			// start player cooldown
+			plugin.teleportHandler.startPlayerCooldown(player);
 		}
 	}
 
