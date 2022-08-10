@@ -153,7 +153,7 @@ MESSAGES:
     enabled: true
     message: '&3Returned to &b%WORLD% spawn&3.'
     title: '&3%WORLD% Spawn'
-    subtitle: '&3%WORLD% Spawn'
+#    subtitle: '&3%WORLD% Spawn'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
