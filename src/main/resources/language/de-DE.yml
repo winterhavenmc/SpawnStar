@@ -136,6 +136,8 @@ MESSAGES:
   TELEPORT_SUCCESS:
     enabled: true
     message: '&3Rückkehr zu laichen &b%WORLD%&3.'
+    title: '&3%WORLD% Ursprung'
+  #    subtitle: '&3%WORLD% Ursprung'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true

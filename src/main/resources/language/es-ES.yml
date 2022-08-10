@@ -136,6 +136,8 @@ MESSAGES:
   TELEPORT_SUCCESS:
     enabled: true
     message: '&3Volviendo a desovar de &b%WORLD%.'
+    title: 'Origen de &3%WORLD%'
+  #    subtitle: 'Origen de &3%WORLD%'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
