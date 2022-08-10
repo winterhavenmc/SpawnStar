@@ -2,7 +2,7 @@ name: SpawnStar
 main: com.winterhavenmc.spawnstar.PluginMain
 author: ${project.author}
 version: ${project.version}
-api-version: 1.16
+api-version: 1.18
 softdepend: [ Multiverse-Core ]
 
 commands:
