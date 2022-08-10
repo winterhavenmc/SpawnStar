@@ -12,6 +12,7 @@ public enum ConfigSetting {
 	TELEPORT_WARMUP("5"),
 	PARTICLE_EFFECTS("true"),
 	SOUND_EFFECTS("true"),
+	TITLES_ENABLED("true"),
 	SHIFT_CLICK("true"),
 	REMOVE_FROM_INVENTORY("on-success"),
 	ALLOW_IN_RECIPES("false"),

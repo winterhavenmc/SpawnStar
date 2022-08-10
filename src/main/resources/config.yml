@@ -33,6 +33,9 @@ particle-effects: true
 # play sound effects
 sound-effects: true
 
+# enable titles
+titles-enabled: true
+
 # require shift-click to use spawnstar item
 shift-click: true
 

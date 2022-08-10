@@ -95,7 +95,7 @@ public class PluginMainTests {
 		@Test
 		@DisplayName("teleport manager not null.")
 		void TeleportManagerNotNull() {
-			Assertions.assertNotNull(plugin.teleportManager,
+			Assertions.assertNotNull(plugin.teleportHandler,
 					"teleport manager is null.");
 		}
 
@@ -308,12 +308,6 @@ public class PluginMainTests {
 					"new item stack is not a valid spawn star item.");
 		}
 
-		@Test
-		@DisplayName("spawn star factory is not null after reload.")
-		void ReloadSpawnStarFactory() {
-			plugin.spawnStarFactory.reload();
-			Assertions.assertNotNull(plugin.spawnStarFactory, "spawn star factory is null after reload.");
-		}
 	}
 
 }

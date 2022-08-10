@@ -21,7 +21,8 @@ import com.winterhavenmc.spawnstar.commands.CommandManager;
 import com.winterhavenmc.spawnstar.listeners.PlayerEventListener;
 import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.teleport.TeleportManager;
+import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
+import com.winterhavenmc.spawnstar.util.MetricsHandler;
 import com.winterhavenmc.spawnstar.util.SpawnStarFactory;
 
 import com.winterhavenmc.util.messagebuilder.MessageBuilder;
@@ -29,7 +30,6 @@ import com.winterhavenmc.util.soundconfig.SoundConfiguration;
 import com.winterhavenmc.util.soundconfig.YamlSoundConfiguration;
 import com.winterhavenmc.util.worldmanager.WorldManager;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -44,7 +44,7 @@ public final class PluginMain extends JavaPlugin {
 
 	public MessageBuilder<MessageId, Macro> messageBuilder;
 	public SoundConfiguration soundConfig;
-	public TeleportManager teleportManager;
+	public TeleportHandler teleportHandler;
 	public WorldManager worldManager;
 	public CommandManager commandManager;
 	public PlayerEventListener playerEventListener;
@@ -53,9 +53,6 @@ public final class PluginMain extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-
-		// bStats
-		new Metrics(this, 13926);
 
 		// install default configuration file if not already present
 		saveDefaultConfig();
@@ -67,7 +64,7 @@ public final class PluginMain extends JavaPlugin {
 		soundConfig = new YamlSoundConfiguration(this);
 
 		// instantiate teleport manager
-		teleportManager = new TeleportManager(this);
+		teleportHandler = new TeleportHandler(this);
 
 		// instantiate world manager
 		worldManager = new WorldManager(this);
@@ -80,6 +77,10 @@ public final class PluginMain extends JavaPlugin {
 
 		// instantiate SpawnStar item factory
 		spawnStarFactory = new SpawnStarFactory(this);
+
+		// instantiate metrics handler
+		new MetricsHandler(this);
+
 	}
 
 }

@@ -41,8 +41,8 @@ final class SubcommandRegistry {
 	 * @param name the command to retrieve from the map
 	 * @return Subcommand - the subcommand instance, or null if no matching name
 	 */
-	Subcommand getCommand(final String name) {
-		return (subcommandMap.get(name.toLowerCase()));
+	Optional<Subcommand> getCommand(final String name) {
+		return Optional.ofNullable(subcommandMap.get(name.toLowerCase()));
 	}
 
 

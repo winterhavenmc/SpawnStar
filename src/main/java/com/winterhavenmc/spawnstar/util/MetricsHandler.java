@@ -15,42 +15,21 @@
  *
  */
 
-package com.winterhavenmc.spawnstar.commands;
+package com.winterhavenmc.spawnstar.util;
 
 import com.winterhavenmc.spawnstar.PluginMain;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 
+public class MetricsHandler {
 
-enum SubcommandType {
+	public MetricsHandler(final PluginMain plugin) {
 
-	DESTROY() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new DestroySubcommand(plugin);
-		}
-	},
+		Metrics metrics = new Metrics(plugin, 13926);
 
-	GIVE() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new GiveSubcommand(plugin);
-		}
-	},
+		// pie chart of configured language
+		metrics.addCustomChart(new SimplePie("language", () -> plugin.getConfig().getString("language")));
 
-	RELOAD() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new ReloadSubcommand(plugin);
-		}
-	},
-
-	STATUS() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new StatusSubcommand(plugin);
-		}
-	};
-
-
-	abstract Subcommand create(PluginMain plugin);
+	}
 
 }

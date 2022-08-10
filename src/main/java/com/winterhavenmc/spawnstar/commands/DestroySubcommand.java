@@ -29,12 +29,12 @@ import java.util.List;
 import java.util.Objects;
 
 
-final class DestroyCommand extends SubcommandAbstract {
+final class DestroySubcommand extends AbstractSubcommand {
 
 	private final PluginMain plugin;
 
 
-	DestroyCommand(final PluginMain plugin) {
+	DestroySubcommand(final PluginMain plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
 		this.name = "destroy";
 		this.usage = "/spawnstar destroy";

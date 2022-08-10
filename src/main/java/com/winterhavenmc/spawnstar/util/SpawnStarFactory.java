@@ -33,7 +33,6 @@ import java.util.*;
 /**
  * Factory class for creating and testing SpawnStar item stacks
  */
-@SuppressWarnings("FieldCanBeLocal")
 public final class SpawnStarFactory {
 
 	// reference to main class
@@ -48,9 +47,6 @@ public final class SpawnStarFactory {
 					ItemFlag.HIDE_ENCHANTS,
 					ItemFlag.HIDE_UNBREAKABLE );
 
-	// the proto item
-	private ItemStack protoItem;
-
 
 	/**
 	 * Class constructor
@@ -60,8 +56,6 @@ public final class SpawnStarFactory {
 	public SpawnStarFactory(final PluginMain plugin) {
 		this.plugin = plugin;
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
-		this.protoItem = getDefaultItemStack();
-		setMetaData(this.protoItem);
 	}
 
 
@@ -71,7 +65,7 @@ public final class SpawnStarFactory {
 	 * @return ItemStack of single SpawnStar item
 	 */
 	public ItemStack create() {
-		return this.protoItem.clone();
+		return create(1);
 	}
 
 
@@ -84,18 +78,21 @@ public final class SpawnStarFactory {
 	public ItemStack create(final int passedQuantity) {
 
 		// get clone of proto item
-		ItemStack clonedItem = this.protoItem.clone();
+		ItemStack itemStack = getDefaultItemStack();
 
 		// validate passed quantity (between 1 and material max stack size)
 		int quantity = passedQuantity;
 		quantity = Math.max(1, quantity);
-		quantity = Math.min(quantity, clonedItem.getType().getMaxStackSize());
+		quantity = Math.min(quantity, itemStack.getType().getMaxStackSize());
 
 		// set quantity
-		clonedItem.setAmount(quantity);
+		itemStack.setAmount(quantity);
+
+		// set item meta data
+		setMetaData(itemStack);
 
 		// return cloned item
-		return clonedItem;
+		return itemStack;
 	}
 
 
@@ -153,7 +150,7 @@ public final class SpawnStarFactory {
 	public void setMetaData(final ItemStack itemStack) {
 
 		// retrieve item name and lore from language file
-		String itemName = plugin.messageBuilder.getItemName();
+		String itemName = plugin.messageBuilder.getItemName().orElse("SpawnStar");
 		List<String> configLore = plugin.messageBuilder.getItemLore();
 
 		// allow for '&' character for color codes in name and lore
@@ -185,15 +182,6 @@ public final class SpawnStarFactory {
 
 		// save new item metadata
 		itemStack.setItemMeta(itemMeta);
-	}
-
-
-	/**
-	 * Reload plugin's SpawnStarFactory. Replaces existing plugin.spawnStarFactory with new instance.
-	 */
-	public void reload() {
-		this.protoItem = getDefaultItemStack();
-		setMetaData(this.protoItem);
 	}
 
 }
