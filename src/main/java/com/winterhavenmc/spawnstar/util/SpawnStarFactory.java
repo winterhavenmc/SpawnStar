@@ -33,7 +33,6 @@ import java.util.*;
 /**
  * Factory class for creating and testing SpawnStar item stacks
  */
-@SuppressWarnings("FieldCanBeLocal")
 public final class SpawnStarFactory {
 
 	// reference to main class
