@@ -24,9 +24,8 @@ import com.winterhavenmc.spawnstar.sounds.SoundId;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -59,21 +58,17 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 	public List<String> onTabComplete(final CommandSender sender, final Command command,
 	                                  final String alias, final String[] args) {
 
-		List<String> returnList = new ArrayList<>();
-
-		if (args.length == 2) {
-			if (args[0].equalsIgnoreCase("help")) {
-				for (String subcommand : subcommandRegistry.getKeys()) {
-					if (sender.hasPermission(permissionNode)
-							&& subcommand.toLowerCase().startsWith(args[1].toLowerCase())
-							&& !subcommand.equalsIgnoreCase("help")) {
-						returnList.add(subcommand);
-					}
-				}
-			}
+		if (args.length == 2 && args[0].equalsIgnoreCase(this.name)) {
+			return subcommandRegistry.getKeys().stream()
+					.map(subcommandRegistry::getSubcommand)
+					.filter(Optional::isPresent)
+					.filter(subcommand -> sender.hasPermission(subcommand.get().getPermissionNode()))
+					.map(subcommand -> subcommand.get().getName())
+					.filter(subCommandName -> subCommandName.toLowerCase().startsWith(args[1].toLowerCase()))
+					.filter(subCommandName -> !subCommandName.equalsIgnoreCase(this.name))
+					.collect(Collectors.toList());
 		}
-
-		return returnList;
+		return Collections.emptyList();
 	}
 
 
@@ -144,9 +139,11 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 
 		plugin.messageBuilder.build(sender, MessageId.COMMAND_HELP_USAGE_HEADER).send();
 
-		for (String subcommandName : subcommandRegistry.getKeys()) {
-			subcommandRegistry.getSubcommand(subcommandName).ifPresent(subcommand -> subcommand.displayUsage(sender));
-		}
+		subcommandRegistry.getKeys().stream()
+				.map(subcommandRegistry::getSubcommand)
+				.filter(Optional::isPresent)
+				.filter(subcommand -> sender.hasPermission(subcommand.get().getPermissionNode()))
+				.forEach(subcommand -> subcommand.get().displayUsage(sender));
 	}
 
 }
