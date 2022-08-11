@@ -153,7 +153,7 @@ public final class CommandManager implements TabExecutor {
 		for (Map.Entry<String, Subcommand> entry : subcommandRegistry.getEntries()) {
 
 			// if sender has permission and command begins with match string, add to return list
-			if (sender.hasPermission(entry.getValue().getPermission())
+			if (sender.hasPermission(entry.getValue().getPermissionNode())
 					&& entry.getKey().startsWith(matchString.toLowerCase())) {
 				returnList.add(entry.getKey());
 			}

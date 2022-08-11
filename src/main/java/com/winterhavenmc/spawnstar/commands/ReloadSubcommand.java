@@ -37,7 +37,7 @@ final class ReloadSubcommand extends AbstractSubcommand {
 		this.name = "reload";
 		this.usage = "/spawnstar reload";
 		this.description = MessageId.COMMAND_HELP_RELOAD;
-		this.permission = "spawnstar.reload";
+		this.permissionNode = "spawnstar.reload";
 	}
 
 
@@ -45,7 +45,7 @@ final class ReloadSubcommand extends AbstractSubcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if sender does not have permission to reload config, send error message and return
-		if (!sender.hasPermission(permission)) {
+		if (!sender.hasPermission(permissionNode)) {
 			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;

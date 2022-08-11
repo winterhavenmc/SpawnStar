@@ -38,7 +38,7 @@ final class DestroySubcommand extends AbstractSubcommand {
 		this.plugin = Objects.requireNonNull(plugin);
 		this.name = "destroy";
 		this.usage = "/spawnstar destroy";
-		this.permission = "spawnstar.destroy";
+		this.permissionNode = "spawnstar.destroy";
 		this.description = MessageId.COMMAND_HELP_DESTROY;
 	}
 
@@ -53,7 +53,7 @@ final class DestroySubcommand extends AbstractSubcommand {
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
-		if (!sender.hasPermission(permission)) {
+		if (!sender.hasPermission(permissionNode)) {
 			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;

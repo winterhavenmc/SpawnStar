@@ -50,7 +50,7 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 		this.name = "help";
 		this.usage = "/spawnstar help [command]";
 		this.description = MessageId.COMMAND_HELP_HELP;
-		this.permission = "spawnstar.help";
+		this.permissionNode = "spawnstar.help";
 		this.maxArgs = 1;
 	}
 
@@ -64,7 +64,7 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("help")) {
 				for (String subcommand : subcommandRegistry.getKeys()) {
-					if (sender.hasPermission(permission)
+					if (sender.hasPermission(permissionNode)
 							&& subcommand.toLowerCase().startsWith(args[1].toLowerCase())
 							&& !subcommand.equalsIgnoreCase("help")) {
 						returnList.add(subcommand);
@@ -81,7 +81,7 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if command sender does not have permission to display help, output error message and return true
-		if (!sender.hasPermission(permission)) {
+		if (!sender.hasPermission(permissionNode)) {
 			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;

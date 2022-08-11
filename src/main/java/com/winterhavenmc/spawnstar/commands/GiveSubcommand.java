@@ -41,7 +41,7 @@ final class GiveSubcommand extends AbstractSubcommand {
 		this.name = "give";
 		this.usage = "/spawnstar give <player> [quantity]";
 		this.description = MessageId.COMMAND_HELP_GIVE;
-		this.permission = "spawnstar.give";
+		this.permissionNode = "spawnstar.give";
 		this.minArgs = 1;
 		this.maxArgs = 2;
 	}

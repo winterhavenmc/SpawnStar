@@ -39,7 +39,7 @@ final class StatusSubcommand extends AbstractSubcommand {
 		this.name = "status";
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
-		this.permission = "spawnstar.status";
+		this.permissionNode = "spawnstar.status";
 	}
 
 
@@ -47,7 +47,7 @@ final class StatusSubcommand extends AbstractSubcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if command sender does not have permission to view status, output error message and return
-		if (!sender.hasPermission(permission)) {
+		if (!sender.hasPermission(permissionNode)) {
 			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
