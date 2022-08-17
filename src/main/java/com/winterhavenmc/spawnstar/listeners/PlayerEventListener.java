@@ -268,9 +268,8 @@ public final class PlayerEventListener implements Listener {
 			Entity entity = event.getEntity();
 
 			// if damaged entity is player, check for pending teleport
-			if (entity instanceof Player) {
+			if (entity instanceof Player player) {
 
-				Player player = (Player) entity;
 				// if player is in warmup hashmap, cancel teleport and send player message
 				if (plugin.teleportHandler.isWarmingUp(player)) {
 					plugin.teleportHandler.cancelTeleport(player);
