@@ -3,7 +3,7 @@ main: com.winterhavenmc.spawnstar.PluginMain
 author: ${project.author}
 version: ${project.version}
 api-version: 1.18
-softdepend: [ Multiverse-Core ]
+softdepend: [ Multiverse-Core, BKCommonLib, My_Worlds ]
 
 commands:
   spawnstar:
