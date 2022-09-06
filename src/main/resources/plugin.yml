@@ -3,7 +3,7 @@ main: com.winterhavenmc.spawnstar.PluginMain
 author: ${project.author}
 version: ${project.version}
 api-version: 1.18
-softdepend: [ Multiverse-Core ]
+softdepend: [ Iris, Multiverse-Core, My_Worlds ]
 
 commands:
   spawnstar:
@@ -14,6 +14,10 @@ permissions:
   spawnstar.use:
     description: Allows the use of a spawnstar.
     default: true
+
+  spawnstar.help:
+    description: Allows display of help messages.
+    default: op
 
   spawnstar.status:
     description: Allows display of config settings.
@@ -35,8 +39,8 @@ permissions:
     description: Allows all admin commands
     default: op
     children:
+      spawnstar.help: true
       spawnstar.status: true
       spawnstar.reload: true
       spawnstar.give: true
       spawnstar.destroy: true
-      

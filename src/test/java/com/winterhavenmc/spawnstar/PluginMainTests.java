@@ -25,7 +25,7 @@ public class PluginMainTests {
 	private PluginMain plugin;
 
 	// collection of enum sound name strings
-	Collection<String> enumSoundNames = new HashSet<>();
+	final Collection<String> enumSoundNames = new HashSet<>();
 
 
 	@BeforeAll
@@ -134,7 +134,7 @@ public class PluginMainTests {
 	@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 	class ConfigTests {
 
-		Set<String> enumConfigKeyStrings = new HashSet<>();
+		final Set<String> enumConfigKeyStrings = new HashSet<>();
 
 		public ConfigTests() {
 			for (ConfigSetting configSetting : ConfigSetting.values()) {
@@ -211,7 +211,7 @@ public class PluginMainTests {
 	class MessageTests {
 
 		// collection of enum sound name strings
-		Collection<String> enumMessageNames = new HashSet<>();
+		final Collection<String> enumMessageNames = new HashSet<>();
 
 		// class constructor
 		MessageTests() {
@@ -270,7 +270,7 @@ public class PluginMainTests {
 	@DisplayName("Test spawn star factory methods.")
 	class SpawnStarFactoryMethodTests {
 
-		ItemStack spawnStarItem = plugin.spawnStarFactory.create();
+		final ItemStack spawnStarItem = plugin.spawnStarFactory.create();
 
 		@Test
 		@DisplayName("new item type is nether star.")

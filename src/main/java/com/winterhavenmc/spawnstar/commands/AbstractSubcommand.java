@@ -33,7 +33,7 @@ abstract class AbstractSubcommand implements Subcommand {
 	protected Collection<String> aliases = new ArrayList<>();
 	protected String usage;
 	protected MessageId description;
-	protected String permission;
+	protected String permissionNode;
 	protected int minArgs;
 	protected int maxArgs;
 
@@ -59,8 +59,8 @@ abstract class AbstractSubcommand implements Subcommand {
 	}
 
 	@Override
-	public final String getPermission() {
-		return permission;
+	public final String getPermissionNode() {
+		return permissionNode;
 	}
 
 	@Override

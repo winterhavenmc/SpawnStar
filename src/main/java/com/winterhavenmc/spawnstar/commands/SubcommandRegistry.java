@@ -22,7 +22,7 @@ import java.util.*;
 
 final class SubcommandRegistry {
 
-	Map<String, Subcommand> subcommandMap = new LinkedHashMap<>();
+	final Map<String, Subcommand> subcommandMap = new LinkedHashMap<>();
 
 
 	/**
@@ -41,7 +41,7 @@ final class SubcommandRegistry {
 	 * @param name the command to retrieve from the map
 	 * @return Subcommand - the subcommand instance, or null if no matching name
 	 */
-	Optional<Subcommand> getCommand(final String name) {
+	Optional<Subcommand> getSubcommand(final String name) {
 		return Optional.ofNullable(subcommandMap.get(name.toLowerCase()));
 	}
 

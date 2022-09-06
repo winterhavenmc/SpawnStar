@@ -39,7 +39,7 @@ final class StatusSubcommand extends AbstractSubcommand {
 		this.name = "status";
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
-		this.permission = "spawnstar.status";
+		this.permissionNode = "spawnstar.status";
 	}
 
 
@@ -47,7 +47,7 @@ final class StatusSubcommand extends AbstractSubcommand {
 	public boolean onCommand(final CommandSender sender, final List<String> args) {
 
 		// if command sender does not have permission to view status, output error message and return
-		if (!sender.hasPermission(permission)) {
+		if (!sender.hasPermission(permissionNode)) {
 			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
@@ -69,6 +69,7 @@ final class StatusSubcommand extends AbstractSubcommand {
 		showMinimumDistanceSetting(sender);
 		showTeleportWarmupSetting(sender);
 		showTeleportCooldownSetting(sender);
+		showShiftClickSetting(sender);
 		showCancelOnMovementSetting(sender);
 		showRemoveFromInventorySetting(sender);
 		showAllowInRecipesSetting(sender);
@@ -121,6 +122,12 @@ final class StatusSubcommand extends AbstractSubcommand {
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
 				+ plugin.messageBuilder.getTimeString(SECONDS.toMillis(plugin.getConfig().getInt("teleport-cooldown"))));
+	}
+
+
+	private void showShiftClickSetting(final CommandSender sender) {
+		sender.sendMessage(ChatColor.GREEN + "Shift-click required: "
+				+ ChatColor.RESET + plugin.getConfig().getBoolean("shift-click"));
 	}
 
 

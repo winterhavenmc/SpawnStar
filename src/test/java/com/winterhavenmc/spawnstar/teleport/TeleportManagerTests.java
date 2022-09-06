@@ -8,7 +8,6 @@ import org.junit.jupiter.api.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TeleportManagerTests {
-	@SuppressWarnings("FieldCanBeLocal")
 	private ServerMock server;
 	private PlayerMock player;
 	private PluginMain plugin;
