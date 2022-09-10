@@ -23,7 +23,7 @@ import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.util.MetricsHandler;
-import com.winterhavenmc.spawnstar.util.SpawnStarFactory;
+import com.winterhavenmc.spawnstar.util.SpawnStarUtility;
 
 import com.winterhavenmc.util.messagebuilder.MessageBuilder;
 import com.winterhavenmc.util.soundconfig.SoundConfiguration;
@@ -48,7 +48,7 @@ public final class PluginMain extends JavaPlugin {
 	public WorldManager worldManager;
 	public CommandManager commandManager;
 	public PlayerEventListener playerEventListener;
-	public SpawnStarFactory spawnStarFactory;
+	public SpawnStarUtility spawnStarUtility;
 
 
 	@Override
@@ -76,7 +76,7 @@ public final class PluginMain extends JavaPlugin {
 		playerEventListener = new PlayerEventListener(this);
 
 		// instantiate SpawnStar item factory
-		spawnStarFactory = new SpawnStarFactory(this);
+		spawnStarUtility = new SpawnStarUtility(this);
 
 		// instantiate metrics handler
 		new MetricsHandler(this);

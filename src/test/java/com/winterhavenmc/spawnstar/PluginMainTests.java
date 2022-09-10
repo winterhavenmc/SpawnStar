@@ -123,7 +123,7 @@ public class PluginMainTests {
 		@Test
 		@DisplayName("spawn star factory not null.")
 		void SpawnStarFactoryNotNull() {
-			Assertions.assertNotNull(plugin.spawnStarFactory,
+			Assertions.assertNotNull(plugin.spawnStarUtility,
 					"spawn star factory is null.");
 		}
 	}
@@ -270,7 +270,7 @@ public class PluginMainTests {
 	@DisplayName("Test spawn star factory methods.")
 	class SpawnStarFactoryMethodTests {
 
-		final ItemStack spawnStarItem = plugin.spawnStarFactory.create();
+		final ItemStack spawnStarItem = plugin.spawnStarUtility.create();
 
 		@Test
 		@DisplayName("new item type is nether star.")
@@ -304,7 +304,7 @@ public class PluginMainTests {
 		@Test
 		@DisplayName("new item is valid spawn star item.")
 		void CreateAndTestValidItem() {
-			Assertions.assertTrue(plugin.spawnStarFactory.isItem(spawnStarItem),
+			Assertions.assertTrue(plugin.spawnStarUtility.isItem(spawnStarItem),
 					"new item stack is not a valid spawn star item.");
 		}
 

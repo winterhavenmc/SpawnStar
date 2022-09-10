@@ -33,7 +33,7 @@ import java.util.*;
 /**
  * Factory class for creating and testing SpawnStar item stacks
  */
-public final class SpawnStarFactory {
+public final class SpawnStarUtility {
 
 	// reference to main class
 	private final PluginMain plugin;
@@ -53,7 +53,7 @@ public final class SpawnStarFactory {
 	 *
 	 * @param plugin reference to the plugin main class instance
 	 */
-	public SpawnStarFactory(final PluginMain plugin) {
+	public SpawnStarUtility(final PluginMain plugin) {
 		this.plugin = plugin;
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
 	}

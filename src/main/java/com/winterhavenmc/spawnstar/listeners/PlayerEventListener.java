@@ -116,7 +116,7 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!plugin.spawnStarFactory.isItem(event.getItem())) {
+		if (!plugin.spawnStarUtility.isItem(event.getItem())) {
 			return;
 		}
 
@@ -247,7 +247,7 @@ public final class PlayerEventListener implements Listener {
 
 		// if crafting inventory contains SpawnStar item, set result item to null
 		for (ItemStack itemStack : event.getInventory()) {
-			if (plugin.spawnStarFactory.isItem(itemStack)) {
+			if (plugin.spawnStarUtility.isItem(itemStack)) {
 				event.getInventory().setResult(null);
 			}
 		}

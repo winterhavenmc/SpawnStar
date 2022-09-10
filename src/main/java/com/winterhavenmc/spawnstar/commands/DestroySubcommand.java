@@ -71,7 +71,7 @@ final class DestroySubcommand extends AbstractSubcommand {
 		ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// check that player held item is a spawnstar stack
-		if (!plugin.spawnStarFactory.isItem(playerItem)) {
+		if (!plugin.spawnStarUtility.isItem(playerItem)) {
 			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;

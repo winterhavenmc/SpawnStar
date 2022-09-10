@@ -131,7 +131,7 @@ final class GiveSubcommand extends AbstractSubcommand {
 		quantity = Math.min(maxQuantity, quantity);
 
 		// add specified quantity of spawnstar(s) to player inventory
-		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(plugin.spawnStarFactory.create(quantity));
+		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(plugin.spawnStarUtility.create(quantity));
 
 		// count items that didn't fit in inventory
 		int noFitCount = 0;
