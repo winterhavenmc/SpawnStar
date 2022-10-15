@@ -55,9 +55,4 @@ final class SubcommandRegistry {
 		return new LinkedHashSet<>(subcommandMap.keySet());
 	}
 
-
-	Set<Map.Entry<String, Subcommand>> getEntries() {
-		return subcommandMap.entrySet();
-	}
-
 }
