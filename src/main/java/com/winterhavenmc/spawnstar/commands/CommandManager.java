@@ -27,6 +27,7 @@ import org.bukkit.command.TabExecutor;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -92,7 +93,7 @@ public final class CommandManager implements TabExecutor {
 		}
 
 		// return list of subcommands for which sender has permission
-		return matchingCommands(sender, args[0]);
+		return getMatchingSubcommandNames(sender, args[0]);
 	}
 
 
@@ -140,25 +141,19 @@ public final class CommandManager implements TabExecutor {
 	/**
 	 * Get matching list of subcommands for which sender has permission
 	 *
-	 * @param sender      the command sender
+	 * @param sender the command sender
 	 * @param matchString the string prefix to match against command names
 	 * @return List of String - command names that match prefix and sender has permission
 	 */
-	private List<String> matchingCommands(final CommandSender sender, final String matchString) {
+	private List<String> getMatchingSubcommandNames(final CommandSender sender, final String matchString) {
 
-		// initialize empty list
-		List<String> returnList = new ArrayList<>();
-
-		// iterate over each subcommand entry in map
-		for (Map.Entry<String, Subcommand> entry : subcommandRegistry.getEntries()) {
-
-			// if sender has permission and command begins with match string, add to return list
-			if (sender.hasPermission(entry.getValue().getPermissionNode())
-					&& entry.getKey().startsWith(matchString.toLowerCase())) {
-				returnList.add(entry.getKey());
-			}
-		}
-
-		return returnList;
+		return subcommandRegistry.getKeys().stream()
+				.map(subcommandRegistry::getSubcommand)
+				.filter(Optional::isPresent)
+				.filter(subcommand -> sender.hasPermission(subcommand.get().getPermissionNode()))
+				.map(subcommand -> subcommand.get().getName())
+				.filter(name -> name.toLowerCase().startsWith(matchString.toLowerCase()))
+				.collect(Collectors.toList());
 	}
+
 }
