@@ -20,18 +20,18 @@ A configurable item that serves as a physical replacement for the /spawn command
 
 # Commands
 
-Command | Description
-------- | -----------
-`/spawnstar reload` | reloads the configuration without needing to restart the server.
-`/spawnstar status` | displays configuration settings.
-`/spawnstar give <playername> [quantity]` | allows admins or others with permission to give SpawnStars directly to players.
+| Command                                   | Description                                                                     |
+|-------------------------------------------|---------------------------------------------------------------------------------|
+| `/spawnstar reload`                       | reloads the configuration without needing to restart the server.                |
+| `/spawnstar status`                       | displays configuration settings.                                                |
+| `/spawnstar give <playername> [quantity]` | allows admins or others with permission to give SpawnStars directly to players. |
 
 # Permissions
 
-Permission | Description | Default
----------- | ----------- | -------
-`spawnstar.use` | gives a player the ability to use a SpawnStar. | true
-`spawnstar.admin` | gives a player access to the following admin commands: | op
-`spawnstar.give` | allows players to give SpawnStar items to other players. | op
-`spawnstar.reload` | allows reloading of configuration files. | op
-`spawnstar.status` | allows viewing configuration settings. | op
+| Permission         | Description                                              | Default |
+|--------------------|----------------------------------------------------------|---------|
+| `spawnstar.use`    | gives a player the ability to use a SpawnStar.           | true    |
+| `spawnstar.admin`  | gives a player access to the following admin commands:   | op      |
+| `spawnstar.give`   | allows players to give SpawnStar items to other players. | op      |
+| `spawnstar.reload` | allows reloading of configuration files.                 | op      |
+| `spawnstar.status` | allows viewing configuration settings.                   | op      |
