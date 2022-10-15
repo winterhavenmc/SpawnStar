@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>message-builder-lib</artifactId>
-			<version>1.17.0</version>
+			<version>1.17.2-SNAPSHOT</version>
 		</dependency>
 
 		<!-- SoundConfigLib -->
@@ -259,6 +259,9 @@
 				<configuration>
 					<junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
 					<trimStackTrace>false</trimStackTrace>
+					<systemPropertyVariables>
+						<bstats.relocatecheck>false</bstats.relocatecheck>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 		</plugins>
