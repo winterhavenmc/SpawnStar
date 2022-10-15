@@ -115,7 +115,7 @@ public final class TeleportHandler {
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (isUnderMinimumDistance(player, location)) {
 			plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE)
-					.setMacro(Macro.WORLD, location.getWorld())
+					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.send();
 			return;
 		}
@@ -130,7 +130,7 @@ public final class TeleportHandler {
 		long warmupTime = plugin.getConfig().getLong("teleport-warmup");
 		if (warmupTime > 0) {
 			plugin.messageBuilder.build(player, MessageId.TELEPORT_WARMUP)
-					.setMacro(Macro.WORLD, location.getWorld())
+					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.setMacro(Macro.DURATION, SECONDS.toMillis(warmupTime))
 					.send();
 
