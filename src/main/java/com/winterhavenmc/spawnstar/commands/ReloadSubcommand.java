@@ -46,14 +46,14 @@ final class ReloadSubcommand extends AbstractSubcommand {
 
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission(permissionNode)) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -75,7 +75,7 @@ final class ReloadSubcommand extends AbstractSubcommand {
 		plugin.soundConfig.reload();
 
 		// send reloaded message
-		plugin.messageBuilder.build(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
 		return true;
 	}
 

@@ -85,7 +85,7 @@ public final class TeleportHandler {
 
 		// if player cooldown has not expired, send player cooldown message and return
 		if (cooldownMap.isCoolingDown(player)) {
-			plugin.messageBuilder.build(player, MessageId.TELEPORT_COOLDOWN)
+			plugin.messageBuilder.compose(player, MessageId.TELEPORT_COOLDOWN)
 					.setMacro(Macro.DURATION, cooldownMap.getCooldownTimeRemaining(player))
 					.send();
 			return;
@@ -114,7 +114,7 @@ public final class TeleportHandler {
 
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (isUnderMinimumDistance(player, location)) {
-			plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE)
+			plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.send();
 			return;
@@ -129,7 +129,7 @@ public final class TeleportHandler {
 		// if warmup setting is greater than zero, send warmup message
 		long warmupTime = plugin.getConfig().getLong("teleport-warmup");
 		if (warmupTime > 0) {
-			plugin.messageBuilder.build(player, MessageId.TELEPORT_WARMUP)
+			plugin.messageBuilder.compose(player, MessageId.TELEPORT_WARMUP)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.setMacro(Macro.DURATION, SECONDS.toMillis(warmupTime))
 					.send();

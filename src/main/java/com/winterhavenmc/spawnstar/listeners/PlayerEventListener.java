@@ -106,7 +106,7 @@ public final class PlayerEventListener implements Listener {
 					plugin.teleportHandler.cancelTeleport(player);
 
 					// send cancelled teleport message
-					plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
+					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 
 					// play cancelled teleport sound
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
@@ -174,14 +174,14 @@ public final class PlayerEventListener implements Listener {
 
 			// if players current world is not enabled in config, send message and return
 			if (!plugin.worldManager.isEnabled(player.getWorld())) {
-				plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
+				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use")) {
-				plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
+				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 				return;
 			}
@@ -189,7 +189,7 @@ public final class PlayerEventListener implements Listener {
 			// if shift-click configured and player is not sneaking, send message and return
 			if (plugin.getConfig().getBoolean("shift-click")
 					&& !player.isSneaking()) {
-				plugin.messageBuilder.build(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
+				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
 				return;
 			}
 
@@ -273,7 +273,7 @@ public final class PlayerEventListener implements Listener {
 				// if player is in warmup hashmap, cancel teleport and send player message
 				if (plugin.teleportHandler.isWarmingUp(player)) {
 					plugin.teleportHandler.cancelTeleport(player);
-					plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
+					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
@@ -303,7 +303,7 @@ public final class PlayerEventListener implements Listener {
 			// check for player movement other than head turning
 			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0) {
 				plugin.teleportHandler.cancelTeleport(player);
-				plugin.messageBuilder.build(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
+				plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}
