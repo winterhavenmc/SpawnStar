@@ -122,16 +122,4 @@ class WarmupMap {
 		return !teleportInitiated.contains(player.getUniqueId());
 	}
 
-
-	void removeInitiated(final Player player) {
-
-		// check for null parameter
-		if (player == null) {
-			return;
-		}
-
-		// remove player uuid from teleport initiated map
-		teleportInitiated.remove(player.getUniqueId());
-	}
-
 }
