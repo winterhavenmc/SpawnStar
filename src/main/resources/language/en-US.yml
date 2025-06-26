@@ -14,7 +14,7 @@ ITEM_INFO:
     - '&eto World Spawn'
 
   # Spawn Display Name
-  SPAWN_DISPLAY_NAME: 'spawn'
+  SPAWN_DISPLAY_NAME: 'Spawn'
 
 # Time strings
 TIME_STRINGS:
@@ -32,12 +32,17 @@ TIME_STRINGS:
 
 # Variable substitutions:
 #
-# %PLAYER%               message recipient's name
-# %ITEM%                 Item name, as defined in this file
-# %ITEM_QUANTITY%        number of items (valid in give command message only)
-# %WORLD%                World name that player is in
-# %TARGET_PLAYER%        Target player name
-# %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
+# %RECIPIENT%                   message recipient name
+# %RECIPIENT_LOCATION%          message recipient location as formatted string
+# %RECIPIENT_LOCATION_WORLD%    message recipient location world
+# %RECIPIENT_LOCATION_X%        message recipient location x
+# %RECIPIENT_LOCATION_Y%        message recipient location y
+# %RECIPIENT_LOCATION_Z%        message recipient location z
+# %ITEM_NAME%                   item name, as defined in this file
+# %ITEM_QUANTITY%               number of items (valid in give command message only)
+# %TARGET_PLAYER%               target player name
+# %DURATION%                    time duration in seconds (valid in teleport warmup/cooldown message only)
+# %DESTINATION_WORLD%           world for teleport destination
 
 # optional repeat-delay setting is the number of seconds to wait before
 # displaying a message again (only used on appropriate messages)
@@ -45,19 +50,19 @@ TIME_STRINGS:
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    message: '&3[SpawnStar] &c%ITEM% destroyed!'
+    message: '&3[SpawnStar] &c%ITEM_NAME% destroyed!'
 
   COMMAND_SUCCESS_GIVE_SENDER:
     enabled: true
-    message: '&3You gave %ITEM_QUANTITY% %ITEM% to %TARGET_PLAYER%.'
+    message: '&3You gave %ITEM_QUANTITY% %ITEM_NAME% to %TARGET_PLAYER%.'
 
   COMMAND_SUCCESS_GIVE_TARGET:
     enabled: true
-    message: '&3%TARGET_PLAYER% gave you %ITEM_QUANTITY% %ITEM%.'
+    message: '&3%TARGET_PLAYER% gave you %ITEM_QUANTITY% %ITEM_NAME%.'
 
   COMMAND_SUCCESS_GIVE_SELF:
     enabled: true
-    message: '&3You gave yourself %ITEM_QUANTITY% %ITEM%.'
+    message: '&3You gave yourself %ITEM_QUANTITY% %ITEM_NAME%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
@@ -115,7 +120,7 @@ MESSAGES:
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    message: '&3Could not give %ITEM% to %TARGET_PLAYER% because their inventory is full.'
+    message: '&3Could not give %ITEM_NAME% to %TARGET_PLAYER% because their inventory is full.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
@@ -151,24 +156,24 @@ MESSAGES:
 
   TELEPORT_SUCCESS:
     enabled: true
-    message: '&3Returned to &b%WORLD% spawn&3.'
-    title: '&3%WORLD% Spawn'
-#    subtitle: '&3%WORLD% Spawn'
+    message: '&3Returned to &b%DESTINATION_WORLD% spawn&3.'
+    title: '&3%DESTINATION_WORLD% Spawn'
+#    subtitle: '&3%DESTINATION_WORLD% Spawn'
 
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    message: '&cYou do not have permission to use &b%ITEM%&3 in %WORLD%.'
+    message: '&cYou do not have permission to use &b%ITEM_NAME%&3 in %RECIPIENT_LOCATION_WORLD%.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    message: '&3You are too close to spawn to use a %ITEM%.'
+    message: '&3You are too close to spawn to use a %ITEM_NAME%.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    message: '&3You must shift-click to use a %ITEM%.'
+    message: '&3You must shift-click to use a %ITEM_NAME%.'
 
   TELEPORT_FAIL_WORLD_DISABLED:
     enabled: true
@@ -194,8 +199,8 @@ MESSAGES:
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    message: '&3You need to wait &b%DURATION%&3 to use another %ITEM%.'
+    message: '&3You need to wait &b%DURATION%&3 to use another %ITEM_NAME%.'
 
   TELEPORT_WARMUP:
     enabled: true
-    message: '&3Teleporting to &b%WORLD% spawn&3 in &b%DURATION%&3...'
+    message: '&3Teleporting to &b%RECIPIENT_LOCATION_WORLD% Spawn&3 in &b%DURATION%&3...'
