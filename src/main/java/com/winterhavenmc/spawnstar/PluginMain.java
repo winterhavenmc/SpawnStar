@@ -24,17 +24,12 @@ import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.util.MetricsHandler;
 import com.winterhavenmc.spawnstar.util.SpawnStarUtility;
-
 import com.winterhavenmc.util.messagebuilder.MessageBuilder;
 import com.winterhavenmc.util.soundconfig.SoundConfiguration;
 import com.winterhavenmc.util.soundconfig.YamlSoundConfiguration;
 import com.winterhavenmc.util.worldmanager.WorldManager;
 
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
-
-import java.io.File;
 
 
 /**
@@ -44,8 +39,8 @@ import java.io.File;
  *
  * @author Tim Savage
  */
-public final class PluginMain extends JavaPlugin {
-
+public final class PluginMain extends JavaPlugin
+{
 	public MessageBuilder<MessageId, Macro> messageBuilder;
 	public SoundConfiguration soundConfig;
 	public TeleportHandler teleportHandler;
@@ -55,30 +50,9 @@ public final class PluginMain extends JavaPlugin {
 	public SpawnStarUtility spawnStarUtility;
 
 
-	/**
-	 * Constructor for mocking
-	 */
-	@SuppressWarnings("unused")
-	public PluginMain() {
-		super();
-	}
-
-
-	/**
-	 * Constructor for mocking
-	 */
-	@SuppressWarnings("unused")
-	private PluginMain(final JavaPluginLoader loader,
-	                   final PluginDescriptionFile descriptionFile,
-	                   final File dataFolder,
-	                   final File file) {
-		super(loader, descriptionFile, dataFolder, file);
-	}
-
-
 	@Override
-	public void onEnable() {
-
+	public void onEnable()
+	{
 		// install default configuration file if not already present
 		saveDefaultConfig();
 
@@ -105,7 +79,6 @@ public final class PluginMain extends JavaPlugin {
 
 		// instantiate metrics handler
 		new MetricsHandler(this);
-
 	}
 
 }
