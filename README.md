@@ -1,3 +1,7 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/09da84bdbd6c4335a49406e8b17e33d3)](https://app.codacy.com/gh/winterhavenmc/SpawnStar/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Spigot Version](https://badgen.net/static/spigot-api/1.21.6?color=yellow)](https://spigotmc.org)
+&nbsp;[![License](https://badgen.net/static/license/GPLv3)](https://www.gnu.org/licenses/gpl-3.0)
+
 # SpawnStar
 
 A configurable item that serves as a physical replacement for the /spawn command. In my survival world, I felt that the /spawn command was too easy. But my players really wanted to be able to return to spawn easily. So I made this plugin as a compromise. Now, players need to buy SpawnStars from shops before venturing out into the wilderness if they want to be able to teleport back to the world spawn. Also, players would sometimes get stuck in the nether, so I made a configurable option to allow a SpawnStar to return the player to the overworld spawn from the nether or end world.
