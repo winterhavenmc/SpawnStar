@@ -77,14 +77,14 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 
 		// if command sender does not have permission to display help, output error message and return true
 		if (!sender.hasPermission(permissionNode)) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -144,7 +144,7 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand {
 	 */
 	void displayUsageAll(final CommandSender sender) {
 
-		plugin.messageBuilder.build(sender, MessageId.COMMAND_HELP_USAGE_HEADER).send();
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_HELP_USAGE_HEADER).send();
 
 		subcommandRegistry.getKeys().stream()
 				.map(subcommandRegistry::getSubcommand)

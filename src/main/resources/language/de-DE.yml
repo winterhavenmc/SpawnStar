@@ -33,7 +33,7 @@ TIME_STRINGS:
 # Variable substitutions:
 #
 # %PLAYER%               message recipient's name
-# %ITEM%                 Item name, as defined in this file
+# %ITEM_NAME%                 Item name, as defined in this file
 # %ITEM_QUANTITY%        number of items (valid in give command message only)
 # %WORLD%                World name that player is in
 # %TARGET_PLAYER%        Target player name
@@ -45,7 +45,7 @@ TIME_STRINGS:
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    message: '&3[SpawnStar]&c %ITEM% zerstört!'
+    message: '&3[SpawnStar]&c %ITEM_NAME% zerstört!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
@@ -142,17 +142,17 @@ MESSAGES:
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    message: '&cSie haben nicht die Erlaubnis, eine &b%ITEM%&3 in %WORLD% verwenden.'
+    message: '&cSie haben nicht die Erlaubnis, eine &b%ITEM_NAME%&3 in %WORLD% verwenden.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    message: '&3Sie sind zu nahe für die Verwendung einer %ITEM% laichen.'
+    message: '&3Sie sind zu nahe für die Verwendung einer %ITEM_NAME% laichen.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    message: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM% verwenden.'
+    message: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM_NAME% verwenden.'
 
   TELEPORT_FAIL_WORLD_DISABLED:
     enabled: true
@@ -173,12 +173,12 @@ MESSAGES:
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    message: '&cSie müssen nicht mehr eine %ITEM%!'
+    message: '&cSie müssen nicht mehr eine %ITEM_NAME%!'
 
   TELEPORT_COOLDOWN:
     enabled: true
     repeat-delay: 1
-    message: '&3Sie müssen bis &b%DURATION%&3 Sekunden warten, um einen anderen %ITEM% verwenden.'
+    message: '&3Sie müssen bis &b%DURATION%&3 Sekunden warten, um einen anderen %ITEM_NAME% verwenden.'
 
   TELEPORT_WARMUP:
     enabled: true

@@ -33,7 +33,7 @@ TIME_STRINGS:
 # Variable substitutions:
 #
 # %PLAYER%               message recipient's name
-# %ITEM%                 Item name, as defined in this file
+# %ITEM_NAME%                 Item name, as defined in this file
 # %ITEM_QUANTITY%        number of items (valid in give command message only)
 # %WORLD%                World name that player is in
 # %TARGET_PLAYER%        Target player name
@@ -45,11 +45,11 @@ TIME_STRINGS:
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     enabled: true
-    message: '&3[SpawnStar]&c ¡%ITEM% destruida!'
+    message: '&3[SpawnStar]&c ¡%ITEM_NAME% destruida!'
 
   COMMAND_SUCCESS_GIVE:
     enabled: true
-    message: '&3Usted diste %ITEM_QUANTITY% %ITEM% a %PLAYER%.'
+    message: '&3Usted diste %ITEM_QUANTITY% %ITEM_NAME% a %PLAYER%.'
 
   COMMAND_SUCCESS_RELOAD:
     enabled: true
@@ -103,7 +103,7 @@ MESSAGES:
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
     enabled: true
-    message: '&3No se pudo dar %ITEM% para %PLAYER% porque sus inventario está lleno.'
+    message: '&3No se pudo dar %ITEM_NAME% para %PLAYER% porque sus inventario está lleno.'
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     enabled: true
@@ -142,17 +142,17 @@ MESSAGES:
   TELEPORT_FAIL_PERMISSION:
     enabled: true
     repeat-delay: 1
-    message: '&cUsted no tiene permiso para usar %ITEM% en %WORLD%.'
+    message: '&cUsted no tiene permiso para usar %ITEM_NAME% en %WORLD%.'
 
   TELEPORT_FAIL_MIN_DISTANCE:
     enabled: true
     repeat-delay: 1
-    message: '&3Usted está demasiado cerca para desovar utilizar %ITEM%.'
+    message: '&3Usted está demasiado cerca para desovar utilizar %ITEM_NAME%.'
 
   TELEPORT_FAIL_SHIFT_CLICK:
     enabled: true
     repeat-delay: 1
-    message: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %ITEM%.'
+    message: '&3Usted debe mantener pulsada la tecla Mayús mientras hace clic para utilizar %ITEM_NAME%.'
 
   TELEPORT_FAIL_WORLD_DISABLED:
     enabled: true
@@ -173,7 +173,7 @@ MESSAGES:
 
   TELEPORT_CANCELLED_NO_ITEM:
     enabled: true
-    message: '&c¡Ya no tiene un %ITEM%!'
+    message: '&c¡Ya no tiene un %ITEM_NAME%!'
 
   TELEPORT_COOLDOWN:
     enabled: true

@@ -48,20 +48,20 @@ final class DestroySubcommand extends AbstractSubcommand {
 
 		// sender must be in game player
 		if (!(sender instanceof Player player)) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE).send();
 			return true;
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission(permissionNode)) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs()) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
@@ -71,8 +71,8 @@ final class DestroySubcommand extends AbstractSubcommand {
 		ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// check that player held item is a spawnstar stack
-		if (!plugin.spawnStarFactory.isItem(playerItem)) {
-			plugin.messageBuilder.build(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
+		if (!plugin.spawnStarUtility.isItem(playerItem)) {
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
@@ -88,7 +88,7 @@ final class DestroySubcommand extends AbstractSubcommand {
 		player.getInventory().setItemInHand(playerItem);
 
 		// send success message
-		plugin.messageBuilder.build(sender, MessageId.COMMAND_SUCCESS_DESTROY)
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
 				.setMacro(Macro.ITEM_QUANTITY, quantity)
 				.send();
 
