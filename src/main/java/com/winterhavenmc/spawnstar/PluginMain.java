@@ -25,8 +25,8 @@ import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.util.MetricsHandler;
 import com.winterhavenmc.spawnstar.util.SpawnStarUtility;
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
-import com.winterhavenmc.util.soundconfig.SoundConfiguration;
-import com.winterhavenmc.util.soundconfig.YamlSoundConfiguration;
+import com.winterhavenmc.library.soundconfig.SoundConfiguration;
+import com.winterhavenmc.library.soundconfig.YamlSoundConfiguration;
 import com.winterhavenmc.library.worldmanager.WorldManager;
 
 import org.bukkit.plugin.java.JavaPlugin;
