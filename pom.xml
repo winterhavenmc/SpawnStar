@@ -200,7 +200,7 @@
 								</relocation>
 								<relocation>
 									<pattern>org.bstats</pattern>
-									<shadedPattern>com.winterhavenmc.deathchest.shaded</shadedPattern>
+									<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
 								</relocation>
 							</relocations>
 						</configuration>
