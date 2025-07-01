@@ -32,7 +32,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
-import static com.winterhavenmc.util.TimeUnit.SECONDS;
+import static com.winterhavenmc.library.TimeUnit.SECONDS;
 
 
 /**
@@ -55,8 +55,8 @@ public final class TeleportHandler {
 	 *
 	 * @param plugin reference to plugin main class
 	 */
-	public TeleportHandler(final PluginMain plugin) {
-
+	public TeleportHandler(final PluginMain plugin)
+	{
 		// set reference to main class
 		this.plugin = plugin;
 
@@ -240,7 +240,7 @@ public final class TeleportHandler {
 
 		// if only one normal world exists, return that world
 		if (normalWorlds.size() == 1) {
-			return Optional.of(normalWorlds.get(0).getSpawnLocation());
+			return Optional.of(normalWorlds.getFirst().getSpawnLocation());
 		}
 
 		// if no matching normal world found and more than one normal world exists, return passed world spawn location
@@ -309,7 +309,7 @@ public final class TeleportHandler {
 			// write message to log
 			console.sendMessage(player.getName() + ChatColor.RESET + " used a "
 					+ plugin.messageBuilder.getItemName() + ChatColor.RESET + " in "
-					+ plugin.worldManager.getWorldName(player) + ChatColor.RESET + ".");
+					+ plugin.worldManager.getWorldName(player.getWorld()) + ChatColor.RESET + ".");
 		}
 	}
 
