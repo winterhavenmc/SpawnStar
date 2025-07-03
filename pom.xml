@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.winterhaven-mc</groupId>
 	<artifactId>SpawnStar</artifactId>
-	<version>1.21.0-SNAPSHOT</version>
+	<version>1.21.0</version>
 	<name>SpawnStar</name>
 
 	<url>https://github.com/tim-savage/SpawnStar</url>
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.21.6-R0.1-SNAPSHOT</version>
+			<version>1.21.7-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -195,12 +195,12 @@
 							</artifactSet>
 							<relocations>
 								<relocation>
-									<pattern>com.winterhavenmc.util</pattern>
+									<pattern>com.winterhavenmc.library</pattern>
 									<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>org.bstats</pattern>
-									<shadedPattern>com.winterhavenmc.deathchest.shaded</shadedPattern>
+									<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
 								</relocation>
 							</relocations>
 						</configuration>

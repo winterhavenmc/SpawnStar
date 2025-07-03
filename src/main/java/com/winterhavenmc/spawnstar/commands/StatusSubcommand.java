@@ -26,7 +26,7 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 import java.util.Objects;
 
-import static com.winterhavenmc.util.TimeUnit.SECONDS;
+import static com.winterhavenmc.library.TimeUnit.SECONDS;
 
 
 final class StatusSubcommand extends AbstractSubcommand {

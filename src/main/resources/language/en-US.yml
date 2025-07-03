@@ -204,3 +204,7 @@ MESSAGES:
   TELEPORT_WARMUP:
     enabled: true
     message: '&3Teleporting to &b%RECIPIENT_LOCATION_WORLD% Spawn&3 in &b%DURATION%&3...'
+
+  TELEPORT_LOG_USAGE:
+    enabled: true
+    message: "&b%TARGET_PLAYER%&r used a %ITEM%&r in &3%DESTINATION_WORLD%&r."

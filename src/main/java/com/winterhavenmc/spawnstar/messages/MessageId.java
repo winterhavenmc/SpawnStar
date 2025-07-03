@@ -62,4 +62,5 @@ public enum MessageId {
 	TELEPORT_COOLDOWN,
 	TELEPORT_WARMUP,
 
+	TELEPORT_LOG_USAGE,
 }
