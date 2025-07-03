@@ -183,3 +183,7 @@ MESSAGES:
   TELEPORT_WARMUP:
     enabled: true
     message: '&3Teleportieren, um in &b%DURATION%&3...'
+
+  TELEPORT_LOG_USAGE:
+    enabled: true
+    message: "&b%TARGET_PLAYER%&r  hat in &3%DESTINATION_WORLD%&r einen %ITEM%&r verwendet."

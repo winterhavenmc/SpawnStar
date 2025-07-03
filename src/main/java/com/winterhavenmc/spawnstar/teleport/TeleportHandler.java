@@ -300,16 +300,16 @@ public final class TeleportHandler {
 	 *
 	 * @param player the player being logged using a SpawnStar item
 	 */
-	private void logUsage(final Player player) {
-		if (plugin.getConfig().getBoolean("log-use")) {
-
-			// get console command sender
-			CommandSender console = plugin.getServer().getConsoleSender();
-
-			// write message to log
-			console.sendMessage(player.getName() + ChatColor.RESET + " used a "
-					+ plugin.messageBuilder.getItemName() + ChatColor.RESET + " in "
-					+ plugin.worldManager.getWorldName(player.getWorld()) + ChatColor.RESET + ".");
+	private void logUsage(final Player player)
+	{
+		// if log-use is enabled in config, write log entry
+		if (plugin.getConfig().getBoolean("log-use"))
+		{
+			// send message to console
+			plugin.messageBuilder.compose(plugin.getServer().getConsoleSender(), MessageId.TELEPORT_LOG_USAGE)
+					.setMacro(Macro.TARGET_PLAYER, player)
+					.setMacro(Macro.DESTINATION_WORLD, plugin.worldManager.getAliasOrName(player.getWorld().getName()))
+					.send();
 		}
 	}
 
