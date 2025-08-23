@@ -120,7 +120,6 @@ class WarmupMap
 	 */
 	boolean isInitiated(final Player player)
 	{
-		// check for null parameter
 		if (player == null)
 		{
 			return false;
