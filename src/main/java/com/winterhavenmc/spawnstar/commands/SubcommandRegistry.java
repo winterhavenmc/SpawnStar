@@ -20,8 +20,8 @@ package com.winterhavenmc.spawnstar.commands;
 import java.util.*;
 
 
-final class SubcommandRegistry {
-
+final class SubcommandRegistry
+{
 	final Map<String, Subcommand> subcommandMap = new LinkedHashMap<>();
 
 
@@ -30,7 +30,8 @@ final class SubcommandRegistry {
 	 *
 	 * @param subcommand an instance of the command
 	 */
-	void register(final Subcommand subcommand) {
+	void register(final Subcommand subcommand)
+	{
 		subcommandMap.put(subcommand.getName().toLowerCase(), subcommand);
 	}
 
@@ -41,7 +42,8 @@ final class SubcommandRegistry {
 	 * @param name the command to retrieve from the map
 	 * @return Subcommand - the subcommand instance, or null if no matching name
 	 */
-	Optional<Subcommand> getSubcommand(final String name) {
+	Optional<Subcommand> getSubcommand(final String name)
+	{
 		return Optional.ofNullable(subcommandMap.get(name.toLowerCase()));
 	}
 
@@ -51,7 +53,8 @@ final class SubcommandRegistry {
 	 *
 	 * @return List of String - keys of the subcommand map
 	 */
-	Collection<String> getNames() {
+	Collection<String> getNames()
+	{
 		return new LinkedHashSet<>(subcommandMap.keySet());
 	}
 

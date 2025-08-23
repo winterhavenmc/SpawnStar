@@ -20,8 +20,8 @@ package com.winterhavenmc.spawnstar.sounds;
 /**
  * Enum that contains entries for configured sounds
  */
-public enum SoundId {
-
+public enum SoundId
+{
 	COMMAND_FAIL,
 	COMMAND_INVALID,
 	COMMAND_SUCCESS_GIVE_SENDER,
@@ -34,5 +34,4 @@ public enum SoundId {
 	TELEPORT_WARMUP,
 	TELEPORT_SUCCESS_DEPARTURE,
 	TELEPORT_SUCCESS_ARRIVAL,
-
 }

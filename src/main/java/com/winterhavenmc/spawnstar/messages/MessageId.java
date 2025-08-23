@@ -20,8 +20,8 @@ package com.winterhavenmc.spawnstar.messages;
 /**
  * Enum with entries for all player messages in language configuration files
  */
-public enum MessageId {
-
+public enum MessageId
+{
 	COMMAND_HELP_INVALID,
 	COMMAND_HELP_DESTROY,
 	COMMAND_HELP_GIVE,
