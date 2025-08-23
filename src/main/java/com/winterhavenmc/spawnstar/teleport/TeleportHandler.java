@@ -17,6 +17,7 @@
 
 package com.winterhavenmc.spawnstar.teleport;
 
+import com.winterhavenmc.library.time.TimeUnit;
 import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
@@ -30,8 +31,6 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.winterhavenmc.library.TimeUnit.SECONDS;
 
 
 /**
@@ -128,7 +127,7 @@ public final class TeleportHandler
 		{
 			plugin.messageBuilder.compose(player, MessageId.TELEPORT_WARMUP)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
-					.setMacro(Macro.DURATION, SECONDS.toMillis(warmupTime))
+					.setMacro(Macro.DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
 					.send();
 
 			// if enabled, play sound effect
@@ -137,7 +136,7 @@ public final class TeleportHandler
 
 		// initiate delayed teleport for player to destination
 		BukkitTask teleportTask = new DelayedTeleportTask(plugin, player, location, playerItem.clone())
-				.runTaskLater(plugin, SECONDS.toTicks(plugin.getConfig().getLong("teleport-warmup")));
+				.runTaskLater(plugin, TimeUnit.SECONDS.toTicks(plugin.getConfig().getLong("teleport-warmup")));
 
 		// insert player and taskId into warmup hashmap
 		warmupMap.startPlayerWarmUp(player, teleportTask.getTaskId());
