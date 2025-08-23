@@ -65,6 +65,7 @@ final class StatusSubcommand extends AbstractSubcommand
 		}
 
 		// output config settings
+		displayStatusBanner(sender);
 		displayPluginVersion(sender);
 		displayDebugSetting(sender);
 		displayLanguageSetting(sender);
