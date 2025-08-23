@@ -17,14 +17,13 @@
 
 package com.winterhavenmc.spawnstar.teleport;
 
+import com.winterhavenmc.library.time.TimeUnit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.winterhavenmc.library.TimeUnit.SECONDS;
 
 
 class CooldownMap
@@ -52,7 +51,7 @@ class CooldownMap
 	{
 		int cooldownSeconds = plugin.getConfig().getInt("teleport-cooldown");
 
-		Long expireTime = System.currentTimeMillis() + (SECONDS.toMillis(cooldownSeconds));
+		Long expireTime = System.currentTimeMillis() + (TimeUnit.SECONDS.toMillis(cooldownSeconds));
 		cooldownMap.put(player.getUniqueId(), expireTime);
 
 		new BukkitRunnable()
@@ -61,7 +60,7 @@ class CooldownMap
 			{
 				cooldownMap.remove(player.getUniqueId());
 			}
-		}.runTaskLater(plugin, SECONDS.toTicks(cooldownSeconds));
+		}.runTaskLater(plugin, TimeUnit.SECONDS.toTicks(cooldownSeconds));
 	}
 
 
