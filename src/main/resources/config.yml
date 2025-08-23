@@ -21,11 +21,11 @@ item-material: NETHER_STAR
 # minimum distance from spawn
 minimum-distance: 10
 
-# cooldown time in seconds
-teleport-cooldown: 60
-
-# warmup time in seconds
+# teleport warmup time in seconds
 teleport-warmup: 5
+
+# teleport cooldown time in seconds
+teleport-cooldown: 60
 
 # particle effects during warmup
 particle-effects: true
