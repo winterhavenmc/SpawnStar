@@ -18,7 +18,6 @@
 package com.winterhavenmc.spawnstar.util;
 
 import com.winterhavenmc.spawnstar.PluginMain;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,25 +26,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 
 /**
  * Factory class for creating and testing SpawnStar item stacks
  */
-public final class SpawnStarUtility {
-
-	// reference to main class
+public final class SpawnStarUtility
+{
 	private final PluginMain plugin;
-
-	// name spaced key for persistent data
 	private final NamespacedKey PERSISTENT_KEY;
-
-	// item metadata flags
 	private static final Set<ItemFlag> itemFlagSet = Set.of(
-					ItemFlag.HIDE_ATTRIBUTES,
-					ItemFlag.HIDE_ENCHANTS,
-					ItemFlag.HIDE_UNBREAKABLE );
+			ItemFlag.HIDE_ATTRIBUTES,
+			ItemFlag.HIDE_ENCHANTS,
+			ItemFlag.HIDE_UNBREAKABLE);
 
 
 	/**
@@ -53,7 +50,8 @@ public final class SpawnStarUtility {
 	 *
 	 * @param plugin reference to the plugin main class instance
 	 */
-	public SpawnStarUtility(final PluginMain plugin) {
+	public SpawnStarUtility(final PluginMain plugin)
+	{
 		this.plugin = plugin;
 		this.PERSISTENT_KEY = new NamespacedKey(plugin, "isSpawnStar");
 	}
@@ -64,7 +62,8 @@ public final class SpawnStarUtility {
 	 *
 	 * @return ItemStack of single SpawnStar item
 	 */
-	public ItemStack create() {
+	public ItemStack create()
+	{
 		return create(1);
 	}
 
@@ -75,8 +74,8 @@ public final class SpawnStarUtility {
 	 * @param passedQuantity number of SpawnStar items in newly created stack
 	 * @return ItemStack of SpawnStar items
 	 */
-	public ItemStack create(final int passedQuantity) {
-
+	public ItemStack create(final int passedQuantity)
+	{
 		// get clone of proto item
 		ItemStack itemStack = getDefaultItemStack();
 
@@ -102,15 +101,17 @@ public final class SpawnStarUtility {
 	 * @param itemStack the ItemStack to check
 	 * @return {@code true} if itemStack is a SpawnStar item, {@code false} if not
 	 */
-	public boolean isItem(final ItemStack itemStack) {
-
+	public boolean isItem(final ItemStack itemStack)
+	{
 		// if item stack is empty (null or air) return false
-		if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
+		if (itemStack == null || itemStack.getType().equals(Material.AIR))
+		{
 			return false;
 		}
 
 		// if item stack does not have metadata return false
-		if (!itemStack.hasItemMeta()) {
+		if (!itemStack.hasItemMeta())
+		{
 			return false;
 		}
 
@@ -125,14 +126,15 @@ public final class SpawnStarUtility {
 	 *
 	 * @return ItemStack
 	 */
-	public ItemStack getDefaultItemStack() {
-
+	public ItemStack getDefaultItemStack()
+	{
 		// try to match material
 		Material configMaterial = Material.matchMaterial(
 				Objects.requireNonNull(plugin.getConfig().getString("item-material")));
 
 		// if no match default to nether star
-		if (configMaterial == null) {
+		if (configMaterial == null)
+		{
 			configMaterial = Material.NETHER_STAR;
 		}
 
@@ -147,8 +149,8 @@ public final class SpawnStarUtility {
 	 *
 	 * @param itemStack the ItemStack on which to set HomeStar MetaData
 	 */
-	public void setMetaData(final ItemStack itemStack) {
-
+	public void setMetaData(final ItemStack itemStack)
+	{
 		// retrieve item name and lore from language file
 		String itemName = plugin.messageBuilder.getItemName().orElse("SpawnStar");
 		List<String> configLore = plugin.messageBuilder.getItemLore();
@@ -158,7 +160,8 @@ public final class SpawnStarUtility {
 
 		ArrayList<String> coloredLore = new ArrayList<>();
 
-		for (String line : configLore) {
+		for (String line : configLore)
+		{
 			coloredLore.add(ChatColor.translateAlternateColorCodes('&', line));
 		}
 
@@ -176,7 +179,8 @@ public final class SpawnStarUtility {
 		itemMeta.getPersistentDataContainer().set(PERSISTENT_KEY, PersistentDataType.BYTE, (byte) 1);
 
 		// set item metadata flags
-		for (ItemFlag itemFlag : itemFlagSet) {
+		for (ItemFlag itemFlag : itemFlagSet)
+		{
 			itemMeta.addItemFlags(itemFlag);
 		}
 
