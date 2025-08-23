@@ -63,7 +63,6 @@ public final class TeleportHandler
 	 */
 	public void initiateTeleport(final Player player)
 	{
-		// check for null parameter
 		if (player == null)
 		{
 			return;
@@ -156,7 +155,6 @@ public final class TeleportHandler
 		// if player is in warmup hashmap, cancel delayed teleport task and remove player from warmup hashmap
 		if (warmupMap.containsPlayer(player))
 		{
-
 			// get delayed teleport task id
 			int taskId = warmupMap.getTaskId(player);
 
@@ -214,7 +212,6 @@ public final class TeleportHandler
 	 */
 	private Optional<Location> getOverworldSpawnLocation(final Player player)
 	{
-		// check for null parameter
 		if (player == null)
 		{
 			return Optional.empty();
