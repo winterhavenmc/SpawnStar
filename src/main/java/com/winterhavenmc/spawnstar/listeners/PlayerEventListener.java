@@ -65,10 +65,7 @@ public final class PlayerEventListener implements Listener
 	 */
 	public PlayerEventListener(final PluginMain plugin)
 	{
-		// set reference to main class
 		this.plugin = plugin;
-
-		// register events in this class
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
