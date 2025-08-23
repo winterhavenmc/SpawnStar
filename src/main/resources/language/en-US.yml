@@ -1,210 +1,219 @@
 # Language configuration file for ${project.name} v${project.version}
 
+# constant strings
+CONSTANTS:
+  SPAWN_DISPLAY_NAME: 'Spawn'
+  TIME:
+    LESS_THAN: "less than {DURATION}"
+    UNLIMITED: "unlimited"
+
 ###########
 # Item Info
 ###########
-ITEM_INFO:
-  # Item Display Name
-  ITEM_NAME: '&aSpawnStar'
-  ITEM_NAME_PLURAL: '&aSpawnStars'
-
-  # Item Lore
-  ITEM_LORE:
-    - '&eUse to Return'
-    - '&eto World Spawn'
-
-  # Spawn Display Name
-  SPAWN_DISPLAY_NAME: 'Spawn'
-
-# Time strings
-TIME_STRINGS:
-  DAY: 'day'
-  DAY_PLURAL: 'days'
-  HOUR: 'hour'
-  HOUR_PLURAL: 'hours'
-  MINUTE: 'minute'
-  MINUTE_PLURAL: 'minutes'
-  SECOND: 'second'
-  SECOND_PLURAL: 'seconds'
-  UNLIMITED: 'unlimited time'
-  LESS_THAN_ONE: 'less than one'
+ITEMS:
+  SPAWNSTAR:
+    MATERIAL: GOLDEN_PICKAXE
+    DISPLAY_NAME: "<green>SpawnStar</green>"
+    DISPLAY_NAME_PLURAL: "<green>SpawnStars</green>"
+    LORE:
+      - '<yellow>Use to Return</yellow>'
+      - '<yellow>to World Spawn</yellow>'
 
 
 # Variable substitutions:
 #
-# %RECIPIENT%                   message recipient name
-# %RECIPIENT_LOCATION%          message recipient location as formatted string
-# %RECIPIENT_LOCATION_WORLD%    message recipient location world
-# %RECIPIENT_LOCATION_X%        message recipient location x
-# %RECIPIENT_LOCATION_Y%        message recipient location y
-# %RECIPIENT_LOCATION_Z%        message recipient location z
-# %ITEM_NAME%                   item name, as defined in this file
-# %ITEM_QUANTITY%               number of items (valid in give command message only)
-# %TARGET_PLAYER%               target player name
-# %DURATION%                    time duration in seconds (valid in teleport warmup/cooldown message only)
-# %DESTINATION_WORLD%           world for teleport destination
+# {RECIPIENT}                   message recipient name
+# {RECIPIENT.LOCATION}          message recipient location as formatted string
+# {RECIPIENT.LOCATION.WORLD}    message recipient location world
+# {RECIPIENT.LOCATION.X}        message recipient location x
+# {RECIPIENT.LOCATION.Y}        message recipient location y
+# {RECIPIENT.LOCATION.Z}        message recipient location z
+# {ITEM_NAME}                   item name, as defined in this file
+# {ITEM_QUANTITY}               number of items (valid in give command message only)
+# {TARGET_PLAYER}               target player name
+# {DURATION}                    time duration in seconds (valid in teleport warmup/cooldown message only)
+# {DESTINATION_WORLD}           world for teleport destination
 
-# optional repeat-delay setting is the number of seconds to wait before
-# displaying a message again (only used on appropriate messages)
+# Message Fields:
+# MESSAGE_KEY: the unique identifier for each individual message, represented by an enum constant in code
+#   MESSAGE_TEXT: string value that will be displayed as a chat message, may be omitted
+#   TITILE_TEXT: string value that will be displayed as a title, may be omitted
+#   SUBTITLE_TEXT: string value that will be displayed as a subtitle, may be omitted
+#   ENABLED: boolean value determines whether any of the message text fields will be displayed, defaults to true if omitted
+#   REPEAT_DELAY: integer value representing the number of seconds to wait before sending a message to a given player again
+#   TITLE_FADE_IN, TITLE_STAY, TITLE_FADE_OUT: integer values to override the default title fade timings (in ticks)
+
 
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
-    enabled: true
-    message: '&3[SpawnStar] &c%ITEM_NAME% destroyed!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>{ITEM_NAME}</red> destroyed!"
 
   COMMAND_SUCCESS_GIVE_SENDER:
-    enabled: true
-    message: '&3You gave %ITEM_QUANTITY% %ITEM_NAME% to %TARGET_PLAYER%.'
+    MESSAGE_TEXT: "<dark_aqua>You gave {ITEM_QUANTITY} {ITEM_NAME} to {TARGET_PLAYER}.</dark_aqua>"
 
   COMMAND_SUCCESS_GIVE_TARGET:
-    enabled: true
-    message: '&3%TARGET_PLAYER% gave you %ITEM_QUANTITY% %ITEM_NAME%.'
+    MESSAGE_TEXT: "<dark_aqua>{TARGET_PLAYER} gave you {ITEM_QUANTITY} {ITEM_NAME}.</dark_aqua>"
 
   COMMAND_SUCCESS_GIVE_SELF:
-    enabled: true
-    message: '&3You gave yourself %ITEM_QUANTITY% %ITEM_NAME%.'
+    MESSAGE_TEXT: "<dark_aqua>You gave yourself {ITEM_QUANTITY} {ITEM_NAME}.</dark_aqua>"
 
   COMMAND_SUCCESS_RELOAD:
-    enabled: true
-    message: '&3[SpawnStar] &bConfiguration reloaded.'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <aqua>&bConfiguration reloaded.</aqua>"
 
 
   COMMAND_HELP_INVALID:
-    enabled: true
-    message: '&3[SpawnStar]&c That is not a valid command!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>That is not a valid command!</red>"
 
   COMMAND_HELP_DESTROY:
-    enabled: true
-    message: '&eDestroys the stack of SpawnStars you are holding.'
+    MESSAGE_TEXT: "<yellow>Destroys the stack of SpawnStars you are holding.</yellow>"
 
   COMMAND_HELP_GIVE:
-    enabled: true
-    message: '&eGives a SpawnStar to a player.'
+    MESSAGE_TEXT: "<yellow>Gives a SpawnStar to a player.</yellow>"
 
   COMMAND_HELP_HELP:
-    enabled: true
-    message: '&eDisplays help for SpawnStar commands.'
+    MESSAGE_TEXT: "<yellow>Displays help for SpawnStar commands.</yellow>"
 
   COMMAND_HELP_RELOAD:
-    enabled: true
-    message: '&eReloads the configuration without needing to restart the server.'
+    MESSAGE_TEXT: "<yellow>Reloads the configuration without needing to restart the server.</yellow>"
 
   COMMAND_HELP_STATUS:
-    enabled: true
-    message: '&eDisplays plugin configuration settings.'
+    MESSAGE_TEXT: "<yellow>Displays plugin configuration settings.</yellow>"
 
   COMMAND_HELP_USAGE_HEADER:
-    enabled: true
-    message: '&eCommand usage:'
+    MESSAGE_TEXT: "<yellow>Command usage:</yellow>"
 
 
   COMMAND_FAIL_INVALID_COMMAND:
-    enabled: true
-    message: '&3[SpawnStar] &cThat is not a valid command!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>That is not a valid command!</red>"
 
   COMMAND_FAIL_ARGS_COUNT_OVER:
-    enabled: true
-    message: '&3[SpawnStar] &cToo many arguments!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Too many arguments!</red>"
 
   COMMAND_FAIL_ARGS_COUNT_UNDER:
-    enabled: true
-    message: '&3[SpawnStar] &cToo few arguments!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Too few arguments!</red>"
 
   COMMAND_FAIL_DESTROY_CONSOLE:
-    enabled: true
-    message: '&3[SpawnStar] &cYou must be in game to destroy SpawnStar items!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>You must be in game to destroy SpawnStar items!</red>"
 
   COMMAND_FAIL_DESTROY_NO_MATCH:
-    enabled: true
-    message: '&3[SpawnStar] &cThe item you are holding is not a SpawnStar item!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>The item you are holding is not a SpawnStar item!</red>"
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
-    enabled: true
-    message: '&3Could not give %ITEM_NAME% to %TARGET_PLAYER% because their inventory is full.'
+    MESSAGE_TEXT: "<dark_aqua>Could not give {ITEM_NAME} to {TARGET_PLAYER} because their inventory is full.</dark_aqua>"
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
-    enabled: true
-    message: '&3That player could not be found.'
+    MESSAGE_TEXT: "<dark_aqua>That player could not be found.</dark_aqua>"
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE:
-    enabled: true
-    message: '&3That player is not online.'
+    MESSAGE_TEXT: "<dark_aqua>That player is not online.</dark_aqua>"
 
   COMMAND_FAIL_GIVE_QUANTITY_INVALID:
-    enabled: true
-    message: '&3[SpawnStar] &cInvalid quantity!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Invalid quantity!</red>"
 
   COMMAND_FAIL_DESTROY_PERMISSION:
-    enabled: true
-    message: '&cYou do not have permission to destroy SpawnStar items!'
+    MESSAGE_TEXT: "<red>You do not have permission to destroy SpawnStar items!</red>"
 
   COMMAND_FAIL_GIVE_PERMISSION:
-    enabled: true
-    message: '&cYou do not have permission to give SpawnStar items!'
+    MESSAGE_TEXT: "<red>You do not have permission to give SpawnStar items!</red>"
 
   COMMAND_FAIL_RELOAD_PERMISSION:
-    enabled: true
-    message: '&cYou do not have permission to reload the configuration!'
+    MESSAGE_TEXT: "<red>You do not have permission to reload the configuration!</red>"
 
   COMMAND_FAIL_STATUS_PERMISSION:
-    enabled: true
-    message: '&cYou do not have permission to view SpawnStar settings!'
+    MESSAGE_TEXT: "<red>You do not have permission to view SpawnStar settings!</red>"
 
   COMMAND_FAIL_HELP_PERMISSION:
-    enabled: true
-    message: '&cYou do not have permission to view SpawnStar help!'
+    MESSAGE_TEXT: "<red>You do not have permission to view SpawnStar help!</red>"
+
+
+  #########################
+  # Status command messages
+  #########################
+  COMMAND_STATUS_BANNER:
+    MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                    =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                    </strikethrough></gradient>"
+
+  COMMAND_STATUS_FOOTER:
+    MESSAGE_TEXT: "<newline><dark_aqua>Proudly built with <click:open_url:{URL}><blue><underlined>MessageBuilderLib<underlined></blue></click></dark_aqua>"
+
+  COMMAND_STATUS_PLUGIN_VERSION:
+    MESSAGE_TEXT: "<green>Version:</green> {VERSION}"
+
+  COMMAND_STATUS_LANGUAGE:
+    MESSAGE_TEXT: "<green>Language:</green> {LANGUAGE}"
+
+  COMMAND_STATUS_LOCALE:
+    MESSAGE_TEXT: "<green>Locale:</green> {LOCALE}"
+
+  COMMAND_STATUS_TIMEZONE:
+    MESSAGE_TEXT: "<green>Timezone:</green> {TIMEZONE}"
+
+  COMMAND_STATUS_MATERIAL:
+    MESSAGE_TEXT: "<green>Material:</green> {MATERIAL}"
+
+  COMMAND_STATUS_MINIMUM_DISTANCE:
+    MESSAGE_TEXT: "<green>Minimum distance:</green> {MINIMUM_DISTANCE}"
+
+  COMMAND_STATUS_TELEPORT_DISTANCE:
+    MESSAGE_TEXT: "<green>Teleport warmup:</green> {DURATION}"
+
+  COMMAND_STATUS_SHIFT_CLICK:
+    MESSAGE_TEXT: "<green>Shift-click required:</green> {BOOLEAN}"
+
+  COMMAND_STATUS_INVENTORY_REMOVAL:
+    MESSAGE_TEXT: "<green>Remove from inventory:</green> {INVENTORY_REMOVAL}"
+
+  COMMAND_STATUS_ALLOW_IN_RECIPES:
+    MESSAGE_TEXT: "<green>Allow in recipes:</green> {BOOLEAN}"
+
+  COMMAND_STATUS_DISPLAY_LIGHTNING:
+    MESSAGE_TEXT: "<green>Display lightning:</green> {BOOLEAN}"
+
+  COMMAND_STATUS_ENABLED_WORLDS:
+    MESSAGE_TEXT: "<green>Enabled Words:</green> {ENABLED_WORLDS}"
+
 
   TELEPORT_SUCCESS:
-    enabled: true
-    message: '&3Returned to &b%DESTINATION_WORLD% spawn&3.'
-    title: '&3%DESTINATION_WORLD% Spawn'
-#    subtitle: '&3%DESTINATION_WORLD% Spawn'
+    MESSAGE_TEXT: "<dark_aqua>Returned to &b{DESTINATION_WORLD} spawn.</dark_aqua>"
+    TITLE_TEXT: "<dark_aqua>{DESTINATION_WORLD} Spawn</dark_aqua>"
+#    SUBTITLE_TEXT: "{DESTINATION_WORLD} Spawn"
 
   TELEPORT_FAIL_PERMISSION:
-    enabled: true
-    repeat-delay: 1
-    message: '&cYou do not have permission to use &b%ITEM_NAME%&3 in %RECIPIENT_LOCATION_WORLD%.'
+    ENABLED: true
+    REPEAT_DELAY: 1
+    MESSAGE_TEXT: "<red>You do not have permission to use <aqua>{ITEM_NAME}</aqua> <dark_aqua>in {RECIPIENT_LOCATION_WORLD}.</dark_aqua>"
 
   TELEPORT_FAIL_MIN_DISTANCE:
-    enabled: true
-    repeat-delay: 1
-    message: '&3You are too close to spawn to use a %ITEM_NAME%.'
+    ENABLED: true
+    REPEAT_DELAY: 1
+    MESSAGE_TEXT: "<dark_aqua>You are too close to spawn to use a {ITEM_NAME}.</dark_aqua>"
 
   TELEPORT_FAIL_SHIFT_CLICK:
-    enabled: true
-    repeat-delay: 1
-    message: '&3You must shift-click to use a %ITEM_NAME%.'
+    ENABLED: true
+    REPEAT_DELAY: 1
+    MESSAGE_TEXT: "<dark_aqua>You must shift-click to use a {ITEM_NAME}.</dark_aqua>"
 
   TELEPORT_FAIL_WORLD_DISABLED:
-    enabled: true
-    repeat-delay: 1
-    message: '&3SpawnStars are not enabled in this world.'
+    REPEAT_DELAY: 1
+    MESSAGE_TEXT: "<dark_aqua>SpawnStars are not enabled in this world.</dark_aqua>"
 
   TELEPORT_CANCELLED_DAMAGE:
-    enabled: true
-    message: '&cTeleport cancelled by damage!'
+    MESSAGE_TEXT: "<red>Teleport cancelled by damage!</red>"
 
   TELEPORT_CANCELLED_INTERACTION:
-    enabled: true
-    message: '&cTeleport cancelled by interaction!'
+    MESSAGE_TEXT: "<red>Teleport cancelled by interaction!</red>"
 
   TELEPORT_CANCELLED_MOVEMENT:
-    enabled: true
-    message: '&cTeleport cancelled by movement!'
+    MESSAGE_TEXT: "<red>Teleport cancelled by movement!</red>"
 
   TELEPORT_CANCELLED_NO_ITEM:
-    enabled: true
-    message: '&cYou no longer have a SpawnStar item!'
+    MESSAGE_TEXT: "<red>You no longer have a SpawnStar item!</red>"
 
   TELEPORT_COOLDOWN:
-    enabled: true
-    repeat-delay: 1
-    message: '&3You need to wait &b%DURATION%&3 to use another %ITEM_NAME%.'
+    REPEAT_DELAY: 1
+    MESSAGE_TEXT: "<dark_aqua>You need to wait <aqua>{DURATION}</aqua> to use another {ITEM_NAME}.</dark_aqua>"
 
   TELEPORT_WARMUP:
-    enabled: true
-    message: '&3Teleporting to &b%RECIPIENT_LOCATION_WORLD% Spawn&3 in &b%DURATION%&3...'
+    MESSAGE_TEXT: "<dark_aqua>Teleporting to <aqua>{RECIPIENT_LOCATION_WORLD} Spawn</aqua> in <aqua>{DURATION}</aqua>...</dark_aqua>"
 
   TELEPORT_LOG_USAGE:
-    enabled: true
-    message: "&b%TARGET_PLAYER%&r used a %ITEM%&r in &3%DESTINATION_WORLD%&r."
+    MESSAGE_TEXT: "<aqua>{TARGET_PLAYER}</aqua> used a <aqua>{ITEM}</aqua> in <dark_aqua>{DESTINATION_WORLD}</dark_aqua>."
