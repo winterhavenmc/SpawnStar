@@ -17,6 +17,7 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
+import com.winterhavenmc.library.time.TimeUnit;
 import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
@@ -25,8 +26,6 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 import java.util.Objects;
-
-import static com.winterhavenmc.library.TimeUnit.SECONDS;
 
 
 final class StatusSubcommand extends AbstractSubcommand
@@ -65,32 +64,32 @@ final class StatusSubcommand extends AbstractSubcommand
 		}
 
 		// output config settings
-		showPluginVersion(sender);
-		showDebugSetting(sender);
-		showLanguageSetting(sender);
-		showDefaultMaterialSetting(sender);
-		showMinimumDistanceSetting(sender);
-		showTeleportWarmupSetting(sender);
-		showTeleportCooldownSetting(sender);
-		showShiftClickSetting(sender);
-		showCancelOnMovementSetting(sender);
-		showRemoveFromInventorySetting(sender);
-		showAllowInRecipesSetting(sender);
-		showLightningSetting(sender);
-		showEnabledWorlds(sender);
+		displayPluginVersion(sender);
+		displayDebugSetting(sender);
+		displayLanguageSetting(sender);
+		displayDefaultMaterialSetting(sender);
+		displayMinimumDistanceSetting(sender);
+		displayTeleportWarmupSetting(sender);
+		displayTeleportCooldownSetting(sender);
+		displayShiftClickSetting(sender);
+		displayCancelOnMovementSetting(sender);
+		displayRemoveFromInventorySetting(sender);
+		displayAllowInRecipesSetting(sender);
+		displayLightningSetting(sender);
+		displayEnabledWorlds(sender);
 
 		return true;
 	}
 
 
-	private void showPluginVersion(final CommandSender sender)
+	private void displayPluginVersion(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.DARK_AQUA + "[SpawnStar] "
 				+ ChatColor.AQUA + "Version: " + ChatColor.RESET + plugin.getDescription().getVersion());
 	}
 
 
-	private void showDebugSetting(final CommandSender sender)
+	private void displayDebugSetting(final CommandSender sender)
 	{
 		if (plugin.getConfig().getBoolean("debug"))
 		{
@@ -99,51 +98,51 @@ final class StatusSubcommand extends AbstractSubcommand
 	}
 
 
-	private void showLanguageSetting(final CommandSender sender)
+	private void displayLanguageSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Language: "
 				+ ChatColor.RESET + plugin.getConfig().getString("language"));
 	}
 
 
-	private void showDefaultMaterialSetting(final CommandSender sender)
+	private void displayDefaultMaterialSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Default material: "
 				+ ChatColor.RESET + plugin.getConfig().getString("item-material"));
 	}
 
 
-	private void showMinimumDistanceSetting(final CommandSender sender)
+	private void displayMinimumDistanceSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Minimum distance: "
 				+ ChatColor.RESET + plugin.getConfig().getInt("minimum-distance"));
 	}
 
 
-	private void showTeleportWarmupSetting(final CommandSender sender)
+	private void displayTeleportWarmupSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Warmup: "
 				+ ChatColor.RESET
-				+ plugin.messageBuilder.getTimeString(SECONDS.toMillis(plugin.getConfig().getInt("teleport-warmup"))));
+				+ plugin.messageBuilder.getTimeString(TimeUnit.SECONDS.toMillis(plugin.getConfig().getInt("teleport-warmup"))));
 	}
 
 
-	private void showTeleportCooldownSetting(final CommandSender sender)
+	private void displayTeleportCooldownSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
 				+ ChatColor.RESET
-				+ plugin.messageBuilder.getTimeString(SECONDS.toMillis(plugin.getConfig().getInt("teleport-cooldown"))));
+				+ plugin.messageBuilder.getTimeString(TimeUnit.SECONDS.toMillis(plugin.getConfig().getInt("teleport-cooldown"))));
 	}
 
 
-	private void showShiftClickSetting(final CommandSender sender)
+	private void displayShiftClickSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Shift-click required: "
 				+ ChatColor.RESET + plugin.getConfig().getBoolean("shift-click"));
 	}
 
 
-	private void showCancelOnMovementSetting(final CommandSender sender)
+	private void displayCancelOnMovementSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN
 				+ "Cancel on damage/movement/interaction: " + ChatColor.RESET + "[ "
@@ -153,21 +152,21 @@ final class StatusSubcommand extends AbstractSubcommand
 	}
 
 
-	private void showRemoveFromInventorySetting(final CommandSender sender)
+	private void displayRemoveFromInventorySetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Remove from inventory: "
 				+ ChatColor.RESET + plugin.getConfig().getString("remove-from-inventory"));
 	}
 
 
-	private void showAllowInRecipesSetting(final CommandSender sender)
+	private void displayAllowInRecipesSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Allow in recipes: "
 				+ ChatColor.RESET + plugin.getConfig().getBoolean("allow-in-recipes"));
 	}
 
 
-	private void showLightningSetting(final CommandSender sender)
+	private void displayLightningSetting(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Lightning: "
 				+ ChatColor.RESET + plugin.getConfig().getBoolean("lightning"));
@@ -175,7 +174,7 @@ final class StatusSubcommand extends AbstractSubcommand
 	}
 
 
-	private void showEnabledWorlds(final CommandSender sender)
+	private void displayEnabledWorlds(final CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.GREEN + "Enabled Worlds: "
 				+ ChatColor.RESET + plugin.worldManager.getEnabledWorldNames().toString());
