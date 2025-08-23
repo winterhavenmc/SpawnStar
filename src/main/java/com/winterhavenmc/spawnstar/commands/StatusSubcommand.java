@@ -17,13 +17,14 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
-import com.winterhavenmc.library.time.TimeUnit;
 import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,6 +68,8 @@ final class StatusSubcommand extends AbstractSubcommand
 		displayPluginVersion(sender);
 		displayDebugSetting(sender);
 		displayLanguageSetting(sender);
+		displayLocaleSetting(sender);
+		displayTimezoneSetting(sender);
 		displayDefaultMaterialSetting(sender);
 		displayMinimumDistanceSetting(sender);
 		displayTeleportWarmupSetting(sender);
@@ -77,15 +80,25 @@ final class StatusSubcommand extends AbstractSubcommand
 		displayAllowInRecipesSetting(sender);
 		displayLightningSetting(sender);
 		displayEnabledWorlds(sender);
+		displayStatusFooter(sender);
 
 		return true;
 	}
 
 
+	private void displayStatusBanner(final CommandSender sender)
+	{
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_BANNER)
+				.setMacro(Macro.PLUGIN, plugin.getDescription().getName())
+				.send();
+	}
+
+
 	private void displayPluginVersion(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.DARK_AQUA + "[SpawnStar] "
-				+ ChatColor.AQUA + "Version: " + ChatColor.RESET + plugin.getDescription().getVersion());
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_PLUGIN_VERSION)
+				.setMacro(Macro.VERSION, plugin.getDescription().getVersion())
+				.send();
 	}
 
 
@@ -100,45 +113,65 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayLanguageSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Language: "
-				+ ChatColor.RESET + plugin.getConfig().getString("language"));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_LANGUAGE)
+				.setMacro(Macro.LANGUAGE, plugin.getConfig().getString("language"))
+				.send();
+	}
+
+
+	private void displayLocaleSetting(final CommandSender sender)
+	{
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_LOCALE)
+				.setMacro(Macro.LOCALE, plugin.getConfig().getString("locale"))
+				.send();
+	}
+
+
+	private void displayTimezoneSetting(final CommandSender sender)
+	{
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_TIMEZONE)
+				.setMacro(Macro.TIMEZONE, plugin.getConfig().getString("timezone", ZoneId.systemDefault().toString()))
+				.send();
 	}
 
 
 	private void displayDefaultMaterialSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Default material: "
-				+ ChatColor.RESET + plugin.getConfig().getString("item-material"));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_DEFAULT_MATERIAL)
+				.setMacro(Macro.MATERIAL, plugin.getConfig().getString("item-material", ZoneId.systemDefault().toString()))
+				.send();
 	}
 
 
 	private void displayMinimumDistanceSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Minimum distance: "
-				+ ChatColor.RESET + plugin.getConfig().getInt("minimum-distance"));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_MINIMUM_DISTANCE)
+				.setMacro(Macro.MINIMUM_DISTANCE, plugin.getConfig().getString("minimum-distance"))
+				.send();
 	}
 
 
 	private void displayTeleportWarmupSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Warmup: "
-				+ ChatColor.RESET
-				+ plugin.messageBuilder.getTimeString(TimeUnit.SECONDS.toMillis(plugin.getConfig().getInt("teleport-warmup"))));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_TELEPORT_WARMUP)
+				.setMacro(Macro.DURATION, plugin.getConfig().getString("teleport-warmup"))
+				.send();
 	}
 
 
 	private void displayTeleportCooldownSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Cooldown: "
-				+ ChatColor.RESET
-				+ plugin.messageBuilder.getTimeString(TimeUnit.SECONDS.toMillis(plugin.getConfig().getInt("teleport-cooldown"))));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_TELEPORT_COOLDOWN)
+				.setMacro(Macro.DURATION, plugin.getConfig().getString("teleport-cooldown"))
+				.send();
 	}
 
 
 	private void displayShiftClickSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Shift-click required: "
-				+ ChatColor.RESET + plugin.getConfig().getBoolean("shift-click"));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_SHIFT_CLICK)
+				.setMacro(Macro.BOOLEAN, plugin.getConfig().getString("shift-click"))
+				.send();
 	}
 
 
@@ -154,30 +187,42 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayRemoveFromInventorySetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Remove from inventory: "
-				+ ChatColor.RESET + plugin.getConfig().getString("remove-from-inventory"));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_INVENTORY_REMOVAL)
+				.setMacro(Macro.INVENTORY_REMOVAL, plugin.getConfig().getString("remove-from-inventory"))
+				.send();
 	}
 
 
 	private void displayAllowInRecipesSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Allow in recipes: "
-				+ ChatColor.RESET + plugin.getConfig().getBoolean("allow-in-recipes"));
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_ALLOW_IN_RECIPES)
+				.setMacro(Macro.BOOLEAN, plugin.getConfig().getString("allow-in-recipes"))
+				.send();
 	}
 
 
 	private void displayLightningSetting(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Lightning: "
-				+ ChatColor.RESET + plugin.getConfig().getBoolean("lightning"));
-
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_DISPLAY_LIGHTNING)
+				.setMacro(Macro.BOOLEAN, plugin.getConfig().getString("lightning"))
+				.send();
 	}
 
 
 	private void displayEnabledWorlds(final CommandSender sender)
 	{
-		sender.sendMessage(ChatColor.GREEN + "Enabled Worlds: "
-				+ ChatColor.RESET + plugin.worldManager.getEnabledWorldNames().toString());
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_ENABLED_WORLDS)
+				.setMacro(Macro.ENABLED_WORLDS, plugin.worldManager.getEnabledWorldNames().toString())
+				.send();
+	}
+
+
+	private void displayStatusFooter(final CommandSender sender)
+	{
+		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_FOOTER)
+				.setMacro(Macro.PLUGIN, plugin.getDescription().getName())
+				.setMacro(Macro.URL, "https://github.com/winterhavenmc/MessageBuilderLib")
+				.send();
 	}
 
 }
