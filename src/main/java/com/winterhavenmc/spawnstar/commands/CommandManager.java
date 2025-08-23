@@ -145,15 +145,25 @@ public final class CommandManager implements TabExecutor {
 	 * @param matchString the string prefix to match against command names
 	 * @return List of String - command names that match prefix and sender has permission
 	 */
-	private List<String> getMatchingSubcommandNames(final CommandSender sender, final String matchString) {
-
-		return subcommandRegistry.getKeys().stream()
-				.map(subcommandRegistry::getSubcommand)
-				.filter(Optional::isPresent)
-				.filter(subcommand -> sender.hasPermission(subcommand.get().getPermissionNode()))
-				.map(subcommand -> subcommand.get().getName())
-				.filter(name -> name.toLowerCase().startsWith(matchString.toLowerCase()))
-				.collect(Collectors.toList());
+	private List<String> matchingNames(final CommandSender sender, final String matchString)
+	{
+		return subcommandRegistry.getNames().stream()
+				.filter(hasPermission(sender))
+				.filter(matchesPrefix(matchString))
+				.toList();
 	}
 
+
+	private Predicate<String> hasPermission(final CommandSender sender)
+	{
+		return subcommandName -> subcommandRegistry.getSubcommand(subcommandName)
+				.map(subcommand -> sender.hasPermission(subcommand.getPermissionNode()))
+				.orElse(false);
+	}
+
+
+	private Predicate<String> matchesPrefix(final String prefix)
+	{
+		return subcommandName -> subcommandName.startsWith(prefix.toLowerCase());
+	}
 }
