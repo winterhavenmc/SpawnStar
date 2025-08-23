@@ -27,18 +27,15 @@ import org.bukkit.command.TabExecutor;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 
 /**
  * Implements command executor and tab completer for SpawnStar commands.
  */
-public final class CommandManager implements TabExecutor {
-
-	// reference to main class
+public final class CommandManager implements TabExecutor
+{
 	private final PluginMain plugin;
-
-	// instantiate subcommand map
 	private final SubcommandRegistry subcommandRegistry = new SubcommandRegistry();
 
 
@@ -47,9 +44,8 @@ public final class CommandManager implements TabExecutor {
 	 *
 	 * @param plugin reference to main class
 	 */
-	public CommandManager(final PluginMain plugin) {
-
-		// set reference to main class
+	public CommandManager(final PluginMain plugin)
+	{
 		this.plugin = plugin;
 
 		// register this class as command executor
@@ -75,13 +71,14 @@ public final class CommandManager implements TabExecutor {
 	                                  final String[] args) {
 
 		// if more than one argument, use tab completer of subcommand
-		if (args.length > 1) {
-
+		if (args.length > 1)
+		{
 			// get subcommand from map
 			Optional<Subcommand> optionalSubcommand = subcommandRegistry.getSubcommand(args[0]);
 
 			// if no subcommand returned from map, return empty list
-			if (optionalSubcommand.isEmpty()) {
+			if (optionalSubcommand.isEmpty())
+			{
 				return Collections.emptyList();
 			}
 
@@ -93,7 +90,7 @@ public final class CommandManager implements TabExecutor {
 		}
 
 		// return list of subcommands for which sender has permission
-		return getMatchingSubcommandNames(sender, args[0]);
+		return matchingNames(sender, args[0]);
 	}
 
 
@@ -104,46 +101,47 @@ public final class CommandManager implements TabExecutor {
 	public boolean onCommand(final @Nonnull CommandSender sender,
 	                         final @Nonnull Command cmd,
 	                         final @Nonnull String label,
-	                         final String[] args) {
-
+	                         final String[] args)
+	{
 		// convert args array to list
 		List<String> argsList = new ArrayList<>(Arrays.asList(args));
 
 		String subcommandName;
 
 		// get subcommand, remove from front of list
-		if (argsList.size() > 0) {
-			subcommandName = argsList.remove(0);
+		if (!argsList.isEmpty())
+		{
+			subcommandName = argsList.removeFirst();
 		}
-
-		// if no arguments, set command to help
-		else {
+		else
+		{
 			subcommandName = "help";
 		}
 
 		// get subcommand from map by name
-		Optional<Subcommand> optionalSubcommand = subcommandRegistry.getSubcommand(subcommandName);
+		Optional<Subcommand> subcommand = subcommandRegistry.getSubcommand(subcommandName);
 
 		// if subcommand is null, get help command from map
-		if (optionalSubcommand.isEmpty()) {
-			optionalSubcommand = subcommandRegistry.getSubcommand("help");
+		if (subcommand.isEmpty())
+		{
+			subcommand = subcommandRegistry.getSubcommand("help");
 			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_INVALID);
 		}
 
 		// execute subcommand
-		optionalSubcommand.ifPresent( subcommand -> subcommand.onCommand(sender, argsList) );
+		subcommand.ifPresent( sc -> sc.onCommand(sender, argsList) );
 
 		return true;
 	}
 
 
 	/**
-	 * Get matching list of subcommands for which sender has permission
+	 * Get matching list of subcommand names for which sender has permission
 	 *
 	 * @param sender the command sender
 	 * @param matchString the string prefix to match against command names
-	 * @return List of String - command names that match prefix and sender has permission
+	 * @return List of String - command names that match prefix and sender permission
 	 */
 	private List<String> matchingNames(final CommandSender sender, final String matchString)
 	{
