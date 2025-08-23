@@ -101,7 +101,7 @@ final class GiveSubcommand extends AbstractSubcommand
 		}
 
 		// get passed player name
-		String targetPlayerName = args.get(0);
+		String targetPlayerName = args.getFirst();
 
 		// try to match target player name to currently online player
 		Player targetPlayer = plugin.getServer().getPlayer(targetPlayerName);
