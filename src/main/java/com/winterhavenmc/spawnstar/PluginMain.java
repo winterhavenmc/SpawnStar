@@ -19,8 +19,6 @@ package com.winterhavenmc.spawnstar;
 
 import com.winterhavenmc.spawnstar.commands.CommandManager;
 import com.winterhavenmc.spawnstar.listeners.PlayerEventListener;
-import com.winterhavenmc.spawnstar.messages.Macro;
-import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.util.MetricsHandler;
 import com.winterhavenmc.spawnstar.util.SpawnStarUtility;
@@ -41,7 +39,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class PluginMain extends JavaPlugin
 {
-	public MessageBuilder<MessageId, Macro> messageBuilder;
+	public MessageBuilder messageBuilder;
 	public SoundConfiguration soundConfig;
 	public TeleportHandler teleportHandler;
 	public WorldManager worldManager;
@@ -57,7 +55,7 @@ public final class PluginMain extends JavaPlugin
 		saveDefaultConfig();
 
 		// instantiate message builder
-		messageBuilder = new MessageBuilder<>(this);
+		messageBuilder = MessageBuilder.create(this);
 
 		// instantiate sound configuration
 		soundConfig = new YamlSoundConfiguration(this);
