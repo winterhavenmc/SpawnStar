@@ -1,5 +1,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/09da84bdbd6c4335a49406e8b17e33d3)](https://app.codacy.com/gh/winterhavenmc/SpawnStar/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Spigot Version](https://badgen.net/static/spigot-api/1.21.7?color=yellow)](https://spigotmc.org)
+[![Spigot Version](https://badgen.net/static/spigot-api/1.21.8?color=yellow)](https://spigotmc.org)
 &nbsp;[![License](https://badgen.net/static/license/GPLv3)](https://www.gnu.org/licenses/gpl-3.0)
 
 # SpawnStar
