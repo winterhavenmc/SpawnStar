@@ -21,7 +21,6 @@ import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,8 +34,8 @@ import java.util.Objects;
  * Class that extends BukkitRunnable to teleport a player to the world spawn location
  * after a configured warmup period.
  */
-final class DelayedTeleportTask extends BukkitRunnable {
-
+final class DelayedTeleportTask extends BukkitRunnable
+{
 	// reference to main class
 	private final PluginMain plugin;
 
@@ -64,8 +63,8 @@ final class DelayedTeleportTask extends BukkitRunnable {
 	DelayedTeleportTask(final PluginMain plugin,
 	                    final Player player,
 	                    final Location destination,
-	                    final ItemStack playerItem) {
-
+	                    final ItemStack playerItem)
+	{
 		// check for null parameters
 		this.plugin = Objects.requireNonNull(plugin);
 		this.player = Objects.requireNonNull(player);
@@ -73,8 +72,8 @@ final class DelayedTeleportTask extends BukkitRunnable {
 		this.playerItem = Objects.requireNonNull(playerItem);
 
 		// start repeating task for generating particles at player location
-		if (plugin.getConfig().getBoolean("particle-effects")) {
-
+		if (plugin.getConfig().getBoolean("particle-effects"))
+		{
 			// start particle task, with 2 tick delay so it doesn't self cancel on first run
 			particleTask = new ParticleTask(plugin, player).runTaskTimer(plugin, 2L, 10);
 		}
@@ -82,24 +81,26 @@ final class DelayedTeleportTask extends BukkitRunnable {
 
 
 	@Override
-	public void run() {
-
+	public void run()
+	{
 		// cancel particles task
 		particleTask.cancel();
 
 		// if player is in warmup map
-		if (plugin.teleportHandler.isWarmingUp(player)) {
-
+		if (plugin.teleportHandler.isWarmingUp(player))
+		{
 			// remove player from warmup map
 			plugin.teleportHandler.removeWarmingUpPlayer(player);
 
 			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
-			if ("on-success".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory"))) {
-
+			if ("on-success".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory")))
+			{
 				// try to remove one SpawnStar item from player inventory
 				boolean notRemoved = true;
-				for (ItemStack itemStack : player.getInventory()) {
-					if (playerItem.isSimilar(itemStack)) {
+				for (ItemStack itemStack : player.getInventory())
+				{
+					if (playerItem.isSimilar(itemStack))
+					{
 						ItemStack removeItem = itemStack.clone();
 						removeItem.setAmount(1);
 						player.getInventory().removeItem(removeItem);
@@ -109,7 +110,8 @@ final class DelayedTeleportTask extends BukkitRunnable {
 				}
 
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
-				if (notRemoved) {
+				if (notRemoved)
+				{
 					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
 					plugin.teleportHandler.startPlayerCooldown(player);
@@ -132,7 +134,8 @@ final class DelayedTeleportTask extends BukkitRunnable {
 			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
 
 			// if lightning is enabled in config, strike lightning at spawn location
-			if (plugin.getConfig().getBoolean("lightning")) {
+			if (plugin.getConfig().getBoolean("lightning"))
+			{
 				player.getWorld().strikeLightningEffect(destination);
 			}
 

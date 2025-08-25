@@ -27,8 +27,8 @@ import java.util.Collections;
 import java.util.List;
 
 
-abstract class AbstractSubcommand implements Subcommand {
-
+abstract class AbstractSubcommand implements Subcommand
+{
 	protected String name;
 	protected Collection<String> aliases = new ArrayList<>();
 	protected String usage;
@@ -39,44 +39,52 @@ abstract class AbstractSubcommand implements Subcommand {
 
 
 	@Override
-	public final String getName() {
+	public final String getName()
+	{
 		return name;
 	}
 
 	@Override
-	public final String getUsage() {
+	public final String getUsage()
+	{
 		return usage;
 	}
 
 	@Override
-	public final void displayUsage(final CommandSender sender) {
+	public final void displayUsage(final CommandSender sender)
+	{
 		sender.sendMessage(usage);
 	}
 
 	@Override
-	public final MessageId getDescription() {
+	public final MessageId getDescription()
+	{
 		return description;
 	}
 
 	@Override
-	public final String getPermissionNode() {
+	public final String getPermissionNode()
+	{
 		return permissionNode;
 	}
 
 	@Override
-	public final int getMinArgs() {
+	public final int getMinArgs()
+	{
 		return minArgs;
 	}
 
 	@Override
-	public final int getMaxArgs() {
+	public final int getMaxArgs()
+	{
 		return maxArgs;
 	}
 
 
 	@Override
 	public List<String> onTabComplete(final CommandSender sender, final Command command,
-	                                  final String alias, final String[] args) {
+	                                  final String alias, final String[] args)
+	{
 
 		return Collections.emptyList();
 	}

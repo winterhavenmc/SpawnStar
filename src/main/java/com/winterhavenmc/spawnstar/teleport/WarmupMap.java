@@ -25,8 +25,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-class WarmupMap {
-
+class WarmupMap
+{
 	// reference to plugin main class
 	private final JavaPlugin plugin;
 
@@ -37,9 +37,8 @@ class WarmupMap {
 	private final Set<UUID> teleportInitiated;
 
 
-
-	WarmupMap(final JavaPlugin plugin) {
-
+	WarmupMap(final JavaPlugin plugin)
+	{
 		// set reference to main class
 		this.plugin = plugin;
 
@@ -56,7 +55,8 @@ class WarmupMap {
 	 *
 	 * @param player the player to remove from the warmup map
 	 */
-	void removePlayer(final Player player) {
+	void removePlayer(final Player player)
+	{
 		warmupMap.remove(player.getUniqueId());
 	}
 
@@ -67,7 +67,8 @@ class WarmupMap {
 	 * @param player the player to test if in warmup map
 	 * @return {@code true} if player is in warmup map, {@code false} if not
 	 */
-	boolean isWarmingUp(final Player player) {
+	boolean isWarmingUp(final Player player)
+	{
 		return warmupMap.containsKey(player.getUniqueId());
 	}
 
@@ -78,7 +79,8 @@ class WarmupMap {
 	 * @param player the player to be inserted in the warmup map
 	 * @param taskId the taskId of the player's delayed teleport task
 	 */
-	void startPlayerWarmUp(final Player player, final Integer taskId) {
+	void startPlayerWarmUp(final Player player, final Integer taskId)
+	{
 
 		warmupMap.put(player.getUniqueId(), taskId);
 
@@ -86,9 +88,11 @@ class WarmupMap {
 		teleportInitiated.add(player.getUniqueId());
 
 		// create task to remove player uuid from tpi set after set amount of ticks (default: 2)
-		new BukkitRunnable() {
+		new BukkitRunnable()
+		{
 			@Override
-			public void run() {
+			public void run()
+			{
 				teleportInitiated.remove(player.getUniqueId());
 			}
 		}.runTaskLater(plugin, plugin.getConfig().getInt("interact-delay", 2));
@@ -96,12 +100,14 @@ class WarmupMap {
 	}
 
 
-	boolean containsPlayer(final Player player) {
+	boolean containsPlayer(final Player player)
+	{
 		return warmupMap.containsKey(player.getUniqueId());
 	}
 
 
-	int getTaskId(final Player player) {
+	int getTaskId(final Player player)
+	{
 		return warmupMap.get(player.getUniqueId());
 	}
 
@@ -112,10 +118,10 @@ class WarmupMap {
 	 * @param player the player to check if teleport is initiated
 	 * @return {@code true} if teleport been initiated, {@code false} if it has not
 	 */
-	boolean isInitiated(final Player player) {
-
-		// check for null parameter
-		if (player == null) {
+	boolean isInitiated(final Player player)
+	{
+		if (player == null)
+		{
 			return false;
 		}
 

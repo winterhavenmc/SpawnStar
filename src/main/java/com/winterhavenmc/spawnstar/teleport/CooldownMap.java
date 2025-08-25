@@ -17,25 +17,27 @@
 
 package com.winterhavenmc.spawnstar.teleport;
 
+import com.winterhavenmc.library.time.TimeUnit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.winterhavenmc.library.TimeUnit.SECONDS;
 
-
-class CooldownMap {
-
+class CooldownMap
+{
 	private final JavaPlugin plugin;
 
 	// hashmap to store player UUID and cooldown expire time in milliseconds
-	private final ConcurrentHashMap<UUID, Long> cooldownMap;
+	private final ConcurrentHashMap<UUID, Instant> cooldownMap;
 
 
-	CooldownMap(final JavaPlugin plugin) {
+	CooldownMap(final JavaPlugin plugin)
+	{
 		this.plugin = plugin;
 		cooldownMap = new ConcurrentHashMap<>();
 	}
@@ -47,18 +49,12 @@ class CooldownMap {
 	 *
 	 * @param player the player being inserted into the cooldown map
 	 */
-	void startPlayerCooldown(final Player player) {
-
+	void startPlayerCooldown(final Player player)
+	{
 		int cooldownSeconds = plugin.getConfig().getInt("teleport-cooldown");
-
-		Long expireTime = System.currentTimeMillis() + (SECONDS.toMillis(cooldownSeconds));
-		cooldownMap.put(player.getUniqueId(), expireTime);
-
-		new BukkitRunnable() {
-			public void run() {
-				cooldownMap.remove(player.getUniqueId());
-			}
-		}.runTaskLater(plugin, SECONDS.toTicks(cooldownSeconds));
+		Duration expTime = Duration.ofSeconds(cooldownSeconds);
+		cooldownMap.put(player.getUniqueId(), Instant.now().plus(expTime));
+		new CooldownTask(player).runTaskLater(plugin, TimeUnit.SECONDS.toTicks(cooldownSeconds));
 	}
 
 
@@ -68,12 +64,18 @@ class CooldownMap {
 	 * @param player the player whose cooldown time remaining is being retrieved
 	 * @return long remaining time in milliseconds
 	 */
-	long getCooldownTimeRemaining(final Player player) {
-		long remainingTime = 0;
-		if (cooldownMap.containsKey(player.getUniqueId())) {
-			remainingTime = (cooldownMap.get(player.getUniqueId()) - System.currentTimeMillis());
+	Duration getCooldownTimeRemaining(final Player player)
+	{
+		if (cooldownMap.containsKey(player.getUniqueId()))
+		{
+			Instant expInstant = cooldownMap.get(player.getUniqueId());
+			if (expInstant.isAfter(Instant.now()))
+			{
+				return Duration.between(Instant.now(), expInstant);
+			}
 		}
-		return remainingTime;
+
+		return Duration.ZERO;
 	}
 
 
@@ -83,8 +85,25 @@ class CooldownMap {
 	 * @param player the player to check for cooldown
 	 * @return boolean - {@code true} if player is cooling down after item use, {@code false} if not
 	 */
-	boolean isCoolingDown(final Player player) {
-		return getCooldownTimeRemaining(player) > 0;
+	boolean isCoolingDown(final Player player)
+	{
+		return getCooldownTimeRemaining(player).isPositive();
+	}
+
+
+	private class CooldownTask extends BukkitRunnable
+	{
+		private final Player player;
+
+		public CooldownTask(Player player)
+		{
+			this.player = player;
+		}
+
+		public void run()
+		{
+			cooldownMap.remove(player.getUniqueId());
+		}
 	}
 
 }

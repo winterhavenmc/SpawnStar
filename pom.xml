@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.winterhaven-mc</groupId>
 	<artifactId>SpawnStar</artifactId>
-	<version>1.21.0</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>SpawnStar</name>
 
 	<url>https://github.com/tim-savage/SpawnStar</url>
@@ -33,15 +33,15 @@
 
 	<profiles>
 		<profile>
-			<id>github</id>
+			<id>repsy</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<distributionManagement>
 				<repository>
-					<id>github</id>
-					<name>GitHub winterhavenmc Apache Maven Packages</name>
-					<url>https://maven.pkg.github.com/winterhavenmc/SpawnStar/</url>
+					<id>repsy</id>
+					<name>Repsy.io winterhavenmc Maven Packages</name>
+					<url>https://repo.repsy.io/mvn/winterhavenmc/public/</url>
 				</repository>
 			</distributionManagement>
 		</profile>
@@ -52,6 +52,13 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+			<id>repsy-repo</id>
+			<url>https://repo.repsy.io/mvn/winterhavenmc/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -59,7 +66,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.21.7-R0.1-SNAPSHOT</version>
+			<version>1.21.8-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -74,7 +81,7 @@
 		<dependency>
 			<groupId>com.winterhaven-mc</groupId>
 			<artifactId>message-builder-lib</artifactId>
-			<version>1.21.0-SNAPSHOT</version>
+			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<!-- SoundConfigLib -->

@@ -20,35 +20,43 @@ package com.winterhavenmc.spawnstar.commands;
 import com.winterhavenmc.spawnstar.PluginMain;
 
 
-enum SubcommandType {
+enum SubcommandType
+{
+	DESTROY()
+			{
+				@Override
+				Subcommand create(final PluginMain plugin)
+				{
+					return new DestroySubcommand(plugin);
+				}
+			},
 
-	DESTROY() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new DestroySubcommand(plugin);
-		}
-	},
+	GIVE()
+			{
+				@Override
+				Subcommand create(final PluginMain plugin)
+				{
+					return new GiveSubcommand(plugin);
+				}
+			},
 
-	GIVE() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new GiveSubcommand(plugin);
-		}
-	},
+	RELOAD()
+			{
+				@Override
+				Subcommand create(final PluginMain plugin)
+				{
+					return new ReloadSubcommand(plugin);
+				}
+			},
 
-	RELOAD() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new ReloadSubcommand(plugin);
-		}
-	},
-
-	STATUS() {
-		@Override
-		Subcommand create(final PluginMain plugin) {
-			return new StatusSubcommand(plugin);
-		}
-	};
+	STATUS()
+			{
+				@Override
+				Subcommand create(final PluginMain plugin)
+				{
+					return new StatusSubcommand(plugin);
+				}
+			};
 
 
 	abstract Subcommand create(PluginMain plugin);

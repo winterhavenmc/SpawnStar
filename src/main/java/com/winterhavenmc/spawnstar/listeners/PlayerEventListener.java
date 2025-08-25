@@ -17,10 +17,10 @@
 
 package com.winterhavenmc.spawnstar.listeners;
 
+import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.TileState;
@@ -39,15 +39,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Set;
 
 
 /**
  * Implements player event listener for SpawnStar events
  */
-public final class PlayerEventListener implements Listener {
-
-	// reference to main class
+public final class PlayerEventListener implements Listener
+{
 	private final PluginMain plugin;
 
 	// set to hold craft table materials
@@ -57,7 +56,7 @@ public final class PlayerEventListener implements Listener {
 			Material.FLETCHING_TABLE,
 			Material.SMITHING_TABLE,
 			Material.LOOM,
-			Material.STONECUTTER );
+			Material.STONECUTTER);
 
 
 	/**
@@ -65,12 +64,9 @@ public final class PlayerEventListener implements Listener {
 	 *
 	 * @param plugin reference to this plugin's main class
 	 */
-	public PlayerEventListener(final PluginMain plugin) {
-
-		// set reference to main class
+	public PlayerEventListener(final PluginMain plugin)
+	{
 		this.plugin = plugin;
-
-		// register events in this class
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -81,24 +77,25 @@ public final class PlayerEventListener implements Listener {
 	 * @param event PlayerInteractEvent handled by this method
 	 */
 	@EventHandler
-	void onPlayerInteract(final PlayerInteractEvent event) {
-
+	void onPlayerInteract(final PlayerInteractEvent event)
+	{
 		// get player
 		final Player player = event.getPlayer();
 
 		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
-		if (plugin.getConfig().getBoolean("cancel-on-interaction")) {
-
+		if (plugin.getConfig().getBoolean("cancel-on-interaction"))
+		{
 			// if player is in warmup hashmap, check if they are interacting with a block (not air)
-			if (plugin.teleportHandler.isWarmingUp(player)) {
-
+			if (plugin.teleportHandler.isWarmingUp(player))
+			{
 				// if player is interacting with a block, cancel teleport, output message and return
 				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
-						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-
+						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+				{
 					// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
 					// this is a workaround for event double firing (once for each hand) on every player interaction
-					if (!plugin.teleportHandler.isInitiated(player)) {
+					if (!plugin.teleportHandler.isInitiated(player))
+					{
 						return;
 					}
 
@@ -116,7 +113,8 @@ public final class PlayerEventListener implements Listener {
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!plugin.spawnStarUtility.isItem(event.getItem())) {
+		if (!ItemForge.isCustomItem(event.getItem()))
+		{
 			return;
 		}
 
@@ -124,46 +122,52 @@ public final class PlayerEventListener implements Listener {
 		Action action = event.getAction();
 
 		// if event action is PHYSICAL (not left-click or right click), do nothing and return
-		if (action.equals(Action.PHYSICAL)) {
+		if (action.equals(Action.PHYSICAL))
+		{
 			return;
 		}
 
 		// if event action is left-click, and left-click is config disabled, do nothing and return
 		if (action.equals(Action.LEFT_CLICK_BLOCK)
 				|| action.equals(Action.LEFT_CLICK_AIR)
-				&& !plugin.getConfig().getBoolean("left-click")) {
+				&& !plugin.getConfig().getBoolean("left-click"))
+		{
 			return;
 		}
 
 		// if player is not warming
-		if (!plugin.teleportHandler.isWarmingUp(player)) {
-
+		if (!plugin.teleportHandler.isWarmingUp(player))
+		{
 			// get clicked block
 			Block block = event.getClickedBlock();
 
 			// check if clicked block is air (null)
-			if (block != null) {
-
+			if (block != null)
+			{
 				// check that player is not sneaking, to interact with blocks
-				if (!event.getPlayer().isSneaking()) {
-
+				if (!event.getPlayer().isSneaking())
+				{
 					// allow use of doors, gates and trap doors with item in hand
-					if (block.getBlockData() instanceof Openable) {
+					if (block.getBlockData() instanceof Openable)
+					{
 						return;
 					}
 
 					// allow use of switches with item in hand
-					if (block.getBlockData() instanceof Switch) {
+					if (block.getBlockData() instanceof Switch)
+					{
 						return;
 					}
 
 					// allow use of containers and other tile entity blocks with item in hand
-					if (block.getState() instanceof TileState) {
+					if (block.getState() instanceof TileState)
+					{
 						return;
 					}
 
 					// allow use of crafting tables with item in hand
-					if (craftTables.contains(block.getType())) {
+					if (craftTables.contains(block.getType()))
+					{
 						return;
 					}
 				}
@@ -173,14 +177,16 @@ public final class PlayerEventListener implements Listener {
 			event.setCancelled(true);
 
 			// if players current world is not enabled in config, send message and return
-			if (!plugin.worldManager.isEnabled(player.getWorld())) {
+			if (!plugin.worldManager.isEnabled(player.getWorld()))
+			{
 				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
-			if (!player.hasPermission("spawnstar.use")) {
+			if (!player.hasPermission("spawnstar.use"))
+			{
 				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 				return;
@@ -188,7 +194,8 @@ public final class PlayerEventListener implements Listener {
 
 			// if shift-click configured and player is not sneaking, send message and return
 			if (plugin.getConfig().getBoolean("shift-click")
-					&& !player.isSneaking()) {
+					&& !player.isSneaking())
+			{
 				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
 				return;
 			}
@@ -205,8 +212,8 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	void onPlayerDeath(final PlayerDeathEvent event) {
-
+	void onPlayerDeath(final PlayerDeathEvent event)
+	{
 		// get event player
 		Player player = event.getEntity();
 
@@ -221,8 +228,8 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	void onPlayerQuit(final PlayerQuitEvent event) {
-
+	void onPlayerQuit(final PlayerQuitEvent event)
+	{
 		// get event player
 		Player player = event.getPlayer();
 
@@ -238,16 +245,19 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	void onCraftPrepare(final PrepareItemCraftEvent event) {
-
+	void onCraftPrepare(final PrepareItemCraftEvent event)
+	{
 		// if allow-in-recipes is true in configuration, do nothing and return
-		if (plugin.getConfig().getBoolean("allow-in-recipes")) {
+		if (plugin.getConfig().getBoolean("allow-in-recipes"))
+		{
 			return;
 		}
 
 		// if crafting inventory contains SpawnStar item, set result item to null
-		for (ItemStack itemStack : event.getInventory()) {
-			if (plugin.spawnStarUtility.isItem(itemStack)) {
+		for (ItemStack itemStack : event.getInventory())
+		{
+			if (ItemForge.isCustomItem(itemStack))
+			{
 				event.getInventory().setResult(null);
 			}
 		}
@@ -260,18 +270,19 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler(ignoreCancelled = true)
-	void onEntityDamage(final EntityDamageEvent event) {
-
+	void onEntityDamage(final EntityDamageEvent event)
+	{
 		// if cancel-on-damage configuration is true, check if damaged entity is player
-		if (plugin.getConfig().getBoolean("cancel-on-damage")) {
-
+		if (plugin.getConfig().getBoolean("cancel-on-damage"))
+		{
 			Entity entity = event.getEntity();
 
 			// if damaged entity is player, check for pending teleport
-			if (entity instanceof Player player) {
-
+			if (entity instanceof Player player)
+			{
 				// if player is in warmup hashmap, cancel teleport and send player message
-				if (plugin.teleportHandler.isWarmingUp(player)) {
+				if (plugin.teleportHandler.isWarmingUp(player))
+				{
 					plugin.teleportHandler.cancelTeleport(player);
 					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
 					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
@@ -287,10 +298,11 @@ public final class PlayerEventListener implements Listener {
 	 * @param event the event handled by this method
 	 */
 	@EventHandler
-	void onPlayerMovement(final PlayerMoveEvent event) {
-
+	void onPlayerMovement(final PlayerMoveEvent event)
+	{
 		// if cancel-on-movement configuration is false, do nothing and return
-		if (!plugin.getConfig().getBoolean("cancel-on-movement")) {
+		if (!plugin.getConfig().getBoolean("cancel-on-movement"))
+		{
 			return;
 		}
 
@@ -298,10 +310,11 @@ public final class PlayerEventListener implements Listener {
 		Player player = event.getPlayer();
 
 		// if player is in warmup hashmap, cancel teleport and send player message
-		if (plugin.teleportHandler.isWarmingUp(player)) {
-
+		if (plugin.teleportHandler.isWarmingUp(player))
+		{
 			// check for player movement other than head turning
-			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0) {
+			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0)
+			{
 				plugin.teleportHandler.cancelTeleport(player);
 				plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
 				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);

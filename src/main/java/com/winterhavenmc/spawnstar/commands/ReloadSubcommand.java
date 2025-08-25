@@ -20,19 +20,19 @@ package com.winterhavenmc.spawnstar.commands;
 import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 import java.util.Objects;
 
 
-final class ReloadSubcommand extends AbstractSubcommand {
-
+final class ReloadSubcommand extends AbstractSubcommand
+{
 	private final PluginMain plugin;
 
 
-	ReloadSubcommand(final PluginMain plugin) {
+	ReloadSubcommand(final PluginMain plugin)
+	{
 		this.plugin = Objects.requireNonNull(plugin);
 		this.name = "reload";
 		this.usage = "/spawnstar reload";
@@ -42,17 +42,19 @@ final class ReloadSubcommand extends AbstractSubcommand {
 
 
 	@Override
-	public boolean onCommand(final CommandSender sender, final List<String> args) {
-
+	public boolean onCommand(final CommandSender sender, final List<String> args)
+	{
 		// if sender does not have permission to reload config, send error message and return
-		if (!sender.hasPermission(permissionNode)) {
+		if (!sender.hasPermission(permissionNode))
+		{
 			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
-		if (args.size() > getMaxArgs()) {
+		if (args.size() > getMaxArgs())
+		{
 			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
@@ -76,6 +78,7 @@ final class ReloadSubcommand extends AbstractSubcommand {
 
 		// send reloaded message
 		plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
+		plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_RELOAD);
 		return true;
 	}
 

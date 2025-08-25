@@ -1,189 +1,214 @@
 # Language configuration file for ${project.name} v${project.version}
 
+# constant strings
+CONSTANTS:
+  SPAWN_DISPLAY_NAME: "Spawn"
+  TIME:
+    LESS_THAN: "weniger als {DURATION}"
+    UNLIMITED: "unbegrenzte Zeit"
+
+
 ###########
 # Item Info
 ###########
-ITEM_INFO:
-  # Item Name
-  ITEM_NAME: '&aLaichen Stern'
-  ITEM_NAME_PLURAL: '&aLaichen Sterne'
-
-  # Item Lore
-  ITEM_LORE:
-    - '&eVerwenden Sie zum Ursprung'
-    - '&eder Welt zurück'
-
-  # Spawn Display Name
-  SPAWN_DISPLAY_NAME: 'spawn'
-
-# Time strings
-TIME_STRINGS:
-  DAY: 'tag'
-  DAY_PLURAL: 'Tage'
-  HOUR: 'Stunde'
-  HOUR_PLURAL: 'Std.'
-  MINUTE: 'Minute'
-  MINUTE_PLURAL: 'Minuten'
-  SECOND: 'Sekunde'
-  SECOND_PLURAL: 'Sekunden'
-  UNLIMITED: 'unbegrenzte Zeit'
-  LESS_THAN_ONE: 'weniger als eine'
+ITEMS:
+  SPAWNSTAR:
+    MATERIAL: NETHER_STAR
+    DISPLAY_NAME: "<green>Spawnstern</green>"
+    PLURAL_NAME: "<choice:'0#0 Spawnsterne|1#1 Spawnstern|1<{QUANTITY} Spawnsterne'>"
+    LORE:
+      - "<yellow>Verwenden Sie diese Option,</yellow>"
+      - "<yellow>um zum Welt-Spawn zurückzukehren</yellow>"
 
 
-# Variable substitutions:
+# Message placeholders:
 #
-# %PLAYER%               message recipient's name
-# %ITEM_NAME%                 Item name, as defined in this file
-# %ITEM_QUANTITY%        number of items (valid in give command message only)
-# %WORLD%                World name that player is in
-# %TARGET_PLAYER%        Target player name
-# %DURATION%             time duration in seconds (valid in teleport warmup/cooldown message only)
+# {RECIPIENT}                   message recipient name
+# {RECIPIENT.LOCATION}          message recipient location as formatted string
+# {RECIPIENT.LOCATION.WORLD}    message recipient location world
+# {RECIPIENT.LOCATION.X}        message recipient location x
+# {RECIPIENT.LOCATION.Y}        message recipient location y
+# {RECIPIENT.LOCATION.Z}        message recipient location z
+# {ITEM.DISPLAY_NAME}           item display name, as defined in this file
+# {ITEM.QUANTITY}               number of items (valid in give command message only)
+# {TARGET_PLAYER}               target player name
+# {DURATION}                    time duration in seconds (valid in teleport warmup/cooldown message only)
+# {DESTINATION_WORLD}           world for teleport destination
 
-# optional repeat-delay setting is the number of seconds to wait before
-# displaying a message again (only used on appropriate messages)
+# Message Fields:
+# MESSAGE_KEY: the unique identifier for each individual message, represented by an enum constant in code
+#   MESSAGE_TEXT: string value that will be displayed as a chat message, may be omitted
+#   TITILE_TEXT: string value that will be displayed as a title, may be omitted
+#   SUBTITLE_TEXT: string value that will be displayed as a subtitle, may be omitted
+#   ENABLED: boolean value determines whether any of the message text fields will be displayed, defaults to true if omitted
+#   REPEAT_DELAY: integer value representing the number of seconds to wait before sending a message to a given player again
+#   TITLE_FADE_IN, TITLE_STAY, TITLE_FADE_OUT: integer values to override the default title fade timings (in ticks)
+
 
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
-    enabled: true
-    message: '&3[SpawnStar]&c %ITEM_NAME% zerstört!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>{ITEM.PLURAL_NAME} zerstört!</red>"
 
   COMMAND_SUCCESS_GIVE:
-    enabled: true
-    message: '&3Du hast %ITEM_QUANTITY% %ITEM_NAME%, um %TARGET_PLAYER%.'
+    MESSAGE_TEXT: "<dark_aqua>Du hast {ITEM.PLURAL_NAME}, um {TARGET_PLAYER}.</dark_aqua>"
 
   COMMAND_SUCCESS_RELOAD:
-    enabled: true
-    message: '&3[SpawnStar]&b Konfiguration neu geladen.'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <aqua>Konfiguration neu geladen.</aqua>"
 
 
   COMMAND_HELP_INVALID:
-    enabled: true
-    message: '&3[SpawnStar]&c That is not a valid command!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Das ist kein gültiger Befehl!</red>"
 
   COMMAND_HELP_DESTROY:
-    enabled: true
-    message: '&eDestroys the stack of HomeStars you are holding.'
+    MESSAGE_TEXT: "<yellow>Zerstört den Stapel Spawnsterne, den Sie halten.</yellow>"
 
   COMMAND_HELP_GIVE:
-    enabled: true
-    message: '&eGives a HomeStar to a player.'
+    MESSAGE_TEXT: "<yellow>Gibt einem Spieler Spawnsterne.</yellow>"
 
   COMMAND_HELP_HELP:
-    enabled: true
-    message: '&eDisplays help for HomeStar commands.'
+    MESSAGE_TEXT: "<yellow>Zeigt Hilfe für SpawnStar-Befehle an.</yellow>"
 
   COMMAND_HELP_RELOAD:
-    enabled: true
-    message: '&eReloads the configuration without needing to restart the server.'
+    MESSAGE_TEXT: "<yellow>Lädt die Konfiguration neu, ohne dass der Server neu gestartet werden muss.</yellow>"
 
   COMMAND_HELP_STATUS:
-    enabled: true
-    message: '&eDisplays plugin configuration settings.'
+    MESSAGE_TEXT: "<yellow>Zeigt die Plugin-Konfigurationseinstellungen an.</yellow>"
 
   COMMAND_HELP_USAGE_HEADER:
-    enabled: true
-    message: '&eCommand usage:'
+    MESSAGE_TEXT: "<yellow>Befehlsverwendung:</yellow>"
 
 
   COMMAND_FAIL_ARGS_COUNT_OVER:
-    enabled: true
-    message: '&3[SpawnStar]&c Zu viele Parameter!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Zu viele Parameter!</red>"
 
   COMMAND_FAIL_ARGS_COUNT_UNDER:
-    enabled: true
-    message: '&3[SpawnStar]&c Zu wenig Parameter!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Zu wenig Parameter!</red>"
 
   COMMAND_FAIL_DESTROY_CONSOLE:
-    enabled: true
-    message: '&3[SpawnStar]&c Du musst Spiel SpawnStar Elemente zu zerstören!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Du musst Spiel SpawnStar Elemente zu zerstören!</red>"
 
   COMMAND_FAIL_DESTROY_PERMISSION:
-    enabled: true
-    message: '&3[SpawnStar]&c Sie haben keine Berechtigung Laichen Stern zu zerstören!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Sie haben keine Berechtigung, Spawnsterne-Gegenstände zu zerstören!</red>"
 
   COMMAND_FAIL_DESTROY_NO_MATCH:
-    enabled: true
-    message: '&3[SpawnStar]&c Der Artikel Sie halten ist kein SpawnStar Artikel!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Der Gegenstand, den Sie halten, ist kein Spawnstern-Gegenstand!</red>"
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
-    enabled: true
-    message: '&3Nicht geben konnte %ITEM_NAME% zu %TARGET_PLAYER% weil ihr Inventar voll ist.'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Nicht geben konnte {ITEM.DISPLAY_NAME} zu {TARGET_PLAYER} weil ihr Inventar voll ist.</red>"
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
-    enabled: true
-    message: '&3Dieser Spieler konnte nicht gefunden werden.'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Dieser Spieler konnte nicht gefunden werden.</red>"
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_ONLINE:
-    enabled: true
-    message: '&3Dieser Spieler ist nicht online.'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Dieser Spieler ist nicht online.</red>"
 
   COMMAND_FAIL_GIVE_QUANTITY_INVALID:
-    enabled: true
-    message: '&3[SpawnStar]&c &cUngültige Anzahl!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Ungültige Anzahl!</red>"
 
   COMMAND_FAIL_GIVE_PERMISSION:
-    enabled: true
-    message: '&cSie sind nicht berechtigt, Laichen Sterne geben!'
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Du hast keine Berechtigung, Spawnsterne-Artikel zu verschenken!</red>"
 
   COMMAND_FAIL_RELOAD_PERMISSION:
-    enabled: true
-    message: '&cSie haben keine Berechtigung, die Konfiguration neu zu laden!'
+    MESSAGE_TEXT: '&cSie haben keine Berechtigung, die Konfiguration neu zu laden!'
 
   COMMAND_FAIL_STATUS_PERMISSION:
-    enabled: true
-    message: '&cSie haben keine Berechtigung, um die Einstellungen zu sehen!'
+    MESSAGE_TEXT: '&cSie haben keine Berechtigung, um die Einstellungen zu sehen!'
+
+
+  #########################
+  # Status command messages
+  #########################
+  COMMAND_STATUS_HEADER:
+    MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
+
+  COMMAND_STATUS_FOOTER:
+    MESSAGE_TEXT: "<newline><dark_aqua>Proudly built with <click:open_url:{URL}><blue><underlined>MessageBuilderLib<underlined></blue></click></dark_aqua>"
+
+  COMMAND_STATUS_PLUGIN_VERSION:
+    MESSAGE_TEXT: "<green>Version:</green> {SETTING}"
+
+  COMMAND_STATUS_LANGUAGE:
+    MESSAGE_TEXT: "<green>Language:</green> {SETTING}"
+
+  COMMAND_STATUS_LOCALE:
+    MESSAGE_TEXT: "<green>Locale:</green> {SETTING}"
+
+  COMMAND_STATUS_TIMEZONE:
+    MESSAGE_TEXT: "<green>Timezone:</green> {SETTING}"
+
+  COMMAND_STATUS_MATERIAL:
+    MESSAGE_TEXT: "<green>Material:</green> {SETTING}"
+
+  COMMAND_STATUS_MINIMUM_DISTANCE:
+    MESSAGE_TEXT: "<green>Minimum distance:</green> {SETTING}"
+
+  COMMAND_STATUS_TELEPORT_DISTANCE:
+    MESSAGE_TEXT: "<green>Teleport warmup:</green> {SETTING}"
+
+  COMMAND_STATUS_SHIFT_CLICK:
+    MESSAGE_TEXT: "<green>Shift-click required:</green> {SETTING}"
+
+  COMMAND_STATUS_INVENTORY_REMOVAL:
+    MESSAGE_TEXT: "<green>Remove from inventory:</green> {SETTING}"
+
+  COMMAND_STATUS_ALLOW_IN_RECIPES:
+    MESSAGE_TEXT: "<green>Allow in recipes:</green> {SETTING}"
+
+  COMMAND_STATUS_DISPLAY_LIGHTNING:
+    MESSAGE_TEXT: "<green>Display lightning:</green> {SETTING}"
+
+  COMMAND_STATUS_ENABLED_WORLDS:
+    MESSAGE_TEXT: "<green>Enabled Words:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_DAMAGE:
+    MESSAGE_TEXT: "<green>Cancel on damage:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_MOVEMENT:
+    MESSAGE_TEXT: "<green>Cancel on movement:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_INTERACTION:
+    MESSAGE_TEXT: "<green>Cancel on interaction:</green> {SETTING}"
+
 
   TELEPORT_SUCCESS:
-    enabled: true
-    message: '&3Rückkehr zu laichen &b%WORLD%&3.'
-    title: '&3%WORLD% Ursprung'
-  #    subtitle: '&3%WORLD% Ursprung'
+    MESSAGE_TEXT: "<dark_aqua>Zurück zum Spawnpunkt {DESTINATION_WORLD}.<dark_aqua>."
+    TITLE_TEXT: "<blue>{DESTINATION_WORLD} Spawnpunkt</blue>"
+    #SUBTITLE_TEXT: "<blue>{DESTINATION_WORLD} Spawnpunkt</blue>"
 
   TELEPORT_FAIL_PERMISSION:
-    enabled: true
-    repeat-delay: 1
-    message: '&cSie haben nicht die Erlaubnis, eine &b%ITEM_NAME%&3 in %WORLD% verwenden.'
+    MESSAGE_TEXT: "<red>Sie haben nicht die Erlaubnis, eine <aqua>{ITEM.DISPLAY_NAME}</aqua> in {RECIPIENT.LOCATION.WORLD} verwenden.</red>"
+    REPEAT_DELAY: 1
 
   TELEPORT_FAIL_MIN_DISTANCE:
-    enabled: true
-    repeat-delay: 1
-    message: '&3Sie sind zu nahe für die Verwendung einer %ITEM_NAME% laichen.'
+    MESSAGE_TEXT: "<dark_aqua>Sie sind zu nah am Spawn, um einen {ITEM.DISPLAY_NAME} zu verwenden.</dark_aqua>"
+    REPEAT_DELAY: 1
 
   TELEPORT_FAIL_SHIFT_CLICK:
-    enabled: true
-    repeat-delay: 1
-    message: '&3Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf %ITEM_NAME% verwenden.'
+    MESSAGE_TEXT: "<dark_aqua>Sie müssen halten Sie die Umschalttaste gedrückt, während Sie auf {ITEM.DISPLAY_NAME} verwenden.</dark_aqua>"
+    REPEAT_DELAY: 1
 
   TELEPORT_FAIL_WORLD_DISABLED:
-    enabled: true
-    repeat-delay: 1
-    message: '&Laichen Sterne sind in dieser Welt nicht aktiviert.'
+    MESSAGE_TEXT: "<red>Die Verwendung von Spawnsternen ist in dieser Welt nicht aktiviert.</red>"
+    REPEAT_DELAY: 1
 
   TELEPORT_CANCELLED_DAMAGE:
-    enabled: true
-    message: '&cTeleportation durch Beschädigung aufgehoben!'
+    MESSAGE_TEXT: "<red>Teleport durch erlittenen Schaden abgebrochen!</red>"
 
   TELEPORT_CANCELLED_INTERACTION:
-    enabled: true
-    message: '&cTeleportation unterbrochen durch Interaktion!'
+    MESSAGE_TEXT: "<red>Teleport durch Interaktion abgebrochen!</red>"
 
   TELEPORT_CANCELLED_MOVEMENT:
-    enabled: true
-    message: '&cTeleportation durch Bewegung abgebrochen!'
+    MESSAGE_TEXT: "<red>Teleportation durch Bewegung abgebrochen!</red>"
 
   TELEPORT_CANCELLED_NO_ITEM:
-    enabled: true
-    message: '&cSie müssen nicht mehr eine %ITEM_NAME%!'
+    MESSAGE_TEXT: "<red>Sie müssen nicht mehr eine {ITEM.DISPLAY_NAME}!</red>"
 
   TELEPORT_COOLDOWN:
-    enabled: true
-    repeat-delay: 1
-    message: '&3Sie müssen bis &b%DURATION%&3 Sekunden warten, um einen anderen %ITEM_NAME% verwenden.'
+    MESSAGE_TEXT: "<dark_aqua>Sie müssen bis <aqua>{DURATION}</aqua> Sekunden warten, um einen anderen <aqua>{ITEM_NAME}</aqua> verwenden.</dark_aqua>"
+    REPEAT_DELAY: 1
 
   TELEPORT_WARMUP:
-    enabled: true
-    message: '&3Teleportieren, um in &b%DURATION%&3...'
+    MESSAGE_TEXT: "<dark_aqua>Teleportieren, um in <aqua>{DURATION}</aqua>...</dark_aqua>"
 
   TELEPORT_LOG_USAGE:
-    enabled: true
-    message: "&b%TARGET_PLAYER%&r  hat in &3%DESTINATION_WORLD%&r einen %ITEM%&r verwendet."
+    MESSAGE_TEXT: "<aqua>{TARGET_PLAYER}</aqua> hat in <dark_aqua>{TARGET_PLAYER.LOCATION.WORLD}</dark_aqua> einen <aqua>{ITEM.DISPLAY_NAME}</aqua> verwendet."
