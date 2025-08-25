@@ -76,6 +76,7 @@ public final class TeleportHandler
 		if (cooldownMap.isCoolingDown(player))
 		{
 			plugin.messageBuilder.compose(player, MessageId.TELEPORT_COOLDOWN)
+					.setMacro(Macro.ITEM, playerItem)
 					.setMacro(Macro.DURATION, cooldownMap.getCooldownTimeRemaining(player))
 					.send();
 			return;
