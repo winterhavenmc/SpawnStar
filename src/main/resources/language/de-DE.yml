@@ -114,6 +114,62 @@ MESSAGES:
   COMMAND_FAIL_STATUS_PERMISSION:
     MESSAGE_TEXT: '&cSie haben keine Berechtigung, um die Einstellungen zu sehen!'
 
+
+  #########################
+  # Status command messages
+  #########################
+  COMMAND_STATUS_HEADER:
+    MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
+
+  COMMAND_STATUS_FOOTER:
+    MESSAGE_TEXT: "<newline><dark_aqua>Proudly built with <click:open_url:{URL}><blue><underlined>MessageBuilderLib<underlined></blue></click></dark_aqua>"
+
+  COMMAND_STATUS_PLUGIN_VERSION:
+    MESSAGE_TEXT: "<green>Version:</green> {SETTING}"
+
+  COMMAND_STATUS_LANGUAGE:
+    MESSAGE_TEXT: "<green>Language:</green> {SETTING}"
+
+  COMMAND_STATUS_LOCALE:
+    MESSAGE_TEXT: "<green>Locale:</green> {SETTING}"
+
+  COMMAND_STATUS_TIMEZONE:
+    MESSAGE_TEXT: "<green>Timezone:</green> {SETTING}"
+
+  COMMAND_STATUS_MATERIAL:
+    MESSAGE_TEXT: "<green>Material:</green> {SETTING}"
+
+  COMMAND_STATUS_MINIMUM_DISTANCE:
+    MESSAGE_TEXT: "<green>Minimum distance:</green> {SETTING}"
+
+  COMMAND_STATUS_TELEPORT_DISTANCE:
+    MESSAGE_TEXT: "<green>Teleport warmup:</green> {SETTING}"
+
+  COMMAND_STATUS_SHIFT_CLICK:
+    MESSAGE_TEXT: "<green>Shift-click required:</green> {SETTING}"
+
+  COMMAND_STATUS_INVENTORY_REMOVAL:
+    MESSAGE_TEXT: "<green>Remove from inventory:</green> {SETTING}"
+
+  COMMAND_STATUS_ALLOW_IN_RECIPES:
+    MESSAGE_TEXT: "<green>Allow in recipes:</green> {SETTING}"
+
+  COMMAND_STATUS_DISPLAY_LIGHTNING:
+    MESSAGE_TEXT: "<green>Display lightning:</green> {SETTING}"
+
+  COMMAND_STATUS_ENABLED_WORLDS:
+    MESSAGE_TEXT: "<green>Enabled Words:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_DAMAGE:
+    MESSAGE_TEXT: "<green>Cancel on damage:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_MOVEMENT:
+    MESSAGE_TEXT: "<green>Cancel on movement:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_INTERACTION:
+    MESSAGE_TEXT: "<green>Cancel on interaction:</green> {SETTING}"
+
+
   TELEPORT_SUCCESS:
     MESSAGE_TEXT: "<dark_aqua>Zurück zum Spawnpunkt {DESTINATION_WORLD}.<dark_aqua>."
     TITLE_TEXT: "<blue>{DESTINATION_WORLD} Spawnpunkt</blue>"
