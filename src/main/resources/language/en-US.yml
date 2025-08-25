@@ -12,15 +12,15 @@ CONSTANTS:
 ###########
 ITEMS:
   SPAWNSTAR:
-    MATERIAL: GOLDEN_PICKAXE
+    MATERIAL: NETHER_STAR
     DISPLAY_NAME: "<green>SpawnStar</green>"
-    DISPLAY_NAME_PLURAL: "<green>SpawnStars</green>"
+    PLURAL_NAME: "<choice:'0#zero SpawnStars|1#one SpawnStar|1<{QUANTITY} SpawnStars'>"
     LORE:
       - '<yellow>Use to Return</yellow>'
       - '<yellow>to World Spawn</yellow>'
 
 
-# Variable substitutions:
+# Message placeholders:
 #
 # {RECIPIENT}                   message recipient name
 # {RECIPIENT.LOCATION}          message recipient location as formatted string
@@ -28,8 +28,8 @@ ITEMS:
 # {RECIPIENT.LOCATION.X}        message recipient location x
 # {RECIPIENT.LOCATION.Y}        message recipient location y
 # {RECIPIENT.LOCATION.Z}        message recipient location z
-# {ITEM_NAME}                   item name, as defined in this file
-# {ITEM_QUANTITY}               number of items (valid in give command message only)
+# {ITEM.DISPLAY_NAME}           item display name, as defined in this file
+# {ITEM.QUANTITY}               number of items (valid in give command message only)
 # {TARGET_PLAYER}               target player name
 # {DURATION}                    time duration in seconds (valid in teleport warmup/cooldown message only)
 # {DESTINATION_WORLD}           world for teleport destination
@@ -46,19 +46,19 @@ ITEMS:
 
 MESSAGES:
   COMMAND_SUCCESS_DESTROY:
-    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>{ITEM_NAME}</red> destroyed!"
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>{ITEM.PLURAL_NAME}</red> destroyed!"
 
   COMMAND_SUCCESS_GIVE_SENDER:
-    MESSAGE_TEXT: "<dark_aqua>You gave {ITEM_QUANTITY} {ITEM_NAME} to {TARGET_PLAYER}.</dark_aqua>"
+    MESSAGE_TEXT: "<dark_aqua>You gave {ITEM.PLURAL_NAME} to {TARGET_PLAYER}.</dark_aqua>"
 
   COMMAND_SUCCESS_GIVE_TARGET:
-    MESSAGE_TEXT: "<dark_aqua>{TARGET_PLAYER} gave you {ITEM_QUANTITY} {ITEM_NAME}.</dark_aqua>"
+    MESSAGE_TEXT: "<dark_aqua>{TARGET_PLAYER} gave you {ITEM.PLURAL_NAME}.</dark_aqua>"
 
   COMMAND_SUCCESS_GIVE_SELF:
-    MESSAGE_TEXT: "<dark_aqua>You gave yourself {ITEM_QUANTITY} {ITEM_NAME}.</dark_aqua>"
+    MESSAGE_TEXT: "<dark_aqua>You gave yourself {ITEM.PLURAL_NAME}.</dark_aqua>"
 
   COMMAND_SUCCESS_RELOAD:
-    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <aqua>&bConfiguration reloaded.</aqua>"
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <aqua>Configuration reloaded.</aqua>"
 
 
   COMMAND_HELP_INVALID:
@@ -99,7 +99,10 @@ MESSAGES:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>The item you are holding is not a SpawnStar item!</red>"
 
   COMMAND_FAIL_GIVE_INVENTORY_FULL:
-    MESSAGE_TEXT: "<dark_aqua>Could not give {ITEM_NAME} to {TARGET_PLAYER} because their inventory is full.</dark_aqua>"
+    MESSAGE_TEXT: "<dark_aqua>Could not give {ITEM.DISPLAY_NAME} to {TARGET_PLAYER} because their inventory is full.</dark_aqua>"
+
+  COMMAND_FAIL_GIVE_ITEM_INVALID:
+    MESSAGE_TEXT: "<red>A configuration error prevented the creation of a valid SpawnStar item.</red>"
 
   COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND:
     MESSAGE_TEXT: "<dark_aqua>That player could not be found.</dark_aqua>"
@@ -111,7 +114,7 @@ MESSAGES:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>Invalid quantity!</red>"
 
   COMMAND_FAIL_DESTROY_PERMISSION:
-    MESSAGE_TEXT: "<red>You do not have permission to destroy SpawnStar items!</red>"
+    MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>You do not have permission to destroy SpawnStar items!</red>"
 
   COMMAND_FAIL_GIVE_PERMISSION:
     MESSAGE_TEXT: "<red>You do not have permission to give SpawnStar items!</red>"
@@ -171,26 +174,32 @@ MESSAGES:
   COMMAND_STATUS_ENABLED_WORLDS:
     MESSAGE_TEXT: "<green>Enabled Words:</green> {ENABLED_WORLDS}"
 
+  COMMAND_STATUS_CANCEL_ON_DAMAGE:
+    MESSAGE_TEXT: "<green>Cancel on damage:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_MOVEMENT:
+    MESSAGE_TEXT: "<green>Cancel on movement:</green> {SETTING}"
+
+  COMMAND_STATUS_CANCEL_ON_INTERACTION:
+    MESSAGE_TEXT: "<green>Cancel on interaction:</green> {SETTING}"
+
 
   TELEPORT_SUCCESS:
-    MESSAGE_TEXT: "<dark_aqua>Returned to &b{DESTINATION_WORLD} spawn.</dark_aqua>"
+    MESSAGE_TEXT: "<dark_aqua>Returned to <aqua>{DESTINATION_WORLD}</aqua> spawn.</dark_aqua>"
     TITLE_TEXT: "<dark_aqua>{DESTINATION_WORLD} Spawn</dark_aqua>"
 #    SUBTITLE_TEXT: "{DESTINATION_WORLD} Spawn"
 
   TELEPORT_FAIL_PERMISSION:
-    ENABLED: true
+    MESSAGE_TEXT: "<red>You do not have permission to use <aqua>{ITEM.DISPLAY_NAME}</aqua> <dark_aqua>in {RECIPIENT.LOCATION.WORLD}.</dark_aqua>"
     REPEAT_DELAY: 1
-    MESSAGE_TEXT: "<red>You do not have permission to use <aqua>{ITEM_NAME}</aqua> <dark_aqua>in {RECIPIENT_LOCATION_WORLD}.</dark_aqua>"
 
   TELEPORT_FAIL_MIN_DISTANCE:
-    ENABLED: true
+    MESSAGE_TEXT: "<dark_aqua>You are too close to spawn to use a {ITEM.DISPLAY_NAME}.</dark_aqua>"
     REPEAT_DELAY: 1
-    MESSAGE_TEXT: "<dark_aqua>You are too close to spawn to use a {ITEM_NAME}.</dark_aqua>"
 
   TELEPORT_FAIL_SHIFT_CLICK:
-    ENABLED: true
+    MESSAGE_TEXT: "<dark_aqua>You must shift-click to use a {ITEM.DISPLAY_NAME}.</dark_aqua>"
     REPEAT_DELAY: 1
-    MESSAGE_TEXT: "<dark_aqua>You must shift-click to use a {ITEM_NAME}.</dark_aqua>"
 
   TELEPORT_FAIL_WORLD_DISABLED:
     REPEAT_DELAY: 1
@@ -208,12 +217,12 @@ MESSAGES:
   TELEPORT_CANCELLED_NO_ITEM:
     MESSAGE_TEXT: "<red>You no longer have a SpawnStar item!</red>"
 
+  TELEPORT_WARMUP:
+    MESSAGE_TEXT: "<dark_aqua>Teleporting to <aqua>{RECIPIENT.LOCATION.WORLD} Spawn</aqua> in <aqua>{DURATION}</aqua>...</dark_aqua>"
+
   TELEPORT_COOLDOWN:
     REPEAT_DELAY: 1
-    MESSAGE_TEXT: "<dark_aqua>You need to wait <aqua>{DURATION}</aqua> to use another {ITEM_NAME}.</dark_aqua>"
-
-  TELEPORT_WARMUP:
-    MESSAGE_TEXT: "<dark_aqua>Teleporting to <aqua>{RECIPIENT_LOCATION_WORLD} Spawn</aqua> in <aqua>{DURATION}</aqua>...</dark_aqua>"
+    MESSAGE_TEXT: "<dark_aqua>You need to wait <aqua>{DURATION}</aqua> to use another <aqua>{ITEM.DISPLAY_NAME}</aqua>.</dark_aqua>"
 
   TELEPORT_LOG_USAGE:
-    MESSAGE_TEXT: "<aqua>{TARGET_PLAYER}</aqua> used a <aqua>{ITEM}</aqua> in <dark_aqua>{DESTINATION_WORLD}</dark_aqua>."
+    MESSAGE_TEXT: "<aqua>{TARGET_PLAYER}</aqua> used a <aqua>{ITEM.DISPLAY_NAME}</aqua> in <dark_aqua>{TARGET_PLAYER.LOCATION.WORLD}</dark_aqua>."
