@@ -306,13 +306,13 @@ public final class TeleportHandler
 	 */
 	private void logUsage(final Player player)
 	{
-		// if log-use is enabled in config, write log entry
 		if (plugin.getConfig().getBoolean("log-use"))
 		{
-			// send message to console
+			ItemStack playerItem = player.getInventory().getItemInMainHand();
+
 			plugin.messageBuilder.compose(plugin.getServer().getConsoleSender(), MessageId.TELEPORT_LOG_USAGE)
 					.setMacro(Macro.TARGET_PLAYER, player)
-					.setMacro(Macro.DESTINATION_WORLD, plugin.worldManager.getAliasOrName(player.getWorld().getName()))
+					.setMacro(Macro.ITEM, playerItem)
 					.send();
 		}
 	}
