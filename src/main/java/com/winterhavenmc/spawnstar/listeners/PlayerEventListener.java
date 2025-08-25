@@ -17,6 +17,7 @@
 
 package com.winterhavenmc.spawnstar.listeners;
 
+import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.MessageId;
 import com.winterhavenmc.spawnstar.sounds.SoundId;
@@ -112,7 +113,7 @@ public final class PlayerEventListener implements Listener
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!plugin.spawnStarUtility.isItem(event.getItem()))
+		if (!ItemForge.isCustomItem(event.getItem()))
 		{
 			return;
 		}
@@ -255,7 +256,7 @@ public final class PlayerEventListener implements Listener
 		// if crafting inventory contains SpawnStar item, set result item to null
 		for (ItemStack itemStack : event.getInventory())
 		{
-			if (plugin.spawnStarUtility.isItem(itemStack))
+			if (ItemForge.isCustomItem(itemStack))
 			{
 				event.getInventory().setResult(null);
 			}

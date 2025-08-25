@@ -17,6 +17,7 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
+import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.PluginMain;
 import com.winterhavenmc.spawnstar.messages.Macro;
 import com.winterhavenmc.spawnstar.messages.MessageId;
@@ -75,26 +76,26 @@ final class DestroySubcommand extends AbstractSubcommand
 		ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// check that player held item is a spawnstar stack
-		if (!plugin.spawnStarUtility.isItem(playerItem))
+		if (!ItemForge.isCustomItem(playerItem))
 		{
 			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
-		// get quantity of items in stack (to display in message)
-		int quantity = playerItem.getAmount();
+		// get copy of itemStack (to display in message)
+		ItemStack emptyItemStack = playerItem.clone();
 
 		// set quantity of items to zero
-		playerItem.setAmount(0);
+		emptyItemStack.setAmount(0);
 
 		// set player's item in hand to the zero quantity itemstack
 		//noinspection deprecation
-		player.getInventory().setItemInHand(playerItem);
+		player.getInventory().setItemInHand(emptyItemStack);
 
 		// send success message
 		plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
-				.setMacro(Macro.ITEM_QUANTITY, quantity)
+				.setMacro(Macro.ITEM, playerItem)
 				.send();
 
 		// play success sound
