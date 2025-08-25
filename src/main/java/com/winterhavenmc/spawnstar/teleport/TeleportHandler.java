@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -126,7 +127,7 @@ public final class TeleportHandler
 		{
 			plugin.messageBuilder.compose(player, MessageId.TELEPORT_WARMUP)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
-					.setMacro(Macro.DURATION, TimeUnit.SECONDS.toMillis(warmupTime))
+					.setMacro(Macro.DURATION, Duration.ofSeconds(warmupTime))
 					.send();
 
 			// if enabled, play sound effect
