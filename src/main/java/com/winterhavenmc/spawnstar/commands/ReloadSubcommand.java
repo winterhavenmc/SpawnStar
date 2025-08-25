@@ -78,6 +78,7 @@ final class ReloadSubcommand extends AbstractSubcommand
 
 		// send reloaded message
 		plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
+		plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_RELOAD);
 		return true;
 	}
 
