@@ -27,7 +27,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 final class GiveSubcommand extends AbstractSubcommand
@@ -129,8 +128,9 @@ final class GiveSubcommand extends AbstractSubcommand
 		}
 		quantity = Math.min(maxQuantity, quantity);
 
-		// add specified quantity of spawnstar(s) to player inventory
-		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(plugin.spawnStarUtility.create(quantity));
+		ItemStack item = plugin.spawnStarUtility.create(quantity);
+
+		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(item);
 
 		// count items that didn't fit in inventory
 		int noFitCount = 0;
@@ -142,37 +142,34 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity)
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
-					.setMacro(Macro.ITEM_QUANTITY, quantity)
-					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
-					.send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
+					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
+					.setMacro(Macro.ITEM, item)
+					.send();
 			return true;
 		}
-
-		// subtract noFitCount from quantity
-		quantity -= noFitCount;
 
 		// send message when giving to self
 		if (sender.getName().equals(targetPlayer.getName()))
 		{
 			plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SELF)
-					.setMacro(Macro.ITEM_QUANTITY, quantity)
+					.setMacro(Macro.ITEM, item)
 					.send();
 		}
 		else
 		{
 			// send message and play sound to giver
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER)
-					.setMacro(Macro.ITEM_QUANTITY, quantity)
-					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
-					.send();
 			plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
+			plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER)
+					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
+					.setMacro(Macro.ITEM, item)
+					.send();
 
 			// send message to target player
 			plugin.messageBuilder.compose(targetPlayer, MessageId.COMMAND_SUCCESS_GIVE_TARGET)
-					.setMacro(Macro.ITEM_QUANTITY, quantity)
 					.setMacro(Macro.TARGET_PLAYER, sender)
+					.setMacro(Macro.ITEM, item)
 					.send();
 		}
 
