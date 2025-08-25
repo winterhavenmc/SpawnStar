@@ -18,11 +18,6 @@
 package com.winterhavenmc.spawnstar.util;
 
 
-import org.bukkit.configuration.Configuration;
-
-import java.time.Duration;
-import java.util.List;
-
 public enum Config
 {
 	LANGUAGE("en-US"),
