@@ -15,6 +15,13 @@ COMMAND_INVALID:
   pitch: 1
 
 
+COMMAND_SUCCESS_RELOAD:
+  enabled: true
+  player-only: true
+  sound: minecraft:block.note_block.chime
+  volume: 1
+  pitch: 1
+
 COMMAND_SUCCESS_GIVE_SENDER:
   enabled: true
   player-only: true
@@ -40,7 +47,7 @@ COMMAND_SUCCESS_DESTROY:
 TELEPORT_DENIED_PERMISSION:
   enabled: true
   player-only: true
-  sound: BLOCK_NOTE_BLOCK_BASS
+  sound: minecraft:block.note_block.bass
   volume: 1
   pitch: 1
 
