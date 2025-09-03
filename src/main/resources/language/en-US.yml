@@ -2,10 +2,12 @@
 
 # constant strings
 CONSTANTS:
-  SPAWN_DISPLAY_NAME: 'Spawn'
   TIME:
     LESS_THAN: "less than {DURATION}"
     UNLIMITED: "unlimited"
+  LOCATION:
+    SPAWN: "Spawn"
+    HOME: "Home"
 
 ###########
 # Item Info
@@ -16,8 +18,8 @@ ITEMS:
     DISPLAY_NAME: "<green>SpawnStar</green>"
     PLURAL_NAME: "<choice:'0#zero SpawnStars|1#one SpawnStar|1<{QUANTITY} SpawnStars'>"
     LORE:
-      - '<yellow>Use to Return</yellow>'
-      - '<yellow>to World Spawn</yellow>'
+      - "<yellow>Use to Return</yellow>"
+      - "<yellow>to World Spawn</yellow>"
 
 
 # Message placeholders:
@@ -136,7 +138,7 @@ MESSAGES:
     MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
 
   COMMAND_STATUS_FOOTER:
-    MESSAGE_TEXT: "<newline><dark_aqua>Proudly built with <click:open_url:{URL}><blue><underlined>MessageBuilderLib<underlined></blue></click></dark_aqua>"
+    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{URL}><blue><underlined>{URL}<underlined></blue></click></dark_aqua>"
 
   COMMAND_STATUS_PLUGIN_VERSION:
     MESSAGE_TEXT: "<green>Version:</green> {SETTING}"
