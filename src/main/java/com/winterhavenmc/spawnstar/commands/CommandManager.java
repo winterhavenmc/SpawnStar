@@ -145,7 +145,7 @@ public final class CommandManager implements TabExecutor
 	 */
 	private List<String> matchingNames(final CommandSender sender, final String matchString)
 	{
-		return subcommandRegistry.getNames().stream()
+		return subcommandRegistry.getSubcommandNames().stream()
 				.filter(hasPermission(sender))
 				.filter(matchesPrefix(matchString))
 				.toList();
