@@ -62,7 +62,7 @@ class CooldownMap
 	 * Get time remaining for player cooldown
 	 *
 	 * @param player the player whose cooldown time remaining is being retrieved
-	 * @return long remaining time in milliseconds
+	 * @return remaining time as {@link Duration}
 	 */
 	Duration getCooldownTimeRemaining(final Player player)
 	{

@@ -2,11 +2,12 @@
 
 # constant strings
 CONSTANTS:
-  SPAWN_DISPLAY_NAME: "Spawn"
   TIME:
     LESS_THAN: "weniger als {DURATION}"
     UNLIMITED: "unbegrenzte Zeit"
-
+  LOCATION:
+    SPAWN: "Spawn"
+    HOME: "Home"
 
 ###########
 # Item Info
@@ -15,7 +16,7 @@ ITEMS:
   SPAWNSTAR:
     MATERIAL: NETHER_STAR
     DISPLAY_NAME: "<green>Spawnstern</green>"
-    PLURAL_NAME: "<choice:'0#0 Spawnsterne|1#1 Spawnstern|1<{QUANTITY} Spawnsterne'>"
+    PLURAL_NAME: "<choice:'0#keine Spawnsterne|1#einen Spawnstern|1<{QUANTITY} Spawnsterne'>"
     LORE:
       - "<yellow>Verwenden Sie diese Option,</yellow>"
       - "<yellow>um zum Welt-Spawn zurückzukehren</yellow>"
@@ -49,8 +50,14 @@ MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>{ITEM.PLURAL_NAME} zerstört!</red>"
 
-  COMMAND_SUCCESS_GIVE:
+  COMMAND_SUCCESS_GIVE_SENDER:
     MESSAGE_TEXT: "<dark_aqua>Du hast {ITEM.PLURAL_NAME}, um {TARGET_PLAYER}.</dark_aqua>"
+
+  COMMAND_SUCCESS_GIVE_TARGET:
+    MESSAGE_TEXT: "<dark_aqua>{TARGET_PLAYER} hat dir {ITEM.PLURAL_NAME} gegeben.</dark_aqua>"
+
+  COMMAND_SUCCESS_GIVE_SELF:
+    MESSAGE_TEXT: "<dark_aqua>Du hast dir {ITEM.PLURAL_NAME} gegeben.</dark_aqua>"
 
   COMMAND_SUCCESS_RELOAD:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <aqua>Konfiguration neu geladen.</aqua>"
@@ -122,7 +129,7 @@ MESSAGES:
     MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
 
   COMMAND_STATUS_FOOTER:
-    MESSAGE_TEXT: "<newline><dark_aqua>Proudly built with <click:open_url:{URL}><blue><underlined>MessageBuilderLib<underlined></blue></click></dark_aqua>"
+    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{URL}><blue><underlined>{URL}<underlined></blue></click></dark_aqua>"
 
   COMMAND_STATUS_PLUGIN_VERSION:
     MESSAGE_TEXT: "<green>Version:</green> {SETTING}"

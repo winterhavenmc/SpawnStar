@@ -63,7 +63,7 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand
 	{
 		if (args.length == 2 && args[0].equalsIgnoreCase(this.name))
 		{
-			return subcommandRegistry.getNames().stream()
+			return subcommandRegistry.getSubcommandNames().stream()
 					.map(subcommandRegistry::getSubcommand)
 					.filter(Optional::isPresent)
 					.filter(subcommand -> sender.hasPermission(subcommand.get().getPermissionNode()))
@@ -157,7 +157,7 @@ final class HelpSubcommand extends AbstractSubcommand implements Subcommand
 	{
 		plugin.messageBuilder.compose(sender, MessageId.COMMAND_HELP_USAGE_HEADER).send();
 
-		subcommandRegistry.getNames().stream()
+		subcommandRegistry.getSubcommandNames().stream()
 				.map(subcommandRegistry::getSubcommand)
 				.filter(Optional::isPresent)
 				.filter(subcommand -> sender.hasPermission(subcommand.get().getPermissionNode()))

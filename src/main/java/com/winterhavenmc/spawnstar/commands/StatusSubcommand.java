@@ -69,7 +69,7 @@ final class StatusSubcommand extends AbstractSubcommand
 		}
 
 		// output config settings
-		displayStatusBanner(sender);
+		displayStatusHeader(sender);
 		displayPluginVersion(sender);
 		displayDebugSetting(sender);
 		displayLanguageSetting(sender);
@@ -93,7 +93,7 @@ final class StatusSubcommand extends AbstractSubcommand
 	}
 
 
-	private void displayStatusBanner(final CommandSender sender)
+	private void displayStatusHeader(final CommandSender sender)
 	{
 		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_HEADER)
 				.setMacro(Macro.PLUGIN, plugin.getDescription().getName())
@@ -240,7 +240,7 @@ final class StatusSubcommand extends AbstractSubcommand
 	{
 		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_FOOTER)
 				.setMacro(Macro.PLUGIN, plugin.getDescription().getName())
-				.setMacro(Macro.URL, "https://github.com/winterhavenmc/MessageBuilderLib")
+				.setMacro(Macro.URL, "https://github.com/winterhavenmc/SpawnStar")
 				.send();
 	}
 

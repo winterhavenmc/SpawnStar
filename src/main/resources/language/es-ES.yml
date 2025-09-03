@@ -2,10 +2,12 @@
 
 # constant strings
 CONSTANTS:
-  SPAWN_DISPLAY_NAME: "Origen"
   TIME:
     LESS_THAN: "menos de {DURATION}"
     UNLIMITED: "tiempo ilimitado"
+  LOCATION:
+    SPAWN: "Spawn"
+    HOME: "Casa"
 
 ###########
 # Item Info
@@ -47,11 +49,17 @@ MESSAGES:
   COMMAND_SUCCESS_DESTROY:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>¡{ITEM.PLURAL_NAME} destruida!</red>"
 
-  COMMAND_SUCCESS_GIVE:
+  COMMAND_SUCCESS_GIVE_SENDER:
     MESSAGE_TEXT: "<dark_aqua>Usted diste {ITEM.PLURAL_NAME} a {TARGET_PLAYER}.</dark_aqua>"
 
+  COMMAND_SUCCESS_GIVE_TARGET:
+    MESSAGE_TEXT: "<dark_aqua>{TARGET_PLAYER} te dio {ITEM.PLURAL_NAME}.</dark_aqua>"
+
+  COMMAND_SUCCESS_GIVE_SELF:
+    MESSAGE_TEXT: "<dark_aqua>Te diste {ITEM.PLURAL_NAME}.</dark_aqua>"
+
   COMMAND_SUCCESS_RELOAD:
-    MESSAGE_TEXT: "<dark_aqua>[SpawnStar] configuración vuelve a cargar.</dark_aqua>"
+    MESSAGE_TEXT: "<aqua>[SpawnStar] configuración vuelve a cargar.</aqua>"
 
 
   COMMAND_HELP_INVALID:
@@ -120,7 +128,7 @@ MESSAGES:
     MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
 
   COMMAND_STATUS_FOOTER:
-    MESSAGE_TEXT: "<newline><dark_aqua>Proudly built with <click:open_url:{URL}><blue><underlined>MessageBuilderLib<underlined></blue></click></dark_aqua>"
+    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{URL}><blue><underlined>{URL}<underlined></blue></click></dark_aqua>"
 
   COMMAND_STATUS_PLUGIN_VERSION:
     MESSAGE_TEXT: "<green>Version:</green> {SETTING}"
