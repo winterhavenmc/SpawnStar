@@ -202,7 +202,9 @@ public final class PlayerEventListener implements Listener
 			if (ctx.plugin().getConfig().getBoolean("shift-click")
 					&& !player.isSneaking())
 			{
-				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
+				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK)
+						.setMacro(Macro.ITEM, event.getItem())
+						.send();
 				return;
 			}
 
