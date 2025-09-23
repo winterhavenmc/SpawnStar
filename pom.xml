@@ -164,140 +164,178 @@
 			</testResource>
 		</testResources>
 
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>3.5.0</version>
+					<executions>
+						<execution>
+							<id>ban-bad-log4j-versions</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+							<configuration>
+								<rules>
+									<bannedDependencies>
+										<excludes>
+											<exclude>org.apache.logging.log4j:log4j-core:(,2.17.0)</exclude>
+										</excludes>
+									</bannedDependencies>
+								</rules>
+								<fail>true</fail>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.13.0</version>
+				</plugin>
+
+				<!-- Create Shaded jar -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>3.6.0</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+							<configuration>
+								<minimizeJar>true</minimizeJar>
+								<filters>
+									<filter>
+										<artifact>org.bstats:bstats-*</artifact>
+										<excludes>
+											<exclude>META-INF/MANIFEST.MF</exclude>
+											<exclude>META-INF/*.SF</exclude>
+											<exclude>META-INF/*.DSA</exclude>
+											<exclude>META-INF/*.RSA</exclude>
+										</excludes>
+									</filter>
+									<filter>
+										<artifact>com.winterhaven-mc:*-lib</artifact>
+										<excludes>
+											<exclude>META-INF/MANIFEST.MF</exclude>
+											<exclude>META-INF/*.SF</exclude>
+											<exclude>META-INF/*.DSA</exclude>
+											<exclude>META-INF/*.RSA</exclude>
+										</excludes>
+									</filter>
+								</filters>
+								<artifactSet>
+									<includes>
+										<include>com.winterhaven-mc:message-builder-lib</include>
+										<include>com.winterhaven-mc:sound-config-lib</include>
+										<include>com.winterhaven-mc:world-manager-lib</include>
+										<include>org.bstats</include>
+									</includes>
+								</artifactSet>
+								<relocations>
+									<relocation>
+										<pattern>com.winterhavenmc.library</pattern>
+										<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
+									</relocation>
+									<relocation>
+										<pattern>org.bstats</pattern>
+										<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
+									</relocation>
+								</relocations>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Create Javadoc jar -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>3.11.2</version>
+					<configuration>
+						<doclint>all,-missing</doclint>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Create Sources jar -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.3.1</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Plugin for Unit Tests -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.2</version>
+
+					<configuration>
+						<junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
+						<trimStackTrace>false</trimStackTrace>
+						<systemPropertyVariables>
+							<bstats.relocatecheck>false</bstats.relocatecheck>
+						</systemPropertyVariables>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.5.0</version>
-				<executions>
-					<execution>
-						<id>ban-bad-log4j-versions</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<bannedDependencies>
-									<excludes>
-										<exclude>org.apache.logging.log4j:log4j-core:(,2.17.0)</exclude>
-									</excludes>
-								</bannedDependencies>
-							</rules>
-							<fail>true</fail>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
 			</plugin>
 
 			<!-- Create Shaded jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.6.0</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<minimizeJar>true</minimizeJar>
-							<filters>
-								<filter>
-									<artifact>org.bstats:bstats-*</artifact>
-									<excludes>
-										<exclude>META-INF/MANIFEST.MF</exclude>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-									</excludes>
-								</filter>
-								<filter>
-									<artifact>com.winterhaven-mc:*-lib</artifact>
-									<excludes>
-										<exclude>META-INF/MANIFEST.MF</exclude>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-									</excludes>
-								</filter>
-							</filters>
-							<artifactSet>
-								<includes>
-									<include>com.winterhaven-mc:message-builder-lib</include>
-									<include>com.winterhaven-mc:sound-config-lib</include>
-									<include>com.winterhaven-mc:world-manager-lib</include>
-									<include>org.bstats</include>
-								</includes>
-							</artifactSet>
-							<relocations>
-								<relocation>
-									<pattern>com.winterhavenmc.library</pattern>
-									<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
-								</relocation>
-								<relocation>
-									<pattern>org.bstats</pattern>
-									<shadedPattern>com.winterhavenmc.spawnstar.shaded</shadedPattern>
-								</relocation>
-							</relocations>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- Create Javadoc jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.11.2</version>
-				<configuration>
-					<doclint>all,-missing</doclint>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- Create Sources jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.3.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- Plugin for Unit Tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
-
-				<configuration>
-					<junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
-					<trimStackTrace>false</trimStackTrace>
-					<systemPropertyVariables>
-						<bstats.relocatecheck>false</bstats.relocatecheck>
-					</systemPropertyVariables>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
