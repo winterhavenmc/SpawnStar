@@ -18,10 +18,10 @@
 package com.winterhavenmc.spawnstar.commands;
 
 import com.winterhavenmc.library.messagebuilder.ItemForge;
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.Macro;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.util.Macro;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,12 +32,12 @@ import java.util.Objects;
 
 final class DestroySubcommand extends AbstractSubcommand
 {
-	private final PluginMain plugin;
+	private final PluginController.CommandContextContainer ctx;
 
 
-	DestroySubcommand(final PluginMain plugin)
+	DestroySubcommand(final PluginController.CommandContextContainer ctx)
 	{
-		this.plugin = Objects.requireNonNull(plugin);
+		this.ctx = Objects.requireNonNull(ctx);
 		this.name = "destroy";
 		this.usage = "/spawnstar destroy";
 		this.permissionNode = "spawnstar.destroy";
@@ -51,23 +51,23 @@ final class DestroySubcommand extends AbstractSubcommand
 		// sender must be in game player
 		if (!(sender instanceof Player player))
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE).send();
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE).send();
 			return true;
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission(permissionNode))
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs())
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -78,8 +78,8 @@ final class DestroySubcommand extends AbstractSubcommand
 		// check that player held item is a spawnstar stack
 		if (!ItemForge.isCustomItem(playerItem))
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -94,12 +94,12 @@ final class DestroySubcommand extends AbstractSubcommand
 		player.getInventory().setItemInHand(emptyItemStack);
 
 		// send success message
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
 				.setMacro(Macro.ITEM, playerItem)
 				.send();
 
 		// play success sound
-		plugin.soundConfig.playSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
+		ctx.soundConfiguration().playSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
 
 		// return true to prevent display of bukkit command usage string
 		return true;

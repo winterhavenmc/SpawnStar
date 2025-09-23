@@ -17,9 +17,10 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.SpawnStarPluginController;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,29 +36,27 @@ import java.util.function.Predicate;
  */
 public final class CommandManager implements TabExecutor
 {
-	private final PluginMain plugin;
 	private final SubcommandRegistry subcommandRegistry = new SubcommandRegistry();
+	private final PluginController.CommandContextContainer ctx;
 
 
 	/**
 	 * Class constructor method for CommandManager
-	 *
-	 * @param plugin reference to main class
 	 */
-	public CommandManager(final PluginMain plugin)
+	public CommandManager(final SpawnStarPluginController.CommandContextContainer ctx)
 	{
-		this.plugin = plugin;
+		this.ctx = ctx;
 
 		// register this class as command executor
-		Objects.requireNonNull(plugin.getCommand("spawnstar")).setExecutor(this);
+		Objects.requireNonNull(ctx.plugin().getCommand("spawnstar")).setExecutor(this);
 
 		// register subcommands
 		for (SubcommandType subcommandType : SubcommandType.values()) {
-			subcommandRegistry.register(subcommandType.create(plugin));
+			subcommandRegistry.register(subcommandType.create(ctx));
 		}
 
 		// register help command
-		subcommandRegistry.register(new HelpSubcommand(plugin, subcommandRegistry));
+		subcommandRegistry.register(new HelpSubcommand(ctx, subcommandRegistry));
 	}
 
 
@@ -125,8 +124,8 @@ public final class CommandManager implements TabExecutor
 		if (subcommand.isEmpty())
 		{
 			subcommand = subcommandRegistry.getSubcommand("help");
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_INVALID);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_INVALID);
 		}
 
 		// execute subcommand

@@ -17,10 +17,11 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.Macro;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.util.Macro;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,12 +32,12 @@ import java.util.*;
 
 final class GiveSubcommand extends AbstractSubcommand
 {
-	private final PluginMain plugin;
+	private final PluginController.CommandContextContainer ctx;
 
 
-	GiveSubcommand(final PluginMain plugin)
+	GiveSubcommand(final PluginController.CommandContextContainer ctx)
 	{
-		this.plugin = Objects.requireNonNull(plugin);
+		this.ctx = Objects.requireNonNull(ctx);
 		this.name = "give";
 		this.usage = "/spawnstar give <player> [quantity]";
 		this.description = MessageId.COMMAND_HELP_GIVE;
@@ -65,16 +66,16 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give"))
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check min arguments
 		if (args.size() < getMinArgs())
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_UNDER).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_UNDER).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -82,8 +83,8 @@ final class GiveSubcommand extends AbstractSubcommand
 		// check max arguments
 		if (args.size() > getMaxArgs())
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -92,13 +93,13 @@ final class GiveSubcommand extends AbstractSubcommand
 		String targetPlayerName = args.getFirst();
 
 		// try to match target player name to currently online player
-		Player targetPlayer = plugin.getServer().getPlayer(targetPlayerName);
+		Player targetPlayer = ctx.plugin().getServer().getPlayer(targetPlayerName);
 
 		// if no match, send player not found message and return
 		if (targetPlayer == null)
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -113,22 +114,22 @@ final class GiveSubcommand extends AbstractSubcommand
 				quantity = Integer.parseInt(args.get(1));
 			} catch (NumberFormatException e)
 			{
-				plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
-				plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+				ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
+				ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
 			}
 		}
 
 		// validate quantity (min = 1, max = configured maximum, or runtime Integer.MAX_VALUE)
 		quantity = Math.max(1, quantity);
-		int maxQuantity = plugin.getConfig().getInt("max-give-amount");
+		int maxQuantity = ctx.plugin().getConfig().getInt("max-give-amount");
 		if (maxQuantity < 0)
 		{
 			maxQuantity = Integer.MAX_VALUE;
 		}
 		quantity = Math.min(maxQuantity, quantity);
 
-		ItemStack item = plugin.spawnStarUtility.create(quantity);
+		ItemStack item = ctx.spawnStarUtility().create(quantity);
 
 		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(item);
 
@@ -142,8 +143,8 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity)
 		{
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
 					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
 					.setMacro(Macro.ITEM, item)
 					.send();
@@ -153,28 +154,28 @@ final class GiveSubcommand extends AbstractSubcommand
 		// send message when giving to self
 		if (sender.getName().equals(targetPlayer.getName()))
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SELF)
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SELF)
 					.setMacro(Macro.ITEM, item)
 					.send();
 		}
 		else
 		{
 			// send message and play sound to giver
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER)
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER)
 					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
 					.setMacro(Macro.ITEM, item)
 					.send();
 
 			// send message to target player
-			plugin.messageBuilder.compose(targetPlayer, MessageId.COMMAND_SUCCESS_GIVE_TARGET)
+			ctx.messageBuilder().compose(targetPlayer, MessageId.COMMAND_SUCCESS_GIVE_TARGET)
 					.setMacro(Macro.TARGET_PLAYER, sender)
 					.setMacro(Macro.ITEM, item)
 					.send();
 		}
 
 		// play sound to target player
-		plugin.soundConfig.playSound(targetPlayer, SoundId.COMMAND_SUCCESS_GIVE_TARGET);
+		ctx.soundConfiguration().playSound(targetPlayer, SoundId.COMMAND_SUCCESS_GIVE_TARGET);
 		return true;
 	}
 

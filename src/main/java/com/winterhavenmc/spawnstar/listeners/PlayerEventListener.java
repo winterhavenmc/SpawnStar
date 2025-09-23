@@ -18,9 +18,10 @@
 package com.winterhavenmc.spawnstar.listeners;
 
 import com.winterhavenmc.library.messagebuilder.ItemForge;
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.TileState;
@@ -47,7 +48,8 @@ import java.util.Set;
  */
 public final class PlayerEventListener implements Listener
 {
-	private final PluginMain plugin;
+	private final PluginController.ListenerContextContainer ctx;
+	private final TeleportHandler teleportHandler;
 
 	// set to hold craft table materials
 	private final Set<Material> craftTables = Set.of(
@@ -62,12 +64,13 @@ public final class PlayerEventListener implements Listener
 	/**
 	 * Class constructor for PlayerEventListener
 	 *
-	 * @param plugin reference to this plugin's main class
+	 * @param ctx reference to this plugin's main class
 	 */
-	public PlayerEventListener(final PluginMain plugin)
+	public PlayerEventListener(final PluginController.ListenerContextContainer ctx, final TeleportHandler teleportHandler)
 	{
-		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		this.ctx = ctx;
+		this.teleportHandler = teleportHandler;
+		ctx.plugin().getServer().getPluginManager().registerEvents(this, ctx.plugin());
 	}
 
 
@@ -83,10 +86,10 @@ public final class PlayerEventListener implements Listener
 		final Player player = event.getPlayer();
 
 		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
-		if (plugin.getConfig().getBoolean("cancel-on-interaction"))
+		if (ctx.plugin().getConfig().getBoolean("cancel-on-interaction"))
 		{
 			// if player is in warmup hashmap, check if they are interacting with a block (not air)
-			if (plugin.teleportHandler.isWarmingUp(player))
+			if (teleportHandler.isWarmingUp(player))
 			{
 				// if player is interacting with a block, cancel teleport, output message and return
 				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
@@ -94,19 +97,19 @@ public final class PlayerEventListener implements Listener
 				{
 					// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
 					// this is a workaround for event double firing (once for each hand) on every player interaction
-					if (!plugin.teleportHandler.isInitiated(player))
+					if (!teleportHandler.isInitiated(player))
 					{
 						return;
 					}
 
 					// cancel teleport
-					plugin.teleportHandler.cancelTeleport(player);
+					teleportHandler.cancelTeleport(player);
 
 					// send cancelled teleport message
-					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
+					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 
 					// play cancelled teleport sound
-					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
+					ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED);
 					return;
 				}
 			}
@@ -130,13 +133,13 @@ public final class PlayerEventListener implements Listener
 		// if event action is left-click, and left-click is config disabled, do nothing and return
 		if (action.equals(Action.LEFT_CLICK_BLOCK)
 				|| action.equals(Action.LEFT_CLICK_AIR)
-				&& !plugin.getConfig().getBoolean("left-click"))
+				&& !ctx.plugin().getConfig().getBoolean("left-click"))
 		{
 			return;
 		}
 
 		// if player is not warming
-		if (!plugin.teleportHandler.isWarmingUp(player))
+		if (!teleportHandler.isWarmingUp(player))
 		{
 			// get clicked block
 			Block block = event.getClickedBlock();
@@ -177,31 +180,31 @@ public final class PlayerEventListener implements Listener
 			event.setCancelled(true);
 
 			// if players current world is not enabled in config, send message and return
-			if (!plugin.worldManager.isEnabled(player.getWorld()))
+			if (!ctx.worldManager().isEnabled(player.getWorld()))
 			{
-				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
-				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
+				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
+				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use"))
 			{
-				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
-				plugin.soundConfig.playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
+				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
+				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
 				return;
 			}
 
 			// if shift-click configured and player is not sneaking, send message and return
-			if (plugin.getConfig().getBoolean("shift-click")
+			if (ctx.plugin().getConfig().getBoolean("shift-click")
 					&& !player.isSneaking())
 			{
-				plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
+				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK).send();
 				return;
 			}
 
 			// initiate teleport
-			plugin.teleportHandler.initiateTeleport(player);
+			teleportHandler.initiateTeleport(player);
 		}
 	}
 
@@ -218,7 +221,7 @@ public final class PlayerEventListener implements Listener
 		Player player = event.getEntity();
 
 		// cancel any pending teleport for player
-		plugin.teleportHandler.cancelTeleport(player);
+		teleportHandler.cancelTeleport(player);
 	}
 
 
@@ -234,7 +237,7 @@ public final class PlayerEventListener implements Listener
 		Player player = event.getPlayer();
 
 		// cancel any pending teleport for player
-		plugin.teleportHandler.cancelTeleport(player);
+		teleportHandler.cancelTeleport(player);
 	}
 
 
@@ -248,7 +251,7 @@ public final class PlayerEventListener implements Listener
 	void onCraftPrepare(final PrepareItemCraftEvent event)
 	{
 		// if allow-in-recipes is true in configuration, do nothing and return
-		if (plugin.getConfig().getBoolean("allow-in-recipes"))
+		if (ctx.plugin().getConfig().getBoolean("allow-in-recipes"))
 		{
 			return;
 		}
@@ -273,7 +276,7 @@ public final class PlayerEventListener implements Listener
 	void onEntityDamage(final EntityDamageEvent event)
 	{
 		// if cancel-on-damage configuration is true, check if damaged entity is player
-		if (plugin.getConfig().getBoolean("cancel-on-damage"))
+		if (ctx.plugin().getConfig().getBoolean("cancel-on-damage"))
 		{
 			Entity entity = event.getEntity();
 
@@ -281,11 +284,11 @@ public final class PlayerEventListener implements Listener
 			if (entity instanceof Player player)
 			{
 				// if player is in warmup hashmap, cancel teleport and send player message
-				if (plugin.teleportHandler.isWarmingUp(player))
+				if (teleportHandler.isWarmingUp(player))
 				{
-					plugin.teleportHandler.cancelTeleport(player);
-					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
-					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
+					teleportHandler.cancelTeleport(player);
+					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
+					ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
 		}
@@ -301,7 +304,7 @@ public final class PlayerEventListener implements Listener
 	void onPlayerMovement(final PlayerMoveEvent event)
 	{
 		// if cancel-on-movement configuration is false, do nothing and return
-		if (!plugin.getConfig().getBoolean("cancel-on-movement"))
+		if (!ctx.plugin().getConfig().getBoolean("cancel-on-movement"))
 		{
 			return;
 		}
@@ -310,14 +313,14 @@ public final class PlayerEventListener implements Listener
 		Player player = event.getPlayer();
 
 		// if player is in warmup hashmap, cancel teleport and send player message
-		if (plugin.teleportHandler.isWarmingUp(player))
+		if (teleportHandler.isWarmingUp(player))
 		{
 			// check for player movement other than head turning
 			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0)
 			{
-				plugin.teleportHandler.cancelTeleport(player);
-				plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
-				plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED);
+				teleportHandler.cancelTeleport(player);
+				ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
+				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}
 	}

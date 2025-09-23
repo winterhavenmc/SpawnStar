@@ -17,10 +17,10 @@
 
 package com.winterhavenmc.spawnstar.teleport;
 
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.Macro;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.util.Macro;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,8 +37,9 @@ import java.util.Objects;
 final class DelayedTeleportTask extends BukkitRunnable
 {
 	// reference to main class
-	private final PluginMain plugin;
+	private final PluginController.TeleportContextContainer ctx;
 
+	private final TeleportHandler teleportHandler;
 	// player being teleported
 	private final Player player;
 
@@ -55,27 +56,29 @@ final class DelayedTeleportTask extends BukkitRunnable
 	/**
 	 * Class constructor
 	 *
-	 * @param plugin      reference to plugin main class
+	 * @param ctx      reference to plugin main class
 	 * @param player      the player to be teleported
 	 * @param destination the world spawn location
 	 * @param playerItem  the player item used to initiate teleport
 	 */
-	DelayedTeleportTask(final PluginMain plugin,
+	DelayedTeleportTask(final PluginController.TeleportContextContainer ctx,
+						final TeleportHandler teleportHandler,
 	                    final Player player,
 	                    final Location destination,
 	                    final ItemStack playerItem)
 	{
 		// check for null parameters
-		this.plugin = Objects.requireNonNull(plugin);
+		this.ctx = Objects.requireNonNull(ctx);
+		this.teleportHandler = teleportHandler;
 		this.player = Objects.requireNonNull(player);
 		this.destination = Objects.requireNonNull(destination);
 		this.playerItem = Objects.requireNonNull(playerItem);
 
 		// start repeating task for generating particles at player location
-		if (plugin.getConfig().getBoolean("particle-effects"))
+		if (ctx.plugin().getConfig().getBoolean("particle-effects"))
 		{
 			// start particle task, with 2 tick delay so it doesn't self cancel on first run
-			particleTask = new ParticleTask(plugin, player).runTaskTimer(plugin, 2L, 10);
+			particleTask = new ParticleTask(teleportHandler, player).runTaskTimer(ctx.plugin(), 2L, 10);
 		}
 	}
 
@@ -87,13 +90,13 @@ final class DelayedTeleportTask extends BukkitRunnable
 		particleTask.cancel();
 
 		// if player is in warmup map
-		if (plugin.teleportHandler.isWarmingUp(player))
+		if (this.teleportHandler.isWarmingUp(player))
 		{
 			// remove player from warmup map
-			plugin.teleportHandler.removeWarmingUpPlayer(player);
+			teleportHandler.removeWarmingUpPlayer(player);
 
 			// if remove-from-inventory is configured on-success, take one spawn star item from inventory now
-			if ("on-success".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory")))
+			if ("on-success".equalsIgnoreCase(ctx.plugin().getConfig().getString("remove-from-inventory")))
 			{
 				// try to remove one SpawnStar item from player inventory
 				boolean notRemoved = true;
@@ -112,35 +115,35 @@ final class DelayedTeleportTask extends BukkitRunnable
 				// if one SpawnStar item could not be removed from inventory, send message, set cooldown and return
 				if (notRemoved)
 				{
-					plugin.messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
-					plugin.soundConfig.playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
-					plugin.teleportHandler.startPlayerCooldown(player);
+					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
+					ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
+					teleportHandler.startPlayerCooldown(player);
 					return;
 				}
 			}
 
 			// play pre-teleport sound if sound effects are enabled
-			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_DEPARTURE);
+			ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_SUCCESS_DEPARTURE);
 
 			// teleport player to destination
 			player.teleport(destination);
 
 			// send player respawn message
-			plugin.messageBuilder.compose(player, MessageId.TELEPORT_SUCCESS)
+			ctx.messageBuilder().compose(player, MessageId.TELEPORT_SUCCESS)
 					.setMacro(Macro.DESTINATION_WORLD, destination.getWorld())
 					.send();
 
 			// play post-teleport sound if sound effects are enabled
-			plugin.soundConfig.playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
+			ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
 
 			// if lightning is enabled in config, strike lightning at spawn location
-			if (plugin.getConfig().getBoolean("lightning"))
+			if (ctx.plugin().getConfig().getBoolean("lightning"))
 			{
 				player.getWorld().strikeLightningEffect(destination);
 			}
 
 			// start player cooldown
-			plugin.teleportHandler.startPlayerCooldown(player);
+			teleportHandler.startPlayerCooldown(player);
 		}
 	}
 
