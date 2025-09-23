@@ -116,7 +116,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayLanguageSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LANGUAGE)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LANGUAGE_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("language"))
 				.send();
 	}
@@ -124,7 +124,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayLocaleSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
 				.setMacro(Macro.SETTING, localeProvider.getLocale().toLanguageTag())
 				.send();
 	}
@@ -132,7 +132,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayTimezoneSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TIMEZONE)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TIMEZONE_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("timezone", ZoneId.systemDefault().toString()))
 				.send();
 	}
@@ -140,7 +140,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayDefaultMaterialSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_DEFAULT_MATERIAL)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_DEFAULT_MATERIAL_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("item-material"))
 				.send();
 	}
@@ -148,7 +148,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayMinimumDistanceSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_MINIMUM_DISTANCE)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_MINIMUM_DISTANCE_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("minimum-distance"))
 				.send();
 	}
@@ -156,7 +156,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayTeleportWarmupSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TELEPORT_WARMUP)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TELEPORT_WARMUP_SETTING)
 				.setMacro(Macro.SETTING, Duration.ofSeconds(ctx.plugin().getConfig().getInt("teleport-warmup")))
 				.send();
 	}
@@ -164,7 +164,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayTeleportCooldownSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TELEPORT_COOLDOWN)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TELEPORT_COOLDOWN_SETTING)
 				.setMacro(Macro.SETTING, Duration.ofSeconds(ctx.plugin().getConfig().getInt("teleport-cooldown")))
 				.send();
 	}
@@ -172,7 +172,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayShiftClickSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_SHIFT_CLICK)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_SHIFT_CLICK_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("shift-click"))
 				.send();
 	}
@@ -180,21 +180,21 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayCancelOnDamageSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_DAMAGE)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_DAMAGE_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("cancel-on-damage"))
 				.send();
 	}
 
 	private void displayCancelOnMovementSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_MOVEMENT)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_MOVEMENT_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("cancel-on-movement"))
 				.send();
 	}
 
 	private void displayCancelOnInteractionSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_INTERACTION)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_INTERACTION_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("cancel-on-interaction"))
 				.send();
 	}
@@ -202,7 +202,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayRemoveFromInventorySetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_INVENTORY_REMOVAL)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_INVENTORY_REMOVAL_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("remove-from-inventory"))
 				.send();
 	}
@@ -210,7 +210,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayAllowInRecipesSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ALLOW_IN_RECIPES)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ALLOW_IN_RECIPES_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("allow-in-recipes"))
 				.send();
 	}
@@ -218,7 +218,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayLightningSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_DISPLAY_LIGHTNING)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_DISPLAY_LIGHTNING_SETTING)
 				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("lightning"))
 				.send();
 	}
@@ -226,7 +226,7 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayEnabledWorlds(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ENABLED_WORLDS)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ENABLED_WORLDS_SETTING)
 				.setMacro(Macro.SETTING, ctx.worldManager().getEnabledWorldNames().toString())
 				.send();
 	}
