@@ -186,7 +186,7 @@ MESSAGES:
     MESSAGE_TEXT: "<red>Sie haben nicht die Erlaubnis, eine <aqua>{ITEM.DISPLAY_NAME}</aqua> in {RECIPIENT.LOCATION.WORLD} verwenden.</red>"
     REPEAT_DELAY: 1
 
-  TELEPORT_FAIL_MIN_DISTANCE:
+  TELEPORT_FAIL_MIN_PROXIMITY:
     MESSAGE_TEXT: "<dark_aqua>Sie sind zu nah am Spawn, um einen {ITEM.DISPLAY_NAME} zu verwenden.</dark_aqua>"
     REPEAT_DELAY: 1
 

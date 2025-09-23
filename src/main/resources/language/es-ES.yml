@@ -185,7 +185,7 @@ MESSAGES:
     MESSAGE_TEXT: "<red>Usted no tiene permiso para usar {ITEM.DISPLAY_NAME} en {RECIPIENT.LOCATION.WORLD}.</red>"
     REPEAT_DELAY: 1
 
-  TELEPORT_FAIL_MIN_DISTANCE:
+  TELEPORT_FAIL_MIN_PROXIMITY:
     MESSAGE_TEXT: "<dark_aqua>Usted está demasiado cerca para desovar utilizar {ITEM.DISPLAY_NAME}.</dark_aqua>"
     REPEAT_DELAY: 1
 

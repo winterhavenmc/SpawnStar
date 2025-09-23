@@ -110,7 +110,8 @@ public final class TeleportHandler
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (isUnderMinimumDistance(player, location))
 		{
-			ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE)
+			ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_MIN_PROXIMITY)
+					.setMacro(Macro.ITEM, playerItem)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.send();
 			return;
