@@ -17,13 +17,14 @@
 
 package com.winterhavenmc.spawnstar.util;
 
-import com.winterhavenmc.spawnstar.PluginMain;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
+import org.bukkit.plugin.Plugin;
+
 
 public class MetricsHandler
 {
-	public MetricsHandler(final PluginMain plugin)
+	public MetricsHandler(final Plugin plugin)
 	{
 		Metrics metrics = new Metrics(plugin, 13926);
 

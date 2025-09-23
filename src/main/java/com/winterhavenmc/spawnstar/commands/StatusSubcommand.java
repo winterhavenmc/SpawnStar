@@ -18,10 +18,10 @@
 package com.winterhavenmc.spawnstar.commands;
 
 import com.winterhavenmc.library.messagebuilder.resources.configuration.LocaleProvider;
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.Macro;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.util.Macro;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -33,18 +33,18 @@ import java.util.Objects;
 
 final class StatusSubcommand extends AbstractSubcommand
 {
-	private final PluginMain plugin;
+	private final PluginController.CommandContextContainer ctx;
 	private final LocaleProvider localeProvider;
 
 
-	StatusSubcommand(final PluginMain plugin)
+	StatusSubcommand(final PluginController.CommandContextContainer ctx)
 	{
-		this.plugin = Objects.requireNonNull(plugin);
+		this.ctx = Objects.requireNonNull(ctx);
 		this.name = "status";
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
 		this.permissionNode = "spawnstar.status";
-		this.localeProvider = LocaleProvider.create(plugin);
+		this.localeProvider = LocaleProvider.create(ctx.plugin());
 	}
 
 
@@ -54,16 +54,16 @@ final class StatusSubcommand extends AbstractSubcommand
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission(permissionNode))
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
 		// check max arguments
 		if (args.size() > getMaxArgs())
 		{
-			plugin.messageBuilder.compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			plugin.soundConfig.playSound(sender, SoundId.COMMAND_FAIL);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
+			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -95,23 +95,19 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayStatusHeader(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_HEADER)
-				.setMacro(Macro.PLUGIN, plugin.getDescription().getName())
-				.send();
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_HEADER).send();
 	}
 
 
 	private void displayPluginVersion(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_PLUGIN_VERSION)
-				.setMacro(Macro.SETTING, plugin.getDescription().getVersion())
-				.send();
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_PLUGIN_VERSION).send();
 	}
 
 
 	private void displayDebugSetting(final CommandSender sender)
 	{
-		if (plugin.getConfig().getBoolean("debug"))
+		if (ctx.plugin().getConfig().getBoolean("debug"))
 		{
 			sender.sendMessage(ChatColor.DARK_RED + "DEBUG: true");
 		}
@@ -120,15 +116,15 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayLanguageSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_LANGUAGE)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("language"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LANGUAGE_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("language"))
 				.send();
 	}
 
 
 	private void displayLocaleSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_LOCALE)
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
 				.setMacro(Macro.SETTING, localeProvider.getLocale().toLanguageTag())
 				.send();
 	}
@@ -136,112 +132,109 @@ final class StatusSubcommand extends AbstractSubcommand
 
 	private void displayTimezoneSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_TIMEZONE)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("timezone", ZoneId.systemDefault().toString()))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TIMEZONE_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("timezone", ZoneId.systemDefault().toString()))
 				.send();
 	}
 
 
 	private void displayDefaultMaterialSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_DEFAULT_MATERIAL)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("item-material"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_DEFAULT_MATERIAL_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("item-material"))
 				.send();
 	}
 
 
 	private void displayMinimumDistanceSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_MINIMUM_DISTANCE)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("minimum-distance"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_MINIMUM_DISTANCE_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("minimum-distance"))
 				.send();
 	}
 
 
 	private void displayTeleportWarmupSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_TELEPORT_WARMUP)
-				.setMacro(Macro.SETTING, Duration.ofSeconds(plugin.getConfig().getInt("teleport-warmup")))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TELEPORT_WARMUP_SETTING)
+				.setMacro(Macro.SETTING, Duration.ofSeconds(ctx.plugin().getConfig().getInt("teleport-warmup")))
 				.send();
 	}
 
 
 	private void displayTeleportCooldownSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_TELEPORT_COOLDOWN)
-				.setMacro(Macro.SETTING, Duration.ofSeconds(plugin.getConfig().getInt("teleport-cooldown")))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_TELEPORT_COOLDOWN_SETTING)
+				.setMacro(Macro.SETTING, Duration.ofSeconds(ctx.plugin().getConfig().getInt("teleport-cooldown")))
 				.send();
 	}
 
 
 	private void displayShiftClickSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_SHIFT_CLICK)
-				.setMacro(Macro.SETTING, plugin.getConfig().getBoolean("shift-click"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_SHIFT_CLICK_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("shift-click"))
 				.send();
 	}
 
 
 	private void displayCancelOnDamageSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_DAMAGE)
-				.setMacro(Macro.SETTING, plugin.getConfig().getBoolean("cancel-on-damage"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_DAMAGE_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("cancel-on-damage"))
 				.send();
 	}
 
 	private void displayCancelOnMovementSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_MOVEMENT)
-				.setMacro(Macro.SETTING, plugin.getConfig().getBoolean("cancel-on-movement"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_MOVEMENT_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("cancel-on-movement"))
 				.send();
 	}
 
 	private void displayCancelOnInteractionSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_INTERACTION)
-				.setMacro(Macro.SETTING, plugin.getConfig().getBoolean("cancel-on-interaction"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_CANCEL_ON_INTERACTION_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getBoolean("cancel-on-interaction"))
 				.send();
 	}
 
 
 	private void displayRemoveFromInventorySetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_INVENTORY_REMOVAL)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("remove-from-inventory"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_INVENTORY_REMOVAL_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("remove-from-inventory"))
 				.send();
 	}
 
 
 	private void displayAllowInRecipesSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_ALLOW_IN_RECIPES)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("allow-in-recipes"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ALLOW_IN_RECIPES_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("allow-in-recipes"))
 				.send();
 	}
 
 
 	private void displayLightningSetting(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_DISPLAY_LIGHTNING)
-				.setMacro(Macro.SETTING, plugin.getConfig().getString("lightning"))
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_DISPLAY_LIGHTNING_SETTING)
+				.setMacro(Macro.SETTING, ctx.plugin().getConfig().getString("lightning"))
 				.send();
 	}
 
 
 	private void displayEnabledWorlds(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_ENABLED_WORLDS)
-				.setMacro(Macro.SETTING, plugin.worldManager.getEnabledWorldNames().toString())
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ENABLED_WORLDS_SETTING)
+				.setMacro(Macro.SETTING, ctx.worldManager().getEnabledWorldNames().toString())
 				.send();
 	}
 
 
 	private void displayStatusFooter(final CommandSender sender)
 	{
-		plugin.messageBuilder.compose(sender, MessageId.COMMAND_STATUS_FOOTER)
-				.setMacro(Macro.PLUGIN, plugin.getDescription().getName())
-				.setMacro(Macro.URL, "https://github.com/winterhavenmc/SpawnStar")
-				.send();
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_FOOTER).send();
 	}
 
 }

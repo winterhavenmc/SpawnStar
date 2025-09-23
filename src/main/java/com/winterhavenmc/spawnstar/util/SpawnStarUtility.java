@@ -17,7 +17,7 @@
 
 package com.winterhavenmc.spawnstar.util;
 
-import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.SpawnStarPluginController;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -28,10 +28,10 @@ import java.util.*;
  */
 public final class SpawnStarUtility
 {
-	private final PluginMain plugin;
+	private final SpawnStarPluginController plugin;
 
 
-	public SpawnStarUtility(final PluginMain plugin)
+	public SpawnStarUtility(final SpawnStarPluginController plugin)
 	{
 		this.plugin = plugin;
 	}

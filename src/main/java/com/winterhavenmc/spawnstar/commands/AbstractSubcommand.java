@@ -17,7 +17,7 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
-import com.winterhavenmc.spawnstar.messages.MessageId;
+import com.winterhavenmc.spawnstar.util.MessageId;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 

@@ -17,11 +17,12 @@
 
 package com.winterhavenmc.spawnstar.teleport;
 
+import com.winterhavenmc.spawnstar.PluginController;
+import com.winterhavenmc.spawnstar.util.Macro;
+import com.winterhavenmc.spawnstar.util.MessageId;
+import com.winterhavenmc.spawnstar.util.SoundId;
 import com.winterhavenmc.library.time.TimeUnit;
-import com.winterhavenmc.spawnstar.PluginMain;
-import com.winterhavenmc.spawnstar.messages.Macro;
-import com.winterhavenmc.spawnstar.messages.MessageId;
-import com.winterhavenmc.spawnstar.sounds.SoundId;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ import java.util.Optional;
  */
 public final class TeleportHandler
 {
-	private final PluginMain plugin;
+	private final PluginController.TeleportContextContainer ctx;
 	private final CooldownMap cooldownMap;
 	private final WarmupMap warmupMap;
 
@@ -47,13 +48,13 @@ public final class TeleportHandler
 	/**
 	 * Class constructor
 	 *
-	 * @param plugin reference to plugin main class
+	 * @param ctx reference to plugin main class
 	 */
-	public TeleportHandler(final PluginMain plugin)
+	public TeleportHandler(final PluginController.TeleportContextContainer ctx)
 	{
-		this.plugin = plugin;
-		cooldownMap = new CooldownMap(plugin);
-		warmupMap = new WarmupMap(plugin);
+		this.ctx = ctx;
+		cooldownMap = new CooldownMap(ctx);
+		warmupMap = new WarmupMap(ctx);
 	}
 
 
@@ -75,7 +76,7 @@ public final class TeleportHandler
 		// if player cooldown has not expired, send player cooldown message and return
 		if (cooldownMap.isCoolingDown(player))
 		{
-			plugin.messageBuilder.compose(player, MessageId.TELEPORT_COOLDOWN)
+			ctx.messageBuilder().compose(player, MessageId.TELEPORT_COOLDOWN)
 					.setMacro(Macro.ITEM, playerItem)
 					.setMacro(Macro.DURATION, cooldownMap.getCooldownTimeRemaining(player))
 					.send();
@@ -83,7 +84,7 @@ public final class TeleportHandler
 		}
 
 		// if player is warming up, do nothing and return
-		if (plugin.teleportHandler.isWarmingUp(player))
+		if (this.isWarmingUp(player))
 		{
 			return;
 		}
@@ -92,16 +93,16 @@ public final class TeleportHandler
 		World playerWorld = player.getWorld();
 
 		// get spawn location from world manager
-		Location location = plugin.worldManager.getSpawnLocation(playerWorld);
+		Location location = ctx.worldManager().getSpawnLocation(playerWorld);
 
 		// if from-nether is enabled in config and player is in nether, try to get overworld spawn location
-		if (plugin.getConfig().getBoolean("from-nether") && isInNetherWorld(player))
+		if (ctx.plugin().getConfig().getBoolean("from-nether") && isInNetherWorld(player))
 		{
 			location = getOverworldSpawnLocation(player).orElse(location);
 		}
 
 		// if from-end is enabled in config and player is in end, try to get overworld spawn location
-		else if (plugin.getConfig().getBoolean("from-end") && isInEndWorld(player))
+		else if (ctx.plugin().getConfig().getBoolean("from-end") && isInEndWorld(player))
 		{
 			location = getOverworldSpawnLocation(player).orElse(location);
 		}
@@ -109,35 +110,36 @@ public final class TeleportHandler
 		// if player is less than config min-distance from destination, send player min-distance message and return
 		if (isUnderMinimumDistance(player, location))
 		{
-			plugin.messageBuilder.compose(player, MessageId.TELEPORT_FAIL_MIN_DISTANCE)
+			ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_MIN_PROXIMITY)
+					.setMacro(Macro.ITEM, playerItem)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.send();
 			return;
 		}
 
 		// if remove-from-inventory is configured on-use, take one spawn star item from inventory now
-		if ("on-use".equalsIgnoreCase(plugin.getConfig().getString("remove-from-inventory")))
+		if ("on-use".equalsIgnoreCase(ctx.plugin().getConfig().getString("remove-from-inventory")))
 		{
 			playerItem.setAmount(playerItem.getAmount() - 1);
 			player.getInventory().setItemInMainHand(playerItem);
 		}
 
 		// if warmup setting is greater than zero, send warmup message
-		long warmupTime = plugin.getConfig().getLong("teleport-warmup");
+		long warmupTime = ctx.plugin().getConfig().getLong("teleport-warmup");
 		if (warmupTime > 0)
 		{
-			plugin.messageBuilder.compose(player, MessageId.TELEPORT_WARMUP)
+			ctx.messageBuilder().compose(player, MessageId.TELEPORT_WARMUP)
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.setMacro(Macro.DURATION, Duration.ofSeconds(warmupTime))
 					.send();
 
 			// if enabled, play sound effect
-			plugin.soundConfig.playSound(player, SoundId.TELEPORT_WARMUP);
+			ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_WARMUP);
 		}
 
 		// initiate delayed teleport for player to destination
-		BukkitTask teleportTask = new DelayedTeleportTask(plugin, player, location, playerItem.clone())
-				.runTaskLater(plugin, TimeUnit.SECONDS.toTicks(plugin.getConfig().getLong("teleport-warmup")));
+		BukkitTask teleportTask = new DelayedTeleportTask(ctx, this, player, location, playerItem.clone())
+				.runTaskLater(ctx.plugin(), TimeUnit.SECONDS.toTicks(ctx.plugin().getConfig().getLong("teleport-warmup")));
 
 		// insert player and taskId into warmup hashmap
 		warmupMap.startPlayerWarmUp(player, teleportTask.getTaskId());
@@ -161,7 +163,7 @@ public final class TeleportHandler
 			int taskId = warmupMap.getTaskId(player);
 
 			// cancel delayed teleport task
-			plugin.getServer().getScheduler().cancelTask(taskId);
+			ctx.plugin().getServer().getScheduler().cancelTask(taskId);
 
 			// remove player from warmup hashmap
 			removeWarmingUpPlayer(player);
@@ -223,7 +225,7 @@ public final class TeleportHandler
 		List<World> normalWorlds = new ArrayList<>();
 
 		// iterate through all server worlds
-		for (World checkWorld : plugin.getServer().getWorlds())
+		for (World checkWorld : ctx.plugin().getServer().getWorlds())
 		{
 			// if world is normal environment, try to match name to passed world
 			if (checkWorld.getEnvironment().equals(World.Environment.NORMAL))
@@ -231,7 +233,7 @@ public final class TeleportHandler
 				// check if normal world matches passed world minus nether/end suffix
 				if (checkWorld.getName().equals(player.getWorld().getName().replaceFirst("(_nether$|_the_end$)", "")))
 				{
-					return Optional.of(plugin.worldManager.getSpawnLocation(checkWorld));
+					return Optional.of(ctx.worldManager().getSpawnLocation(checkWorld));
 				}
 
 				// if no match, add to list of normal worlds
@@ -262,7 +264,7 @@ public final class TeleportHandler
 		return location != null
 				&& location.getWorld() != null
 				&& player.getWorld().equals(location.getWorld())
-				&& player.getLocation().distanceSquared(location) < Math.pow(plugin.getConfig().getInt("minimum-distance"), 2);
+				&& player.getLocation().distanceSquared(location) < Math.pow(ctx.plugin().getConfig().getInt("minimum-distance"), 2);
 	}
 
 
@@ -308,11 +310,11 @@ public final class TeleportHandler
 	 */
 	private void logUsage(final Player player)
 	{
-		if (plugin.getConfig().getBoolean("log-use"))
+		if (ctx.plugin().getConfig().getBoolean("log-use"))
 		{
 			ItemStack playerItem = player.getInventory().getItemInMainHand();
 
-			plugin.messageBuilder.compose(plugin.getServer().getConsoleSender(), MessageId.TELEPORT_LOG_USAGE)
+			ctx.messageBuilder().compose(ctx.plugin().getServer().getConsoleSender(), MessageId.TELEPORT_LOG_USAGE)
 					.setMacro(Macro.TARGET_PLAYER, player)
 					.setMacro(Macro.ITEM, playerItem)
 					.send();

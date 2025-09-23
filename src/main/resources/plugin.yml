@@ -1,7 +1,8 @@
 name: SpawnStar
-main: com.winterhavenmc.spawnstar.PluginMain
+main: com.winterhavenmc.spawnstar.Bootstrap
 author: ${project.author}
 version: ${project.version}
+website: ${project.url}
 api-version: 1.18
 softdepend: [ Iris, Multiverse-Core, My_Worlds ]
 

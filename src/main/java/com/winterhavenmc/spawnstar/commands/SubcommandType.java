@@ -17,7 +17,7 @@
 
 package com.winterhavenmc.spawnstar.commands;
 
-import com.winterhavenmc.spawnstar.PluginMain;
+import com.winterhavenmc.spawnstar.PluginController;
 
 
 enum SubcommandType
@@ -25,40 +25,40 @@ enum SubcommandType
 	DESTROY()
 			{
 				@Override
-				Subcommand create(final PluginMain plugin)
+				Subcommand create(final PluginController.CommandContextContainer ctx)
 				{
-					return new DestroySubcommand(plugin);
+					return new DestroySubcommand(ctx);
 				}
 			},
 
 	GIVE()
 			{
 				@Override
-				Subcommand create(final PluginMain plugin)
+				Subcommand create(final PluginController.CommandContextContainer ctx)
 				{
-					return new GiveSubcommand(plugin);
+					return new GiveSubcommand(ctx);
 				}
 			},
 
 	RELOAD()
 			{
 				@Override
-				Subcommand create(final PluginMain plugin)
+				Subcommand create(final PluginController.CommandContextContainer ctx)
 				{
-					return new ReloadSubcommand(plugin);
+					return new ReloadSubcommand(ctx);
 				}
 			},
 
 	STATUS()
 			{
 				@Override
-				Subcommand create(final PluginMain plugin)
+				Subcommand create(final PluginController.CommandContextContainer ctx)
 				{
-					return new StatusSubcommand(plugin);
+					return new StatusSubcommand(ctx);
 				}
 			};
 
 
-	abstract Subcommand create(PluginMain plugin);
+	abstract Subcommand create(final PluginController.CommandContextContainer ctx);
 
 }

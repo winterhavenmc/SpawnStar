@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Tim Savage.
+ * Copyright (c) 2025 Tim Savage.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,18 +15,19 @@
  *
  */
 
-package com.winterhavenmc.spawnstar.messages;
+package com.winterhavenmc.spawnstar;
 
-/**
- * Enum with entries for custom message string replacement placeholders
- */
-public enum Macro
+import org.bukkit.plugin.java.JavaPlugin;
+
+
+public class Bootstrap extends JavaPlugin
 {
-	DESTINATION_WORLD,
-	DURATION,
-	ITEM,
-	PLUGIN,
-	SETTING,
-	TARGET_PLAYER,
-	URL,
+	@Override
+	public void onEnable()
+	{
+		PluginController pluginController = new SpawnStarPluginController(this);
+
+		pluginController.startUp();
+	}
+
 }
