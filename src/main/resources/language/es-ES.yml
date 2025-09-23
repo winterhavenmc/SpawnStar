@@ -176,6 +176,9 @@ MESSAGES:
     MESSAGE_TEXT: "<green>Cancel on interaction:</green> {SETTING}"
 
 
+  ################
+  # Event Messages
+  ################
   TELEPORT_SUCCESS:
     MESSAGE_TEXT: "<dark_aqua>Volviendo a desovar de <aqua>{DESTINATION_WORLD}</aqua>.</dark_aqua>"
     TITLE: "<blue>Origen de {DESTINATION_WORLD}</blue>"

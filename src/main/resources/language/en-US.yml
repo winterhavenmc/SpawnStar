@@ -186,6 +186,9 @@ MESSAGES:
     MESSAGE_TEXT: "<green>Cancel on interaction:</green> {SETTING}"
 
 
+  ################
+  # Event Messages
+  ################
   TELEPORT_SUCCESS:
     MESSAGE_TEXT: "<dark_aqua>Returned to <aqua>{DESTINATION_WORLD}</aqua> spawn.</dark_aqua>"
     TITLE_TEXT: "<dark_aqua>{DESTINATION_WORLD} Spawn</dark_aqua>"
