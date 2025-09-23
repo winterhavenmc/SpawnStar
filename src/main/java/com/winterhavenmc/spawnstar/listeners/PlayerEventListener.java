@@ -20,6 +20,7 @@ package com.winterhavenmc.spawnstar.listeners;
 import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.PluginController;
 import com.winterhavenmc.spawnstar.teleport.TeleportHandler;
+import com.winterhavenmc.spawnstar.util.Macro;
 import com.winterhavenmc.spawnstar.util.MessageId;
 import com.winterhavenmc.spawnstar.util.SoundId;
 import org.bukkit.Material;
@@ -190,8 +191,10 @@ public final class PlayerEventListener implements Listener
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use"))
 			{
-				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_PERMISSION).send();
 				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
+				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_PERMISSION)
+						.setMacro(Macro.ITEM, event.getItem())
+						.send();
 				return;
 			}
 
