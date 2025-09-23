@@ -138,10 +138,10 @@ MESSAGES:
     MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
 
   COMMAND_STATUS_FOOTER:
-    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{URL}><blue><underlined>{URL}<underlined></blue></click></dark_aqua>"
+    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{PLUGIN.URL}><blue><underlined>{PLUGIN.URL}<underlined></blue></click></dark_aqua>"
 
   COMMAND_STATUS_PLUGIN_VERSION:
-    MESSAGE_TEXT: "<green>Version:</green> {SETTING}"
+    MESSAGE_TEXT: "<green>Version:</green> {PLUGIN.VERSION}"
 
   COMMAND_STATUS_LANGUAGE:
     MESSAGE_TEXT: "<green>Language:</green> {SETTING}"
@@ -156,7 +156,7 @@ MESSAGES:
     MESSAGE_TEXT: "<green>Material:</green> {SETTING}"
 
   COMMAND_STATUS_MINIMUM_DISTANCE:
-    MESSAGE_TEXT: "<green>Minimum distance:</green> {SETTING}"
+    MESSAGE_TEXT: "<green>Minimum distance:</green> {SETTING} blocks"
 
   COMMAND_STATUS_TELEPORT_DISTANCE:
     MESSAGE_TEXT: "<green>Teleport warmup:</green> {SETTING}"
