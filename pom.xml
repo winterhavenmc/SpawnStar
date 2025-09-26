@@ -1,10 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
 
 	<name>SpawnStar</name>
-	<groupId>com.winterhavenmc</groupId>
-	<artifactId>SpawnStar</artifactId>
+
+	<groupId>com.winterhavenmc.spawnstar</groupId>
+	<artifactId>spawnstar-parent</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
+
+	<modules>
+		<module>adapters</module>
+		<module>core</module>
+		<module>plugin</module>
+	</modules>
 
 	<url>https://github.com/winterhavcenmc/SpawnStar</url>
 
@@ -145,9 +153,6 @@
 	</dependencies>
 
 	<build>
-		<!-- jar filename -->
-		<finalName>${project.name}-${project.version}</finalName>
-
 		<!-- Resources -->
 		<resources>
 			<resource>
@@ -209,7 +214,14 @@
 								<goal>shade</goal>
 							</goals>
 							<configuration>
+								<!-- Final shaded JAR name -->
+								<finalName>SpawnStar-${project.version}</finalName>
+
+								<!-- Minimize to remove unused classes (optional, test carefully) -->
 								<minimizeJar>true</minimizeJar>
+
+								<!-- Do not generate a dependency-reduced POM -->
+								<createDependencyReducedPom>false</createDependencyReducedPom>
 								<filters>
 									<filter>
 										<artifact>org.bstats:bstats-*</artifact>
