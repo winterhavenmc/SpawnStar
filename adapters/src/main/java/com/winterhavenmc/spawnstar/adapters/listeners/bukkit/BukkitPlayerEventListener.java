@@ -138,34 +138,31 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			Block block = event.getClickedBlock();
 
 			// check if clicked block is air (null)
-			if (block != null)
+			// check that player is not sneaking, to interact with blocks
+			if (block != null && !event.getPlayer().isSneaking())
 			{
-				// check that player is not sneaking, to interact with blocks
-				if (!event.getPlayer().isSneaking())
+				// allow use of doors, gates and trap doors with item in hand
+				if (block.getBlockData() instanceof Openable)
 				{
-					// allow use of doors, gates and trap doors with item in hand
-					if (block.getBlockData() instanceof Openable)
-					{
-						return;
-					}
+					return;
+				}
 
-					// allow use of switches with item in hand
-					if (block.getBlockData() instanceof Switch)
-					{
-						return;
-					}
+				// allow use of switches with item in hand
+				if (block.getBlockData() instanceof Switch)
+				{
+					return;
+				}
 
-					// allow use of containers and other tile entity blocks with item in hand
-					if (block.getState() instanceof TileState)
-					{
-						return;
-					}
+				// allow use of containers and other tile entity blocks with item in hand
+				if (block.getState() instanceof TileState)
+				{
+					return;
+				}
 
-					// allow use of crafting tables with item in hand
-					if (craftTables.contains(block.getType()))
-					{
-						return;
-					}
+				// allow use of crafting tables with item in hand
+				if (craftTables.contains(block.getType()))
+				{
+					return;
 				}
 			}
 
