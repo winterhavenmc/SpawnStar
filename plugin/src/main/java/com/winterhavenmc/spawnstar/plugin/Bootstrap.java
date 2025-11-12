@@ -29,19 +29,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Bootstrap extends JavaPlugin
 {
-	SpawnStarUtility spawnStarUtility;
-
-
 	@Override
 	public void onEnable()
 	{
 		saveDefaultConfig();
 
-		MessageBuilder messageBuilder = MessageBuilder.create(this);
+		final MessageBuilder messageBuilder = MessageBuilder.create(this);
 		final TeleportHandler teleportHandler = new TeleportHandler(this, messageBuilder);
-		this.spawnStarUtility = new SpawnStarUtility(messageBuilder);
+		final SpawnStarUtility spawnStarUtility = new SpawnStarUtility(messageBuilder);
+
 		new BukkitCommandDispatcher(this, messageBuilder, spawnStarUtility);
 		new BukkitPlayerEventListener(this, messageBuilder, teleportHandler);
 	}
-
 }
