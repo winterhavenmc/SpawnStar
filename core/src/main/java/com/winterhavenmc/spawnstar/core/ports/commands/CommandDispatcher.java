@@ -17,10 +17,30 @@
 
 package com.winterhavenmc.spawnstar.core.ports.commands;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 
-import com.winterhavenmc.spawnstar.core.context.CommandCtx;
+import javax.annotation.Nonnull;
+import java.util.List;
 
-public interface CommandDispatcher
+public interface CommandDispatcher extends TabExecutor
 {
-	CommandDispatcher init(CommandCtx ctx);
+	/**
+	 * Tab completer for SpawnStar
+	 */
+	@Override
+	List<String> onTabComplete(@Nonnull CommandSender sender,
+	                           @Nonnull Command command,
+	                           @Nonnull String alias,
+	                           String[] args);
+
+	/**
+	 * command executor method for SpawnStar
+	 */
+	@Override
+	boolean onCommand(@Nonnull CommandSender sender,
+	                  @Nonnull Command cmd,
+	                  @Nonnull String label,
+	                  String[] args);
 }
