@@ -63,7 +63,7 @@ MESSAGES:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <aqua>Configuration reloaded.</aqua>"
 
 
-  COMMAND_HELP_INVALID:
+  COMMAND_FAIL_INVALID_HELP:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>That is not a valid command!</red>"
 
   COMMAND_HELP_DESTROY:

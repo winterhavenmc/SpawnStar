@@ -62,7 +62,7 @@ MESSAGES:
     MESSAGE_TEXT: "<aqua>[SpawnStar] configuración vuelve a cargar.</aqua>"
 
 
-  COMMAND_HELP_INVALID:
+  COMMAND_FAIL_INVALID_HELP:
     MESSAGE_TEXT: "<dark_aqua>[SpawnStar]</dark_aqua> <red>¡Ésta no es una orden válida!</red>"
 
   COMMAND_HELP_DESTROY:
