@@ -17,7 +17,6 @@
 
 package com.winterhavenmc.spawnstar.adapters.listeners.bukkit;
 
-import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.core.context.ListenerCtx;
 import com.winterhavenmc.spawnstar.core.ports.listeners.PlayerEventListener;
 import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
@@ -136,7 +135,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!ItemForge.isCustomItem(event.getItem()))
+		if (!ctx.messageBuilder().items().isItem(event.getItem()))
 		{
 			return;
 		}
@@ -283,7 +282,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		// if crafting inventory contains SpawnStar item, set result item to null
 		for (ItemStack itemStack : event.getInventory())
 		{
-			if (ItemForge.isCustomItem(itemStack))
+			if (ctx.messageBuilder().items().isItem(itemStack))
 			{
 				event.getInventory().setResult(null);
 			}

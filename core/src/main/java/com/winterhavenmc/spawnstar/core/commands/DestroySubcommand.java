@@ -17,7 +17,6 @@
 
 package com.winterhavenmc.spawnstar.core.commands;
 
-import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
@@ -74,7 +73,7 @@ final class DestroySubcommand extends AbstractSubcommand
 		ItemStack playerItem = player.getInventory().getItemInMainHand();
 
 		// check that player held item is a spawnstar stack
-		if (!ItemForge.isCustomItem(playerItem))
+		if (!ctx.messageBuilder().items().isItem(playerItem))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
 			return true;
