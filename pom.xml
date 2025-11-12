@@ -2,9 +2,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<name>SpawnStar</name>
-	<groupId>com.winterhavenmc</groupId>
-	<artifactId>SpawnStar</artifactId>
+
+	<groupId>com.winterhavenmc.spawnstar</groupId>
+	<artifactId>spawnstar-parent</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
+
+	<modules>
+		<module>adapters</module>
+		<module>core</module>
+		<module>plugin</module>
+	</modules>
+
+	<packaging>pom</packaging>
 
 	<url>https://github.com/winterhavcenmc/SpawnStar</url>
 
@@ -74,25 +83,9 @@
 
 			<!-- MessageBuilderLib -->
 			<dependency>
-				<groupId>com.winterhaven-mc</groupId>
-				<artifactId>message-builder-lib</artifactId>
+				<groupId>com.winterhavenmc.messagebuilder</groupId>
+				<artifactId>bootstrap</artifactId>
 				<version>2.0.0-SNAPSHOT</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- SoundConfigLib -->
-			<dependency>
-				<groupId>com.winterhaven-mc</groupId>
-				<artifactId>sound-config-lib</artifactId>
-				<version>1.21.0-SNAPSHOT</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- WorldManagerLib -->
-			<dependency>
-				<groupId>com.winterhaven-mc</groupId>
-				<artifactId>world-manager-lib</artifactId>
-				<version>1.21.0-SNAPSHOT</version>
 				<scope>compile</scope>
 			</dependency>
 
@@ -121,20 +114,8 @@
 
 		<!-- MessageBuilderLib -->
 		<dependency>
-			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>message-builder-lib</artifactId>
-		</dependency>
-
-		<!-- SoundConfigLib -->
-		<dependency>
-			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>sound-config-lib</artifactId>
-		</dependency>
-
-		<!-- WorldManagerLib -->
-		<dependency>
-			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>world-manager-lib</artifactId>
+			<groupId>com.winterhavenmc.messagebuilder</groupId>
+			<artifactId>bootstrap</artifactId>
 		</dependency>
 
 		<!-- Unit Testing Dependencies -->
@@ -145,9 +126,6 @@
 	</dependencies>
 
 	<build>
-		<!-- jar filename -->
-		<finalName>${project.name}-${project.version}</finalName>
-
 		<!-- Resources -->
 		<resources>
 			<resource>
@@ -166,6 +144,7 @@
 
 		<pluginManagement>
 			<plugins>
+				<!-- maven enforcer plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
@@ -191,17 +170,11 @@
 					</executions>
 				</plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.13.0</version>
-				</plugin>
-
-				<!-- Create Shaded jar -->
+				<!-- maven shade plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
-					<version>3.6.0</version>
+					<version>3.6.1</version>
 					<executions>
 						<execution>
 							<phase>package</phase>
@@ -209,7 +182,14 @@
 								<goal>shade</goal>
 							</goals>
 							<configuration>
+								<!-- Final shaded JAR name -->
+								<finalName>SpawnStar-${project.version}</finalName>
+
+								<!-- Minimize to remove unused classes (optional, test carefully) -->
 								<minimizeJar>true</minimizeJar>
+
+								<!-- Do not generate a dependency-reduced POM -->
+								<createDependencyReducedPom>false</createDependencyReducedPom>
 								<filters>
 									<filter>
 										<artifact>org.bstats:bstats-*</artifact>
@@ -230,14 +210,6 @@
 										</excludes>
 									</filter>
 								</filters>
-								<artifactSet>
-									<includes>
-										<include>com.winterhaven-mc:message-builder-lib</include>
-										<include>com.winterhaven-mc:sound-config-lib</include>
-										<include>com.winterhaven-mc:world-manager-lib</include>
-										<include>org.bstats</include>
-									</includes>
-								</artifactSet>
 								<relocations>
 									<relocation>
 										<pattern>com.winterhavenmc.library</pattern>
@@ -253,7 +225,14 @@
 					</executions>
 				</plugin>
 
-				<!-- Create Javadoc jar -->
+				<!-- maven compiler plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.13.0</version>
+				</plugin>
+
+				<!-- maven Javadoc plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -271,7 +250,7 @@
 					</executions>
 				</plugin>
 
-				<!-- Create Sources jar -->
+				<!-- maven source plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
@@ -286,12 +265,11 @@
 					</executions>
 				</plugin>
 
-				<!-- Plugin for Unit Tests -->
+				<!-- maven SureFire plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.22.2</version>
-
 					<configuration>
 						<junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
 						<trimStackTrace>false</trimStackTrace>
@@ -304,35 +282,31 @@
 		</pluginManagement>
 
 		<plugins>
+			<!-- maven enforcer plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
 			</plugin>
 
+			<!-- maven compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 
-			<!-- Create Shaded jar -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-			</plugin>
-
-			<!-- Create Javadoc jar -->
+			<!-- maven Javadoc plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 
-			<!-- Create Sources jar -->
+			<!-- maven sources plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 
-			<!-- Plugin for Unit Tests -->
+			<!-- maven SureFire plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
