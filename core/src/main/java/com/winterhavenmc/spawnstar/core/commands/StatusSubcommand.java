@@ -17,7 +17,8 @@
 
 package com.winterhavenmc.spawnstar.core.commands;
 
-import com.winterhavenmc.library.messagebuilder.resources.configuration.LocaleProvider;
+import com.winterhavenmc.library.messagebuilder.adapters.resources.configuration.BukkitConfigRepository;
+import com.winterhavenmc.library.messagebuilder.models.configuration.ConfigRepository;
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
@@ -34,7 +35,7 @@ import java.util.Objects;
 final class StatusSubcommand extends AbstractSubcommand
 {
 	private final CommandCtx ctx;
-	private final LocaleProvider localeProvider;
+	private final ConfigRepository configRepository;
 
 
 	StatusSubcommand(final CommandCtx ctx)
@@ -44,7 +45,7 @@ final class StatusSubcommand extends AbstractSubcommand
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
 		this.permissionNode = "spawnstar.status";
-		this.localeProvider = LocaleProvider.create(ctx.plugin());
+		this.configRepository = BukkitConfigRepository.create(ctx.plugin());
 	}
 
 
@@ -123,7 +124,7 @@ final class StatusSubcommand extends AbstractSubcommand
 	private void displayLocaleSetting(final CommandSender sender)
 	{
 		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
-				.setMacro(Macro.SETTING, localeProvider.getLocale().toLanguageTag())
+				.setMacro(Macro.SETTING, configRepository.locale().toLanguageTag())
 				.send();
 	}
 
