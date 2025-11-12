@@ -12,11 +12,11 @@
 	</parent>
 
 	<dependencies>
+		<!-- internal -->
 		<dependency>
 			<groupId>com.winterhavenmc.spawnstar</groupId>
 			<artifactId>adapters</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.winterhavenmc.spawnstar</groupId>

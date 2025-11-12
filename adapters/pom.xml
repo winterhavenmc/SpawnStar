@@ -12,6 +12,7 @@
 	</parent>
 
 	<dependencies>
+		<!-- internal -->
 		<dependency>
 			<groupId>com.winterhavenmc.spawnstar</groupId>
 			<artifactId>core</artifactId>
