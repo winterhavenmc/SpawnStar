@@ -3,7 +3,7 @@ main: com.winterhavenmc.spawnstar.plugin.Bootstrap
 author: ${project.author}
 version: ${project.version}
 website: ${project.url}
-api-version: 1.18
+api-version: 1.20
 softdepend: [ Iris, Multiverse-Core, My_Worlds ]
 
 commands:
