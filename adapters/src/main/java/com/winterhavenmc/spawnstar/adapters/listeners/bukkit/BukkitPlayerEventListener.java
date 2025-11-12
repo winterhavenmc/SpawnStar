@@ -17,12 +17,11 @@
 
 package com.winterhavenmc.spawnstar.adapters.listeners.bukkit;
 
-import com.winterhavenmc.spawnstar.core.context.ListenerCtx;
+import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import com.winterhavenmc.spawnstar.core.ports.listeners.PlayerEventListener;
 import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-//import com.winterhavenmc.spawnstar.core.util.SoundId;
 
 import com.winterhavenmc.spawnstar.core.util.SoundId;
 import org.bukkit.Material;
@@ -41,6 +40,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Set;
 
@@ -50,7 +50,9 @@ import java.util.Set;
  */
 public final class BukkitPlayerEventListener implements PlayerEventListener
 {
-	private final ListenerCtx ctx;
+	@org.jetbrains.annotations.NotNull
+	private final Plugin plugin;
+	private final MessageBuilder messageBuilder;
 	private final TeleportHandler teleportHandler;
 
 	// set to hold craft table materials
@@ -63,35 +65,15 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			Material.STONECUTTER);
 
 
-	private BukkitPlayerEventListener()
-	{
-		ctx = null;
-		teleportHandler = null;
-	}
-
-
 	/**
 	 * Class constructor for PlayerEventListener
-	 *
-	 * @param ctx reference to this plugin's main class
 	 */
-	private BukkitPlayerEventListener(final ListenerCtx ctx, final TeleportHandler teleportHandler)
+	public BukkitPlayerEventListener(final Plugin plugin, final MessageBuilder messageBuilder, final TeleportHandler teleportHandler)
 	{
-		this.ctx = ctx;
+		this.plugin = plugin;
+		this.messageBuilder = messageBuilder;
 		this.teleportHandler = teleportHandler;
-		ctx.plugin().getServer().getPluginManager().registerEvents(this, ctx.plugin());
-	}
-
-
-	public static PlayerEventListener create()
-	{
-		return new BukkitPlayerEventListener();
-	}
-
-
-	public PlayerEventListener init(final ListenerCtx ctx, final TeleportHandler teleportHandler)
-	{
-		return new BukkitPlayerEventListener(ctx, teleportHandler);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 
@@ -107,7 +89,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		final Player player = event.getPlayer();
 
 		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
-		if (ctx.plugin().getConfig().getBoolean("cancel-on-interaction"))
+		if (plugin.getConfig().getBoolean("cancel-on-interaction"))
 		{
 			// if player is in warmup hashmap, check if they are interacting with a block (not air)
 			if (teleportHandler.isWarmingUp(player))
@@ -127,7 +109,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 					teleportHandler.cancelTeleport(player);
 
 					// send cancelled teleport message
-					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
+					messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 
 					return;
 				}
@@ -135,7 +117,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
-		if (!ctx.messageBuilder().items().isItem(event.getItem()))
+		if (!messageBuilder.items().isItem(event.getItem()))
 		{
 			return;
 		}
@@ -152,7 +134,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		// if event action is left-click, and left-click is config disabled, do nothing and return
 		if (action.equals(Action.LEFT_CLICK_BLOCK)
 				|| action.equals(Action.LEFT_CLICK_AIR)
-				&& !ctx.plugin().getConfig().getBoolean("left-click"))
+				&& !plugin.getConfig().getBoolean("left-click"))
 		{
 			return;
 		}
@@ -199,28 +181,28 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			event.setCancelled(true);
 
 			// if players current world is not enabled in config, send message and return
-			if (!ctx.messageBuilder().worlds().isEnabled(player.getWorld().getUID()))
+			if (!messageBuilder.worlds().isEnabled(player.getWorld().getUID()))
 			{
-				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
-				ctx.messageBuilder().sounds().play(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
+				messageBuilder.compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
+				messageBuilder.sounds().play(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use"))
 			{
-				ctx.messageBuilder().sounds().play(player, SoundId.TELEPORT_DENIED_PERMISSION);
-				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_PERMISSION)
+				messageBuilder.sounds().play(player, SoundId.TELEPORT_DENIED_PERMISSION);
+				messageBuilder.compose(player, MessageId.TELEPORT_FAIL_PERMISSION)
 						.setMacro(Macro.ITEM, event.getItem())
 						.send();
 				return;
 			}
 
 			// if shift-click configured and player is not sneaking, send message and return
-			if (ctx.plugin().getConfig().getBoolean("shift-click")
+			if (plugin.getConfig().getBoolean("shift-click")
 					&& !player.isSneaking())
 			{
-				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK)
+				messageBuilder.compose(player, MessageId.TELEPORT_FAIL_SHIFT_CLICK)
 						.setMacro(Macro.ITEM, event.getItem())
 						.send();
 				return;
@@ -274,7 +256,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 	void onCraftPrepare(final PrepareItemCraftEvent event)
 	{
 		// if allow-in-recipes is true in configuration, do nothing and return
-		if (ctx.plugin().getConfig().getBoolean("allow-in-recipes"))
+		if (plugin.getConfig().getBoolean("allow-in-recipes"))
 		{
 			return;
 		}
@@ -282,7 +264,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		// if crafting inventory contains SpawnStar item, set result item to null
 		for (ItemStack itemStack : event.getInventory())
 		{
-			if (ctx.messageBuilder().items().isItem(itemStack))
+			if (messageBuilder.items().isItem(itemStack))
 			{
 				event.getInventory().setResult(null);
 			}
@@ -299,7 +281,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 	void onEntityDamage(final EntityDamageEvent event)
 	{
 		// if cancel-on-damage configuration is true, check if damaged entity is player
-		if (ctx.plugin().getConfig().getBoolean("cancel-on-damage"))
+		if (plugin.getConfig().getBoolean("cancel-on-damage"))
 		{
 			Entity entity = event.getEntity();
 
@@ -310,7 +292,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 				if (teleportHandler.isWarmingUp(player))
 				{
 					teleportHandler.cancelTeleport(player);
-					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
+					messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
 				}
 			}
 		}
@@ -326,7 +308,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 	void onPlayerMovement(final PlayerMoveEvent event)
 	{
 		// if cancel-on-movement configuration is false, do nothing and return
-		if (!ctx.plugin().getConfig().getBoolean("cancel-on-movement"))
+		if (!plugin.getConfig().getBoolean("cancel-on-movement"))
 		{
 			return;
 		}
@@ -341,7 +323,7 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			if (event.getTo() != null && event.getFrom().distance(event.getTo()) > 0)
 			{
 				teleportHandler.cancelTeleport(player);
-				ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
+				messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
 			}
 		}
 	}

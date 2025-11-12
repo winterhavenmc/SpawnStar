@@ -17,6 +17,7 @@
 
 package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
+import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import com.winterhavenmc.spawnstar.core.commands.HelpSubcommand;
 import com.winterhavenmc.spawnstar.core.commands.Subcommand;
 import com.winterhavenmc.spawnstar.core.commands.SubcommandRegistry;
@@ -25,9 +26,10 @@ import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.ports.commands.CommandDispatcher;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 
+import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -37,53 +39,34 @@ import java.util.function.Predicate;
 /**
  * Implements command executor and tab completer for SpawnStar commands.
  */
-public final class BukkitCommandDispatcher implements TabExecutor, CommandDispatcher
+public final class BukkitCommandDispatcher implements CommandDispatcher
 {
-	private final CommandCtx ctx;
+	private final MessageBuilder messageBuilder;
 	private final SubcommandRegistry subcommandRegistry = new SubcommandRegistry();
-
-
-	public BukkitCommandDispatcher()
-	{
-		this.ctx = null;
-		System.out.println("BukkitCommandDispatcher created.");
-	}
 
 
 	/**
 	 * Class constructor method for BukkitCommandDispatcher
 	 */
-	private BukkitCommandDispatcher(final CommandCtx ctx)
+	public BukkitCommandDispatcher(final JavaPlugin plugin, final MessageBuilder messageBuilder, final SpawnStarUtility spawnStarUtility)
 	{
-		this.ctx = ctx;
+		this.messageBuilder = messageBuilder;
 
 		// register this class as command executor
-		Objects.requireNonNull(ctx.plugin().getCommand("spawnstar")).setExecutor(this);
+		Objects.requireNonNull(plugin.getCommand("spawnstar")).setExecutor(this);
+		CommandCtx ctx = new CommandCtx(plugin, messageBuilder, spawnStarUtility);
 
 		// register subcommands
 		for (SubcommandType subcommandType : SubcommandType.values())
 		{
 			subcommandRegistry.register(subcommandType.create(ctx));
-			System.out.println("Registered subcommand: " + subcommandType.name());
+			ctx.plugin().getLogger().info("Registered subcommand: " + subcommandType.name());
 		}
 
 		// register help command
 		subcommandRegistry.register(new HelpSubcommand(ctx, subcommandRegistry));
 
-		System.out.println("BukkitCommandDispatcher initialized.");
-	}
-
-
-	public static CommandDispatcher create()
-	{
-		return new BukkitCommandDispatcher();
-	}
-
-
-	@Override
-	public CommandDispatcher init(CommandCtx ctx)
-	{
-		return new BukkitCommandDispatcher(ctx);
+		ctx.plugin().getLogger().info("BukkitCommandDispatcher created via private one-parameter constructor.");
 	}
 
 
@@ -151,7 +134,7 @@ public final class BukkitCommandDispatcher implements TabExecutor, CommandDispat
 		if (subcommand.isEmpty())
 		{
 			subcommand = subcommandRegistry.getSubcommand("help");
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
+			messageBuilder.compose(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
 		}
 
 		// execute subcommand
