@@ -21,7 +21,7 @@ import com.winterhavenmc.library.messagebuilder.ItemForge;
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -59,7 +59,6 @@ final class DestroySubcommand extends AbstractSubcommand
 		if (!sender.hasPermission(permissionNode))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -67,7 +66,6 @@ final class DestroySubcommand extends AbstractSubcommand
 		if (args.size() > getMaxArgs())
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -79,7 +77,6 @@ final class DestroySubcommand extends AbstractSubcommand
 		if (!ItemForge.isCustomItem(playerItem))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -97,9 +94,6 @@ final class DestroySubcommand extends AbstractSubcommand
 		ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
 				.setMacro(Macro.ITEM, playerItem)
 				.send();
-
-		// play success sound
-		ctx.soundConfiguration().playSound(player, SoundId.COMMAND_SUCCESS_DESTROY);
 
 		// return true to prevent display of bukkit command usage string
 		return true;

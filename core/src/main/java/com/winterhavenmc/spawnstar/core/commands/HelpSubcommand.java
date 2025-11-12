@@ -19,7 +19,7 @@ package com.winterhavenmc.spawnstar.core.commands;
 
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -83,7 +83,6 @@ public final class HelpSubcommand extends AbstractSubcommand implements Subcomma
 		if (!sender.hasPermission(permissionNode))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_HELP_PERMISSION).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -91,7 +90,6 @@ public final class HelpSubcommand extends AbstractSubcommand implements Subcomma
 		if (args.size() > getMaxArgs())
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -129,8 +127,7 @@ public final class HelpSubcommand extends AbstractSubcommand implements Subcomma
 		}
 		else
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_HELP_INVALID).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_INVALID);
+			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_INVALID_HELP).send();
 		}
 	}
 
@@ -142,8 +139,7 @@ public final class HelpSubcommand extends AbstractSubcommand implements Subcomma
 	 */
 	private void sendCommandInvalidMessage(CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_HELP_INVALID).send();
-		ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_INVALID);
+		ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_INVALID_HELP).send();
 		displayUsageAll(sender);
 	}
 

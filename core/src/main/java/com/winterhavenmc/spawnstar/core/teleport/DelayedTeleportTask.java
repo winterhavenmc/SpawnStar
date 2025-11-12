@@ -21,6 +21,7 @@ import com.winterhavenmc.spawnstar.core.context.TeleportCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 import com.winterhavenmc.spawnstar.core.util.SoundId;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -116,14 +117,13 @@ final class DelayedTeleportTask extends BukkitRunnable
 				if (notRemoved)
 				{
 					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_NO_ITEM).send();
-					ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED_NO_ITEM);
 					teleportHandler.startPlayerCooldown(player);
 					return;
 				}
 			}
 
 			// play pre-teleport sound if sound effects are enabled
-			ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_SUCCESS_DEPARTURE);
+			ctx.messageBuilder().sounds().play(player, SoundId.TELEPORT_SUCCESS_DEPARTURE);
 
 			// teleport player to destination
 			player.teleport(destination);
@@ -134,7 +134,7 @@ final class DelayedTeleportTask extends BukkitRunnable
 					.send();
 
 			// play post-teleport sound if sound effects are enabled
-			ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
+			ctx.messageBuilder().sounds().play(player, SoundId.TELEPORT_SUCCESS_ARRIVAL);
 
 			// if lightning is enabled in config, strike lightning at spawn location
 			if (ctx.plugin().getConfig().getBoolean("lightning"))

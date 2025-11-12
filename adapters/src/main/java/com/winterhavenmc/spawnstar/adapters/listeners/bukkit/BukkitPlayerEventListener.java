@@ -23,6 +23,8 @@ import com.winterhavenmc.spawnstar.core.ports.listeners.PlayerEventListener;
 import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
+//import com.winterhavenmc.spawnstar.core.util.SoundId;
+
 import com.winterhavenmc.spawnstar.core.util.SoundId;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -128,8 +130,6 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 					// send cancelled teleport message
 					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 
-					// play cancelled teleport sound
-					ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED);
 					return;
 				}
 			}
@@ -200,17 +200,17 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			event.setCancelled(true);
 
 			// if players current world is not enabled in config, send message and return
-			if (!ctx.worldManager().isEnabled(player.getWorld()))
+			if (!ctx.messageBuilder().worlds().isEnabled(player.getWorld().getUID()))
 			{
 				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_WORLD_DISABLED).send();
-				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
+				ctx.messageBuilder().sounds().play(player, SoundId.TELEPORT_DENIED_WORLD_DISABLED);
 				return;
 			}
 
 			// if player does not have spawnstar.use permission, send message and return
 			if (!player.hasPermission("spawnstar.use"))
 			{
-				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_DENIED_PERMISSION);
+				ctx.messageBuilder().sounds().play(player, SoundId.TELEPORT_DENIED_PERMISSION);
 				ctx.messageBuilder().compose(player, MessageId.TELEPORT_FAIL_PERMISSION)
 						.setMacro(Macro.ITEM, event.getItem())
 						.send();
@@ -312,7 +312,6 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 				{
 					teleportHandler.cancelTeleport(player);
 					ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_DAMAGE).send();
-					ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED);
 				}
 			}
 		}
@@ -344,7 +343,6 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			{
 				teleportHandler.cancelTeleport(player);
 				ctx.messageBuilder().compose(player, MessageId.TELEPORT_CANCELLED_MOVEMENT).send();
-				ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_CANCELLED);
 			}
 		}
 	}

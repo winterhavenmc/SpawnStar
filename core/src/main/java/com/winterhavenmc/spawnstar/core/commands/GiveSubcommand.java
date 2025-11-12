@@ -20,7 +20,6 @@ package com.winterhavenmc.spawnstar.core.commands;
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -67,7 +66,6 @@ final class GiveSubcommand extends AbstractSubcommand
 		if (!sender.hasPermission("spawnstar.give"))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -75,7 +73,6 @@ final class GiveSubcommand extends AbstractSubcommand
 		if (args.size() < getMinArgs())
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_UNDER).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -84,7 +81,6 @@ final class GiveSubcommand extends AbstractSubcommand
 		if (args.size() > getMaxArgs())
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -99,7 +95,6 @@ final class GiveSubcommand extends AbstractSubcommand
 		if (targetPlayer == null)
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -115,7 +110,6 @@ final class GiveSubcommand extends AbstractSubcommand
 			} catch (NumberFormatException e)
 			{
 				ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
-				ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 				return true;
 			}
 		}
@@ -143,7 +137,6 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity)
 		{
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
 					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
 					.setMacro(Macro.ITEM, item)
@@ -161,7 +154,6 @@ final class GiveSubcommand extends AbstractSubcommand
 		else
 		{
 			// send message and play sound to giver
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_SUCCESS_GIVE_SENDER);
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_GIVE_SENDER)
 					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
 					.setMacro(Macro.ITEM, item)
@@ -174,8 +166,6 @@ final class GiveSubcommand extends AbstractSubcommand
 					.send();
 		}
 
-		// play sound to target player
-		ctx.soundConfiguration().playSound(targetPlayer, SoundId.COMMAND_SUCCESS_GIVE_TARGET);
 		return true;
 	}
 

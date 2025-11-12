@@ -18,13 +18,7 @@
 package com.winterhavenmc.spawnstar.core.context;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
-import com.winterhavenmc.library.soundconfig.SoundConfiguration;
-import com.winterhavenmc.library.worldmanager.WorldManager;
 import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public record CommandCtx(JavaPlugin plugin, MessageBuilder messageBuilder,
-                         SoundConfiguration soundConfiguration, WorldManager worldManager,
-                         SpawnStarUtility spawnStarUtility)
-{
-}
+public record CommandCtx(JavaPlugin plugin, MessageBuilder messageBuilder, SpawnStarUtility spawnStarUtility) { }

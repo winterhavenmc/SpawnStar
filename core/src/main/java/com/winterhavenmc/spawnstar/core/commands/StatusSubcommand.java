@@ -21,7 +21,7 @@ import com.winterhavenmc.library.messagebuilder.resources.configuration.LocalePr
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -55,7 +55,6 @@ final class StatusSubcommand extends AbstractSubcommand
 		if (!sender.hasPermission(permissionNode))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -63,7 +62,6 @@ final class StatusSubcommand extends AbstractSubcommand
 		if (args.size() > getMaxArgs())
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -227,7 +225,7 @@ final class StatusSubcommand extends AbstractSubcommand
 	private void displayEnabledWorlds(final CommandSender sender)
 	{
 		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_ENABLED_WORLDS_SETTING)
-				.setMacro(Macro.SETTING, ctx.worldManager().getEnabledWorldNames().toString())
+				.setMacro(Macro.SETTING, ctx.messageBuilder().worlds().enabledNames().toString())
 				.send();
 	}
 

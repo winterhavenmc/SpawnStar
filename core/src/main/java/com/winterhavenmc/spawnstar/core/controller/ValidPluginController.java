@@ -28,9 +28,6 @@ import com.winterhavenmc.spawnstar.core.util.MetricsHandler;
 import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
-import com.winterhavenmc.library.soundconfig.SoundConfiguration;
-import com.winterhavenmc.library.soundconfig.YamlSoundConfiguration;
-import com.winterhavenmc.library.worldmanager.WorldManager;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,8 +43,6 @@ public final class ValidPluginController implements PluginController
 {
 	private final JavaPlugin plugin;
 	private final MessageBuilder messageBuilder;
-	public final SoundConfiguration soundConfig;
-	public final WorldManager worldManager;
 
 	public TeleportHandler teleportHandler;
 	public CommandDispatcher commandDispatcher;
@@ -64,22 +59,16 @@ public final class ValidPluginController implements PluginController
 
 		// instantiate message builder
 		this.messageBuilder = MessageBuilder.create(plugin);
-
-		// instantiate sound configuration
-		this.soundConfig = new YamlSoundConfiguration(plugin);
-
-		// instantiate world manager
-		this.worldManager = new WorldManager(plugin);
 	}
 
 
 	public void startUp(final CommandDispatcher commandDispatcher, final PlayerEventListener playerEventListener)
 	{
 		// instantiate context containers
-		CommandCtx commandCtx = new CommandCtx(plugin, messageBuilder, soundConfig, worldManager, spawnStarUtility);
-		ListenerCtx listenerCtx = new ListenerCtx(plugin, messageBuilder, soundConfig, worldManager);
-		TeleportCtx teleportCtx = new TeleportCtx(plugin, messageBuilder, soundConfig, worldManager);
-		UtilityCtx utilityCtx = new UtilityCtx(plugin, messageBuilder);
+		final CommandCtx commandCtx = new CommandCtx(plugin, messageBuilder, spawnStarUtility);
+		final ListenerCtx listenerCtx = new ListenerCtx(plugin, messageBuilder);
+		final TeleportCtx teleportCtx = new TeleportCtx(plugin, messageBuilder);
+		final UtilityCtx utilityCtx = new UtilityCtx(plugin, messageBuilder);
 
 		// instantiate command manager
 		this.commandDispatcher = commandDispatcher.init(commandCtx);

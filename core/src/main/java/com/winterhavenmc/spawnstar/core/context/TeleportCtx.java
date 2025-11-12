@@ -18,11 +18,6 @@
 package com.winterhavenmc.spawnstar.core.context;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
-import com.winterhavenmc.library.soundconfig.SoundConfiguration;
-import com.winterhavenmc.library.worldmanager.WorldManager;
 import org.bukkit.plugin.Plugin;
 
-public record TeleportCtx(Plugin plugin, MessageBuilder messageBuilder, SoundConfiguration soundConfiguration,
-                          WorldManager worldManager)
-{
-}
+public record TeleportCtx(Plugin plugin, MessageBuilder messageBuilder) { }

@@ -17,11 +17,11 @@
 
 package com.winterhavenmc.spawnstar.core.teleport;
 
+import com.winterhavenmc.library.messagebuilder.models.time.TimeUnit;
+
 import com.winterhavenmc.spawnstar.core.context.TeleportCtx;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
-import com.winterhavenmc.library.time.TimeUnit;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -93,7 +93,7 @@ public final class TeleportHandler
 		World playerWorld = player.getWorld();
 
 		// get spawn location from world manager
-		Location location = ctx.worldManager().getSpawnLocation(playerWorld);
+		Location location = ctx.messageBuilder().worlds().spawnLocation(playerWorld.getUID()).orElseThrow(); // TODO: replace orElseThrow()
 
 		// if from-nether is enabled in config and player is in nether, try to get overworld spawn location
 		if (ctx.plugin().getConfig().getBoolean("from-nether") && isInNetherWorld(player))
@@ -132,9 +132,6 @@ public final class TeleportHandler
 					.setMacro(Macro.DESTINATION_WORLD, location.getWorld())
 					.setMacro(Macro.DURATION, Duration.ofSeconds(warmupTime))
 					.send();
-
-			// if enabled, play sound effect
-			ctx.soundConfiguration().playSound(player, SoundId.TELEPORT_WARMUP);
 		}
 
 		// initiate delayed teleport for player to destination
@@ -233,7 +230,7 @@ public final class TeleportHandler
 				// check if normal world matches passed world minus nether/end suffix
 				if (checkWorld.getName().equals(player.getWorld().getName().replaceFirst("(_nether$|_the_end$)", "")))
 				{
-					return Optional.of(ctx.worldManager().getSpawnLocation(checkWorld));
+					return ctx.messageBuilder().worlds().spawnLocation(checkWorld.getUID());
 				}
 
 				// if no match, add to list of normal worlds

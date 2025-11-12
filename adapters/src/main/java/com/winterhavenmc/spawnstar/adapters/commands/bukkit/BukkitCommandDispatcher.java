@@ -24,7 +24,6 @@ import com.winterhavenmc.spawnstar.core.commands.SubcommandType;
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.ports.commands.CommandDispatcher;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -153,7 +152,6 @@ public final class BukkitCommandDispatcher implements TabExecutor, CommandDispat
 		{
 			subcommand = subcommandRegistry.getSubcommand("help");
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_INVALID_COMMAND).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_INVALID);
 		}
 
 		// execute subcommand

@@ -19,7 +19,7 @@ package com.winterhavenmc.spawnstar.core.commands;
 
 import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
-import com.winterhavenmc.spawnstar.core.util.SoundId;
+
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -48,7 +48,6 @@ final class ReloadSubcommand extends AbstractSubcommand
 		if (!sender.hasPermission(permissionNode))
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			return true;
 		}
 
@@ -56,7 +55,6 @@ final class ReloadSubcommand extends AbstractSubcommand
 		if (args.size() > getMaxArgs())
 		{
 			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_ARGS_COUNT_OVER).send();
-			ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_FAIL);
 			displayUsage(sender);
 			return true;
 		}
@@ -67,18 +65,11 @@ final class ReloadSubcommand extends AbstractSubcommand
 		// reload main configuration
 		ctx.plugin().reloadConfig();
 
-		// update enabledWorlds list
-		ctx.worldManager().reload();
-
 		// reload messages
 		ctx.messageBuilder().reload();
 
-		// reload sounds
-		ctx.soundConfiguration().reload();
-
 		// send reloaded message
 		ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
-		ctx.soundConfiguration().playSound(sender, SoundId.COMMAND_SUCCESS_RELOAD);
 		return true;
 	}
 

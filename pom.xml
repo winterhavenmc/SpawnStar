@@ -88,22 +88,6 @@
 				<scope>compile</scope>
 			</dependency>
 
-			<!-- SoundConfigLib -->
-			<dependency>
-				<groupId>com.winterhaven-mc</groupId>
-				<artifactId>sound-config-lib</artifactId>
-				<version>1.21.0-SNAPSHOT</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- WorldManagerLib -->
-			<dependency>
-				<groupId>com.winterhaven-mc</groupId>
-				<artifactId>world-manager-lib</artifactId>
-				<version>1.21.0-SNAPSHOT</version>
-				<scope>compile</scope>
-			</dependency>
-
 			<!-- Unit Testing Dependencies -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -129,20 +113,8 @@
 
 		<!-- MessageBuilderLib -->
 		<dependency>
-			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>message-builder-lib</artifactId>
-		</dependency>
-
-		<!-- SoundConfigLib -->
-		<dependency>
-			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>sound-config-lib</artifactId>
-		</dependency>
-
-		<!-- WorldManagerLib -->
-		<dependency>
-			<groupId>com.winterhaven-mc</groupId>
-			<artifactId>world-manager-lib</artifactId>
+			<groupId>com.winterhavenmc.messagebuilder</groupId>
+			<artifactId>bootstrap</artifactId>
 		</dependency>
 
 		<!-- Unit Testing Dependencies -->
