@@ -7,7 +7,7 @@ COMMAND_FAIL:
   volume: 1
   pitch: 1
 
-COMMAND_INVALID:
+COMMAND_FAIL_INVALID:
   enabled: true
   player-only: true
   sound: minecraft:entity.wandering_trader.ambient
