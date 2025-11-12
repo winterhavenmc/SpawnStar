@@ -80,7 +80,7 @@ public final class TeleportHandler
 			// else if player is warming up, send player warming up message and return
 			else if (warmupMap.isWarmingUp(player))
 			{
-				messageBuilder.compose(player, MessageId.TELEPORT_ALREADY_WARMING)
+				messageBuilder.compose(player, MessageId.TELEPORT_PLAYER_WARMING)
 						.setMacro(Macro.ITEM, player.getInventory().getItemInMainHand())
 						.send();
 			}
