@@ -18,14 +18,15 @@
 package com.winterhavenmc.spawnstar.core.teleport;
 
 import com.winterhavenmc.library.messagebuilder.models.time.TimeUnit;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 class CooldownMap
@@ -33,13 +34,13 @@ class CooldownMap
 	private final Plugin plugin;
 
 	// hashmap to store player UUID and cooldown expire time in milliseconds
-	private final ConcurrentHashMap<UUID, Instant> cooldownMap;
+	private final HashMap<UUID, Instant> cooldownMap;
 
 
 	CooldownMap(final Plugin plugin)
 	{
 		this.plugin = plugin;
-		cooldownMap = new ConcurrentHashMap<>();
+		cooldownMap = new HashMap<>();
 	}
 
 

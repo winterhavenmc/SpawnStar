@@ -21,16 +21,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 class WarmupMap
 {
 	private final Plugin plugin;
 
 	// HashMap containing player UUID as key and warmup task id as value
-	private final ConcurrentHashMap<UUID, Integer> warmupMap;
+	private final HashMap<UUID, Integer> warmupMap;
 
 	// Map containing player uuid for teleport initiated
 	private final Set<UUID> teleportInitiated;
@@ -39,12 +40,8 @@ class WarmupMap
 	WarmupMap(final Plugin plugin)
 	{
 		this.plugin = plugin;
-
-		// initialize warmup HashMap
-		warmupMap = new ConcurrentHashMap<>();
-
-		// initialize teleport initiated set
-		teleportInitiated = ConcurrentHashMap.newKeySet();
+		warmupMap = new HashMap<>();
+		teleportInitiated = new HashSet<>();
 	}
 
 
