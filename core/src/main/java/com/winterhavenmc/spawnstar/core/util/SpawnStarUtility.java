@@ -17,9 +17,9 @@
 
 package com.winterhavenmc.spawnstar.core.util;
 
+import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import com.winterhavenmc.library.messagebuilder.models.keys.ItemKey;
 import com.winterhavenmc.library.messagebuilder.models.keys.ValidItemKey;
-import com.winterhavenmc.spawnstar.core.context.UtilityCtx;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -31,12 +31,12 @@ import java.util.*;
 public final class SpawnStarUtility
 {
 	public static final String ITEM_KEY = "SPAWNSTAR";
-	private final UtilityCtx ctx;
+	private final MessageBuilder messageBuilder;
 
 
-	public SpawnStarUtility(final UtilityCtx ctx)
+	public SpawnStarUtility(final MessageBuilder messageBuilder)
 	{
-		this.ctx = ctx;
+		this.messageBuilder = messageBuilder;
 	}
 
 
@@ -53,7 +53,7 @@ public final class SpawnStarUtility
 
 
 		ValidItemKey validItemKey = ItemKey.of(ITEM_KEY).isValid().orElseThrow();
-		Optional<ItemStack> itemStack = ctx.messageBuilder().items().createItem(validItemKey);
+		Optional<ItemStack> itemStack = messageBuilder.items().createItem(validItemKey);
 		if (itemStack.isPresent())
 		{
 			ItemStack returnItem = itemStack.get();
