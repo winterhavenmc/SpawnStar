@@ -19,32 +19,29 @@ package com.winterhavenmc.spawnstar.plugin;
 
 import com.winterhavenmc.spawnstar.adapters.commands.bukkit.BukkitCommandDispatcher;
 import com.winterhavenmc.spawnstar.adapters.listeners.bukkit.BukkitPlayerEventListener;
-import com.winterhavenmc.spawnstar.core.controller.InvalidPluginController;
-import com.winterhavenmc.spawnstar.core.controller.PluginController;
-import com.winterhavenmc.spawnstar.core.controller.ValidPluginController;
-import com.winterhavenmc.spawnstar.core.ports.commands.CommandDispatcher;
-import com.winterhavenmc.spawnstar.core.ports.listeners.PlayerEventListener;
+import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
+import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
+
+import com.winterhavenmc.library.messagebuilder.MessageBuilder;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class Bootstrap extends JavaPlugin
 {
+	SpawnStarUtility spawnStarUtility;
+
+
 	@Override
 	public void onEnable()
 	{
-		final CommandDispatcher commandDispatcher = new BukkitCommandDispatcher(); // adapter
-		final PlayerEventListener playerEventListener = BukkitPlayerEventListener.create(); // adapter
+		saveDefaultConfig();
 
-		final PluginController pluginController = PluginController.create(this); // core controller
-
-		switch (pluginController)
-		{
-			case ValidPluginController valid -> valid.startUp(commandDispatcher, playerEventListener);
-			case InvalidPluginController invalid ->
-			{
-				this.getLogger().severe("Cannot create valid plugin controller: " + invalid.reason().getDefaultMessage());
-				this.getServer().getPluginManager().disablePlugin(this);
-			}
-		}
+		MessageBuilder messageBuilder = MessageBuilder.create(this);
+		final TeleportHandler teleportHandler = new TeleportHandler(this, messageBuilder);
+		this.spawnStarUtility = new SpawnStarUtility(messageBuilder);
+		new BukkitCommandDispatcher(this, messageBuilder, spawnStarUtility);
+		new BukkitPlayerEventListener(this, messageBuilder, teleportHandler);
 	}
+
 }
