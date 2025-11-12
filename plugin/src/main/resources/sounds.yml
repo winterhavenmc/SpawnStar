@@ -1,94 +1,101 @@
 # Sound configuration file for ${project.name} v${project.version}
 
 COMMAND_FAIL:
-  enabled: true
-  player-only: true
-  sound: minecraft:entity.villager.no
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.villager.no
+  VOLUME: 1
+  PITCH: 1
 
 COMMAND_FAIL_INVALID:
-  enabled: true
-  player-only: true
-  sound: minecraft:entity.wandering_trader.ambient
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.wandering_trader.ambient
+  VOLUME: 1
+  PITCH: 1
 
 
 COMMAND_SUCCESS_RELOAD:
-  enabled: true
-  player-only: true
-  sound: minecraft:block.note_block.chime
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:block.note_block.chime
+  VOLUME: 1
+  PITCH: 1
 
 COMMAND_SUCCESS_GIVE_SENDER:
-  enabled: true
-  player-only: true
-  sound: minecraft:entity.arrow.shoot
-  volume: 1
-  pitch: 0.5
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.arrow.shoot
+  VOLUME: 1
+  PITCH: 0.5
 
 COMMAND_SUCCESS_GIVE_TARGET:
-  enabled: true
-  player-only: true
-  sound: minecraft:entity.item.pickup
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.item.pickup
+  VOLUME: 1
+  PITCH: 1
+
+COMMAND_SUCCESS_GIVE_SELF:
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.item.pickup
+  VOLUME: 1
+  PITCH: 1
 
 COMMAND_SUCCESS_DESTROY:
-  enabled: true
-  player-only: true
-  sound: minecraft:entity.item.break
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.item.break
+  VOLUME: 1
+  PITCH: 1
 
 
 TELEPORT_DENIED_PERMISSION:
-  enabled: true
-  player-only: true
-  sound: minecraft:block.note_block.bass
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:block.note_block.bass
+  VOLUME: 1
+  PITCH: 1
 
 TELEPORT_DENIED_WORLD_DISABLED:
-  enabled: true
-  player-only: true
-  sound: minecraft:block.note_block.bass
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:block.note_block.bass
+  VOLUME: 1
+  PITCH: 1
 
 TELEPORT_CANCELLED:
-  enabled: true
-  player-only: false
-  sound: minecraft:entity.generic.extinguish_fire
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: false
+  SOUND_NAME: minecraft:entity.generic.extinguish_fire
+  VOLUME: 1
+  PITCH: 1
 
 TELEPORT_CANCELLED_NO_ITEM:
-  enabled: true
-  player-only: false
-  sound: minecraft:entity.donkey.angry
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: false
+  SOUND_NAME: minecraft:entity.donkey.angry
+  VOLUME: 1
+  PITCH: 1
 
 TELEPORT_WARMUP:
-  enabled: true
-  player-only: false
-  sound: minecraft:block.portal.travel
-  volume: 0.3
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: false
+  SOUND_NAME: minecraft:block.portal.travel
+  VOLUME: 0.3
+  PITCH: 1
 
 TELEPORT_SUCCESS_DEPARTURE:
-  enabled: true
-  player-only: false
-  sound: minecraft:entity.enderman.teleport
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: false
+  SOUND_NAME: minecraft:entity.enderman.teleport
+  VOLUME: 1
+  PITCH: 1
 
 TELEPORT_SUCCESS_ARRIVAL:
-  enabled: true
-  player-only: false
-  sound: minecraft:entity.enderman.teleport
-  volume: 1
-  pitch: 1
+  ENABLED: true
+  PLAYER_ONLY: false
+  SOUND_NAME: minecraft:entity.enderman.teleport
+  VOLUME: 1
+  PITCH: 1
