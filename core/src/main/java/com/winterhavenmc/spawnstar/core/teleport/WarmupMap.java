@@ -17,8 +17,8 @@
 
 package com.winterhavenmc.spawnstar.core.teleport;
 
-import com.winterhavenmc.spawnstar.core.context.TeleportCtx;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
@@ -27,8 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 class WarmupMap
 {
-	// reference to plugin main class
-	private final TeleportCtx ctx;
+	private final Plugin plugin;
 
 	// HashMap containing player UUID as key and warmup task id as value
 	private final ConcurrentHashMap<UUID, Integer> warmupMap;
@@ -37,10 +36,9 @@ class WarmupMap
 	private final Set<UUID> teleportInitiated;
 
 
-	WarmupMap(final TeleportCtx ctx)
+	WarmupMap(final Plugin plugin)
 	{
-		// set reference to main class
-		this.ctx = ctx;
+		this.plugin = plugin;
 
 		// initialize warmup HashMap
 		warmupMap = new ConcurrentHashMap<>();
@@ -95,7 +93,7 @@ class WarmupMap
 			{
 				teleportInitiated.remove(player.getUniqueId());
 			}
-		}.runTaskLater(ctx.plugin(), ctx.plugin().getConfig().getInt("interact-delay", 2));
+		}.runTaskLater(plugin, plugin.getConfig().getInt("interact-delay", 2));
 
 	}
 
