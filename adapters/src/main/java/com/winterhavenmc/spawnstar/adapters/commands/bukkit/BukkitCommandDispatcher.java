@@ -21,7 +21,6 @@ import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import com.winterhavenmc.spawnstar.core.ports.commands.CommandDispatcher;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 
-import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,22 +48,18 @@ public final class BukkitCommandDispatcher implements CommandDispatcher
 
 		// register this class as command executor
 		Objects.requireNonNull(plugin.getCommand("spawnstar")).setExecutor(this);
+
+		// create context container for use in subcommand constructors
 		CommandCtx ctx = new CommandCtx(plugin, messageBuilder, spawnStarUtility);
 
 		// register subcommands
 		for (SubcommandType subcommandType : SubcommandType.values())
 		{
 			subcommandRegistry.register(subcommandType.create(ctx));
-			if (plugin.getConfig().getBoolean("debug"))
-			{
-				ctx.plugin().getLogger().info("Registered subcommand: " + subcommandType.name());
-			}
 		}
 
 		// register help command
 		subcommandRegistry.register(new HelpSubcommand(ctx, subcommandRegistry));
-
-		ctx.plugin().getLogger().info("BukkitCommandDispatcher created via private one-parameter constructor.");
 	}
 
 
