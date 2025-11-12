@@ -20,7 +20,7 @@ package com.winterhavenmc.spawnstar.plugin;
 import com.winterhavenmc.spawnstar.adapters.commands.bukkit.BukkitCommandDispatcher;
 import com.winterhavenmc.spawnstar.adapters.listeners.bukkit.BukkitPlayerEventListener;
 import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
-import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
+import com.winterhavenmc.spawnstar.adapters.commands.bukkit.SpawnStarUtility;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 

@@ -21,7 +21,6 @@ import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import com.winterhavenmc.spawnstar.core.ports.commands.CommandDispatcher;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 
-import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
