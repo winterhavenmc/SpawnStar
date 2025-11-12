@@ -66,29 +66,38 @@ public final class TeleportHandler
 	 */
 	public void initiateTeleport(final Player player)
 	{
-		if (player == null)
+		if (player != null)
 		{
-			return;
-		}
+			// if player cooldown has not expired, send player cooldown message and return
+			if (cooldownMap.isCoolingDown(player))
+			{
+				messageBuilder.compose(player, MessageId.TELEPORT_COOLDOWN)
+						.setMacro(Macro.ITEM, player.getInventory().getItemInMainHand())
+						.setMacro(Macro.DURATION, cooldownMap.getCooldownTimeRemaining(player))
+						.send();
+			}
 
-		// get player item in main hand
+			// else if player is warming up, send player warming up message and return
+			else if (warmupMap.isWarmingUp(player))
+			{
+				messageBuilder.compose(player, MessageId.TELEPORT_ALREADY_WARMING)
+						.setMacro(Macro.ITEM, player.getInventory().getItemInMainHand())
+						.send();
+			}
+
+			// else execute teleport logic
+			else
+			{
+				this.teleportPlayer(player);
+			}
+		}
+	}
+
+
+	private void teleportPlayer(final Player player)
+	{
+		// get item in player main hand
 		final ItemStack playerItem = player.getInventory().getItemInMainHand();
-
-		// if player cooldown has not expired, send player cooldown message and return
-		if (cooldownMap.isCoolingDown(player))
-		{
-			messageBuilder.compose(player, MessageId.TELEPORT_COOLDOWN)
-					.setMacro(Macro.ITEM, playerItem)
-					.setMacro(Macro.DURATION, cooldownMap.getCooldownTimeRemaining(player))
-					.send();
-			return;
-		}
-
-		// if player is warming up, do nothing and return
-		if (this.isWarmingUp(player))
-		{
-			return;
-		}
 
 		// get player world
 		World playerWorld = player.getWorld();
