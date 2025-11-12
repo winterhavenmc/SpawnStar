@@ -17,7 +17,7 @@
 
 package com.winterhavenmc.spawnstar.core.teleport;
 
-import com.winterhavenmc.library.time.TimeUnit;
+import com.winterhavenmc.library.messagebuilder.models.time.TimeUnit;
 import com.winterhavenmc.spawnstar.core.context.TeleportCtx;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
