@@ -17,11 +17,6 @@
 
 package com.winterhavenmc.spawnstar.core.ports.listeners;
 
-import com.winterhavenmc.spawnstar.core.context.ListenerCtx;
-import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
 import org.bukkit.event.Listener;
 
-public interface PlayerEventListener extends Listener
-{
-	PlayerEventListener init(ListenerCtx ctx, TeleportHandler teleportHandler);
-}
+public interface PlayerEventListener extends Listener { }
