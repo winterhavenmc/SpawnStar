@@ -90,23 +90,22 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 
 		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
 		// if player is in warmup hashmap, check if they are interacting with a block (not air)
-		if (plugin.getConfig().getBoolean("cancel-on-interaction") && teleportHandler.isWarmingUp(player))
+		// if player is interacting with a block, cancel teleport, output message and return
+		if (plugin.getConfig().getBoolean("cancel-on-interaction")
+				&& teleportHandler.isWarmingUp(player)
+				&& (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))
 		{
-			// if player is interacting with a block, cancel teleport, output message and return
-			if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+			// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
+			// this is a workaround for event double firing (once for each hand) on every player interaction
+			if (teleportHandler.isInitiated(player))
 			{
-				// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
-				// this is a workaround for event double firing (once for each hand) on every player interaction
-				if (teleportHandler.isInitiated(player))
-				{
-					// cancel teleport
-					teleportHandler.cancelTeleport(player);
+				// cancel teleport
+				teleportHandler.cancelTeleport(player);
 
-					// send cancelled teleport message
-					messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
-				}
-				return;
+				// send cancelled teleport message
+				messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 			}
+			return;
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
