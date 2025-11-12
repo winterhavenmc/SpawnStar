@@ -15,7 +15,7 @@
  *
  */
 
-package com.winterhavenmc.spawnstar.core.context;
+package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import com.winterhavenmc.spawnstar.core.util.SpawnStarUtility;

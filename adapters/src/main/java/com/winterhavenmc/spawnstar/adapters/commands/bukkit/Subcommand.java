@@ -15,7 +15,7 @@
  *
  */
 
-package com.winterhavenmc.spawnstar.core.commands;
+package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 import org.bukkit.command.Command;

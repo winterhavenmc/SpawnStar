@@ -18,11 +18,6 @@
 package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
-import com.winterhavenmc.spawnstar.core.commands.HelpSubcommand;
-import com.winterhavenmc.spawnstar.core.commands.Subcommand;
-import com.winterhavenmc.spawnstar.core.commands.SubcommandRegistry;
-import com.winterhavenmc.spawnstar.core.commands.SubcommandType;
-import com.winterhavenmc.spawnstar.core.context.CommandCtx;
 import com.winterhavenmc.spawnstar.core.ports.commands.CommandDispatcher;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 

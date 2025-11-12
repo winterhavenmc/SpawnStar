@@ -15,7 +15,7 @@
  *
  */
 
-package com.winterhavenmc.spawnstar.core.commands;
+package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
 import java.util.*;
 

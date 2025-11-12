@@ -15,9 +15,7 @@
  *
  */
 
-package com.winterhavenmc.spawnstar.core.commands;
-
-import com.winterhavenmc.spawnstar.core.context.CommandCtx;
+package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
 
 public enum SubcommandType
