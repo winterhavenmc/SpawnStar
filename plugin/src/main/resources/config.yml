@@ -3,6 +3,14 @@
 # localized language support
 language: en-US
 
+# Locale (for time and number formatting)
+#locale: en-US
+
+# Time zone (for displaying localized time/date)
+# List of valid values: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+# If not set or invalid, the system default time zone will be used. (Uncomment to override system default)
+#timezone: America/Chicago
+
 # Note: use only one enabled/disabled list, and comment out or remove the other
 # enabled worlds list (use this list for a default-deny world policy)
 # Note: declare explicit empty list for testing
