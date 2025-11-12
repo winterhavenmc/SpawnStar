@@ -100,17 +100,14 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 				{
 					// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
 					// this is a workaround for event double firing (once for each hand) on every player interaction
-					if (!teleportHandler.isInitiated(player))
+					if (teleportHandler.isInitiated(player))
 					{
-						return;
+						// cancel teleport
+						teleportHandler.cancelTeleport(player);
+
+						// send cancelled teleport message
+						messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 					}
-
-					// cancel teleport
-					teleportHandler.cancelTeleport(player);
-
-					// send cancelled teleport message
-					messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
-
 					return;
 				}
 			}
