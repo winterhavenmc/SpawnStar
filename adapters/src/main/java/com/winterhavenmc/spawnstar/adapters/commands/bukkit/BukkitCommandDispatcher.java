@@ -55,7 +55,10 @@ public final class BukkitCommandDispatcher implements CommandDispatcher
 		for (SubcommandType subcommandType : SubcommandType.values())
 		{
 			subcommandRegistry.register(subcommandType.create(ctx));
-			ctx.plugin().getLogger().info("Registered subcommand: " + subcommandType.name());
+			if (plugin.getConfig().getBoolean("debug"))
+			{
+				ctx.plugin().getLogger().info("Registered subcommand: " + subcommandType.name());
+			}
 		}
 
 		// register help command
