@@ -317,10 +317,10 @@
 						<!--							</goals>-->
 						<!--						</execution>-->
 					</executions>
-<!--					<configuration>-->
-<!--						<aggregate>true</aggregate>-->
-<!--						<xmlFile>${session.executionRootDirectory}/target/site/kover/report.xml</xmlFile>-->
-<!--					</configuration>-->
+					<configuration>
+						<aggregate>true</aggregate>
+						<xmlFile>${session.executionRootDirectory}/target/site/kover/report.xml</xmlFile>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
