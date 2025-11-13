@@ -20,28 +20,26 @@ package com.winterhavenmc.spawnstar.plugin;
 import com.winterhavenmc.spawnstar.adapters.commands.bukkit.BukkitCommandDispatcher;
 import com.winterhavenmc.spawnstar.adapters.listeners.bukkit.BukkitPlayerEventListener;
 import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
-import com.winterhavenmc.spawnstar.adapters.commands.bukkit.SpawnStarUtility;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 
+import com.winterhavenmc.spawnstar.core.util.MetricsHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class Bootstrap extends JavaPlugin
 {
-	SpawnStarUtility spawnStarUtility;
-
-
 	@Override
 	public void onEnable()
 	{
 		saveDefaultConfig();
 
-		MessageBuilder messageBuilder = MessageBuilder.create(this);
+		final MessageBuilder messageBuilder = MessageBuilder.create(this);
 		final TeleportHandler teleportHandler = new TeleportHandler(this, messageBuilder);
-		this.spawnStarUtility = new SpawnStarUtility(messageBuilder);
-		new BukkitCommandDispatcher(this, messageBuilder, spawnStarUtility);
-		new BukkitPlayerEventListener(this, messageBuilder, teleportHandler);
-	}
 
+		new BukkitCommandDispatcher(this, messageBuilder);
+		new BukkitPlayerEventListener(this, messageBuilder, teleportHandler);
+
+		new MetricsHandler(this);
+	}
 }

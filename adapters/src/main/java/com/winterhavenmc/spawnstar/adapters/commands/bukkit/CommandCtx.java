@@ -20,4 +20,5 @@ package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public record CommandCtx(JavaPlugin plugin, MessageBuilder messageBuilder, SpawnStarUtility spawnStarUtility) { }
+
+public record CommandCtx(JavaPlugin plugin, MessageBuilder messageBuilder) { }

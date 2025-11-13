@@ -42,7 +42,7 @@ public final class BukkitCommandDispatcher implements CommandDispatcher
 	/**
 	 * Class constructor method for BukkitCommandDispatcher
 	 */
-	public BukkitCommandDispatcher(final JavaPlugin plugin, final MessageBuilder messageBuilder, final SpawnStarUtility spawnStarUtility)
+	public BukkitCommandDispatcher(final JavaPlugin plugin, final MessageBuilder messageBuilder)
 	{
 		this.messageBuilder = messageBuilder;
 
@@ -50,7 +50,7 @@ public final class BukkitCommandDispatcher implements CommandDispatcher
 		Objects.requireNonNull(plugin.getCommand("spawnstar")).setExecutor(this);
 
 		// create context container for use in subcommand constructors
-		CommandCtx ctx = new CommandCtx(plugin, messageBuilder, spawnStarUtility);
+		CommandCtx ctx = new CommandCtx(plugin, messageBuilder);
 
 		// register subcommands
 		for (SubcommandType subcommandType : SubcommandType.values())

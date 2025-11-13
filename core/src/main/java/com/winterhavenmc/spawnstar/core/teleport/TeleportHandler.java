@@ -80,7 +80,7 @@ public final class TeleportHandler
 			// else if player is warming up, send player warming up message and return
 			else if (warmupMap.isWarmingUp(player))
 			{
-				messageBuilder.compose(player, MessageId.TELEPORT_ALREADY_WARMING)
+				messageBuilder.compose(player, MessageId.TELEPORT_PLAYER_WARMING)
 						.setMacro(Macro.ITEM, player.getInventory().getItemInMainHand())
 						.send();
 			}
@@ -236,10 +236,10 @@ public final class TeleportHandler
 		for (World checkWorld : plugin.getServer().getWorlds())
 		{
 			// if world is normal environment, try to match name to passed world
-			if (checkWorld.getEnvironment().equals(World.Environment.NORMAL))
+			if (World.Environment.NORMAL.equals(checkWorld.getEnvironment()))
 			{
 				// check if normal world matches passed world minus nether/end suffix
-				if (checkWorld.getName().equals(player.getWorld().getName().replaceFirst("(_nether$|_the_end$)", "")))
+				if (player.getWorld().getName().replaceFirst("(_nether$|_the_end$)", "").equals(checkWorld.getName()))
 				{
 					return messageBuilder.worlds().spawnLocation(checkWorld.getUID());
 				}

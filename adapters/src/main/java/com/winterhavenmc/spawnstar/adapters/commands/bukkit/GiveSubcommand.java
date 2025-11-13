@@ -17,6 +17,8 @@
 
 package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
+import com.winterhavenmc.library.messagebuilder.models.keys.ItemKey;
+import com.winterhavenmc.library.messagebuilder.models.keys.ValidItemKey;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 
@@ -30,6 +32,7 @@ import java.util.*;
 
 final class GiveSubcommand extends AbstractSubcommand
 {
+	public static final String ITEM_KEY = "SPAWNSTAR";
 	private final CommandCtx ctx;
 
 
@@ -122,8 +125,7 @@ final class GiveSubcommand extends AbstractSubcommand
 		}
 		quantity = Math.min(maxQuantity, quantity);
 
-		ItemStack item = ctx.spawnStarUtility().create(quantity);
-
+		ItemStack item = create(quantity);
 		HashMap<Integer, ItemStack> noFit = targetPlayer.getInventory().addItem(item);
 
 		// count items that didn't fit in inventory
@@ -166,6 +168,34 @@ final class GiveSubcommand extends AbstractSubcommand
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Create a SpawnStar item stack of given quantity, with custom display name and lore
+	 *
+	 * @param passedQuantity number of SpawnStar items in newly created stack
+	 * @return ItemStack of SpawnStar items
+	 */
+	public ItemStack create(final int passedQuantity)
+	{
+		int quantity = passedQuantity;
+		quantity = Math.max(1, quantity);
+
+
+		ValidItemKey validItemKey = ItemKey.of(ITEM_KEY).isValid().orElseThrow();
+		Optional<ItemStack> itemStack = ctx.messageBuilder().items().createItem(validItemKey);
+		if (itemStack.isPresent())
+		{
+			ItemStack returnItem = itemStack.get();
+			quantity = Math.min(quantity, returnItem.getMaxStackSize());
+			returnItem.setAmount(quantity);
+			return returnItem;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 }

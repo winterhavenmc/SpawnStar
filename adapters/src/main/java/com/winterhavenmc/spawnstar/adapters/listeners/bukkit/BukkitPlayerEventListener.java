@@ -89,31 +89,23 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 		final Player player = event.getPlayer();
 
 		// if cancel-on-interaction is configured true, check if player is in warmup hashmap
-		if (plugin.getConfig().getBoolean("cancel-on-interaction"))
+		// if player is in warmup hashmap, check if they are interacting with a block (not air)
+		// if player is interacting with a block, cancel teleport, output message and return
+		if (plugin.getConfig().getBoolean("cancel-on-interaction")
+				&& teleportHandler.isWarmingUp(player)
+				&& (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))
 		{
-			// if player is in warmup hashmap, check if they are interacting with a block (not air)
-			if (teleportHandler.isWarmingUp(player))
+			// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
+			// this is a workaround for event double firing (once for each hand) on every player interaction
+			if (teleportHandler.isInitiated(player))
 			{
-				// if player is interacting with a block, cancel teleport, output message and return
-				if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)
-						|| event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
-				{
-					// if player's last teleport initiated time is less than x ticks (def: 2), do nothing and return
-					// this is a workaround for event double firing (once for each hand) on every player interaction
-					if (!teleportHandler.isInitiated(player))
-					{
-						return;
-					}
+				// cancel teleport
+				teleportHandler.cancelTeleport(player);
 
-					// cancel teleport
-					teleportHandler.cancelTeleport(player);
-
-					// send cancelled teleport message
-					messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
-
-					return;
-				}
+				// send cancelled teleport message
+				messageBuilder.compose(player, MessageId.TELEPORT_CANCELLED_INTERACTION).send();
 			}
+			return;
 		}
 
 		// if item used is not a SpawnStar, do nothing and return
@@ -146,34 +138,31 @@ public final class BukkitPlayerEventListener implements PlayerEventListener
 			Block block = event.getClickedBlock();
 
 			// check if clicked block is air (null)
-			if (block != null)
+			// check that player is not sneaking, to interact with blocks
+			if (block != null && !event.getPlayer().isSneaking())
 			{
-				// check that player is not sneaking, to interact with blocks
-				if (!event.getPlayer().isSneaking())
+				// allow use of doors, gates and trap doors with item in hand
+				if (block.getBlockData() instanceof Openable)
 				{
-					// allow use of doors, gates and trap doors with item in hand
-					if (block.getBlockData() instanceof Openable)
-					{
-						return;
-					}
+					return;
+				}
 
-					// allow use of switches with item in hand
-					if (block.getBlockData() instanceof Switch)
-					{
-						return;
-					}
+				// allow use of switches with item in hand
+				if (block.getBlockData() instanceof Switch)
+				{
+					return;
+				}
 
-					// allow use of containers and other tile entity blocks with item in hand
-					if (block.getState() instanceof TileState)
-					{
-						return;
-					}
+				// allow use of containers and other tile entity blocks with item in hand
+				if (block.getState() instanceof TileState)
+				{
+					return;
+				}
 
-					// allow use of crafting tables with item in hand
-					if (craftTables.contains(block.getType()))
-					{
-						return;
-					}
+				// allow use of crafting tables with item in hand
+				if (craftTables.contains(block.getType()))
+				{
+					return;
 				}
 			}
 

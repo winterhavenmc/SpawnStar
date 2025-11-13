@@ -125,10 +125,10 @@ MESSAGES:
   # Status command messages
   #########################
   COMMAND_STATUS_HEADER:
-    MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient>"
+    MESSAGE_TEXT: "<newline><gradient:blue:aqua><strikethrough>                         =</strikethrough>[</gradient> <dark_aqua>{PLUGIN}</dark_aqua> <gradient:aqua:blue>]<strikethrough>=                         </strikethrough></gradient><newline>"
 
   COMMAND_STATUS_FOOTER:
-    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{PLUGIN.URL}><blue><underlined>{PLUGIN.URL}<underlined></blue></click></dark_aqua>"
+    MESSAGE_TEXT: "<newline><dark_aqua><click:open_url:{PLUGIN.URL}><blue><underlined>{PLUGIN.URL}<underlined></blue></click></dark_aqua><newline>"
 
   COMMAND_STATUS_PLUGIN_VERSION:
     MESSAGE_TEXT: "<green>Version:</green> {PLUGIN.VERSION}"
@@ -214,6 +214,11 @@ MESSAGES:
 
   TELEPORT_WARMUP:
     MESSAGE_TEXT: "<dark_aqua>Teletransportándose al <aqua>{RECIPIENT.LOCATION.WORLD} Origen</aqua> en <aqua>{DURATION}</aqua>...</dark_aqua>"
+
+  TELEPORT_PLAYER_WARMING:
+    MESSAGE_TEXT: ""
+    REPEAT_DELAY: 1
+    ENABLED: false
 
   TELEPORT_COOLDOWN:
     REPEAT_DELAY: 1
