@@ -23,6 +23,7 @@ import com.winterhavenmc.spawnstar.core.teleport.TeleportHandler;
 
 import com.winterhavenmc.library.messagebuilder.MessageBuilder;
 
+import com.winterhavenmc.spawnstar.core.util.MetricsHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -38,5 +39,7 @@ public class Bootstrap extends JavaPlugin
 
 		new BukkitCommandDispatcher(this, messageBuilder);
 		new BukkitPlayerEventListener(this, messageBuilder, teleportHandler);
+
+		new MetricsHandler(this);
 	}
 }
