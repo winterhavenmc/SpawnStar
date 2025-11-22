@@ -99,3 +99,10 @@ TELEPORT_SUCCESS_ARRIVAL:
   SOUND_NAME: minecraft:entity.enderman.teleport
   VOLUME: 1
   PITCH: 1
+
+COMMAND_STATUS_HEADER:
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:block.portal.travel
+  VOLUME: 1
+  PITCH: 1
