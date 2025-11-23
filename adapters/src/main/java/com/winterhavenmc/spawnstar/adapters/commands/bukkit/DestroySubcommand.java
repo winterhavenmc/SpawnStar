@@ -49,15 +49,13 @@ final class DestroySubcommand extends AbstractSubcommand
 		// sender must be in game player
 		if (!(sender instanceof Player player))
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_CONSOLE).send();
 		}
 
 		// if command sender does not have permission to destroy SpawnStars, output error message and return true
 		if (!sender.hasPermission(permissionNode))
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_PERMISSION).send();
 		}
 
 		// check max arguments
@@ -74,8 +72,7 @@ final class DestroySubcommand extends AbstractSubcommand
 		// check that player held item is a spawnstar stack
 		if (!ctx.messageBuilder().items().isItem(playerItem))
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_DESTROY_NO_MATCH).send();
 		}
 
 		// get copy of itemStack (to display in message)
@@ -89,12 +86,9 @@ final class DestroySubcommand extends AbstractSubcommand
 		player.getInventory().setItemInHand(emptyItemStack);
 
 		// send success message
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
+		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_DESTROY)
 				.setMacro(Macro.ITEM, playerItem)
 				.send();
-
-		// return true to prevent display of bukkit command usage string
-		return true;
 	}
 
 }

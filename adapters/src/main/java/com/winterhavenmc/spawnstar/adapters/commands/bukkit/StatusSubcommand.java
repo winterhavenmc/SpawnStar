@@ -17,8 +17,6 @@
 
 package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
-import com.winterhavenmc.library.messagebuilder.adapters.resources.configuration.BukkitConfigRepository;
-import com.winterhavenmc.library.messagebuilder.models.configuration.ConfigRepository;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 
@@ -27,14 +25,12 @@ import org.bukkit.command.CommandSender;
 
 import java.time.Duration;
 import java.time.ZoneId;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 final class StatusSubcommand extends AbstractSubcommand
 {
 	private final CommandCtx ctx;
-	private final ConfigRepository configRepository;
 
 
 	StatusSubcommand(final CommandCtx ctx)
@@ -44,7 +40,6 @@ final class StatusSubcommand extends AbstractSubcommand
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
 		this.permissionNode = "spawnstar.status";
-		this.configRepository = BukkitConfigRepository.create(ctx.plugin());
 	}
 
 
@@ -54,8 +49,7 @@ final class StatusSubcommand extends AbstractSubcommand
 		// if command sender does not have permission to view status, output error message and return
 		if (!sender.hasPermission(permissionNode))
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_STATUS_PERMISSION).send();
 		}
 
 		// check max arguments
@@ -120,11 +114,38 @@ final class StatusSubcommand extends AbstractSubcommand
 	}
 
 
-	private void displayLocaleSetting(final CommandSender sender)
+	@SuppressWarnings("UnusedReturnValue")
+	private boolean displayLocaleSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
-				.setMacro(Macro.SETTING, configRepository.locale().toLanguageTag())
+		return allEqual()
+				? displaySimpleLocaleSetting(sender)
+				: displayDetailedLocaleSetting(sender);
+	}
+
+
+	private boolean displaySimpleLocaleSetting(final CommandSender sender)
+	{
+		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
+				.setMacro(Macro.SETTING, ctx.messageBuilder().config().locale().toLanguageTag())
 				.send();
+	}
+
+
+	private boolean displayDetailedLocaleSetting(final CommandSender sender)
+	{
+		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING_DETAIL)
+				.setMacro(Macro.NUMBER_LOCALE, ctx.messageBuilder().config().numberLocale().toLanguageTag())
+				.setMacro(Macro.DATE_LOCALE, ctx.messageBuilder().config().dateLocale().toLanguageTag())
+				.setMacro(Macro.TIME_LOCALE, ctx.messageBuilder().config().timeLocale().toLanguageTag())
+				.setMacro(Macro.LOG_LOCALE, ctx.messageBuilder().config().logLocale().toLanguageTag())
+				.send();
+	}
+
+	private boolean allEqual()
+	{
+		return (ctx.messageBuilder().config().numberLocale().equals(ctx.messageBuilder().config().dateLocale())
+				&& ctx.messageBuilder().config().numberLocale().equals(ctx.messageBuilder().config().timeLocale())
+				&& ctx.messageBuilder().config().numberLocale().equals(ctx.messageBuilder().config().logLocale()));
 	}
 
 
