@@ -17,8 +17,6 @@
 
 package com.winterhavenmc.spawnstar.adapters.commands.bukkit;
 
-import com.winterhavenmc.library.messagebuilder.adapters.resources.configuration.BukkitConfigRepository;
-import com.winterhavenmc.library.messagebuilder.models.configuration.ConfigRepository;
 import com.winterhavenmc.spawnstar.core.util.Macro;
 import com.winterhavenmc.spawnstar.core.util.MessageId;
 
@@ -33,7 +31,6 @@ import java.util.*;
 final class StatusSubcommand extends AbstractSubcommand
 {
 	private final CommandCtx ctx;
-	private final ConfigRepository configRepository;
 
 
 	StatusSubcommand(final CommandCtx ctx)
@@ -43,7 +40,6 @@ final class StatusSubcommand extends AbstractSubcommand
 		this.usage = "/spawnstar status";
 		this.description = MessageId.COMMAND_HELP_STATUS;
 		this.permissionNode = "spawnstar.status";
-		this.configRepository = BukkitConfigRepository.create(ctx.plugin());
 	}
 
 
@@ -130,7 +126,7 @@ final class StatusSubcommand extends AbstractSubcommand
 	private boolean displaySimpleLocaleSetting(final CommandSender sender)
 	{
 		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
-				.setMacro(Macro.SETTING, configRepository.locale().toLanguageTag())
+				.setMacro(Macro.SETTING, ctx.messageBuilder().config().locale().toLanguageTag())
 				.send();
 	}
 
@@ -138,18 +134,18 @@ final class StatusSubcommand extends AbstractSubcommand
 	private boolean displayDetailedLocaleSetting(final CommandSender sender)
 	{
 		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING_DETAIL)
-				.setMacro(Macro.NUMBER_LOCALE, configRepository.numberLocale().toLanguageTag())
-				.setMacro(Macro.DATE_LOCALE, configRepository.dateLocale().toLanguageTag())
-				.setMacro(Macro.TIME_LOCALE, configRepository.timeLocale().toLanguageTag())
-				.setMacro(Macro.LOG_LOCALE, configRepository.logLocale().toLanguageTag())
+				.setMacro(Macro.NUMBER_LOCALE, ctx.messageBuilder().config().numberLocale().toLanguageTag())
+				.setMacro(Macro.DATE_LOCALE, ctx.messageBuilder().config().dateLocale().toLanguageTag())
+				.setMacro(Macro.TIME_LOCALE, ctx.messageBuilder().config().timeLocale().toLanguageTag())
+				.setMacro(Macro.LOG_LOCALE, ctx.messageBuilder().config().logLocale().toLanguageTag())
 				.send();
 	}
 
 	private boolean allEqual()
 	{
-		return (configRepository.numberLocale().equals(configRepository.dateLocale())
-				&& configRepository.numberLocale().equals(configRepository.timeLocale())
-				&& configRepository.numberLocale().equals(configRepository.logLocale()));
+		return (ctx.messageBuilder().config().numberLocale().equals(ctx.messageBuilder().config().dateLocale())
+				&& ctx.messageBuilder().config().numberLocale().equals(ctx.messageBuilder().config().timeLocale())
+				&& ctx.messageBuilder().config().numberLocale().equals(ctx.messageBuilder().config().logLocale()));
 	}
 
 
