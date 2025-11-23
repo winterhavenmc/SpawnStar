@@ -46,8 +46,7 @@ final class ReloadSubcommand extends AbstractSubcommand
 		// if sender does not have permission to reload config, send error message and return
 		if (!sender.hasPermission(permissionNode))
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_RELOAD_PERMISSION).send();
 		}
 
 		// check max arguments
@@ -68,8 +67,7 @@ final class ReloadSubcommand extends AbstractSubcommand
 		ctx.messageBuilder().reload();
 
 		// send reloaded message
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
-		return true;
+		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_SUCCESS_RELOAD).send();
 	}
 
 }

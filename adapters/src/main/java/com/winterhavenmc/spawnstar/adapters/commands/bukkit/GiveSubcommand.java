@@ -67,8 +67,7 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if command sender does not have permission to give SpawnStars, output error message and return
 		if (!sender.hasPermission("spawnstar.give"))
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PERMISSION).send();
 		}
 
 		// check min arguments
@@ -96,8 +95,7 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if no match, send player not found message and return
 		if (targetPlayer == null)
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send();
-			return true;
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_PLAYER_NOT_FOUND).send();
 		}
 
 		// set default quantity
@@ -111,8 +109,7 @@ final class GiveSubcommand extends AbstractSubcommand
 				quantity = Integer.parseInt(args.get(1));
 			} catch (NumberFormatException e)
 			{
-				ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
-				return true;
+				return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_QUANTITY_INVALID).send();
 			}
 		}
 
@@ -138,11 +135,10 @@ final class GiveSubcommand extends AbstractSubcommand
 		// if remaining items equals quantity given, send player-inventory-full message and return
 		if (noFitCount == quantity)
 		{
-			ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
+			return ctx.messageBuilder().compose(sender, MessageId.COMMAND_FAIL_GIVE_INVENTORY_FULL)
 					.setMacro(Macro.TARGET_PLAYER, targetPlayerName)
 					.setMacro(Macro.ITEM, item)
 					.send();
-			return true;
 		}
 
 		// send message when giving to self
