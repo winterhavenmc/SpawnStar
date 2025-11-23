@@ -50,6 +50,13 @@ COMMAND_SUCCESS_DESTROY:
   VOLUME: 1
   PITCH: 1
 
+COMMAND_STATUS_HEADER:
+  ENABLED: true
+  PLAYER_ONLY: true
+  SOUND_NAME: minecraft:entity.enderman.teleport
+  VOLUME: 1
+  PITCH: 1
+
 
 TELEPORT_DENIED_PERMISSION:
   ENABLED: true
@@ -97,12 +104,5 @@ TELEPORT_SUCCESS_ARRIVAL:
   ENABLED: true
   PLAYER_ONLY: false
   SOUND_NAME: minecraft:entity.enderman.teleport
-  VOLUME: 1
-  PITCH: 1
-
-COMMAND_STATUS_HEADER:
-  ENABLED: true
-  PLAYER_ONLY: true
-  SOUND_NAME: minecraft:block.portal.travel
   VOLUME: 1
   PITCH: 1

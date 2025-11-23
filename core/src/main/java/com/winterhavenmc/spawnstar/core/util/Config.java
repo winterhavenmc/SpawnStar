@@ -21,6 +21,8 @@ package com.winterhavenmc.spawnstar.core.util;
 public enum Config
 {
 	LANGUAGE("en-US"),
+	LOCALE("en-US"),
+	DETAILED_LOCALE(""),
 	ENABLED_WORLDS("[]"),
 	DISABLED_WORLDS("[disabled_world1, disabled_world2]"),
 	ITEM_MATERIAL("NETHER_STAR"),
@@ -40,7 +42,8 @@ public enum Config
 	FROM_NETHER("true"),
 	FROM_END("true"),
 	LIGHTNING("false"),
-	LOG_USE("true");
+	LOG_USE("true"),
+	;
 
 
 	private final String value;

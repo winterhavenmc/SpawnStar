@@ -149,6 +149,14 @@ MESSAGES:
   COMMAND_STATUS_LOCALE_SETTING:
     MESSAGE_TEXT: "<green>Locale:</green> {SETTING}"
 
+  COMMAND_STATUS_LOCALE_SETTING_DETAIL:
+    MESSAGE_TEXT: |-
+      <green>Locale:</green>
+          <green>Numbers:</green> {NUMBER_LOCALE}
+          <green>Dates:</green> {DATE_LOCALE}
+          <green>Time:</green> {TIME_LOCALE}
+          <green>Logs:</green> {LOG_LOCALE}
+
   COMMAND_STATUS_TIMEZONE_SETTING:
     MESSAGE_TEXT: "<green>Timezone:</green> {SETTING}"
 

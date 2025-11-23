@@ -27,8 +27,7 @@ import org.bukkit.command.CommandSender;
 
 import java.time.Duration;
 import java.time.ZoneId;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 final class StatusSubcommand extends AbstractSubcommand
@@ -119,11 +118,38 @@ final class StatusSubcommand extends AbstractSubcommand
 	}
 
 
-	private void displayLocaleSetting(final CommandSender sender)
+	@SuppressWarnings("UnusedReturnValue")
+	private boolean displayLocaleSetting(final CommandSender sender)
 	{
-		ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
+		return allEqual()
+				? displaySimpleLocaleSetting(sender)
+				: displayDetailedLocaleSetting(sender);
+	}
+
+
+	private boolean displaySimpleLocaleSetting(final CommandSender sender)
+	{
+		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING)
 				.setMacro(Macro.SETTING, configRepository.locale().toLanguageTag())
 				.send();
+	}
+
+
+	private boolean displayDetailedLocaleSetting(final CommandSender sender)
+	{
+		return ctx.messageBuilder().compose(sender, MessageId.COMMAND_STATUS_LOCALE_SETTING_DETAIL)
+				.setMacro(Macro.NUMBER_LOCALE, configRepository.numberLocale().toLanguageTag())
+				.setMacro(Macro.DATE_LOCALE, configRepository.dateLocale().toLanguageTag())
+				.setMacro(Macro.TIME_LOCALE, configRepository.timeLocale().toLanguageTag())
+				.setMacro(Macro.LOG_LOCALE, configRepository.logLocale().toLanguageTag())
+				.send();
+	}
+
+	private boolean allEqual()
+	{
+		return (configRepository.numberLocale().equals(configRepository.dateLocale())
+				&& configRepository.numberLocale().equals(configRepository.timeLocale())
+				&& configRepository.numberLocale().equals(configRepository.logLocale()));
 	}
 
 
